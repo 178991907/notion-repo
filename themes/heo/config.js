@@ -27,7 +27,7 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR_ENABLE: true, // 是否开启首页顶部「此刻」横向滚动通知条
-  HEO_NOTICE_BAR_BADGE: '此刻', // 左侧徽标文案（默认：此刻，可自定义为：公告、广播、NEWS 等）
+  HEO_NOTICE_BAR_BADGE: 'NEWS', // 左侧徽标文案（默认：此刻，可自定义为：公告、广播、NEWS 等）
   HEO_NOTICE_BAR: [
     { title: '欢迎来 terry 校长个人博客', url: '' },
     { title: '前沿 AI 解锁高效启蒙与教育', url: '' },
