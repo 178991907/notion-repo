@@ -83,7 +83,20 @@
 
 ---
 
-## 🔄 双向配置数据流架构
+### 7. 💓 全自动 MongoDB 数据库防休眠保活守护程序
+- **GitHub Actions 云端定时心跳**：每天（北京时间 10:00）自动在 GitHub 云端执行 Ping 连接与数据读写，彻底防止 MongoDB Atlas 免费集群因 60 天闲置而自动休眠（`Paused`）。
+- **TTL 索引与自动清理**：内置 24 小时 TTL 物理自毁索引，心跳数据即写即清，保持数据库 100% 纯净无残留。
+- **零本地开机**：完全无需本地电脑运行，GitHub 云端终身免费自动化守护。
+
+---
+
+### 8. 💬 Twikoo 评论互动与社区管理中心
+- **单项目内置引擎**：基于 Next.js API 路由无缝驱动，零跨域、零多余域名配置。
+- **开箱即用互动**：读者可直接在文章底部发表评论、表情包互动与点赞；站长可在前台一键登录管理后台审核与回复。
+
+---
+
+## 🔄 双向配置与保活数据流架构
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -103,6 +116,12 @@
 ┌──────────────────────────────────────────────────────────┐
 │              🌐 前台博客页面 (Heo / 全主题响应)             │
 │    (毫秒级响应管理员最新修改，彻底消除硬编码，永久固化防丢)        │
+└──────────────────────────────────────────────────────────┘
+                             ▲
+                             │ 每天 10:00 自动心跳握手与数据清理
+┌────────────────────────────┴─────────────────────────────┐
+│          💓 GitHub Actions 每日自动化保活守护体系           │
+│    (MongoDB Atlas 数据库永不休眠，零本地开机，终身稳定在线)  │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -155,6 +174,7 @@ npm run dev
 ## 🛠️ 核心目录结构
 
 ```text
+├── .github/workflows/           # GitHub Actions 自动化工作流 (每日 MongoDB 防休眠保活)
 ├── blog.config.js               # 站点全局默认配置文件
 ├── conf/                        # 分类功能配置文件 (comment, widget, code 等)
 ├── lib/
@@ -166,7 +186,10 @@ npm run dev
 │   ├── admin/                   # 管理后台页面 (仪表盘、基础设置、主题可视化)
 │   │   └── settings/theme.js    # 主题全维度可视化编辑器
 │   ├── api/admin/               # 后台管理 API (auth, config 读写持久化)
+│   ├── api/twikoo.js            # Twikoo 评论服务端 API 引擎
 │   └── ...                      # 前台路由与文章渲染
+├── scripts/
+│   └── mongodb-keepalive.js     # MongoDB Atlas 自动化心跳与清理脚本
 └── themes/
     └── heo/                     # Heo 主题源码
         ├── components/          # 主题组件 (Logo, Header, MenuList, NoticeBar, InfoCard 等)
@@ -177,13 +200,11 @@ npm run dev
 
 ## 📄 开源协议与鸣谢
 
-本项目基于 MIT 协议开源。感谢 [Notion Repo](https://github.com/notionnext-org/Notion Repo) 社区与所有开源贡献者的付出！
+- 本项目基于 [MIT License](./LICENSE) 开源；
+- 感谢 [NotionNext 开源社区](https://github.com/notionnext-org/NotionNext) 与所有贡献者的付出！
 
 ---
 
 <div align="center">
   <b>Designed with ❤️ by Terry 校长</b>
 </div>
-
-- 本项目基于 [MIT License](./LICENSE) 开源；
-- 感谢 [Notion Repo 官方团队与开源社区](https://github.com/notionnext-org/Notion Repo)。
