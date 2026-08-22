@@ -20,6 +20,11 @@ export default async function handler(req, res) {
     return
   }
 
+  // 确保 MONGODB_URI 正确注入
+  if (!process.env.MONGODB_URI || process.env.MONGODB_URI.includes('vsh9c')) {
+    process.env.MONGODB_URI = 'mongodb+srv://terrylaoshi:zou92324@cluster0.zbikr5y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+  }
+
   // 交由 Twikoo 引擎处理核心逻辑
   return twikoo(req, res)
 }
