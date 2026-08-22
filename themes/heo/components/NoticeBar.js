@@ -8,12 +8,12 @@ import Swipe from './Swipe'
  * 通知横幅
  */
 export function NoticeBar() {
+  const { NOTION_CONFIG, locale } = useGlobal()
   const enable = siteConfig('HEO_NOTICE_BAR_ENABLE', true, CONFIG)
   if (enable === false) return null
 
-  let notices = siteConfig('HEO_NOTICE_BAR', null, CONFIG)
-  const badge = siteConfig('HEO_NOTICE_BAR_BADGE', null, CONFIG)
-  const { locale } = useGlobal()
+  let notices = NOTION_CONFIG?.HEO_NOTICE_BAR || siteConfig('HEO_NOTICE_BAR', null, CONFIG)
+  const badge = NOTION_CONFIG?.HEO_NOTICE_BAR_BADGE || siteConfig('HEO_NOTICE_BAR_BADGE', null, CONFIG)
   if (typeof notices === 'string') {
     try {
       notices = JSON.parse(notices)
