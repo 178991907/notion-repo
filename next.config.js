@@ -215,13 +215,13 @@ const nextConfig = {
       transform: '@heroicons/react/24/solid/{{member}}'
     }
   },
-  // 多语言， 在export时禁用
-  i18n: process.env.EXPORT
+  // 多语言配置：单语言或静态导出时不启用 i18n 子路由，防止浏览器嗅探强制加 /en 前缀
+  i18n: process.env.EXPORT || locales.length <= 1
     ? undefined
     : {
       defaultLocale: BLOG.LANG,
-      // 支持的所有多语言,按需填写即可
-      locales: locales
+      locales: locales,
+      localeDetection: false
     },
   images: {
     // 图片压缩和格式优化
