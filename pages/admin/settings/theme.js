@@ -1,0 +1,1155 @@
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/router'
+
+// ==================== 8套专业预设配色方案 ====================
+const COLOR_PRESETS = [
+  {
+    id: 'geek-blue',
+    name: '经典极客蓝',
+    desc: 'Heo 官方经典蓝金撞色，现代科技质感',
+    emoji: '🌊',
+    colors: {
+      HEO_COLOR_PRIMARY: '#4f65f0',
+      HEO_COLOR_PRIMARY_HOVER: '#4f46e5',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#dca846',
+      HEO_COLOR_BG: '#f7f9fe',
+      HEO_COLOR_BG_DARK: '#18171d',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#1e1e1e',
+      HEO_COLOR_CARD_MUTED: '#f1f3f8',
+      HEO_COLOR_BORDER: '#4f46e5',
+      HEO_COLOR_BORDER_DARK: '#dca846',
+      HEO_COLOR_TEXT: '#111827',
+      HEO_COLOR_TEXT_SECONDARY: '#4b5563'
+    }
+  },
+  {
+    id: 'emerald-forest',
+    name: '翡翠生机绿',
+    desc: '清新自然的森林与薄荷绿调，温润护眼',
+    emoji: '🍃',
+    colors: {
+      HEO_COLOR_PRIMARY: '#10b981',
+      HEO_COLOR_PRIMARY_HOVER: '#059669',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#f59e0b',
+      HEO_COLOR_BG: '#f0fdf4',
+      HEO_COLOR_BG_DARK: '#062016',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#0c2d20',
+      HEO_COLOR_CARD_MUTED: '#e6f7ec',
+      HEO_COLOR_BORDER: '#10b981',
+      HEO_COLOR_BORDER_DARK: '#34d399',
+      HEO_COLOR_TEXT: '#064e3b',
+      HEO_COLOR_TEXT_SECONDARY: '#047857'
+    }
+  },
+  {
+    id: 'cyber-purple',
+    name: '赛博霓虹紫',
+    desc: '极客先锋电竞风格，充满未来科技魅力',
+    emoji: '🌌',
+    colors: {
+      HEO_COLOR_PRIMARY: '#8b5cf6',
+      HEO_COLOR_PRIMARY_HOVER: '#7c3aed',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#06b6d4',
+      HEO_COLOR_BG: '#f5f3ff',
+      HEO_COLOR_BG_DARK: '#0f0d1a',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#19152b',
+      HEO_COLOR_CARD_MUTED: '#ece8ff',
+      HEO_COLOR_BORDER: '#8b5cf6',
+      HEO_COLOR_BORDER_DARK: '#a78bfa',
+      HEO_COLOR_TEXT: '#2e1065',
+      HEO_COLOR_TEXT_SECONDARY: '#5b21b6'
+    }
+  },
+  {
+    id: 'warm-sunset',
+    name: '活力暖日落',
+    desc: '温暖热情的珊瑚橙与落霞渐变，充满活力',
+    emoji: '🔥',
+    colors: {
+      HEO_COLOR_PRIMARY: '#f97316',
+      HEO_COLOR_PRIMARY_HOVER: '#ea580c',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#3b82f6',
+      HEO_COLOR_BG: '#fff7ed',
+      HEO_COLOR_BG_DARK: '#1c130c',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#271b12',
+      HEO_COLOR_CARD_MUTED: '#ffedd5',
+      HEO_COLOR_BORDER: '#f97316',
+      HEO_COLOR_BORDER_DARK: '#fb923c',
+      HEO_COLOR_TEXT: '#7c2d12',
+      HEO_COLOR_TEXT_SECONDARY: '#9a3412'
+    }
+  },
+  {
+    id: 'sakura-pink',
+    name: '浪漫樱花粉',
+    desc: '甜美柔和的樱花与马卡龙粉紫，治愈优雅',
+    emoji: '🌸',
+    colors: {
+      HEO_COLOR_PRIMARY: '#ec4899',
+      HEO_COLOR_PRIMARY_HOVER: '#db2777',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#8b5cf6',
+      HEO_COLOR_BG: '#fdf2f8',
+      HEO_COLOR_BG_DARK: '#1a0f15',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#25141f',
+      HEO_COLOR_CARD_MUTED: '#fce7f3',
+      HEO_COLOR_BORDER: '#ec4899',
+      HEO_COLOR_BORDER_DARK: '#f472b6',
+      HEO_COLOR_TEXT: '#831843',
+      HEO_COLOR_TEXT_SECONDARY: '#9d174d'
+    }
+  },
+  {
+    id: 'minimal-mono',
+    name: '极简黑白灰',
+    desc: '纯粹克制的高级现代冷灰风格，排版突出',
+    emoji: '🌑',
+    colors: {
+      HEO_COLOR_PRIMARY: '#18181b',
+      HEO_COLOR_PRIMARY_HOVER: '#27272a',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#6366f1',
+      HEO_COLOR_BG: '#f4f4f5',
+      HEO_COLOR_BG_DARK: '#09090b',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#18181b',
+      HEO_COLOR_CARD_MUTED: '#e4e4e7',
+      HEO_COLOR_BORDER: '#d4d4d8',
+      HEO_COLOR_BORDER_DARK: '#3f3f46',
+      HEO_COLOR_TEXT: '#09090b',
+      HEO_COLOR_TEXT_SECONDARY: '#52525b'
+    }
+  },
+  {
+    id: 'glacier-cyan',
+    name: '深海冰川蓝',
+    desc: '深邃辽阔的天空与冰川青蓝，宁静致远',
+    emoji: '🧊',
+    colors: {
+      HEO_COLOR_PRIMARY: '#0284c7',
+      HEO_COLOR_PRIMARY_HOVER: '#0369a1',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#10b981',
+      HEO_COLOR_BG: '#f0f9ff',
+      HEO_COLOR_BG_DARK: '#081a28',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#0e263a',
+      HEO_COLOR_CARD_MUTED: '#e0f2fe',
+      HEO_COLOR_BORDER: '#0284c7',
+      HEO_COLOR_BORDER_DARK: '#38bdf8',
+      HEO_COLOR_TEXT: '#0c4a6e',
+      HEO_COLOR_TEXT_SECONDARY: '#0369a1'
+    }
+  },
+  {
+    id: 'vintage-mocha',
+    name: '复古暖摩卡',
+    desc: '典雅浓郁的书卷纸张与暖咖啡色调，沉稳内敛',
+    emoji: '☕',
+    colors: {
+      HEO_COLOR_PRIMARY: '#78350f',
+      HEO_COLOR_PRIMARY_HOVER: '#92400e',
+      HEO_COLOR_PRIMARY_TEXT: '#ffffff',
+      HEO_COLOR_ACCENT: '#d97706',
+      HEO_COLOR_BG: '#fefce8',
+      HEO_COLOR_BG_DARK: '#1c1611',
+      HEO_COLOR_CARD: '#ffffff',
+      HEO_COLOR_CARD_DARK: '#261e17',
+      HEO_COLOR_CARD_MUTED: '#fef9c3',
+      HEO_COLOR_BORDER: '#b45309',
+      HEO_COLOR_BORDER_DARK: '#d97706',
+      HEO_COLOR_TEXT: '#451a03',
+      HEO_COLOR_TEXT_SECONDARY: '#78350f'
+    }
+  }
+]
+
+// ==================== 默认配置 ====================
+const HEO_DEFAULTS = {
+  HEO_HERO_TITLE_1: '分享编程', HEO_HERO_TITLE_2: '与思维认知',
+  HEO_HERO_TITLE_3: 'TANGLY1024.COM', HEO_HERO_TITLE_4: '新版上线',
+  HEO_HERO_TITLE_5: 'NotionNext4.0 轻松定制主题',
+  HEO_HERO_TITLE_LINK: 'https://tangly1024.com',
+  HEO_HERO_COVER_TITLE: '随便逛逛',
+  HEO_HERO_RECOMMEND_POST_TAG: '推荐',
+  HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME: false,
+  HEO_HERO_RECOMMEND_COVER_ENABLE: false,
+  HEO_HERO_REVERSE: false, HEO_HERO_BODY_REVERSE: false,
+  HEO_HOME_BANNER_ENABLE: true,
+  HEO_HERO_CATEGORY_1: { title: '必看精选', url: '/tag/必看精选' },
+  HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
+  HEO_HERO_CATEGORY_3: { title: '实用教程', url: '/tag/实用教程' },
+  HEO_NOTICE_BAR: [
+    { title: '欢迎来到我的博客', url: 'https://blog.tangly1024.com' },
+    { title: '访问文档中心获取更多帮助', url: 'https://docs.tangly1024.com' }
+  ],
+  HEO_INFOCARD_GREETINGS: ['你好！我是', '🔍 分享与热心帮助'],
+  HEO_INFO_CARD_URL1: '/about', HEO_INFO_CARD_ICON1: 'fas fa-user',
+  HEO_INFO_CARD_URL2: 'https://github.com/tangly1024', HEO_INFO_CARD_ICON2: 'fab fa-github',
+  HEO_INFO_CARD_ICON_ORCID: 'fab fa-orcid',
+  HEO_INFO_CARD_URL3: 'https://www.tangly1024.com', HEO_INFO_CARD_TEXT3: '了解更多',
+  HEO_INFO_CARD_AVATAR: '', HEO_INFO_CARD_AVATAR_URL: '/about',
+  HEO_INFO_CARD_AVATAR_SIZE: 80,
+  HEO_INFO_CARD_SHOW_ANNOUNCEMENT: true,
+  HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT: '',
+  HEO_INFO_CARD_ANNOUNCEMENT_URL: '',
+  HEO_INFO_CARD_AVATAR_BLUR: true,
+  HEO_SOCIAL_CARD: true, HEO_SOCIAL_CARD_TITLE_1: '交流频道',
+  HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
+  HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
+  HEO_SOCIAL_CARD_URL: 'https://docs.tangly1024.com/article/how-to-question',
+  HEO_COLOR_PRIMARY: '#4f65f0', HEO_COLOR_PRIMARY_HOVER: '#4f46e5',
+  HEO_COLOR_PRIMARY_TEXT: '#ffffff', HEO_COLOR_ACCENT: '#dca846',
+  HEO_COLOR_BG: '#f7f9fe', HEO_COLOR_BG_DARK: '#18171d',
+  HEO_COLOR_CARD: '#ffffff', HEO_COLOR_CARD_DARK: '#1e1e1e',
+  HEO_COLOR_CARD_MUTED: '#f1f3f8', HEO_COLOR_BORDER: '#4f46e5',
+  HEO_COLOR_BORDER_DARK: '#dca846', HEO_COLOR_TEXT: '#111827',
+  HEO_COLOR_TEXT_SECONDARY: '#4b5563',
+  HEO_SITE_CREATE_TIME: '2021-09-21',
+  AUTHOR: 'NotionNext',
+  BIO: '一个普通的干饭人🍚',
+  SINCE: '2021',
+  BEI_AN: '',
+  BEI_AN_LINK: 'https://beian.miit.gov.cn',
+  BEI_AN_GONGAN: '',
+  FOOTER_POWER_BY: true,
+  FOOTER_POWER_BY_TEXT: '',
+  FOOTER_POWER_BY_URL: 'https://github.com/notionnext-org/NotionNext',
+  WIDGET_PET: true,
+  WIDGET_PET_LINK: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json',
+  WIDGET_PET_CUSTOM_URL: '',
+  WIDGET_PET_HEIGHT: 340,
+  HEO_POST_COUNT_TITLE: '文章数:', HEO_SITE_TIME_TITLE: '建站天数:',
+  HEO_SITE_VISIT_TITLE: '访问量:', HEO_SITE_VISITOR_TITLE: '访客数:',
+  HEO_HOME_POST_TWO_COLS: true, HEO_LOADING_COVER: true,
+  HEO_POST_LIST_COVER: true, HEO_POST_LIST_COVER_DEFAULT: true,
+  HEO_POST_LIST_COVER_HOVER_ENLARGE: false, HEO_POST_LIST_SUMMARY: true,
+  HEO_POST_LIST_PREVIEW: false, HEO_POST_LIST_IMG_CROSSOVER: true,
+  TITLE: 'Notion Blog',
+  DESCRIPTION: '基于 Notion 的静态博客',
+  HEO_LOGO_IMAGE: '',
+  HEO_LOGO_SHOW_ICON: true,
+  HEO_LOGO_SIZE: 38,
+  HEO_MENU_INDEX: true,
+  HEO_MENU_CATEGORY: true,
+  HEO_MENU_TAG: true,
+  HEO_MENU_ARCHIVE: false,
+  HEO_MENU_SEARCH: false,
+  HEO_MENU_FRIENDS: true,
+  HEO_MENU_TUTORIAL: true,
+  HEO_MENU_HISTORY: true,
+  HEO_MENU_ABOUT: true,
+  HEO_MENU_LANG_SWITCH: true,
+  HEO_MENU_SHOW_NOTION_PAGES: true,
+  HEO_MENU_CUSTOM_ITEMS: [],
+  HEO_ARTICLE_ADJACENT: true, HEO_ARTICLE_COPYRIGHT: true,
+  HEO_ARTICLE_NOT_BY_AI: false, HEO_ARTICLE_RECOMMEND: true,
+  HEO_WIDGET_LATEST_POSTS: true, HEO_WIDGET_ANALYTICS: false,
+  HEO_WIDGET_TO_TOP: true, HEO_WIDGET_TO_COMMENT: true,
+  HEO_WIDGET_DARK_MODE: true, HEO_WIDGET_TOC: true,
+}
+
+// ==================== 辅助组件 ====================
+function TextField({ label, configKey, value, onChange, placeholder, desc }) {
+  return (
+    <div className="mb-4">
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <input type="text" value={value || ''} onChange={e => onChange(configKey, e.target.value)}
+        placeholder={placeholder}
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" />
+      {desc && <p className="text-xs text-gray-400 mt-1">{desc}</p>}
+    </div>
+  )
+}
+
+function ColorField({ label, configKey, value, onChange }) {
+  return (
+    <div className="mb-4 flex items-center gap-3">
+      <input type="color" value={value || '#000000'} onChange={e => onChange(configKey, e.target.value)}
+        className="w-10 h-10 rounded-lg border border-gray-300 cursor-pointer" />
+      <div className="flex-1">
+        <label className="block text-sm font-medium text-gray-700">{label}</label>
+        <input type="text" value={value || ''} onChange={e => onChange(configKey, e.target.value)}
+          className="w-full border border-gray-200 rounded px-2 py-1 text-xs font-mono mt-0.5" />
+      </div>
+    </div>
+  )
+}
+
+function ToggleField({ label, configKey, value, onChange, desc }) {
+  const isOn = value === true || value === 'true'
+  return (
+    <div className="mb-4 flex items-center justify-between">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">{label}</label>
+        {desc && <p className="text-xs text-gray-400">{desc}</p>}
+      </div>
+      <button onClick={() => onChange(configKey, !isOn)}
+        className={`relative w-12 h-6 rounded-full transition-colors ${isOn ? 'bg-blue-600' : 'bg-gray-300'}`}>
+        <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isOn ? 'translate-x-6' : ''}`} />
+      </button>
+    </div>
+  )
+}
+
+function SectionTitle({ icon, title, desc }) {
+  return (
+    <div className="mb-6 mt-2">
+      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+        <span className="text-xl">{icon}</span> {title}
+      </h3>
+      {desc && <p className="text-sm text-gray-500 mt-1">{desc}</p>}
+    </div>
+  )
+}
+
+function SectionCard({ children, className = '' }) {
+  return <div className={`bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6 ${className}`}>{children}</div>
+}
+
+function DraggableItem({ index, children, onMoveUp, onMoveDown, onDelete, isFirst, isLast }) {
+  return (
+    <div className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200 mb-2 group hover:border-blue-300 transition">
+      <div className="flex flex-col gap-1 pt-1">
+        <button onClick={() => onMoveUp(index)} disabled={isFirst} className="text-gray-400 hover:text-blue-600 disabled:opacity-20 text-xs" title="上移">▲</button>
+        <button onClick={() => onMoveDown(index)} disabled={isLast} className="text-gray-400 hover:text-blue-600 disabled:opacity-20 text-xs" title="下移">▼</button>
+      </div>
+      <div className="flex-1">{children}</div>
+      <button onClick={() => onDelete(index)} className="text-gray-300 hover:text-red-500 transition p-1" title="删除">✕</button>
+    </div>
+  )
+}
+
+// ==================== 主页面 ====================
+export default function HeoThemeEditor() {
+  const router = useRouter()
+  const [formData, setFormData] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('hero')
+  const [categories, setCategories] = useState([])
+  const [notices, setNotices] = useState([])
+  const [greetings, setGreetings] = useState([])
+  const [customNavItems, setCustomNavItems] = useState([])
+
+  useEffect(() => {
+    fetch('/api/admin/config')
+      .then(r => { if (r.status === 401) { router.push('/admin/login'); return null } return r.json() })
+      .then(data => {
+        if (!data) return
+        const merged = { ...HEO_DEFAULTS }
+        if (data.configs) data.configs.forEach(c => { merged[c.key] = c.value })
+        setFormData(merged)
+        const cats = []
+        for (let i = 1; i <= 6; i++) {
+          const key = 'HEO_HERO_CATEGORY_' + i
+          if (merged[key] && typeof merged[key] === 'object' && merged[key].title) cats.push({ ...merged[key] })
+          else if (typeof merged[key] === 'string') { try { cats.push(JSON.parse(merged[key])) } catch(e) {} }
+        }
+        if (cats.length === 0) cats.push({ title: '必看精选', url: '/tag/必看精选' }, { title: '热门文章', url: '/tag/热门文章' }, { title: '实用教程', url: '/tag/实用教程' })
+        setCategories(cats)
+        let nb = merged.HEO_NOTICE_BAR
+        if (typeof nb === 'string') { try { nb = JSON.parse(nb) } catch(e) { nb = [] } }
+        setNotices(Array.isArray(nb) ? nb : [])
+        let gr = merged.HEO_INFOCARD_GREETINGS
+        if (typeof gr === 'string') { try { gr = JSON.parse(gr.replace(/'/g, '"')) } catch(e) { gr = gr.split(',').map(s => s.trim()) } }
+        setGreetings(Array.isArray(gr) ? gr : [])
+        let navs = merged.HEO_MENU_CUSTOM_ITEMS
+        if (typeof navs === 'string') { try { navs = JSON.parse(navs) } catch(e) { navs = [] } }
+        setCustomNavItems(Array.isArray(navs) ? navs : [])
+        setLoading(false)
+      }).catch(() => setLoading(false))
+  }, [])
+
+  const handleChange = useCallback((key, value) => { setFormData(prev => ({ ...prev, [key]: value })) }, [])
+
+  const listOps = (list, setList) => ({
+    moveUp: (i) => { if (i > 0) { const n = [...list]; [n[i-1], n[i]] = [n[i], n[i-1]]; setList(n) }},
+    moveDown: (i) => { if (i < list.length - 1) { const n = [...list]; [n[i], n[i+1]] = [n[i+1], n[i]]; setList(n) }},
+    remove: (i) => { setList(list.filter((_, idx) => idx !== i)) },
+    update: (i, field, val) => { const n = [...list]; n[i] = { ...n[i], [field]: val }; setList(n) },
+  })
+
+  const handleSave = async () => {
+    setSaving(true)
+    const configs = []
+    Object.keys(formData).forEach(key => {
+      if (key.startsWith('HEO_HERO_CATEGORY_')) return
+      if (key === 'HEO_NOTICE_BAR' || key === 'HEO_INFOCARD_GREETINGS' || key === 'HEO_MENU_CUSTOM_ITEMS') return
+      configs.push({ key, value: formData[key] })
+    })
+    categories.forEach((cat, i) => { configs.push({ key: 'HEO_HERO_CATEGORY_' + (i + 1), value: cat }) })
+    for (let i = categories.length + 1; i <= 6; i++) { configs.push({ key: 'HEO_HERO_CATEGORY_' + i, value: null }) }
+    configs.push({ key: 'HEO_NOTICE_BAR', value: notices })
+    configs.push({ key: 'HEO_INFOCARD_GREETINGS', value: greetings })
+    configs.push({ key: 'HEO_MENU_CUSTOM_ITEMS', value: customNavItems.filter(item => item && item.title) })
+    try {
+      const res = await fetch('/api/admin/config', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' }, body: JSON.stringify({ configs }) })
+      if (res.ok) setToast({ type: 'success', msg: '✅ 所有配置已保存！刷新前台页面即可生效。' })
+      else setToast({ type: 'error', msg: '❌ 保存失败，请检查登录状态。' })
+    } catch (e) { setToast({ type: 'error', msg: '❌ 网络错误：' + e.message }) }
+    setSaving(false)
+    setTimeout(() => setToast(null), 4000)
+  }
+
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="animate-spin w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" />
+        <p className="text-gray-500">加载主题配置中...</p>
+      </div>
+    </div>
+  )
+
+  const catOps = listOps(categories, setCategories)
+  const noticeOps = listOps(notices, setNotices)
+  const customNavOps = listOps(customNavItems, setCustomNavItems)
+  const tabs = [
+    { id: 'header', icon: '🧭', label: '顶栏导航' },
+    { id: 'hero', icon: '🎯', label: '英雄区' },
+    { id: 'sidebar', icon: '👤', label: '侧边栏' },
+    { id: 'colors', icon: '🎨', label: '配色' },
+    { id: 'layout', icon: '📐', label: '布局' },
+    { id: 'article', icon: '📝', label: '文章' },
+    { id: 'footer', icon: '📊', label: '页脚' },
+  ]
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans">
+      {/* 顶部栏 */}
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={() => router.push('/admin')} className="text-gray-400 hover:text-gray-700 transition">← 返回</button>
+            <h1 className="text-lg font-bold text-gray-900">🎨 Heo 主题可视化编辑器</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="/" target="_blank" className="text-sm text-blue-600 hover:underline">预览前台 ↗</a>
+            <button onClick={handleSave} disabled={saving}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium disabled:opacity-50 transition shadow-sm">
+              {saving ? '保存中...' : '💾 保存全部配置'}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {toast && (
+        <div className={`fixed top-16 right-4 z-50 px-4 py-3 rounded-xl shadow-lg text-sm font-medium ${toast.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Tab 导航 */}
+      <div className="sticky top-14 z-40 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 flex gap-1 overflow-x-auto py-2">
+          {tabs.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'}`}>
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <main className="max-w-6xl mx-auto px-4 py-6">
+
+        {/* ==================== 顶栏导航 ==================== */}
+        {activeTab === 'header' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* 站点品牌与名称 */}
+              <SectionCard>
+                <SectionTitle icon="🏷️" title="顶栏 Logo 与品牌信息" desc="控制顶栏左侧显示的 Logo 图标、站点主标题与描述" />
+                <div className="space-y-4">
+                  <TextField label="网站主标题 (TITLE)" configKey="TITLE" value={formData.TITLE} onChange={handleChange} placeholder="TERRY" desc="显示在顶栏最左侧的 Logo 品牌文字" />
+                  
+                  <div className="pt-2 border-t border-gray-100">
+                    <ToggleField label="显示 Logo 图标图片" configKey="HEO_LOGO_SHOW_ICON" value={formData.HEO_LOGO_SHOW_ICON} onChange={handleChange} desc="是否在文字左侧显示 Logo 图标" />
+                    {formData.HEO_LOGO_SHOW_ICON !== false && (
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-2">
+                        <div className="sm:col-span-2">
+                          <TextField label="自定义 Logo 图标图片 URL" configKey="HEO_LOGO_IMAGE" value={formData.HEO_LOGO_IMAGE} onChange={handleChange} placeholder="https://... 或 /logo.png" desc="留空则自动使用 Notion 数据库的页面 Icon 图标" />
+                        </div>
+                        <div>
+                          <TextField label="Logo 图标大小 (px)" configKey="HEO_LOGO_SIZE" value={formData.HEO_LOGO_SIZE} onChange={handleChange} placeholder="38" desc="默认 38px，推荐 36 ~ 44px" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-gray-100">
+                    <TextField label="网站副标题 / 描述 (DESCRIPTION)" configKey="DESCRIPTION" value={formData.DESCRIPTION} onChange={handleChange} placeholder="基于 Notion 的个人博客" desc="网站的描述信息，用于 SEO 与副标题展示" />
+                    <TextField label="站长名称 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="Terry" desc="站长昵称，用于版权与名片卡" />
+                  </div>
+                </div>
+              </SectionCard>
+
+              {/* 系统内置功能菜单开关 */}
+              <SectionCard>
+                <SectionTitle icon="🧭" title="内置功能菜单开关" desc="自由开启或隐藏顶栏的所有常用功能菜单（包含模板自带菜单）" />
+                <div className="space-y-4">
+                  <div>
+                    <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">基础功能链接</h5>
+                    <ToggleField label="显示「首页」菜单 (/) " configKey="HEO_MENU_INDEX" value={formData.HEO_MENU_INDEX} onChange={handleChange} desc="开启后导航栏显示首页快捷链接" />
+                    <ToggleField label="显示「分类」菜单 (/category)" configKey="HEO_MENU_CATEGORY" value={formData.HEO_MENU_CATEGORY} onChange={handleChange} desc="开启后导航栏显示文章分类聚合" />
+                    <ToggleField label="显示「标签」菜单 (/tag)" configKey="HEO_MENU_TAG" value={formData.HEO_MENU_TAG} onChange={handleChange} desc="开启后导航栏显示标签云链接" />
+                    <ToggleField label="显示「归档」菜单 (/archive)" configKey="HEO_MENU_ARCHIVE" value={formData.HEO_MENU_ARCHIVE} onChange={handleChange} desc="开启后导航栏显示时间轴归档" />
+                    <ToggleField label="显示「搜索」菜单 (/search)" configKey="HEO_MENU_SEARCH" value={formData.HEO_MENU_SEARCH} onChange={handleChange} desc="开启后导航栏菜单区显示搜索项" />
+                  </div>
+
+                  <div className="pt-2 border-t border-gray-100">
+                    <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">模板拓展页面 (随时一键开关)</h5>
+                    <ToggleField label="🔗 显示「友情链接」菜单 (Friendship links)" configKey="HEO_MENU_FRIENDS" value={formData.HEO_MENU_FRIENDS} onChange={handleChange} desc="控制顶部导航栏中的友情链接入口" />
+                    <ToggleField label="📁 显示「建站教程」菜单 (Tutorial)" configKey="HEO_MENU_TUTORIAL" value={formData.HEO_MENU_TUTORIAL} onChange={handleChange} desc="控制顶部导航栏中的教程/知识库入口" />
+                    <ToggleField label="🗃️ 显示「往期整理 / 历史」菜单 (History)" configKey="HEO_MENU_HISTORY" value={formData.HEO_MENU_HISTORY} onChange={handleChange} desc="控制顶部导航栏中的往期整理/历史归档入口" />
+                    <ToggleField label="ℹ️ 显示「关于我」菜单 (About)" configKey="HEO_MENU_ABOUT" value={formData.HEO_MENU_ABOUT} onChange={handleChange} desc="控制顶部导航栏中的个人介绍/关于我入口" />
+                    <ToggleField label="🌐 显示「语言切换」菜单 (中文 / English)" configKey="HEO_MENU_LANG_SWITCH" value={formData.HEO_MENU_LANG_SWITCH} onChange={handleChange} desc="控制顶部导航栏中的中英文语言切换入口" />
+                  </div>
+                </div>
+              </SectionCard>
+
+              {/* 自定义顶栏菜单项管理 */}
+              <SectionCard className="lg:col-span-2">
+                <SectionTitle icon="🔗" title="自定义顶栏菜单列表" desc="直接在此自由添加、排序、修改你的专属导航菜单（如：关于、友链、教程、GitHub 等）" />
+                {customNavItems.length === 0 && (
+                  <div className="text-center py-6 text-gray-400 text-sm border border-dashed border-gray-200 rounded-xl bg-gray-50/50">
+                    暂无自定义菜单项，点击下方按钮即可添加菜单链接
+                  </div>
+                )}
+                {customNavItems.map((item, i) => (
+                  <DraggableItem key={i} index={i} onMoveUp={customNavOps.moveUp} onMoveDown={customNavOps.moveDown} onDelete={customNavOps.remove} isFirst={i === 0} isLast={i === customNavItems.length - 1}>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <input value={item.title || ''} onChange={e => customNavOps.update(i, 'title', e.target.value)} placeholder="菜单名称 (如: 友情链接)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                      <input value={item.url || ''} onChange={e => customNavOps.update(i, 'url', e.target.value)} placeholder="跳转链接 (如: /links 或 https://...)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                      <input value={item.icon || ''} onChange={e => customNavOps.update(i, 'icon', e.target.value)} placeholder="图标 class (如: fas fa-link)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                    </div>
+                  </DraggableItem>
+                ))}
+                <button onClick={() => setCustomNavItems([...customNavItems, { title: '', url: '', icon: 'fas fa-link' }])}
+                  className="mt-2 w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-blue-400 hover:text-blue-600 transition text-sm">
+                  + 添加自定义菜单项
+                </button>
+              </SectionCard>
+
+              {/* Notion 动态页面菜单控制 */}
+              <SectionCard className="lg:col-span-2">
+                <SectionTitle icon="📋" title="Notion 数据库页面菜单总开关" desc="控制是否显示由 Notion 数据库自动同步生成的全部菜单项" />
+                <ToggleField
+                  label="显示来自 Notion 数据库的页面菜单 (总控制)"
+                  configKey="HEO_MENU_SHOW_NOTION_PAGES"
+                  value={formData.HEO_MENU_SHOW_NOTION_PAGES}
+                  onChange={handleChange}
+                  desc="关闭后，将完全隐藏 Notion 自动生成的菜单，只展示上方你自主勾选和添加的菜单项！"
+                />
+              </SectionCard>
+            </div>
+
+            {/* 顶栏 1:1 视觉实时预览卡片 */}
+            <SectionCard>
+              <SectionTitle icon="👁️" title="顶栏导航 1:1 实时预览" desc="实时查看前台顶部导航栏的完整布局效果（鼠标悬浮在 Logo 上可体验放大效果）" />
+              <div className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center justify-between gap-4">
+                {/* 左侧 Logo */}
+                <div className="group flex items-center gap-2.5 flex-shrink-0 cursor-pointer">
+                  {formData.HEO_LOGO_SHOW_ICON !== false && (
+                    formData.HEO_LOGO_IMAGE ? (
+                      <img
+                        src={formData.HEO_LOGO_IMAGE}
+                        alt="Logo"
+                        style={{ width: `${Math.max(24, Math.min(56, parseInt(formData.HEO_LOGO_SIZE) || 38))}px`, height: `${Math.max(24, Math.min(56, parseInt(formData.HEO_LOGO_SIZE) || 38))}px` }}
+                        className="rounded-xl object-cover shadow-sm transition-transform duration-300 group-hover:scale-125 z-10"
+                      />
+                    ) : (
+                      <div
+                        style={{ width: `${Math.max(24, Math.min(56, parseInt(formData.HEO_LOGO_SIZE) || 38))}px`, height: `${Math.max(24, Math.min(56, parseInt(formData.HEO_LOGO_SIZE) || 38))}px` }}
+                        className="bg-black text-white rounded-xl font-extrabold flex items-center justify-center text-sm shadow-sm transition-transform duration-300 group-hover:scale-125 z-10"
+                      >
+                        N
+                      </div>
+                    )
+                  )}
+                  <div className="font-extrabold text-base text-gray-900 tracking-tight">{formData.TITLE || 'TERRY'}</div>
+                </div>
+
+                {/* 中间菜单项 */}
+                <div className="hidden md:flex items-center gap-3 text-xs text-gray-700 font-medium overflow-x-auto">
+                  {formData.HEO_MENU_INDEX !== false && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🏠 首页</span>}
+                  {formData.HEO_MENU_CATEGORY !== false && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">📁 分类</span>}
+                  {formData.HEO_MENU_TAG !== false && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🏷️ 标签</span>}
+                  {formData.HEO_MENU_ARCHIVE && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🗃️ 归档</span>}
+                  {formData.HEO_MENU_SEARCH && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🔍 搜索</span>}
+                  {customNavItems.map((item, idx) => (
+                    item.title && <span key={idx} className="hover:text-blue-600 cursor-pointer flex items-center gap-1 font-bold text-blue-600">🔗 {item.title}</span>
+                  ))}
+                  {formData.HEO_MENU_SHOW_NOTION_PAGES !== false && (
+                    <>
+                      <span className="text-gray-300">|</span>
+                      {formData.HEO_MENU_FRIENDS !== false && <span className="text-gray-600 hover:text-blue-600 cursor-pointer flex items-center gap-1">🔗 Friendship links</span>}
+                      {formData.HEO_MENU_TUTORIAL !== false && <span className="text-gray-600 hover:text-blue-600 cursor-pointer flex items-center gap-1">📁 Tutorial</span>}
+                      {formData.HEO_MENU_HISTORY !== false && <span className="text-gray-600 hover:text-blue-600 cursor-pointer flex items-center gap-1">🗃️ History</span>}
+                      {formData.HEO_MENU_ABOUT !== false && <span className="text-gray-600 hover:text-blue-600 cursor-pointer flex items-center gap-1">ℹ️ About</span>}
+                      {formData.HEO_MENU_LANG_SWITCH !== false && <span className="text-gray-600 hover:text-blue-600 cursor-pointer flex items-center gap-1">🌐 中文 / EN</span>}
+                    </>
+                  )}
+                </div>
+
+                {/* 右侧功能按钮组 */}
+                <div className="flex items-center gap-1 flex-shrink-0 text-gray-700">
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs" title="RSS 订阅">📡</div>
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs" title="随机文章">📻</div>
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs" title="搜索">🔍</div>
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs" title="夜间模式">🌙</div>
+                  <div className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center text-xs" title="返回顶部">⬆️</div>
+                </div>
+              </div>
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 英雄区 ==================== */}
+        {activeTab === 'hero' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SectionCard>
+              <SectionTitle icon="🖼️" title="左侧大 Banner" desc="首页顶部英雄区的主视觉区域" />
+              <ToggleField label="启用首页 Banner" configKey="HEO_HOME_BANNER_ENABLE" value={formData.HEO_HOME_BANNER_ENABLE} onChange={handleChange} />
+              <div className="grid grid-cols-2 gap-4">
+                <TextField label="主标题第一行" configKey="HEO_HERO_TITLE_1" value={formData.HEO_HERO_TITLE_1} onChange={handleChange} placeholder="分享编程" />
+                <TextField label="主标题第二行" configKey="HEO_HERO_TITLE_2" value={formData.HEO_HERO_TITLE_2} onChange={handleChange} placeholder="与思维认知" />
+              </div>
+              <TextField label="英文副标题" configKey="HEO_HERO_TITLE_3" value={formData.HEO_HERO_TITLE_3} onChange={handleChange} placeholder="TANGLY1024.COM" />
+              <TextField label="鼠标悬浮遮罩文字" configKey="HEO_HERO_COVER_TITLE" value={formData.HEO_HERO_COVER_TITLE} onChange={handleChange} placeholder="随便逛逛" />
+              <ToggleField label="左右区域翻转" configKey="HEO_HERO_REVERSE" value={formData.HEO_HERO_REVERSE} onChange={handleChange} desc="交换英雄区左右侧组件" />
+              <ToggleField label="博客主体区左右翻转" configKey="HEO_HERO_BODY_REVERSE" value={formData.HEO_HERO_BODY_REVERSE} onChange={handleChange} />
+              {/* 实时预览 */}
+              <div className="mt-4 p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl text-white relative overflow-hidden">
+                <div className="relative z-10">
+                  <div className="text-2xl font-bold">{formData.HEO_HERO_TITLE_1 || '分享编程'}</div>
+                  <div className="text-2xl font-bold">{formData.HEO_HERO_TITLE_2 || '与思维认知'}</div>
+                  <div className="text-xs mt-2 opacity-70">{formData.HEO_HERO_TITLE_3 || 'TANGLY1024.COM'}</div>
+                </div>
+                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer rounded-xl">
+                  <span className="text-3xl font-extrabold">{formData.HEO_HERO_COVER_TITLE || '随便逛逛'}</span>
+                </div>
+              </div>
+            </SectionCard>
+
+            <SectionCard>
+              <SectionTitle icon="⭐" title="右侧推荐卡片" desc="英雄区右侧的推荐文章区域" />
+              <div className="grid grid-cols-2 gap-4">
+                <TextField label="推荐副标题" configKey="HEO_HERO_TITLE_4" value={formData.HEO_HERO_TITLE_4} onChange={handleChange} placeholder="新版上线" />
+                <TextField label="推荐主标题" configKey="HEO_HERO_TITLE_5" value={formData.HEO_HERO_TITLE_5} onChange={handleChange} placeholder="轻松定制主题" />
+              </div>
+              <TextField label="推荐卡片跳转链接" configKey="HEO_HERO_TITLE_LINK" value={formData.HEO_HERO_TITLE_LINK} onChange={handleChange} placeholder="https://..." />
+              <TextField label="推荐文章抓取标签" configKey="HEO_HERO_RECOMMEND_POST_TAG" value={formData.HEO_HERO_RECOMMEND_POST_TAG} onChange={handleChange}
+                desc="填写 Notion 中的文章标签名。无匹配文章时右侧区域自动隐藏。" />
+              <ToggleField label="按更新时间排序" configKey="HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME" value={formData.HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME} onChange={handleChange} />
+              <ToggleField label="推荐区遮罩覆盖" configKey="HEO_HERO_RECOMMEND_COVER_ENABLE" value={formData.HEO_HERO_RECOMMEND_COVER_ENABLE} onChange={handleChange} desc="开启后需点击才能查看推荐文章" />
+            </SectionCard>
+
+            {/* 分类卡片 */}
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="🏷️" title="分类快捷入口卡片" desc="英雄区下方的彩色标签卡片，1~6 个，可排序增删" />
+              <div className="flex gap-3 mb-4 flex-wrap">
+                {categories.map((cat, i) => {
+                  const colors = ['bg-blue-600 text-white','bg-gradient-to-r from-red-500 to-yellow-500 text-white','bg-gradient-to-r from-teal-300 to-cyan-300 text-white','bg-gradient-to-r from-blue-500 to-indigo-500 text-white','bg-gradient-to-r from-pink-500 to-rose-500 text-white','bg-gradient-to-r from-emerald-400 to-green-500 text-white']
+                  return <div key={i} className={`${colors[i % colors.length]} px-5 py-3 rounded-xl font-bold text-sm`}>{cat.title || '未命名'}</div>
+                })}
+              </div>
+              {categories.map((cat, i) => (
+                <DraggableItem key={i} index={i} onMoveUp={catOps.moveUp} onMoveDown={catOps.moveDown} onDelete={catOps.remove} isFirst={i === 0} isLast={i === categories.length - 1}>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input value={cat.title || ''} onChange={e => catOps.update(i, 'title', e.target.value)} placeholder="卡片名称" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={cat.url || ''} onChange={e => catOps.update(i, 'url', e.target.value)} placeholder="跳转链接 /tag/xxx" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                  </div>
+                </DraggableItem>
+              ))}
+              <button onClick={() => { if (categories.length < 6) setCategories([...categories, { title: '', url: '' }]) }} disabled={categories.length >= 6}
+                className="mt-2 w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-blue-400 hover:text-blue-600 transition text-sm disabled:opacity-30">
+                + 添加卡片 ({categories.length}/6)
+              </button>
+            </SectionCard>
+
+            {/* 通知栏 */}
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="📢" title="顶部滚动通知栏" desc="首页顶部的横向滚动公告" />
+              {notices.map((n, i) => (
+                <DraggableItem key={i} index={i} onMoveUp={noticeOps.moveUp} onMoveDown={noticeOps.moveDown} onDelete={noticeOps.remove} isFirst={i === 0} isLast={i === notices.length - 1}>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input value={n.title || ''} onChange={e => noticeOps.update(i, 'title', e.target.value)} placeholder="公告内容" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={n.url || ''} onChange={e => noticeOps.update(i, 'url', e.target.value)} placeholder="跳转链接" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                  </div>
+                </DraggableItem>
+              ))}
+              <button onClick={() => setNotices([...notices, { title: '', url: '' }])}
+                className="mt-2 w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-blue-400 hover:text-blue-600 transition text-sm">
+                + 添加通知
+              </button>
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 侧边栏 ==================== */}
+        {activeTab === 'sidebar' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SectionCard>
+              <SectionTitle icon="💳" title="个人名片卡与头像" desc="右侧边栏顶部的个人资料名片与公告" />
+              <div className="mb-4 p-4 bg-blue-600 rounded-xl text-white relative overflow-hidden">
+                <div className="flex justify-between items-center">
+                  <div className="bg-blue-500 inline-block px-2 py-1 rounded text-xs mb-2">{greetings[0] || '你好！我是'}</div>
+                  {formData.HEO_INFO_CARD_AVATAR ? (
+                    <img src={formData.HEO_INFO_CARD_AVATAR} alt="头像预览" className="w-13 h-13 rounded-full object-cover border-2 border-white/50 shadow-sm" style={{ width: `${Math.min(64, Math.max(32, parseInt(formData.HEO_INFO_CARD_AVATAR_SIZE) || 52))}px`, height: `${Math.min(64, Math.max(32, parseInt(formData.HEO_INFO_CARD_AVATAR_SIZE) || 52))}px` }} />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm border-2 border-white/40">N</div>
+                  )}
+                </div>
+                <div className="text-2xl font-extrabold mt-1">{formData.AUTHOR || 'NotionNext'}</div>
+                {formData.HEO_INFO_CARD_SHOW_ANNOUNCEMENT !== false && (
+                  <div className="text-xs text-white/90 mt-2 bg-blue-700/50 p-2.5 rounded-lg border border-white/10">
+                    {formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT ? (
+                      /\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i.test(formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT.trim()) ||
+                      formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT.includes('imgdb') ||
+                      formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT.includes('sinaimg') ? (
+                        <div>
+                          <img src={formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT.trim()} alt="预览" className="rounded-lg max-h-20 w-full object-cover" />
+                          {formData.HEO_INFO_CARD_ANNOUNCEMENT_URL && <div className="text-[10px] text-blue-200 mt-1">🔗 点击将跳转: {formData.HEO_INFO_CARD_ANNOUNCEMENT_URL}</div>}
+                        </div>
+                      ) : (
+                        <div className="whitespace-pre-line">
+                          <span>{formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT}</span>
+                          {formData.HEO_INFO_CARD_ANNOUNCEMENT_URL && <span className="text-blue-200 text-[10px] ml-1">↗ (点击跳转: {formData.HEO_INFO_CARD_ANNOUNCEMENT_URL})</span>}
+                        </div>
+                      )
+                    ) : (
+                      '📢 [Notion 动态公告] 当前显示 Notion Notice 数据库文章内容...'
+                    )}
+                  </div>
+                )}
+                <div className="flex gap-2 mt-3">
+                  <span className="bg-blue-500 p-2 rounded-full text-xs"><i className={formData.HEO_INFO_CARD_ICON1 || 'fas fa-user'} /></span>
+                  <span className="bg-blue-500 p-2 rounded-full text-xs"><i className={formData.HEO_INFO_CARD_ICON2 || 'fab fa-github'} /></span>
+                  <span className="bg-blue-500 px-3 py-2 rounded-full text-xs font-bold">{formData.HEO_INFO_CARD_TEXT3 || '了解更多'}</span>
+                </div>
+              </div>
+
+              {/* 头像配置 */}
+              <h4 className="text-sm font-bold text-gray-700 mb-2">👤 头像与跳转</h4>
+              <TextField label="自定义头像图片 URL" configKey="HEO_INFO_CARD_AVATAR" value={formData.HEO_INFO_CARD_AVATAR} onChange={handleChange} placeholder="https://... 或 /avatar.png" desc="留空则默认使用 Notion 头像 / AVATAR 图标" />
+              <div className="grid grid-cols-2 gap-3">
+                <TextField label="点击头像跳转链接" configKey="HEO_INFO_CARD_AVATAR_URL" value={formData.HEO_INFO_CARD_AVATAR_URL} onChange={handleChange} placeholder="/about" desc="点击头像时跳转的地址" />
+                <TextField label="头像像素大小 (px)" configKey="HEO_INFO_CARD_AVATAR_SIZE" value={formData.HEO_INFO_CARD_AVATAR_SIZE} onChange={handleChange} placeholder="52" desc="推荐 48 ~ 64 像素" />
+              </div>
+              <ToggleField label="文章页头像虚化" configKey="HEO_INFO_CARD_AVATAR_BLUR" value={formData.HEO_INFO_CARD_AVATAR_BLUR} onChange={handleChange} desc="在文章详情页名片头像显示为模糊装饰效果" />
+
+              {/* 公告栏配置 */}
+              <h4 className="text-sm font-bold text-gray-700 mt-4 mb-2">📢 名片公告与点击跳转 URL</h4>
+              <ToggleField label="显示名片公告" configKey="HEO_INFO_CARD_SHOW_ANNOUNCEMENT" value={formData.HEO_INFO_CARD_SHOW_ANNOUNCEMENT} onChange={handleChange} desc="是否在个人名片卡中展示公告区域" />
+              <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">自定义公告展示内容 (文字或图片URL)</label>
+                <textarea
+                  rows={3}
+                  value={formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT || ''}
+                  onChange={e => handleChange('HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT', e.target.value)}
+                  placeholder="可输入文字（如：🎉 关注微信公众号、扫码进群）或图片外链（如：https://.../qrcode.png）...&#10;留空则自动读取 Notion 数据库 Notice 文章。"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                />
+                <p className="text-xs text-gray-400 mt-1">💡 若输入图片 URL 会自动呈现为精美配图，输入文字则作为标语展示。</p>
+              </div>
+              <TextField
+                label="🔗 点击公告触发跳转的 URL 链接"
+                configKey="HEO_INFO_CARD_ANNOUNCEMENT_URL"
+                value={formData.HEO_INFO_CARD_ANNOUNCEMENT_URL}
+                onChange={handleChange}
+                placeholder="https://... 或 /about"
+                desc="读者点击名片上的文字或图片时触发跳转的目标地址。留空则纯展示不跳转。"
+              />
+
+              {/* 欢迎语 */}
+              <h4 className="text-sm font-bold text-gray-700 mt-4 mb-2">✨ 欢迎语 (点击随机切换)</h4>
+              {greetings.map((g, i) => (
+                <div key={i} className="flex gap-2 mb-2">
+                  <input value={g} onChange={e => { const n = [...greetings]; n[i] = e.target.value; setGreetings(n) }}
+                    className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm" placeholder="欢迎语" />
+                  <button onClick={() => setGreetings(greetings.filter((_, idx) => idx !== i))} className="text-gray-300 hover:text-red-500 px-2">✕</button>
+                </div>
+              ))}
+              <button onClick={() => setGreetings([...greetings, ''])}
+                className="mt-1 w-full py-1.5 border-2 border-dashed border-gray-300 rounded-lg text-gray-400 hover:border-blue-400 hover:text-blue-600 transition text-xs">
+                + 添加欢迎语
+              </button>
+            </SectionCard>
+
+            <SectionCard>
+              <SectionTitle icon="🔗" title="名片按钮与社交链接" desc="名片底部的图标按钮和跳转链接" />
+              <h4 className="text-sm font-bold text-gray-600 mb-2">按钮 1 (个人主页)</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <TextField label="跳转链接" configKey="HEO_INFO_CARD_URL1" value={formData.HEO_INFO_CARD_URL1} onChange={handleChange} placeholder="/about" />
+                <TextField label="图标 class" configKey="HEO_INFO_CARD_ICON1" value={formData.HEO_INFO_CARD_ICON1} onChange={handleChange} placeholder="fas fa-user" desc="Font Awesome 图标类名" />
+              </div>
+              <h4 className="text-sm font-bold text-gray-600 mb-2 mt-3">按钮 2 (GitHub)</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <TextField label="跳转链接" configKey="HEO_INFO_CARD_URL2" value={formData.HEO_INFO_CARD_URL2} onChange={handleChange} placeholder="https://github.com/..." />
+                <TextField label="图标 class" configKey="HEO_INFO_CARD_ICON2" value={formData.HEO_INFO_CARD_ICON2} onChange={handleChange} placeholder="fab fa-github" />
+              </div>
+              <h4 className="text-sm font-bold text-gray-600 mb-2 mt-3">按钮 3 (了解更多)</h4>
+              <TextField label="按钮文字" configKey="HEO_INFO_CARD_TEXT3" value={formData.HEO_INFO_CARD_TEXT3} onChange={handleChange} placeholder="了解更多" />
+              <TextField label="跳转链接" configKey="HEO_INFO_CARD_URL3" value={formData.HEO_INFO_CARD_URL3} onChange={handleChange} placeholder="https://..." />
+              <TextField label="ORCID 图标 class" configKey="HEO_INFO_CARD_ICON_ORCID" value={formData.HEO_INFO_CARD_ICON_ORCID} onChange={handleChange} placeholder="fab fa-orcid" />
+            </SectionCard>
+
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="💬" title="社群交流卡片" desc="侧边栏的社群入口卡片" />
+              <div className="mb-4 p-4 bg-blue-600 rounded-xl text-white inline-block">
+                <div className="text-xl font-extrabold">{formData.HEO_SOCIAL_CARD_TITLE_1 || '交流频道'}</div>
+                <div className="text-sm opacity-80 mt-1">{formData.HEO_SOCIAL_CARD_TITLE_2 || '加入我们的社群讨论分享'}</div>
+              </div>
+              <ToggleField label="启用社群卡片" configKey="HEO_SOCIAL_CARD" value={formData.HEO_SOCIAL_CARD} onChange={handleChange} />
+              <div className="grid grid-cols-3 gap-4">
+                <TextField label="主标题" configKey="HEO_SOCIAL_CARD_TITLE_1" value={formData.HEO_SOCIAL_CARD_TITLE_1} onChange={handleChange} placeholder="交流频道" />
+                <TextField label="副标题" configKey="HEO_SOCIAL_CARD_TITLE_2" value={formData.HEO_SOCIAL_CARD_TITLE_2} onChange={handleChange} placeholder="加入社群分享" />
+                <TextField label="按钮文字" configKey="HEO_SOCIAL_CARD_TITLE_3" value={formData.HEO_SOCIAL_CARD_TITLE_3} onChange={handleChange} placeholder="点击加入社群" />
+              </div>
+              <TextField label="跳转链接" configKey="HEO_SOCIAL_CARD_URL" value={formData.HEO_SOCIAL_CARD_URL} onChange={handleChange} placeholder="https://..." />
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 配色 ==================== */}
+        {activeTab === 'colors' && (
+          <div className="space-y-6">
+            {/* 预设配色卡片网格 */}
+            <SectionCard>
+              <SectionTitle icon="✨" title="预设配色方案 (一键换肤)" desc="精选 8 套专业调色方案，点击任意方案即可一键应用全部颜色。套用后依然可在下方自由微调！" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {COLOR_PRESETS.map(preset => {
+                  const isCurrent = formData.HEO_COLOR_PRIMARY?.toLowerCase() === preset.colors.HEO_COLOR_PRIMARY.toLowerCase()
+                  return (
+                    <div
+                      key={preset.id}
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, ...preset.colors }))
+                        setToast({ type: 'success', msg: `✨ 已套用「${preset.name}」配色方案！记得点击底部保存。` })
+                        setTimeout(() => setToast(null), 3000)
+                      }}
+                      className={`cursor-pointer rounded-xl p-4 border-2 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 relative ${
+                        isCurrent ? 'border-blue-600 bg-blue-50/40 shadow-sm ring-2 ring-blue-500/20' : 'border-gray-200 bg-white hover:border-blue-400'
+                      }`}
+                    >
+                      {isCurrent && (
+                        <span className="absolute top-2 right-2 bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                          使用中
+                        </span>
+                      )}
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xl">{preset.emoji}</span>
+                        <span className="font-bold text-sm text-gray-900">{preset.name}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mb-3 line-clamp-1">{preset.desc}</p>
+                      {/* 色卡色块预览 */}
+                      <div className="flex items-center gap-1.5 bg-gray-100 p-2 rounded-lg">
+                        <div className="w-5 h-5 rounded-full shadow-inner border border-black/10" style={{ backgroundColor: preset.colors.HEO_COLOR_PRIMARY }} title="主色" />
+                        <div className="w-5 h-5 rounded-full shadow-inner border border-black/10" style={{ backgroundColor: preset.colors.HEO_COLOR_ACCENT }} title="强调色" />
+                        <div className="w-5 h-5 rounded-full shadow-inner border border-black/10" style={{ backgroundColor: preset.colors.HEO_COLOR_BG }} title="页面背景" />
+                        <div className="w-5 h-5 rounded-full shadow-inner border border-black/10" style={{ backgroundColor: preset.colors.HEO_COLOR_BG_DARK }} title="暗色背景" />
+                        <span className="text-[10px] text-gray-400 ml-auto font-mono">{preset.colors.HEO_COLOR_PRIMARY}</span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </SectionCard>
+
+            {/* 单项微调与实时预览 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <SectionCard>
+                <SectionTitle icon="🌈" title="品牌色 (浅色模式微调)" desc="在预设基础上自由微调每个单独的颜色字段" />
+                <ColorField label="主色调" configKey="HEO_COLOR_PRIMARY" value={formData.HEO_COLOR_PRIMARY} onChange={handleChange} />
+                <ColorField label="主色调悬浮" configKey="HEO_COLOR_PRIMARY_HOVER" value={formData.HEO_COLOR_PRIMARY_HOVER} onChange={handleChange} />
+                <ColorField label="主色文字色" configKey="HEO_COLOR_PRIMARY_TEXT" value={formData.HEO_COLOR_PRIMARY_TEXT} onChange={handleChange} />
+                <ColorField label="强调色 (Accent)" configKey="HEO_COLOR_ACCENT" value={formData.HEO_COLOR_ACCENT} onChange={handleChange} />
+                <ColorField label="页面背景" configKey="HEO_COLOR_BG" value={formData.HEO_COLOR_BG} onChange={handleChange} />
+                <ColorField label="卡片背景" configKey="HEO_COLOR_CARD" value={formData.HEO_COLOR_CARD} onChange={handleChange} />
+                <ColorField label="卡片柔和色" configKey="HEO_COLOR_CARD_MUTED" value={formData.HEO_COLOR_CARD_MUTED} onChange={handleChange} />
+                <ColorField label="边框色" configKey="HEO_COLOR_BORDER" value={formData.HEO_COLOR_BORDER} onChange={handleChange} />
+                <ColorField label="正文文字" configKey="HEO_COLOR_TEXT" value={formData.HEO_COLOR_TEXT} onChange={handleChange} />
+                <ColorField label="次要文字" configKey="HEO_COLOR_TEXT_SECONDARY" value={formData.HEO_COLOR_TEXT_SECONDARY} onChange={handleChange} />
+              </SectionCard>
+
+              <SectionCard>
+                <SectionTitle icon="🌙" title="暗色模式微调" desc="夜间模式下的颜色覆盖" />
+                <ColorField label="暗色背景" configKey="HEO_COLOR_BG_DARK" value={formData.HEO_COLOR_BG_DARK} onChange={handleChange} />
+                <ColorField label="暗色卡片" configKey="HEO_COLOR_CARD_DARK" value={formData.HEO_COLOR_CARD_DARK} onChange={handleChange} />
+                <ColorField label="暗色边框" configKey="HEO_COLOR_BORDER_DARK" value={formData.HEO_COLOR_BORDER_DARK} onChange={handleChange} />
+                
+                {/* 实时预览 */}
+                <div className="mt-6 p-4 rounded-xl border border-gray-200">
+                  <h5 className="text-sm font-bold mb-3">📺 实时配色效果预览</h5>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 rounded-lg shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_BG || '#f7f9fe' }}>
+                      <div className="p-3 rounded-lg shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_CARD || '#ffffff', border: '1px solid ' + (formData.HEO_COLOR_BORDER || '#4f46e5') }}>
+                        <div className="text-xs font-bold" style={{ color: formData.HEO_COLOR_TEXT || '#111827' }}>标题文字示例</div>
+                        <div className="text-xs mt-1" style={{ color: formData.HEO_COLOR_TEXT_SECONDARY || '#4b5563' }}>次要正文描述内容</div>
+                        <div className="mt-3 flex gap-2 items-center">
+                          <div className="text-xs px-2.5 py-1 rounded-md font-medium text-white shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_PRIMARY || '#4f65f0' }}>主按钮</div>
+                          <div className="text-xs px-2 py-0.5 rounded text-white font-bold" style={{ backgroundColor: formData.HEO_COLOR_ACCENT || '#dca846' }}>TAG</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-lg shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_BG_DARK || '#18171d' }}>
+                      <div className="p-3 rounded-lg shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_CARD_DARK || '#1e1e1e', border: '1px solid ' + (formData.HEO_COLOR_BORDER_DARK || '#dca846') }}>
+                        <div className="text-xs font-bold text-white">暗色标题文字</div>
+                        <div className="text-xs mt-1 text-gray-400">暗色正文描述内容</div>
+                        <div className="mt-3 flex gap-2 items-center">
+                          <div className="text-xs px-2.5 py-1 rounded-md font-medium text-white shadow-sm" style={{ backgroundColor: formData.HEO_COLOR_PRIMARY || '#4f65f0' }}>主按钮</div>
+                          <div className="text-xs px-2 py-0.5 rounded text-white font-bold" style={{ backgroundColor: formData.HEO_COLOR_ACCENT || '#dca846' }}>TAG</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs text-center mt-3 text-gray-400">← 浅色模式预览 | 暗色模式预览 →</div>
+                </div>
+              </SectionCard>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== 布局 ==================== */}
+        {activeTab === 'layout' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SectionCard>
+              <SectionTitle icon="📐" title="首页布局" desc="控制首页的排列方式和加载行为" />
+              <ToggleField label="首页文章双列显示" configKey="HEO_HOME_POST_TWO_COLS" value={formData.HEO_HOME_POST_TWO_COLS} onChange={handleChange} desc="false 时只显示一列" />
+              <ToggleField label="页面加载遮罩动画" configKey="HEO_LOADING_COVER" value={formData.HEO_LOADING_COVER} onChange={handleChange} />
+            </SectionCard>
+            <SectionCard>
+              <SectionTitle icon="🖼️" title="文章列表" desc="文章列表的封面和摘要设置" />
+              <ToggleField label="显示文章封面" configKey="HEO_POST_LIST_COVER" value={formData.HEO_POST_LIST_COVER} onChange={handleChange} />
+              <ToggleField label="封面悬停放大" configKey="HEO_POST_LIST_COVER_HOVER_ENLARGE" value={formData.HEO_POST_LIST_COVER_HOVER_ENLARGE} onChange={handleChange} />
+              <ToggleField label="无封面时用站点背景" configKey="HEO_POST_LIST_COVER_DEFAULT" value={formData.HEO_POST_LIST_COVER_DEFAULT} onChange={handleChange} />
+              <ToggleField label="显示文章摘要" configKey="HEO_POST_LIST_SUMMARY" value={formData.HEO_POST_LIST_SUMMARY} onChange={handleChange} />
+              <ToggleField label="读取文章预览" configKey="HEO_POST_LIST_PREVIEW" value={formData.HEO_POST_LIST_PREVIEW} onChange={handleChange} />
+              <ToggleField label="封面左右交错" configKey="HEO_POST_LIST_IMG_CROSSOVER" value={formData.HEO_POST_LIST_IMG_CROSSOVER} onChange={handleChange} desc="奇偶行的封面图片左右交替显示" />
+            </SectionCard>
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="🔧" title="悬浮小组件" desc="页面右侧/底部的悬浮功能按钮" />
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8">
+                <ToggleField label="最新文章卡" configKey="HEO_WIDGET_LATEST_POSTS" value={formData.HEO_WIDGET_LATEST_POSTS} onChange={handleChange} />
+                <ToggleField label="统计面板" configKey="HEO_WIDGET_ANALYTICS" value={formData.HEO_WIDGET_ANALYTICS} onChange={handleChange} />
+                <ToggleField label="回到顶部" configKey="HEO_WIDGET_TO_TOP" value={formData.HEO_WIDGET_TO_TOP} onChange={handleChange} />
+                <ToggleField label="跳到评论区" configKey="HEO_WIDGET_TO_COMMENT" value={formData.HEO_WIDGET_TO_COMMENT} onChange={handleChange} />
+                <ToggleField label="夜间模式切换" configKey="HEO_WIDGET_DARK_MODE" value={formData.HEO_WIDGET_DARK_MODE} onChange={handleChange} />
+                <ToggleField label="移动端悬浮目录" configKey="HEO_WIDGET_TOC" value={formData.HEO_WIDGET_TOC} onChange={handleChange} />
+              </div>
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 文章 ==================== */}
+        {activeTab === 'article' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SectionCard>
+              <SectionTitle icon="📝" title="文章详情页" desc="单篇文章页面的显示控制" />
+              <ToggleField label="显示上/下一篇推荐" configKey="HEO_ARTICLE_ADJACENT" value={formData.HEO_ARTICLE_ADJACENT} onChange={handleChange} />
+              <ToggleField label="显示版权声明" configKey="HEO_ARTICLE_COPYRIGHT" value={formData.HEO_ARTICLE_COPYRIGHT} onChange={handleChange} />
+              <ToggleField label="显示非AI写作标识" configKey="HEO_ARTICLE_NOT_BY_AI" value={formData.HEO_ARTICLE_NOT_BY_AI} onChange={handleChange} />
+              <ToggleField label="显示关联推荐文章" configKey="HEO_ARTICLE_RECOMMEND" value={formData.HEO_ARTICLE_RECOMMEND} onChange={handleChange} />
+            </SectionCard>
+            <SectionCard>
+              <SectionTitle icon="🧭" title="菜单显示 (预留)" desc="顶部导航栏的菜单项显示控制" />
+              <ToggleField label="显示首页" configKey="HEO_MENU_INDEX" value={formData.HEO_MENU_INDEX} onChange={handleChange} />
+              <ToggleField label="显示分类" configKey="HEO_MENU_CATEGORY" value={formData.HEO_MENU_CATEGORY} onChange={handleChange} />
+              <ToggleField label="显示标签" configKey="HEO_MENU_TAG" value={formData.HEO_MENU_TAG} onChange={handleChange} />
+              <ToggleField label="显示归档" configKey="HEO_MENU_ARCHIVE" value={formData.HEO_MENU_ARCHIVE} onChange={handleChange} />
+              <ToggleField label="显示搜索" configKey="HEO_MENU_SEARCH" value={formData.HEO_MENU_SEARCH} onChange={handleChange} />
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 页脚 ==================== */}
+        {activeTab === 'footer' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* 左下角版权与作者信息 */}
+              <SectionCard>
+                <SectionTitle icon="©️" title="左下角版权与作者信息" desc="控制页面左下角显示的作者名称、格言简介、建站年份、驱动声明和备案号" />
+                <div className="grid grid-cols-2 gap-3">
+                  <TextField label="作者姓名 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="NotionNext" desc="页脚版权处展示的名字" />
+                  <TextField label="建站起始年份 (SINCE)" configKey="SINCE" value={formData.SINCE} onChange={handleChange} placeholder="2021" desc="用于显示 © 2021-2026" />
+                </div>
+                <TextField label="作者格言 / 简介 (BIO)" configKey="BIO" value={formData.BIO} onChange={handleChange} placeholder="一个普通的干饭人🍚" desc="作者名字右侧的标语或格言" />
+                
+                {/* Powered by 驱动声明 */}
+                <div className="pt-2 border-t border-gray-100 my-2">
+                  <ToggleField label="显示 Powered by 驱动声明" configKey="FOOTER_POWER_BY" value={formData.FOOTER_POWER_BY} onChange={handleChange} desc="是否在页脚左下角第一行显示驱动版权" />
+                  {formData.FOOTER_POWER_BY !== false && (
+                    <div className="grid grid-cols-2 gap-3 mt-2">
+                      <TextField label="驱动展示文案" configKey="FOOTER_POWER_BY_TEXT" value={formData.FOOTER_POWER_BY_TEXT} onChange={handleChange} placeholder="NotionNext 4.10.10" desc="留空则显示系统默认版本" />
+                      <TextField label="驱动跳转链接" configKey="FOOTER_POWER_BY_URL" value={formData.FOOTER_POWER_BY_URL} onChange={handleChange} placeholder="https://github.com/..." />
+                    </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+                  <TextField label="ICP 备案号 (BEI_AN)" configKey="BEI_AN" value={formData.BEI_AN} onChange={handleChange} placeholder="粤ICP备XXXXXXXX号" desc="留空则不显示" />
+                  <TextField label="ICP 备案跳转链接" configKey="BEI_AN_LINK" value={formData.BEI_AN_LINK} onChange={handleChange} placeholder="https://beian.miit.gov.cn" />
+                </div>
+                <TextField label="公安网备案号 (BEI_AN_GONGAN)" configKey="BEI_AN_GONGAN" value={formData.BEI_AN_GONGAN} onChange={handleChange} placeholder="粤公网安备 12345678901234号" desc="留空则不显示" />
+              </SectionCard>
+
+              {/* 页脚统计面板文案 */}
+              <SectionCard>
+                <SectionTitle icon="📊" title="页脚运行与统计标签" desc="底部统计面板显示的文字标签与起始日期" />
+                <TextField label="建站起始日期" configKey="HEO_SITE_CREATE_TIME" value={formData.HEO_SITE_CREATE_TIME} onChange={handleChange} placeholder="2021-09-21" desc="用于实时计算运行第 N 天" />
+                <div className="grid grid-cols-2 gap-3">
+                  <TextField label="文章数标签" configKey="HEO_POST_COUNT_TITLE" value={formData.HEO_POST_COUNT_TITLE} onChange={handleChange} placeholder="文章数:" />
+                  <TextField label="建站天数标签" configKey="HEO_SITE_TIME_TITLE" value={formData.HEO_SITE_TIME_TITLE} onChange={handleChange} placeholder="建站天数:" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <TextField label="访问量标签" configKey="HEO_SITE_VISIT_TITLE" value={formData.HEO_SITE_VISIT_TITLE} onChange={handleChange} placeholder="访问量:" />
+                  <TextField label="访客数标签" configKey="HEO_SITE_VISITOR_TITLE" value={formData.HEO_SITE_VISITOR_TITLE} onChange={handleChange} placeholder="访客数:" />
+                </div>
+              </SectionCard>
+
+              {/* 🐶 右下角卡通宠物挂件 */}
+              <SectionCard className="lg:col-span-2">
+                <SectionTitle icon="🐶" title="右下角卡通宠物挂件 (Live2D)" desc="控制页面右下角显示的萌宠动画挂件与点击跳转行为" />
+                <ToggleField label="启用卡通宠物挂件" configKey="WIDGET_PET" value={formData.WIDGET_PET} onChange={handleChange} desc="关闭后右下角不再显示卡通宠物" />
+                {formData.WIDGET_PET !== false && (
+                  <div className="space-y-4 mt-3">
+                    <TextField
+                      label="点击宠物跳转链接 (留空则纯互动不跳走)"
+                      configKey="WIDGET_PET_CUSTOM_URL"
+                      value={formData.WIDGET_PET_CUSTOM_URL}
+                      onChange={handleChange}
+                      placeholder="/about 或 https://..."
+                      desc="填入你的个人主页或自定义网址。留空则点击仅有摇晃互动动画，不会跳转任何网页！"
+                    />
+                    
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="block text-sm font-medium text-gray-700">选择宠物形象预设或自定义</label>
+                        <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">支持输入任意 Live2D 模型 URL</span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 mb-3">
+                        {[
+                          { name: '🐶 碗中小白狗 (Wanko)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json' },
+                          { name: '🐱 趴姿橘白猫 (Tororo)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json' },
+                          { name: '🐱 呆萌黑猫 (Hijiki)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json' },
+                          { name: '🧙‍♀️ 二次元少女 (Shizuku)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json' },
+                          { name: '👧 元气初音 (Miku)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-miku@1.0.5/assets/miku.model.json' },
+                          { name: '🌸 和服少女 (Chitose)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json' },
+                          { name: '🎀 活力萝莉 (Koharu)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json' },
+                          { name: '🦊 狐耳娘 (Izumi)', link: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-izumi@1.0.5/assets/izumi.model.json' },
+                          { name: '🌟 B站 22娘', link: 'https://raw.githubusercontent.com/imuncle/live2d/master/model/22/model.default.json' },
+                          { name: '⚡ B站 33娘', link: 'https://raw.githubusercontent.com/imuncle/live2d/master/model/33/model.default.json' }
+                        ].map((item, idx) => {
+                          const isSelected = formData.WIDGET_PET_LINK === item.link
+                          return (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => handleChange('WIDGET_PET_LINK', item.link)}
+                              className={`p-2.5 rounded-lg border text-xs font-medium transition text-left ${
+                                isSelected
+                                  ? 'border-blue-600 bg-blue-50 text-blue-700 font-bold shadow-sm ring-2 ring-blue-500/20'
+                                  : 'border-gray-200 hover:border-blue-300 text-gray-700 bg-white hover:bg-gray-50'
+                              }`}
+                            >
+                              {item.name}
+                            </button>
+                          )
+                        })}
+                      </div>
+
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                        <TextField
+                          label="🎨 自定义宠物形象模型 JSON (URL)"
+                          configKey="WIDGET_PET_LINK"
+                          value={formData.WIDGET_PET_LINK}
+                          onChange={handleChange}
+                          placeholder="https://.../model.json"
+                          desc="支持任意 Live2D v2 规范的 .model.json 模型地址（可使用 jsDelivr CDN、GitHub Raw 或个人图床/OSS链接）"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <TextField
+                          label="📐 宠物画布显示高度 (px)"
+                          configKey="WIDGET_PET_HEIGHT"
+                          value={formData.WIDGET_PET_HEIGHT}
+                          onChange={handleChange}
+                          placeholder="340"
+                          desc="默认 340px。常规立绘/二次元少女建议 320~360px 避免头顶被裁切；扁平矮宠可设 250px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </SectionCard>
+            </div>
+
+            {/* 1:1 完整页脚实时预览卡片 */}
+            <SectionCard>
+              <SectionTitle icon="🦶" title="页脚 1:1 实时预览" desc="实时查看前台页脚底部栏的渲染效果" />
+              <div className="p-6 bg-[#f1f3f7] rounded-xl text-sm text-gray-700 border border-gray-300/70 shadow-inner">
+                <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
+                  {/* 左侧 */}
+                  <div className="text-center lg:text-left space-y-1">
+                    {formData.FOOTER_POWER_BY !== false && (
+                      <div className="text-xs text-gray-500 font-serif">
+                        Powered by{' '}
+                        <a href={formData.FOOTER_POWER_BY_URL || 'https://github.com/notionnext-org/NotionNext'} target="_blank" rel="noreferrer" className="underline font-sans">
+                          {formData.FOOTER_POWER_BY_TEXT || 'NotionNext 4.10.10'}
+                        </a>
+                        .
+                      </div>
+                    )}
+                    <div className="text-xs text-gray-600 flex items-center gap-1.5 flex-wrap justify-center lg:justify-start">
+                      <span>© {formData.SINCE || '2021'}–{new Date().getFullYear()}</span>
+                      <a href="/about" className="font-bold underline text-gray-900">{formData.AUTHOR || 'NotionNext'}</a>
+                      {formData.BIO && <span className="text-gray-500 font-normal"> | {formData.BIO}</span>}
+                    </div>
+                  </div>
+
+                  {/* 右侧 */}
+                  <div className="text-xs text-gray-500 flex items-center gap-3 flex-wrap justify-center">
+                    {formData.BEI_AN && (
+                      <span className="flex items-center gap-1 text-gray-600">
+                        <i className="fas fa-shield-alt text-gray-400" />
+                        <a href={formData.BEI_AN_LINK || '#'} target="_blank" rel="noreferrer" className="hover:underline">{formData.BEI_AN}</a>
+                      </span>
+                    )}
+                    {formData.BEI_AN_GONGAN && (
+                      <span className="text-gray-600">{formData.BEI_AN_GONGAN}</span>
+                    )}
+                    <span className="text-gray-400 font-mono">👁️ 10,240 PV | 👥 3,120 UV</span>
+                  </div>
+                </div>
+              </div>
+            </SectionCard>
+          </div>
+        )}
+
+      </main>
+
+      {/* 底部保存栏 */}
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 py-3 shadow-lg">
+        <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
+          <p className="text-sm text-gray-500">修改后请点击右侧保存，刷新前台页面查看效果。</p>
+          <button onClick={handleSave} disabled={saving}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl text-sm font-bold disabled:opacity-50 transition shadow">
+            {saving ? '⏳ 保存中...' : '💾 保存全部配置'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
