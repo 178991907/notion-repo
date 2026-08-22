@@ -23,19 +23,24 @@ export default function Live2D() {
   const petSwitchTheme = JSON.parse(siteConfig('WIDGET_PET_SWITCH_THEME', false))
 
   useEffect(() => {
-    if (showPet && !isMobile()) {
+    if (showPet && !isMobile() && typeof window !== 'undefined') {
       Promise.all([
         loadExternalResource(
           'https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/live2d.min.js',
           'js'
         )
-      ]).then(e => {
+      ]).then(() => {
         if (typeof window?.loadlive2d !== 'undefined') {
-          try {
-            loadlive2d('live2d', petLink)
-          } catch (error) {
-            console.error('读取PET模型', error)
-          }
+          setTimeout(() => {
+            const canvasEl = document.getElementById('live2d')
+            if (canvasEl) {
+              try {
+                loadlive2d('live2d', petLink)
+              } catch (error) {
+                console.warn('读取PET模型', error)
+              }
+            }
+          }, 300)
         }
       })
     }
