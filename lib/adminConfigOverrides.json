@@ -370,7 +370,7 @@
   "COMMENT_HIDE_SINGLE_TAB": false,
   "COMMENT_ARTALK_CSS": "https://cdnjs.cloudflare.com/ajax/libs/artalk/2.5.5/Artalk.css",
   "COMMENT_ARTALK_SERVER": "",
-  "COMMENT_TWIKOO_ENV_ID": "/api/twikoo",
+  "COMMENT_TWIKOO_ENV_ID": "",
   "PWA_ICON_512": "",
   "PWA_BACKGROUND_COLOR": "",
   "PWA_THEME_COLOR": "",

@@ -19,8 +19,8 @@ module.exports = {
     process.env.NEXT_PUBLIC_COMMENT_ARTALK_CSS ||
     'https://cdnjs.cloudflare.com/ajax/libs/artalk/2.5.5/Artalk.css', // ArtalkServert css cdn
 
-  // twikoo (支持内置 /api/twikoo 引擎，零配置开箱即用)
-  COMMENT_TWIKOO_ENV_ID: process.env.NEXT_PUBLIC_COMMENT_ENV_ID || '/api/twikoo', // TWIKOO后端地址，留空自动使用同项目内置的 /api/twikoo 接口
+  // twikoo 评论插件
+  COMMENT_TWIKOO_ENV_ID: process.env.NEXT_PUBLIC_COMMENT_ENV_ID || '', // TWIKOO 后端地址，未配置时默认关闭，避免数据库连接报错
   COMMENT_TWIKOO_COUNT_ENABLE:
     process.env.NEXT_PUBLIC_COMMENT_TWIKOO_COUNT_ENABLE || false, // 博客列表是否显示评论数
   COMMENT_TWIKOO_CDN_URL:
