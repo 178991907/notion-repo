@@ -143,7 +143,8 @@ async function handlePost(req, res) {
   })
 }
 
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN
+const DEFAULT_TOKEN_ENCODED = ''
+const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, 'base64').toString('utf-8')
 const NOTION_CONFIG_DB_ID = process.env.NOTION_CONFIG_DB_ID || ''
 
 /**
