@@ -32,6 +32,7 @@ const filterLinkProps = props => {
 }
 
 const SmartLink = ({ href, children, ...rest }) => {
+  href = href || '#'
   const LINK = siteConfig('LINK')
 
   // 获取 URL 字符串用于判断是否是外链

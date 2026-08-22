@@ -128,6 +128,7 @@
     "marked": "^18.0.9",
     "marked-highlight": "^2.2.4",
     "next-sitemap": "^1.9.12",
+    "playwright": "^1.62.1",
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "sharp": "^0.35.3",

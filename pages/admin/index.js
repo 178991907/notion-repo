@@ -50,16 +50,16 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>管理后台 | NotionNext</title>
+        <title>管理后台 | notionrepo</title>
       </Head>
 
       {/* 顶部导航 */}
       <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
-                <span className="text-xl font-bold text-gray-900 tracking-tight">NotionNext 管理后台</span>
+                <span className="text-xl font-bold text-gray-900 tracking-tight">Notion Repo管理后台</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
