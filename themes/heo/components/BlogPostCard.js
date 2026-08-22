@@ -98,13 +98,20 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             </main>
           )}
 
-          <div className='md:flex-nowrap flex-wrap md:justify-start inline-block'>
-            <div>
-              {' '}
+          <div className='flex items-center justify-between mt-2 text-xs text-gray-400 dark:text-gray-500'>
+            <div className='md:flex-nowrap flex-wrap md:justify-start inline-flex items-center gap-1'>
               {post.tagItems?.map(tag => (
                 <TagItemMini key={tag.name} tag={tag} />
               ))}
             </div>
+
+            {/* 发布时间 */}
+            {(post?.publishDay || post?.date?.start_date) && (
+              <span className='whitespace-nowrap flex items-center font-light text-xs text-gray-400 dark:text-gray-500'>
+                <i className='far fa-calendar-alt mr-1'></i>
+                {post?.publishDay || post?.date?.start_date}
+              </span>
+            )}
           </div>
         </div>
       </div>

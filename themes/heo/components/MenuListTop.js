@@ -61,9 +61,16 @@ export const MenuListTop = props => {
         if ((text.includes('about') || text.includes('关于')) && !showAbout) return
         if ((text.includes('中文') || text.includes('english') || text.includes('/en') || text.includes('/zh') || text.includes('lang')) && !showLangSwitch) return
 
+        // 避免与系统内置菜单或自定义菜单重复
+        const itemHref = n.href || n.to
+        const itemName = n.name || n.title
+        if (links.some(l => (itemHref && itemHref !== '#' && (l.href === itemHref || l.to === itemHref)) || (itemName && l.name === itemName))) {
+          return
+        }
+
         links.push({
           ...n,
-          name: n.name || n.title,
+          name: itemName,
           show: n.show !== undefined ? Boolean(n.show) : true
         })
       })

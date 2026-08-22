@@ -12,15 +12,17 @@ import { useEffect } from 'react'
 export default function Live2D() {
   const router = useRouter()
   const { theme, switchTheme } = useGlobal()
-  const showPet = JSON.parse(siteConfig('WIDGET_PET', true))
+  const rawShowPet = siteConfig('WIDGET_PET', true)
+  const showPet = rawShowPet === true || rawShowPet === 'true' || rawShowPet === 1 || rawShowPet === '1'
   const petLink = siteConfig(
     'WIDGET_PET_LINK',
-    'https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json'
+    'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json'
   )
   const petCustomUrl = siteConfig('WIDGET_PET_CUSTOM_URL', '')
   const petHeight = siteConfig('WIDGET_PET_HEIGHT') || 340
   const petWidth = siteConfig('WIDGET_PET_WIDTH') || 280
-  const petSwitchTheme = JSON.parse(siteConfig('WIDGET_PET_SWITCH_THEME', false))
+  const rawSwitchTheme = siteConfig('WIDGET_PET_SWITCH_THEME', false)
+  const petSwitchTheme = rawSwitchTheme === true || rawSwitchTheme === 'true' || rawSwitchTheme === 1 || rawSwitchTheme === '1'
 
   useEffect(() => {
     if (showPet && !isMobile() && typeof window !== 'undefined') {

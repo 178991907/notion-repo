@@ -16,13 +16,14 @@ export default function LatestPostsGroupMini({ latestPosts, siteInfo }) {
   const currentPath = useRouter().asPath
   const { locale } = useGlobal()
   const SUB_PATH = siteConfig('SUB_PATH', '')
+  const customTitle = siteConfig('HEO_RECOMMEND_POSTS_TITLE') || '推荐阅读'
 
   return latestPosts ? (
     <>
-      <div className=' mb-2 px-1 flex flex-nowrap justify-between'>
-        <div>
-          <i className='mr-2 fas fas fa-history' />
-          {locale.COMMON.LATEST_POSTS}
+      <div className=' mb-2 px-1 flex flex-nowrap justify-between items-center'>
+        <div className='font-bold text-gray-700 dark:text-gray-200 flex items-center'>
+          <i className='mr-2 fas fa-fire text-red-500' />
+          {customTitle}
         </div>
       </div>
       {latestPosts.map(post => {

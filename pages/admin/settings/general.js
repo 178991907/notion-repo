@@ -24,6 +24,8 @@ export default function GeneralSettings() {
     APPEARANCE: 'auto',
     LANG: 'zh-CN',
     REDIRECT_LANG: false,
+    POSTS_SORT_BY: 'date',
+    HEO_RECOMMEND_POSTS_TITLE: '推荐阅读',
     BEI_AN: '',
     BEI_AN_GONGAN: '',
     // 社交媒体与联系方式
@@ -214,12 +216,17 @@ export default function GeneralSettings() {
                   站点完整域名链接
                   <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">LINK</span>
                 </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                    https://
-                  </span>
-                  <input type="text" name="LINK" value={formData.LINK.replace(/^https?:\/\//, '')} onChange={(e) => setFormData(prev => ({ ...prev, LINK: 'https://' + e.target.value }))} className="flex-1 focus:ring-blue-500 focus:border-blue-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 py-2 px-3 border" placeholder="blog.example.com" />
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    name="LINK"
+                    value={formData.LINK || ''}
+                    onChange={handleChange}
+                    className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
+                    placeholder="https://terry.yyqm.de5.net/"
+                  />
                 </div>
+                <p className="mt-1 text-xs text-gray-400">用于站点 SEO、RSS 订阅源以及全站绝对路径跳转的根域名。</p>
               </div>
             </div>
           </div>
@@ -228,7 +235,7 @@ export default function GeneralSettings() {
         {/* 外观设置 */}
         <section className="bg-white shadow-sm sm:rounded-xl border border-gray-200 overflow-hidden">
           <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">外观设置</h3>
+            <h3 className="text-lg leading-6 font-medium text-gray-900">外观与文章列表设置</h3>
           </div>
           <div className="px-4 py-5 sm:p-6 space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
@@ -267,6 +274,38 @@ export default function GeneralSettings() {
                   <option value="en-US">English (en-US)</option>
                 </select>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 pt-4 border-t border-gray-100">
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700 mb-1">
+                  文章列表排序规则
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">POSTS_SORT_BY</span>
+                </label>
+                <select name="POSTS_SORT_BY" value={formData.POSTS_SORT_BY} onChange={handleChange} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border">
+                  <option value="date">🔥 最新发布优先 (按发布时间从新到旧，推荐)</option>
+                  <option value="date-asc">⏳ 最早发布优先 (按发布时间从旧到新)</option>
+                  <option value="views">👀 阅读量最高优先 (按阅读量从高到低)</option>
+                </select>
+                <p className="mt-1 text-xs text-gray-400">控制首页和文章列表的展示顺序。选择“最新发布优先”后，最新发布的文章会自动排在最顶部。</p>
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700 mb-1">
+                  侧边栏热门卡片标题
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">HEO_RECOMMEND_POSTS_TITLE</span>
+                </label>
+                <input
+                  type="text"
+                  name="HEO_RECOMMEND_POSTS_TITLE"
+                  value={formData.HEO_RECOMMEND_POSTS_TITLE || ''}
+                  onChange={handleChange}
+                  placeholder="推荐阅读"
+                  className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
+                />
+                <p className="mt-1 text-xs text-gray-400">如：“推荐阅读”、“热门文章”、“精选热文”等。</p>
+              </div>
+
 
               {/* 多语言自动重定向开关 */}
               <div className="sm:col-span-3 pt-3 border-t border-gray-100 flex items-center justify-between">

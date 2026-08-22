@@ -111,30 +111,11 @@ export function InfoCard(props) {
         </SmartLink>
       </div>
 
-      {/* 公告栏 */}
+      {/* 公告栏（支持文字、Emoji、图片、超链接等富文本混排） */}
       {showNotice && (
         customNotice ? (
-          <div id='announcement-content' className='text-sm text-white/90 my-2 leading-relaxed'>
-            {isImageNotice ? (
-              <SmartLink href={announcementUrl || customNotice} className='block cursor-pointer hover:opacity-90 transition'>
-                <img
-                  src={customNotice.trim()}
-                  alt='公告配图'
-                  className='rounded-xl max-h-28 w-full object-cover shadow-sm'
-                />
-              </SmartLink>
-            ) : announcementUrl ? (
-              <SmartLink
-                href={announcementUrl}
-                className='inline-block hover:underline hover:text-white cursor-pointer transition font-medium whitespace-pre-line group'>
-                <span>{customNotice}</span>
-                <i className='fas fa-chevron-right text-xs ml-1 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-transform inline-block' />
-              </SmartLink>
-            ) : (
-              <div className='whitespace-pre-line'>
-                {customNotice}
-              </div>
-            )}
+          <div id='announcement-content' className='text-sm text-white/95 my-2.5 leading-relaxed font-normal'>
+            <RichNoticeRenderer content={customNotice} defaultUrl={announcementUrl} />
           </div>
         ) : (
           <Announcement post={notice} style={{ color: 'white !important' }} />
@@ -224,4 +205,142 @@ function GreetingsWords() {
       {greeting}
     </div>
   )
+}
+
+/**
+ * 轻量级富文本公告渲染组件
+ * 支持 Markdown 语法：[链接文字](url)、![图片描述](url)、**加粗**、Emoji 与多行混排
+ */
+export function RichNoticeRenderer({ content, defaultUrl }) {
+  if (!content || typeof content !== 'string') return null
+  const trimmed = content.trim()
+
+  // 1. 如果整段内容就是一个纯图片 URL（且没有回车换行）
+  const isPureImageUrl = /^https?:\/\/[^\s]+\.(jpg|jpeg|png|webp|gif|svg)(\?[^\s]*)?$/i.test(trimmed)
+  if (isPureImageUrl) {
+    return (
+      <SmartLink href={defaultUrl || trimmed} className='block cursor-pointer hover:opacity-90 transition'>
+        <img
+          src={trimmed}
+          alt='公告配图'
+          className='rounded-xl max-h-32 w-full object-cover shadow-sm'
+        />
+      </SmartLink>
+    )
+  }
+
+  // 2. 按行渲染富文本（严格保留用户输入的空格缩进与换行）
+  const lines = content.split('\n')
+
+  return (
+    <div className='space-y-1.5 leading-relaxed text-sm whitespace-pre-wrap font-sans'>
+      {lines.map((line, idx) => {
+        const trimmedLine = line.trim()
+        if (!trimmedLine) {
+          return <div key={idx} className='h-2' />
+        }
+
+        // 如果该行单独是一个图片链接
+        const pureImgMatch = trimmedLine.match(/^https?:\/\/[^\s]+\.(jpg|jpeg|png|webp|gif|svg)(\?[^\s]*)?$/i)
+        if (pureImgMatch) {
+          return (
+            <div key={idx} className='my-1.5'>
+              <img src={trimmedLine} alt='公告配图' className='rounded-lg max-h-24 w-auto object-cover border border-white/20 shadow-sm' />
+            </div>
+          )
+        }
+
+        return (
+          <div key={idx} className='break-words whitespace-pre-wrap'>
+            {renderLineTokens(line, defaultUrl)}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/**
+ * 解析单行中的 Markdown 标记：![alt](url)、[text](url)、**bold**、裸链接
+ */
+function renderLineTokens(lineText, defaultUrl) {
+  // 正则匹配：1.图片 ![alt](url) 2.链接 [text](url) 3.加粗 **text** 4.裸链接 https?://...
+  const tokenRegex = /(!\[(.*?)\]\((.*?)\))|(\[(.*?)\]\((.*?)\))|(\*\*(.*?)\*\*)|(https?:\/\/[^\s<]+)/g
+  const elements = []
+  let lastIndex = 0
+  let match
+  let keyCount = 0
+
+  while ((match = tokenRegex.exec(lineText)) !== null) {
+    const matchIndex = match.index
+    // 填充匹配前的纯文本
+    if (matchIndex > lastIndex) {
+      elements.push(lineText.slice(lastIndex, matchIndex))
+    }
+
+    const fullMatch = match[0]
+
+    if (fullMatch.startsWith('![')) {
+      // 1. Markdown 图片: ![alt](url)
+      const alt = match[2] || '配图'
+      const src = match[3]
+      elements.push(
+        <span key={keyCount++} className='inline-block my-1'>
+          <img src={src} alt={alt} className='rounded-lg max-h-24 object-cover border border-white/20 shadow-sm' />
+        </span>
+      )
+    } else if (fullMatch.startsWith('[')) {
+      // 2. Markdown 链接: [text](url)
+      const linkText = match[5] || '链接'
+      const href = match[6]
+      elements.push(
+        <SmartLink
+          key={keyCount++}
+          href={href}
+          className='underline underline-offset-2 hover:text-white font-medium text-white/95 hover:opacity-100 transition inline-flex items-center gap-0.5'
+        >
+          <span>{linkText}</span>
+          <i className='fas fa-arrow-up-right-from-square text-[10px] opacity-70 ml-0.5' />
+        </SmartLink>
+      )
+    } else if (fullMatch.startsWith('**')) {
+      // 3. Markdown 加粗: **text**
+      const boldText = match[8]
+      elements.push(
+        <strong key={keyCount++} className='font-bold text-white'>
+          {boldText}
+        </strong>
+      )
+    } else if (fullMatch.startsWith('http://') || fullMatch.startsWith('https://')) {
+      // 4. 裸链接
+      const rawUrl = fullMatch
+      elements.push(
+        <SmartLink
+          key={keyCount++}
+          href={rawUrl}
+          className='underline underline-offset-2 hover:text-white font-medium text-white/90 truncate max-w-[200px] inline-block align-bottom'
+        >
+          {rawUrl.replace(/^https?:\/\//, '')}
+        </SmartLink>
+      )
+    }
+
+    lastIndex = tokenRegex.lastIndex
+  }
+
+  // 填充剩余纯文本
+  if (lastIndex < lineText.length) {
+    elements.push(lineText.slice(lastIndex))
+  }
+
+  // 如果这一行是普通文字且没有内部链接，但是有全局 defaultUrl，提供平滑链接支持
+  if (elements.length === 1 && typeof elements[0] === 'string' && defaultUrl) {
+    return (
+      <SmartLink href={defaultUrl} className='hover:underline hover:text-white transition font-normal'>
+        {elements[0]}
+      </SmartLink>
+    )
+  }
+
+  return elements.length > 0 ? elements : lineText
 }
