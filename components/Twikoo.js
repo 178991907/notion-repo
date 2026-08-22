@@ -10,7 +10,9 @@ import { useEffect, useRef, useState } from 'react'
  */
 
 const Twikoo = ({ isDarkMode }) => {
-  let envId = siteConfig('COMMENT_TWIKOO_ENV_ID') || '/api/twikoo'
+  let envId = siteConfig('COMMENT_TWIKOO_ENV_ID')
+  if (!envId) return null
+
   if (typeof window !== 'undefined' && envId && envId.startsWith('/')) {
     envId = window.location.origin + envId
   }
