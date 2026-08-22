@@ -129,9 +129,10 @@ async function handlePost(req, res) {
     console.warn('清理站点缓存提示:', err.message)
   }
 
-  // 尝试刷新首页缓存
+  // 尝试刷新首页与核心页面缓存
   try {
     await res.revalidate('/')
+    await res.revalidate('/archive').catch(() => {})
   } catch (err) {
     console.warn('revalidate(/) 提示:', err.message)
   }
