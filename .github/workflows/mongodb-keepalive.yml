@@ -19,10 +19,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install MongoDB Driver
-        run: npm install mongodb --no-save
-
       - name: Run MongoDB Keep-Alive Heartbeat
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        run: node scripts/mongodb-keepalive.js
+        run: |
+          mkdir -p /tmp/keepalive && cd /tmp/keepalive
+          npm init -y >/dev/null 2>&1
+          npm install mongodb --no-audit --no-fund --quiet >/dev/null 2>&1
+          NODE_PATH=/tmp/keepalive/node_modules node $GITHUB_WORKSPACE/scripts/mongodb-keepalive.js
