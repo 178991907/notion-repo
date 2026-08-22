@@ -28,11 +28,11 @@ Notion数据库支持手动拖拽排序，鼠标选停在表格的左侧会出�
 
 ## Notion数据库说明
 
-在部署NotionNext项目时，您必须复制我提供的Notion数据库，这个数据库预先填充了以下字段：
+在部署Notion Repo项目时，您必须复制我提供的Notion数据库，这个数据库预先填充了以下字段：
 
 ### 4.10.9 之后的兼容性说明
 
-Notion 自身会不断调整数据库块的内部类型。新版 NotionNext 已兼容以下场景：
+Notion 自身会不断调整数据库块的内部类型。新版 Notion Repo 已兼容以下场景：
 
 - 配置库既可以是旧的 `collection_view`，也可以是新版页面数据库常见的 `collection_view_page`。
 - 页面正文中包含数据库视图、HTML 块、Tabs 块或空内容块时，不会因为 `content is not iterable` 这类异常中断构建。

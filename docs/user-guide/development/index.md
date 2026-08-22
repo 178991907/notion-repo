@@ -8,4 +8,4 @@
 | [开发自己的主题](./own-theme.md) | 新建主题目录 |
 | [Next.js 相关](./nextjs.md) | 与 Next 的衔接 |
 
-深度文档在 GitHub 仓库 [`docs/developer/`](https://github.com/notionnext-org/NotionNext/tree/main/docs/developer)（不进在线文档站）。
+深度文档在 GitHub 仓库 [`docs/developer/`](https://github.com/notionnext-org/Notion Repo/tree/main/docs/developer)（不进在线文档站）。

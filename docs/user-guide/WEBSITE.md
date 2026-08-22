@@ -21,7 +21,7 @@ docs/
 └── community/           ← 社区材料
 ```
 
-除根目录 README 这类仓库目录说明外，文档内容尽量进入在线站。配置见 [`.vitepress/config.mts`](https://github.com/notionnext-org/NotionNext/blob/main/.vitepress/config.mts)。
+除根目录 README 这类仓库目录说明外，文档内容尽量进入在线站。配置见 [`.vitepress/config.mts`](https://github.com/notionnext-org/Notion Repo/blob/main/.vitepress/config.mts)。
 
 ## 配置位置
 

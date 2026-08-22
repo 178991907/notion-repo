@@ -3,7 +3,7 @@
 > 发布日期：2024-3-18
 > 最后编辑：2024-5-9
 > 原栏目：📊 网站统计
-> 标签：NotionNext、站点统计
+> 标签：Notion Repo、站点统计
 > 摘要：notionnext的网站百度收录，html验证，的meta放在哪里
 
 网站创建好后，搜索引擎会自动爬取您的站点信息，便于他人搜索到您的站点内容。
@@ -30,7 +30,7 @@
 ```
 
 
-### 配置到NotionNext
+### 配置到Notion Repo
 
 <details>
 <summary>方法一：使用NotionConfig （简单、推荐）</summary>
@@ -72,7 +72,7 @@
 
 ## 提交站点地图
 
-NotionNext搭建的网站自带一个站点地图 地址是您的 域名后加 /sitemap.xml
+Notion Repo搭建的网站自带一个站点地图 地址是您的 域名后加 /sitemap.xml
 
 例如域名是  https://blog.tangly1024.com, 则站点地图的地址 https://blog.tangly1024.com/sitemap.xml
 
@@ -111,7 +111,7 @@ Google 会提示 未收录Google，此时我们点击请求编入索引即可
 
 ### 扩展阅读
 
-NotionNext如何在&lt;head&gt;标签中注入元素呢？由于很多第三方的脚本插件都需要在网页的&lt;head&gt;中插入内容，所以如何快速在NotionNext中修改&lt;head&gt;成了一个问题。
+Notion Repo如何在&lt;head&gt;标签中注入元素呢？由于很多第三方的脚本插件都需要在网页的&lt;head&gt;中插入内容，所以如何快速在Notion Repo中修改&lt;head&gt;成了一个问题。
 
 在/components/GlobalHead.js 中包含了整个页面所有&lt;head&gt;中的内容，您可以在这里直接插入一些脚本代码。例如百度和google的网站验证代码已经预先设置了，所以只要简单地配置环境变量就可实现：相关代码：
 

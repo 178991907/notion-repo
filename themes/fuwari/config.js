@@ -1,7 +1,7 @@
 /**
  * Fuwari 主题专用配置
  *
- * 与 NotionNext 的 `blog.config.js` 合并后生效；可在博客配置里覆盖任意项。
+ * 与 Notion Repo 的 `blog.config.js` 合并后生效；可在博客配置里覆盖任意项。
  * 布尔项：true 显示/启用，false 隐藏/关闭。
  */
 

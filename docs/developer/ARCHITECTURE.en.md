@@ -4,7 +4,7 @@
 
 ## Core flow
 
-NotionNext main flow can be simplified as:
+Notion Repo main flow can be simplified as:
 
 1. **Data access layer** (`lib/db/`)  
    Fetches Notion data, normalizes structure, maps fields, handles cache and dedup.

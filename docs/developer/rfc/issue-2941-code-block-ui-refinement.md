@@ -3,7 +3,7 @@
 - **作者**: @RHZHZ
 - **日期**: 2026-08-01
 - **状态**: 已实现
-- **关联 Issue**: https://github.com/notionnext-org/NotionNext/issues/2941
+- **关联 Issue**: https://github.com/notionnext-org/Notion Repo/issues/2941
 - **前置 RFC**: `docs/developer/rfc/issue-2941-code-sidebar.md`
 
 ## 摘要

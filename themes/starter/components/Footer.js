@@ -134,11 +134,11 @@ export const Footer = props => {
                   <p className='text-base text-gray-7'>
                     Designed and Developed by
                     <a
-                      href='https://github.com/notionnext-org/NotionNext'
+                      href='https://github.com/notionnext-org/Notion Repo'
                       rel='nofollow noopner noreferrer'
                       target='_blank'
                       className='px-1 text-gray-1 hover:underline'>
-                      NotionNext {starterConfig('VERSION')}
+                      Notion Repo {starterConfig('VERSION')}
                     </a>
                   </p>
                 </div>

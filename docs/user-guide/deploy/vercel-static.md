@@ -1,9 +1,9 @@
-# Vercel静态部署NotionNext
-> 迁移自：[Vercel静态部署NotionNext](https://docs.tangly1024.com/article/vercel-deploy-notion-next-static)
+# Vercel静态部署Notion Repo
+> 迁移自：[Vercel静态部署Notion Repo](https://docs.tangly1024.com/article/vercel-deploy-notion-next-static)
 > 发布日期：2024-5-10
 > 最后编辑：2024-5-10
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案
+> 标签：Notion Repo、部署方案
 > 摘要：纯静态部署将牺牲动态获取数据的便利性
 
 我目前主要使用Vercel云托管。

@@ -1,6 +1,6 @@
-﻿# Endspace 主题（NotionNext）
+﻿# Endspace 主题（Notion Repo）
 
-Endspace 是受《明日方舟：终末地》官网视觉风格启发的 NotionNext 主题，由社区作者维护；上游仓库见 [cloud-oc/endspace](https://github.com/cloud-oc/endspace)。收录相关讨论见 [Issue #3990](https://github.com/notionnext-org/NotionNext/issues/3990)。
+Endspace 是受《明日方舟：终末地》官网视觉风格启发的 Notion Repo 主题，由社区作者维护；上游仓库见 [cloud-oc/endspace](https://github.com/cloud-oc/endspace)。收录相关讨论见 [Issue #3990](https://github.com/notionnext-org/Notion Repo/issues/3990)。
 
 **原作者 / 上游**：[@cloud-oc](https://github.com/cloud-oc)（仓库 [cloud-oc/endspace](https://github.com/cloud-oc/endspace)）。
 
@@ -21,7 +21,7 @@ Endspace 是受《明日方舟：终末地》官网视觉风格启发的 NotionN
 
 ## 许可
 
-主题来源于 [cloud-oc/endspace](https://github.com/cloud-oc/endspace)，上游以 **Apache-2.0** 授权。NotionNext 主仓库整体仍以 **MIT** 为主；若你二次分发该主题代码，请同时遵守 Apache-2.0 对归属、NOTICE 与再许可条款的要求（完整文本见 <https://www.apache.org/licenses/LICENSE-2.0>）。
+主题来源于 [cloud-oc/endspace](https://github.com/cloud-oc/endspace)，上游以 **Apache-2.0** 授权。Notion Repo 主仓库整体仍以 **MIT** 为主；若你二次分发该主题代码，请同时遵守 Apache-2.0 对归属、NOTICE 与再许可条款的要求（完整文本见 <https://www.apache.org/licenses/LICENSE-2.0>）。
 
 ## 预览图
 
@@ -29,5 +29,5 @@ Endspace 是受《明日方舟：终末地》官网视觉风格启发的 NotionN
 
 ## 维护注意
 
-- 与 [主题迁移指南](../THEME_MIGRATION_GUIDE.zh-CN.md) 对齐：菜单、暗色模式、评论、TOC 等应走 NotionNext 全局约定。
+- 与 [主题迁移指南](../THEME_MIGRATION_GUIDE.zh-CN.md) 对齐：菜单、暗色模式、评论、TOC 等应走 Notion Repo 全局约定。
 - 上游 `theme` 分支为单一主题包；若上游更新，建议以目录为单位对比合并。

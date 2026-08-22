@@ -4,9 +4,9 @@
 
 ---
 
-## 帖一：欢迎参与 NotionNext 社区（建议置顶）
+## 帖一：欢迎参与 Notion Repo 社区（建议置顶）
 
-**标题：** `【公告】欢迎参与 NotionNext 社区维护`
+**标题：** `【公告】欢迎参与 Notion Repo 社区维护`
 
 **正文（复制以下内容）：**
 
@@ -14,7 +14,7 @@
 
 大家好，
 
-NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.com/notionnext-org)**，正在向**社区协作维护**过渡。无论你是站长还是开发者，都欢迎参与。
+Notion Repo 已由个人仓库移交至组织 **[notionnext-org](https://github.com/notionnext-org)**，正在向**社区协作维护**过渡。无论你是站长还是开发者，都欢迎参与。
 
 ### 你可以这样参与
 
@@ -23,22 +23,22 @@ NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.c
 | 学部署、改配置 | [使用说明文档站](https://notionnext.tangly1024.com) |
 | 提问、交流经验 | 本区 **「使用问答」** 发 Discussion（比 Issue 更合适） |
 | 改教程、纠错 | 文档页底 **「在 GitHub 上维护此页」** → 提 PR |
-| 修 Bug、做功能 | [Contributing](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md) → Fork → PR |
+| 修 Bug、做功能 | [Contributing](https://github.com/notionnext-org/Notion Repo/blob/main/CONTRIBUTING.zh-CN.md) → Fork → PR |
 | 长期维护、加入组织 | 先合并 1～2 个 PR，再发 **「组织成员申请」** 讨论（见模板） |
 
 完整路径见：**[参与社区指南](https://notionnext.tangly1024.com/user-guide/community-participate)**
 
 ### 当前最需要帮助
 
-- 带 [`good first issue`](https://github.com/notionnext-org/NotionNext/issues?q=is%3Aopen+label%3A%22good+first+issue%22) 标签的任务（文档、小修复为主）
-- 带 [`help wanted`](https://github.com/notionnext-org/NotionNext/issues?q=is%3Aopen+label%3A%22help+wanted%22) 的任务
+- 带 [`good first issue`](https://github.com/notionnext-org/Notion Repo/issues?q=is%3Aopen+label%3A%22good+first+issue%22) 标签的任务（文档、小修复为主）
+- 带 [`help wanted`](https://github.com/notionnext-org/Notion Repo/issues?q=is%3Aopen+label%3A%22help+wanted%22) 的任务
 
 ### 请注意
 
-- **Bug**（可复现）→ [Issue](https://github.com/notionnext-org/NotionNext/issues/new/choose)
+- **Bug**（可复现）→ [Issue](https://github.com/notionnext-org/Notion Repo/issues/new/choose)
 - **功能想法** → 先在 **「想法」** 分类讨论，再开 Issue / PR
-- **安全漏洞** → [私密报告](https://github.com/notionnext-org/NotionNext/security/advisories/new)，勿公开 PoC
-- 维护者为志愿者，**无商业 SLA**；请保持友善，遵守 [行为准则](https://github.com/notionnext-org/NotionNext/blob/main/CODE_OF_CONDUCT.md)
+- **安全漏洞** → [私密报告](https://github.com/notionnext-org/Notion Repo/security/advisories/new)，勿公开 PoC
+- 维护者为志愿者，**无商业 SLA**；请保持友善，遵守 [行为准则](https://github.com/notionnext-org/Notion Repo/blob/main/CODE_OF_CONDUCT.md)
 
 旧版 Notion 托管教程仍在 [docs.tangly1024.com](/user-guide/intro)；新版以仓库 `docs/user-guide/` 为准。
 
@@ -54,7 +54,7 @@ NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.c
 
 ---
 
-本文说明**谁负责什么、如何减少重复劳动**，详细规则见 [维护者运行手册](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/MAINTAINER_RUNBOOK.zh-CN.md) 与 [项目治理](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md)。
+本文说明**谁负责什么、如何减少重复劳动**，详细规则见 [维护者运行手册](https://github.com/notionnext-org/Notion Repo/blob/main/docs/developer/MAINTAINER_RUNBOOK.zh-CN.md) 与 [项目治理](https://github.com/notionnext-org/Notion Repo/blob/main/GOVERNANCE.zh-CN.md)。
 
 ### 负责域（招募中，欢迎认领）
 
@@ -90,13 +90,13 @@ NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.c
 
 ## 帖三：用户作品墙征集（建议置顶或定期顶帖）
 
-**标题：** `【征集】提交你的 NotionNext 站点到用户作品墙`
+**标题：** `【征集】提交你的 Notion Repo 站点到用户作品墙`
 
 **正文：**
 
 ---
 
-如果你已经用 NotionNext 搭好了公开站点，欢迎把它提交到用户作品墙。
+如果你已经用 Notion Repo 搭好了公开站点，欢迎把它提交到用户作品墙。
 
 提交内容只需要一行：
 
@@ -124,15 +124,15 @@ NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.c
 
 | 帖 | 链接 |
 | --- | --- |
-| 欢迎参与社区 | https://github.com/notionnext-org/NotionNext/discussions/4069 |
-| 维护者分工与合并约定 | https://github.com/notionnext-org/NotionNext/discussions/4070 |
-| 用户作品墙征集 | https://github.com/notionnext-org/NotionNext/discussions/4319 |
+| 欢迎参与社区 | https://github.com/notionnext-org/Notion Repo/discussions/4069 |
+| 维护者分工与合并约定 | https://github.com/notionnext-org/Notion Repo/discussions/4070 |
+| 用户作品墙征集 | https://github.com/notionnext-org/Notion Repo/discussions/4319 |
 
 分类：**Announcements**。请在 Discussions 列表对以上三帖各点一次 **Pin discussion** 置顶（API 暂不支持自动 Pin）。
 
 ## 发帖步骤（若需重发）
 
-1. 打开 https://github.com/notionnext-org/NotionNext/discussions/new/choose  
+1. 打开 https://github.com/notionnext-org/Notion Repo/discussions/new/choose  
 2. 选择分类 **Announcements**  
 3. 粘贴上面对应标题与正文  
 4. 发布后 **Pin discussion**  

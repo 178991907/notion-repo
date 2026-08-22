@@ -1,6 +1,6 @@
 # 旧版在线手册入口
 
-NotionNext 曾使用 Notion 托管的 **[docs.tangly1024.com](https://docs.tangly1024.com)**。自 **4.9.x** 起，官方教程以本仓库 Markdown 与 **[notionnext.tangly1024.com](https://notionnext.tangly1024.com)** 为准。
+Notion Repo 曾使用 Notion 托管的 **[docs.tangly1024.com](https://docs.tangly1024.com)**。自 **4.9.x** 起，官方教程以本仓库 Markdown 与 **[notionnext.tangly1024.com](https://notionnext.tangly1024.com)** 为准。
 
 本页保留**旧站文章 slug → 新文档路径**对照，便于书签、搜索引擎与社区链接平滑过渡。带截图的完整旧版排版可继续打开旧站原文。
 
@@ -12,8 +12,8 @@ NotionNext 曾使用 Notion 托管的 **[docs.tangly1024.com](https://docs.tangl
 | **旧版源站首页** | [docs.tangly1024.com/about](https://docs.tangly1024.com/about) |
 | **完整迁移索引表** | [ARTICLE_INDEX.md](../ARTICLE_INDEX.md) |
 | **迁移进度说明** | [MIGRATION_STATUS.md](../MIGRATION_STATUS.md) |
-| **GitHub 浏览 docs** | [notionnext-org/NotionNext/tree/main/docs](https://github.com/notionnext-org/NotionNext/tree/main/docs) |
-| **文档反馈（评论）** | 任意教程页底部「文档反馈」或 [提交 Issue](https://github.com/notionnext-org/NotionNext/issues/new/choose) |
+| **GitHub 浏览 docs** | [notionnext-org/Notion Repo/tree/main/docs](https://github.com/notionnext-org/Notion Repo/tree/main/docs) |
+| **文档反馈（评论）** | 任意教程页底部「文档反馈」或 [提交 Issue](https://github.com/notionnext-org/Notion Repo/issues/new/choose) |
 
 ## 旧站 URL 格式
 
@@ -43,7 +43,7 @@ https://docs.tangly1024.com/article/<slug>
 | slug | 说明 |
 | --- | --- |
 | `notion-tutorial` | 付费课程，见 [介绍](../intro.md) 中外链 |
-| `v4.0` | 极长更新日志，本地为摘要 + [GitHub Releases](https://github.com/notionnext-org/NotionNext/releases) |
+| `v4.0` | 极长更新日志，本地为摘要 + [GitHub Releases](https://github.com/notionnext-org/Notion Repo/releases) |
 
 ## 维护者：批量拉取旧文
 

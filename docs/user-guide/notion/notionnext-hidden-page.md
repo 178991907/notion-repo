@@ -1,9 +1,9 @@
-# NotionNext将单页隐藏
-> 迁移自：[NotionNext将单页隐藏](https://docs.tangly1024.com/article/notionnext-hidden-page)
+# Notion Repo将单页隐藏
+> 迁移自：[Notion Repo将单页隐藏](https://docs.tangly1024.com/article/notionnext-hidden-page)
 > 发布日期：2022-6-17
 > 最后编辑：2024-9-12
 > 原栏目：✒ Notion教程
-> 标签：NotionNext
+> 标签：Notion Repo
 > 摘要：隐藏页面入口的妙用
 
 ::: tip 提示
@@ -14,7 +14,7 @@
 
 ## 页面状态规范
 
-NotionNext 将 `status` 作为公开入口的基础开关。官方约定如下：
+Notion Repo 将 `status` 作为公开入口的基础开关。官方约定如下：
 
 | status | 含义 | 公共入口 |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ NotionNext 将 `status` 作为公开入口的基础开关。官方约定如下�
 完整对照表见：[文章状态](./post-status.md)。
 
 ::: tip 菜单跳转
-`4.10.9` 起，自定义菜单可以指向 `Invisible` 页面。做法是在菜单行填写和隐藏页面一致的 `slug`；NotionNext 会使用隐藏页面最终生成的访问地址作为菜单链接。
+`4.10.9` 起，自定义菜单可以指向 `Invisible` 页面。做法是在菜单行填写和隐藏页面一致的 `slug`；Notion Repo 会使用隐藏页面最终生成的访问地址作为菜单链接。
 
 这适合把隐藏页作为“关于我”“项目说明”“下载入口”等菜单目标，同时仍避免它出现在文章列表、归档、RSS、Sitemap 和搜索索引里。`Draft` 等未发布页面不会因为同名菜单而被公开。
 :::
@@ -93,7 +93,7 @@ Notion是很灵活的，若只是想要为某个词句做简短的扩充说明�
 
 ### 使用Page
 
-在3.12的版本中，NotionNext默认开启了二级菜单，即所有导航栏菜单需要在数据库中添加对应的Menu或Submenu来实现 ：‣ ；
+在3.12的版本中，Notion Repo默认开启了二级菜单，即所有导航栏菜单需要在数据库中添加对应的Menu或Submenu来实现 ：‣ ；
 
 只有Post类型的文章会显示在博文列表中，Page类型的页面则没有特定入口，相当于对普通用户隐藏；若需要开放访问，可以通过一个Menu来指向这个Page页面，或者在其它地方添加此页面的外链。
 

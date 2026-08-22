@@ -1,5 +1,5 @@
-# EdgeOne部署NotionNext
-> 迁移自：[EdgeOne部署NotionNext](https://docs.tangly1024.com/article/deploy-notion-next-with-edge-one)
+# EdgeOne部署Notion Repo
+> 迁移自：[EdgeOne部署Notion Repo](https://docs.tangly1024.com/article/deploy-notion-next-with-edge-one)
 > 发布日期：2024-11-13
 > 最后编辑：2026-5-2
 > 原栏目：🚀 安装部署
@@ -47,7 +47,7 @@
 
 ### 导入项目
 
-选择NotionNext项目
+选择Notion Repo项目
 
 ![image.png](/legacy/10ab179bdf2c532e.png)
 

@@ -15,7 +15,7 @@
 
 [Movie1024 | Notion](https://tanghh.notion.site/f3530f73fd3448779478d085dcad9332?v=8b70a9f9d5b04acda972e95c4177b42b&pvs=4)
 
-NotionNext搭建的影视分享网站
+Notion Repo搭建的影视分享网站
 
 
 ### 开启方式
@@ -79,7 +79,7 @@ Dplayer是**一款免费、专业的视频和音乐播放器**，可以支持视
 
 #### 自带一个Dplayer
 
-NotionNext项目内置了一个视频播放器，代码在/public/dplayer.htm中。只要访问您站点 `http://[你的域名]/dplayer.htm?n=[视频地址]` 即可播放。
+Notion Repo项目内置了一个视频播放器，代码在/public/dplayer.htm中。只要访问您站点 `http://[你的域名]/dplayer.htm?n=[视频地址]` 即可播放。
 
 
 #### 示例

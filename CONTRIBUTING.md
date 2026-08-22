@@ -14,37 +14,37 @@ Thanks for considering to contribute!
 
 The canonical repository is now under the **[notionnext-org](https://github.com/notionnext-org)** GitHub organization (moved from personal ownership for clearer governance):
 
-**https://github.com/notionnext-org/NotionNext**
+**https://github.com/notionnext-org/Notion Repo**
 
 If you contribute long-term or help with org-wide automation, check the organization page for how to join. **You are welcome to request membership** when that fits your role.
 
 If you cloned the repo before the transfer, update your default remote so you do not rely on redirects forever:
 
 ```bash
-git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+git remote set-url origin https://github.com/notionnext-org/Notion Repo.git
 git remote -v
 ```
 
-The fork-and-PR workflow is unchanged; open pull requests against **notionnext-org/NotionNext**.
+The fork-and-PR workflow is unchanged; open pull requests against **notionnext-org/Notion Repo**.
 
 ## First contribution
 
 1. Pick an issue labeled **`good first issue`**, or fix a doc page you are reading.  
 2. Docs: edit `docs/user-guide/**/*.md`, preview with `yarn docs:site:dev`, open a PR. See [maintain-docs](./docs/user-guide/maintain-docs.md).  
 3. Code: use a feature branch, run lint/type-check/tests, open a PR.  
-4. Larger changes: read [RFC guide](./docs/developer/rfc/README.md) or start a [Discussion](https://github.com/notionnext-org/NotionNext/discussions) first.  
+4. Larger changes: read [RFC guide](./docs/developer/rfc/README.md) or start a [Discussion](https://github.com/notionnext-org/Notion Repo/discussions) first.  
 5. Maintainer path: [community-participate](./docs/user-guide/community-participate.md) · [MAINTAINERS.md](./MAINTAINERS.md).
 
 ## Setup
 
-To contribute to NotionNext, follow these steps:
+To contribute to Notion Repo, follow these steps:
 
 1. [Fork][fork] the repository to your GitHub account.
 2. Clone the repository to your device (or use something like Codespaces).
 3. Create a new branch in the repository.
 4. Make your modifications.
 5. Commit your modifications and push the branch.
-6. [Create a PR][pr] from the branch in your fork to NotionNext' `main` branch.
+6. [Create a PR][pr] from the branch in your fork to Notion Repo' `main` branch.
 
 ## Required Workflow Rules
 
@@ -74,13 +74,13 @@ Here are some commands that you can use:
 
 ## Creating new themes
 
-If you want to submit your custom theme to NotionNext, copy a new folder in
+If you want to submit your custom theme to Notion Repo, copy a new folder in
 [`themes`][themes-dir] from [`example`][example]. The folder name  will be the
 theme's key. 
 
 ## Adding localizations
 
-If your language is not yet supported by NotionNext, please contribute a
+If your language is not yet supported by Notion Repo, please contribute a
 localization! Follow these steps to add a new localization:
 
 1. Copy one of the [en-US.js][en-US.js] in [lang-dir][lang-dir] and rename the new
@@ -91,7 +91,7 @@ localization! Follow these steps to add a new localization:
 
 ## Environment Variables
 
-NotionNext uses environment variables for configuration. To set up your development environment:
+Notion Repo uses environment variables for configuration. To set up your development environment:
 
 1. Copy `.env.example` to `.env.local`
 2. Fill in the required values in `.env.local`
@@ -102,15 +102,15 @@ NotionNext uses environment variables for configuration. To set up your developm
 - [Participate](./docs/user-guide/community-participate.md)  
 - [Governance](./GOVERNANCE.md) · [Maintainers](./MAINTAINERS.md)  
 - [Code of Conduct](./CODE_OF_CONDUCT.md)  
-- [Discussions](https://github.com/notionnext-org/NotionNext/discussions)
+- [Discussions](https://github.com/notionnext-org/Notion Repo/discussions)
 
 The configuration priority is:
 1. Notion Config Table (highest)
 2. Environment Variables
 3. blog.config.js (lowest)
 
-[fork]: https://github.com/notionnext-org/NotionNext/fork
-[pr]: https://github.com/notionnext-org/NotionNext/compare
+[fork]: https://github.com/notionnext-org/Notion Repo/fork
+[pr]: https://github.com/notionnext-org/Notion Repo/compare
 [next.js]: https://github.com/vercel/next.js
 [themes-dir]: themes
 [example]: themes/example

@@ -149,7 +149,7 @@ export default function AdminDashboard() {
       
       {/* 底部版权 */}
       <footer className="w-full bg-gray-50 border-t border-gray-200 py-6 text-center text-sm text-gray-400">
-        <p>NotionNext Admin © {new Date().getFullYear()} - <a href="https://github.com/tangly1024/NotionNext" className="hover:text-gray-600 transition-colors" target="_blank" rel="noreferrer">GitHub</a></p>
+        <p>Notion Repo Admin © {new Date().getFullYear()} - <a href="https://github.com/178991907/notion-repo" className="hover:text-gray-600 transition-colors" target="_blank" rel="noreferrer">GitHub</a></p>
       </footer>
     </div>
   )

@@ -60,7 +60,7 @@ Cloudflare → **我的个人资料** → **API 令牌** → **创建令牌** �
 
 #### 4. 启用仓库自带 Workflow
 
-本仓库已包含 [`.github/workflows/deploy-docs-site.yml`](https://github.com/notionnext-org/NotionNext/blob/main/.github/workflows/deploy-docs-site.yml)：
+本仓库已包含 [`.github/workflows/deploy-docs-site.yml`](https://github.com/notionnext-org/Notion Repo/blob/main/.github/workflows/deploy-docs-site.yml)：
 
 - `push` 到 `main` 且变更 `docs/**`、`.vitepress/**` 等 → 自动 `yarn docs:site:build` 并部署  
 - 也可在 GitHub **Actions** 页手动 **Run workflow**
@@ -85,7 +85,7 @@ Cloudflare → **我的个人资料** → **API 令牌** → **创建令牌** �
 
 ### 若仍想用「连接 Git」（可选排查）
 
-1. GitHub **组织 Settings → GitHub Apps** → 安装 **Cloudflare Workers and Pages**，授权 **notionnext-org/NotionNext**。  
+1. GitHub **组织 Settings → GitHub Apps** → 安装 **Cloudflare Workers and Pages**，授权 **notionnext-org/Notion Repo**。  
 2. 组织 **Third-party access** 策略允许该 App。  
 3. Cloudflare 侧用有 **组织仓库访问权** 的账号登录并重新授权 GitHub。
 
@@ -138,7 +138,7 @@ npx wrangler pages deploy .vitepress/dist --project-name=notionnext-docs
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| `VITE_GISCUS_REPO_ID` | Secret | `R_kgDOGHdxTw`（`notionnext-org/NotionNext`） |
+| `VITE_GISCUS_REPO_ID` | Secret | `R_kgDOGHdxTw`（`notionnext-org/Notion Repo`） |
 | `VITE_GISCUS_CATEGORY_ID` | Secret | `DIC_kwDOGHdxT84CBR2I`（Discussions 分类 **General**） |
 | `VITE_GISCUS_ENABLED` | Variable | 设为 `false` 可关闭评论区 |
 

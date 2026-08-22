@@ -64,4 +64,4 @@ Notion 中的视频/音频块会经 `normalizeExternalMediaBlock` 处理，包�
 
 ## 升级注意（2026）
 
-Notion API / 数据结构多次变更，请保持 NotionNext 与 [latest](../changelog/latest.md) 推荐版本一致，否则可能无法完整拉取页面。
+Notion API / 数据结构多次变更，请保持 Notion Repo 与 [latest](../changelog/latest.md) 推荐版本一致，否则可能无法完整拉取页面。

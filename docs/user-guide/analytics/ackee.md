@@ -87,7 +87,7 @@ Start building the best web experiences in record time
 
 可以参考《Vercel绑定域名》这篇文章的 《CNAME解析》部分
 
-[Vercel绑定自定义域名 | NotionNext文档](/user-guide/deploy/vercel-domain#c7b213564fdb40ffb43b51ae31c08963)
+[Vercel绑定自定义域名 | Notion Repo文档](/user-guide/deploy/vercel-domain#c7b213564fdb40ffb43b51ae31c08963)
 
 Vercel 借助cloudFlare可以快速绑定解析自己的域名
 
@@ -103,14 +103,14 @@ Vercel 借助cloudFlare可以快速绑定解析自己的域名
 ![Untitled](/legacy/03b132cad4d8f380.png)
 
 
-## 配置NotionNext
+## 配置Notion Repo
 
-从上一步的嵌入代码提取出Ackee的三个变量，在NotionNext项目后台添加如下环境变量即可
+从上一步的嵌入代码提取出Ackee的三个变量，在Notion Repo项目后台添加如下环境变量即可
 
 
 ## 完成
 
-配置后，重新部署NotionNext项目接即可
+配置后，重新部署Notion Repo项目接即可
 
 ## 原文链接
 

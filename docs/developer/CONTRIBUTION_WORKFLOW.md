@@ -43,7 +43,7 @@ yarn build
 - 期望现象：正常应该是什么。
 - 复现步骤：从哪个页面或配置开始，按什么步骤能稳定复现。
 
-如果复现步骤清楚，可以优先让 AI Agent 辅助处理，例如 Codex、Cursor、Claude Code、WorkBuddy 等支持自动读代码、改代码、提交 PR 的工具。NotionNext 已经内置开发文档、维护手册和文档站 AI 助手指令，适合先让 AI 阅读这些上下文，再执行最小修复。
+如果复现步骤清楚，可以优先让 AI Agent 辅助处理，例如 Codex、Cursor、Claude Code、WorkBuddy 等支持自动读代码、改代码、提交 PR 的工具。Notion Repo 已经内置开发文档、维护手册和文档站 AI 助手指令，适合先让 AI 阅读这些上下文，再执行最小修复。
 
 推荐 AI Agent 工作流：
 

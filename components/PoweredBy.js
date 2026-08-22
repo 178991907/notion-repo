@@ -9,8 +9,8 @@ export default function PoweredBy(props) {
   if (!showPowerBy) {
     return null
   }
-  const powerByText = siteConfig('FOOTER_POWER_BY_TEXT') || `NotionNext ${siteConfig('VERSION')}`
-  const powerByUrl = siteConfig('FOOTER_POWER_BY_URL') || 'https://github.com/notionnext-org/NotionNext'
+  const powerByText = siteConfig('FOOTER_POWER_BY_TEXT') || `Notion Repo ${siteConfig('VERSION')}`
+  const powerByUrl = siteConfig('FOOTER_POWER_BY_URL') || 'https://github.com/notionnext-org/Notion Repo'
 
   return (
     <div className={`inline text-sm font-serif ${props.className || ''}`}>

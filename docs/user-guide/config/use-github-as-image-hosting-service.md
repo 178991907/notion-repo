@@ -21,20 +21,20 @@ Favicon.ico是网站的图标文件，通常用于显示在浏览器标签页上
 
 ## favicon与图床
 
-NotionNext中如果要修改favicon.ico 图片需要用户自行上传，覆盖原先public目录下的favicon.ico。设置favicon的方法参考此教程《[浏览器站点图标配置](/user-guide/config/site-basics#41d1a74a311943f38050835b693ffeec)》
+Notion Repo中如果要修改favicon.ico 图片需要用户自行上传，覆盖原先public目录下的favicon.ico。设置favicon的方法参考此教程《[浏览器站点图标配置](/user-guide/config/site-basics#41d1a74a311943f38050835b693ffeec)》
 
 ![image.png](/legacy/e739a8e6c22f4a48.png)
 
 
 ## 用外部图片来配置的方案
 
-最新版本NotionNext中支持直接在Notion_Config中配置favicon的地址，只需添加一个如下配置
+最新版本Notion Repo中支持直接在Notion_Config中配置favicon的地址，只需添加一个如下配置
 
 ![配置favicon效果](/legacy/7ffd8f0856431375.png)
 
 这样的好处是无需修改代码的情况下，一份代码支持部署多个站点，且每个的图标都不一样。
 
-不过这种方案前提是你有一个自己的图床，如果没有的话，可以参考下文，我享一种：利用github作为图床，将favicon上传到图床，并配置在NotionNext站点的用法。
+不过这种方案前提是你有一个自己的图床，如果没有的话，可以参考下文，我享一种：利用github作为图床，将favicon上传到图床，并配置在Notion Repo站点的用法。
 
 
 ## 什么是图床

@@ -1,6 +1,6 @@
-﻿# Endspace Theme (NotionNext)
+﻿# Endspace Theme (Notion Repo)
 
-Endspace is a NotionNext theme inspired by the visual language of *Arknights: Endfield*’s official site, maintained by the community. Upstream repository: [cloud-oc/endspace](https://github.com/cloud-oc/endspace). Tracking issue: [#3990](https://github.com/notionnext-org/NotionNext/issues/3990).
+Endspace is a Notion Repo theme inspired by the visual language of *Arknights: Endfield*’s official site, maintained by the community. Upstream repository: [cloud-oc/endspace](https://github.com/cloud-oc/endspace). Tracking issue: [#3990](https://github.com/notionnext-org/Notion Repo/issues/3990).
 
 **Original author / upstream**: [@cloud-oc](https://github.com/cloud-oc) ([cloud-oc/endspace](https://github.com/cloud-oc/endspace)).
 
@@ -21,7 +21,7 @@ Endspace is a NotionNext theme inspired by the visual language of *Arknights: En
 
 ## License
 
-Upstream theme is from [cloud-oc/endspace](https://github.com/cloud-oc/endspace) and is licensed under **Apache-2.0**. The NotionNext repository remains primarily **MIT**; if you redistribute this theme’s code, comply with Apache-2.0 attribution/notice/reciprocal terms (full text: <https://www.apache.org/licenses/LICENSE-2.0>).
+Upstream theme is from [cloud-oc/endspace](https://github.com/cloud-oc/endspace) and is licensed under **Apache-2.0**. The Notion Repo repository remains primarily **MIT**; if you redistribute this theme’s code, comply with Apache-2.0 attribution/notice/reciprocal terms (full text: <https://www.apache.org/licenses/LICENSE-2.0>).
 
 ## Preview asset
 

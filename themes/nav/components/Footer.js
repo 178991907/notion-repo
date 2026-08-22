@@ -28,9 +28,9 @@ const Footer = ({ siteInfo }) => {
       <div className='text-xs font-serif py-1'>
         Powered By{' '}
         <a
-          href='https://github.com/notionnext-org/NotionNext'
+          href='https://github.com/notionnext-org/Notion Repo'
           className='underline text-gray-500 dark:text-gray-300'>
-          NotionNext {siteConfig('VERSION')}
+          Notion Repo {siteConfig('VERSION')}
         </a>
       </div>
 

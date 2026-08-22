@@ -29,7 +29,7 @@
 
 ## 配置说明
 
-配置文件：[`themes/fukasawa/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/fukasawa/config.js)  
+配置文件：[`themes/fukasawa/config.js`](https://github.com/notionnext-org/Notion Repo/blob/main/themes/fukasawa/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
 ### Fukasawa 主题调色

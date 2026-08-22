@@ -3,12 +3,12 @@
 > 发布日期：2023-3-23
 > 最后编辑：2024-7-2
 > 原栏目：🛠 站点配置
-> 标签：NotionNext
-> 摘要：NotionNext 3.13.0上线，支持更灵活的菜单配置
+> 标签：Notion Repo
+> 摘要：Notion Repo 3.13.0上线，支持更灵活的菜单配置
 
 ## 菜单功能
 
-在NotionNext 3.12 之前的旧版本中，网站的[菜单栏由Page控制](https://docs.tangly1024.com/zh/features/singlePage)。
+在Notion Repo 3.12 之前的旧版本中，网站的[菜单栏由Page控制](https://docs.tangly1024.com/zh/features/singlePage)。
 
 > 类型为`Page`的文章，不会展示在博文列表，而是在导航栏中出现菜单入口。
 
@@ -24,11 +24,11 @@
 
 ## 开始
 
-首先，请**更新您的NotionNext至3.13.0以上版本**；访问升级指南或在交流群寻求帮助。
+首先，请**更新您的Notion Repo至3.13.0以上版本**；访问升级指南或在交流群寻求帮助。
 
-[NotionNext升级指南 | TANGLY’s BLOG](/user-guide/update)
+[Notion Repo升级指南 | TANGLY’s BLOG](/user-guide/update)
 
-当NotionNext发布新版后，如何更新你的项目？
+当Notion Repo发布新版后，如何更新你的项目？
 
 其次，在您的`blog.config.js`中，开启完全自定义菜单:
 
@@ -71,7 +71,7 @@
 :::
 
 ::: tip 4.10.9 更新
-如果菜单 `slug` 指向一个 `status=Invisible` 的隐藏页面，NotionNext 会优先使用该隐藏页面最终生成的 `href`。这适合把“隐藏页面”作为菜单入口背后的真实内容页，同时仍避免它出现在首页、归档、RSS、Sitemap 和搜索索引里。
+如果菜单 `slug` 指向一个 `status=Invisible` 的隐藏页面，Notion Repo 会优先使用该隐藏页面最终生成的 `href`。这适合把“隐藏页面”作为菜单入口背后的真实内容页，同时仍避免它出现在首页、归档、RSS、Sitemap 和搜索索引里。
 
 未发布的 `Draft` 页面不会因为同名菜单而被公开；如果只是想跳转到外部链接或手写路径，继续在 `slug` 中填写完整路径即可。
 :::
@@ -102,7 +102,7 @@ Menu,SubMenu 这两个类型本质只是菜单，唯一功能是跳转到slug指
 
 ::: tip 提示
 **特别提醒：**
-在V3.13版本中 ，不要在您的数据库中添加多个视图，这将会导致您的菜单乱序。如需添加视图以便分类整理文章，建议另外新建一个视图单页，参考下文： [https://github.com/notionnext-org/NotionNext/issues/1056](https://github.com/notionnext-org/NotionNext/issues/1056)
+在V3.13版本中 ，不要在您的数据库中添加多个视图，这将会导致您的菜单乱序。如需添加视图以便分类整理文章，建议另外新建一个视图单页，参考下文： [https://github.com/notionnext-org/Notion Repo/issues/1056](https://github.com/notionnext-org/Notion Repo/issues/1056)
 :::
 
 在V4.0之后的新版本可以忽略此问题。
@@ -122,7 +122,7 @@ Menu菜单总共可以有五种用法，下面是每一种用法的示例，表�
 
 ## 关于菜单缓存
 
-NotionNext为每一个页面都单独做了缓存，如果改动了菜单，即使刷新首页，让新菜单生效；但其它每个文章页面的菜单仍然是旧的版本，只有但用户访问了一次其他页面，会出发刷新缓存，再次访问就是新的菜单。
+Notion Repo为每一个页面都单独做了缓存，如果改动了菜单，即使刷新首页，让新菜单生效；但其它每个文章页面的菜单仍然是旧的版本，只有但用户访问了一次其他页面，会出发刷新缓存，再次访问就是新的菜单。
 
 如果嫌每个页面都要刷新很麻烦，则可以在vercel后台直接redeploy，彻底清除所有缓存。
 

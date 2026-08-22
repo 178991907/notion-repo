@@ -6,7 +6,7 @@ NotionComments 使用一个 Notion 数据库保存评论，适合不想额外部
 
 ## 适合谁使用
 
-- 你已经在用 NotionNext，希望评论数据也保存在 Notion。
+- 你已经在用 Notion Repo，希望评论数据也保存在 Notion。
 - 你不想维护 MongoDB、LeanCloud、独立评论服务或额外二级域名。
 - 你能接受在 Notion 数据库中手动查看、删除或整理评论。
 
@@ -83,7 +83,7 @@ Notion API 支持读取和创建页面评论，但它更适合工作区内部协
 
 ## 创建 Notion Integration
 
-Integration 可以理解成“给 NotionNext 使用的机器人账号”。NotionNext 不能直接用你的 Notion 登录态访问数据库，必须通过这个 Integration Token 才能读写评论数据库。
+Integration 可以理解成“给 Notion Repo 使用的机器人账号”。Notion Repo 不能直接用你的 Notion 登录态访问数据库，必须通过这个 Integration Token 才能读写评论数据库。
 
 > 提醒：Integration 不只是评论插件会用到的配置。它是把网站上的用户交互安全写回 Notion 数据的关键能力。评论、表单、反馈、订单、会员资料、用户权限等功能，未来都可以沿着这条链路扩展。先把评论跑通，相当于给站点打通了“用户行为 -> Notion 数据库”的第一条通道。
 
@@ -204,13 +204,13 @@ https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=yyyy
 
 ## 和其他评论插件一起使用
 
-NotionNext 支持同时开启多个评论插件。开启 NotionComments 后，如果你同时配置了 Twikoo、Giscus、Waline 等插件，评论区会用 Tab 切换展示。
+Notion Repo 支持同时开启多个评论插件。开启 NotionComments 后，如果你同时配置了 Twikoo、Giscus、Waline 等插件，评论区会用 Tab 切换展示。
 
 如果只想显示 NotionComments，请移除其他评论插件的环境变量。
 
 ## 关闭某篇文章评论
 
-NotionNext 仍然沿用通用规则：在文章数据库中添加 `comment` 属性，值设置为 `Hide`，该文章就不会显示评论区。
+Notion Repo 仍然沿用通用规则：在文章数据库中添加 `comment` 属性，值设置为 `Hide`，该文章就不会显示评论区。
 
 ## 静态导出限制
 
@@ -219,7 +219,7 @@ NotionComments 需要 `/api/notion-comments` 服务端接口来读取和写入 N
 也就是说，以下部署方式支持：
 
 - Vercel / Netlify / Zeabur 等支持 Next.js API Routes 的平台。
-- 自己的 VPS 或服务器上用 `yarn start` / Node.js 运行 NotionNext。
+- 自己的 VPS 或服务器上用 `yarn start` / Node.js 运行 Notion Repo。
 - Docker、PM2、宝塔等本质上仍然运行 Node.js 服务的部署方式。
 
 以下方式不支持：

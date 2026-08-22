@@ -3,8 +3,8 @@
 > 发布日期：2022-12-11
 > 最后编辑：2024-1-31
 > 原栏目：📩 评论插件
-> 标签：NotionNext、插件、Gitalk
-> 摘要：NotionNext添加Giscus/Gitalk/Utterance的步骤教程
+> 标签：Notion Repo、插件、Gitalk
+> 摘要：Notion Repo添加Giscus/Gitalk/Utterance的步骤教程
 
 ## Gitalk
 
@@ -43,7 +43,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 </details>
 
 
-## 配置 NotionNext
+## 配置 Notion Repo
 
 只需两步，配置环境变量，重新部署项目
 

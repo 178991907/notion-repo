@@ -1,4 +1,4 @@
-# NotionNext Pro 项目部署与环境变量使用指南
+# Notion Repo 项目部署与环境变量使用指南
 
 本文档提供详细的从零到一上线部署流程（以 Vercel 为例）以及全量环境变量的配置说明。
 
@@ -17,7 +17,7 @@
 ## 1. 前期准备 (Notion 数据库配置)
 
 1. **复制 Notion 模板**：
-   - 将 NotionNext 官方模板复制（Duplicate）到你的 Notion 个人工作区。
+   - 将 Notion Repo 官方模板复制（Duplicate）到你的 Notion 个人工作区。
 2. **公开发布页面 (Publish to web)**：
    - 打开复制后的 Notion 根页面；
    - 点击右上角 **Share (分享)** -> 选择 **Publish (发布)** -> 点击 **Publish to web (发布到网络)**；

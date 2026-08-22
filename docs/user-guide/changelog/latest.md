@@ -20,7 +20,7 @@
 
 - 新增可选配置，推荐在 Notion Config 中添加 `INNER_PAGE_URL_PARENT_PATH=true`。
 - 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`。开启后，未收录到数据库的 Notion 内嵌子页面 URL 会跟随当前文章路径，例如 `/article/fpga-studying-notes/{pageId}`。
-- 已收录到 NotionNext 数据库、并拥有明确 `slug / href` 的页面仍优先跳转自己的正式地址，避免影响 sitemap、RSS、站内搜索和旧链接兼容。
+- 已收录到 Notion Repo 数据库、并拥有明确 `slug / href` 的页面仍优先跳转自己的正式地址，避免影响 sitemap、RSS、站内搜索和旧链接兼容。
 - 该能力只优化访问路径和层级表达；未收录子页面不会因此自动进入 sitemap、RSS 或搜索索引。需要 SEO 收录的页面仍建议加入主数据库并配置明确 `slug`。
 
 使用方法见 [URL 自定义：内嵌子页面跟随父路径](../config/url-customize.md#内嵌子页面跟随父路径)。
@@ -60,8 +60,8 @@
 
 ### GitHub Release
 
-- Release：[v4.10.10](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.10)
-- 完整变更：[v4.10.9...v4.10.10](https://github.com/notionnext-org/NotionNext/compare/v4.10.9...v4.10.10)
+- Release：[v4.10.10](https://github.com/notionnext-org/Notion Repo/releases/tag/v4.10.10)
+- 完整变更：[v4.10.9...v4.10.10](https://github.com/notionnext-org/Notion Repo/compare/v4.10.9...v4.10.10)
 
 ## 4.10.9 发布要点
 
@@ -116,8 +116,8 @@
 
 ### GitHub Release
 
-- Release：[v4.10.9](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.9)
-- 完整变更：[v4.10.8...v4.10.9](https://github.com/notionnext-org/NotionNext/compare/v4.10.8...v4.10.9)
+- Release：[v4.10.9](https://github.com/notionnext-org/Notion Repo/releases/tag/v4.10.9)
+- 完整变更：[v4.10.8...v4.10.9](https://github.com/notionnext-org/Notion Repo/compare/v4.10.8...v4.10.9)
 
 ## 4.10.8 发布要点
 
@@ -128,7 +128,7 @@
 - 新增 `cloudflare/notion-image-proxy` 最小 Worker 工程，默认只放行 `/image/` 和 `/images/`。
 - Worker 支持 Notion 签名图片跳转链路，并使用 `caches.default` 显式缓存响应，重复访问同一图片可观察到 `X-Notion-Image-Proxy-Cache: HIT`。
 - 示例配置使用 Cloudflare Custom Domain，生产示例域名为 `cdn.tangly1024.com`。
-- 保持 NotionNext 侧接入方式不变：只需配置 `NEXT_PUBLIC_NOTION_HOST=https://你的CDN域名`。
+- 保持 Notion Repo 侧接入方式不变：只需配置 `NEXT_PUBLIC_NOTION_HOST=https://你的CDN域名`。
 
 ### 文档
 
@@ -180,14 +180,14 @@
 
 相关修复已合并到主线：
 
-- [`0ca93d86`](https://github.com/notionnext-org/NotionNext/commit/0ca93d86946a97f9f1bc292e0468cda278e0a59b)
+- [`0ca93d86`](https://github.com/notionnext-org/Notion Repo/commit/0ca93d86946a97f9f1bc292e0468cda278e0a59b)
 
 ### 站长如何处理
 
 如果站点已经出现失败部署：
 
 1. 在 Vercel 的 `Deployments` 中找到最近一条绿色 `Ready` 的 `Production` 部署，使用 `Promote to Production` 或 `Redeploy` 恢复线上版本。
-2. 将 fork 同步到最新的 NotionNext `main`，使新的工作流和 `vercel.json` 进入自己的仓库。
+2. 将 fork 同步到最新的 Notion Repo `main`，使新的工作流和 `vercel.json` 进入自己的仓库。
 3. 后续无需重新开启旧的定时任务；需要更新时使用 GitHub 的 `Sync fork` 或手动合并上游代码。
 
 上游仓库无法直接修改每个站长账号下的 Vercel 项目，也无法替旧 fork 远程执行同步。因此，历史旧 fork 至少需要完成一次同步，才能获得本次保护规则。
@@ -208,10 +208,10 @@
 
 修复内容：
 
-- 在 `notion-client` 的全局 `ofetchOptions` 中补充 `NotionNext` 的 `User-Agent`。
+- 在 `notion-client` 的全局 `ofetchOptions` 中补充 `Notion Repo` 的 `User-Agent`。
 - 保留 Notion 请求失败时的空数据兜底，避免 403 进一步导致页面静态序列化失败。
 
-验证结果：同一接口请求不带 UA 返回 `403`，带 `NotionNext` UA 返回 `400`（空请求参数错误），证明 Cloudflare 拦截已解除。
+验证结果：同一接口请求不带 UA 返回 `403`，带 `Notion Repo` UA 返回 `400`（空请求参数错误），证明 Cloudflare 拦截已解除。
 
 站长处理方式：将 fork 同步到最新 `main` 后重新部署即可；无需修改 Node 版本，也无需反复修改页面权限。若仍出现 403，请先确认部署使用的是包含该修复的提交，并检查是否配置了自定义 `API_BASE_URL` 代理。
 
@@ -440,7 +440,7 @@
 
 - 站长升级：见 [版本升级指引](../update.md)。
 - 构建性能与 Notion API 限流：见 [构建性能与 Notion API 限流](../deploy/build-tuning.md)。
-- GitHub Release：[NotionNext Releases](https://github.com/notionnext-org/NotionNext/releases)。
+- GitHub Release：[Notion Repo Releases](https://github.com/notionnext-org/Notion Repo/releases)。
 
 ## 历史版本全文
 

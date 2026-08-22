@@ -167,7 +167,7 @@ const SEO = props => {
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
-      <meta name='generator' content='NotionNext' />
+      <meta name='generator' content='Notion Repo' />
 
       {/* 语言和地区 */}
       <meta httpEquiv='content-language' content={language} />

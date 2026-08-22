@@ -16,7 +16,7 @@
 
 | 需求 | 推荐做法 |
 | --- | --- |
-| 只想轻量标记原创版本 | 单篇文章填写 `proof=yes`，让 NotionNext 自动生成本地哈希 |
+| 只想轻量标记原创版本 | 单篇文章填写 `proof=yes`，让 Notion Repo 自动生成本地哈希 |
 | 已经有外部存证平台 | 只填写 `proofUrl`，页面会自动展示外部凭证 |
 | 外部平台要求提交哈希 | 先用本地哈希或平台哈希填写 `proofHash` |
 | 全站都是原创长文 | 配置 `NEXT_PUBLIC_ORIGINALITY_PROOF_ENABLE=true` |
@@ -132,7 +132,7 @@ $env:ORIGINALITY_PROOF_AUTO_MANIFEST='true'; yarn build
 
 ### 没有外部凭证时按单篇开启
 
-如果没有外部凭证，只想让某篇文章显示 NotionNext 自动生成的本地内容哈希，可以保持全站关闭，并在 Notion 文章数据库中新增 `proof` 字段。需要显示原创存证的文章填写：
+如果没有外部凭证，只想让某篇文章显示 Notion Repo 自动生成的本地内容哈希，可以保持全站关闭，并在 Notion 文章数据库中新增 `proof` 字段。需要显示原创存证的文章填写：
 
 ```txt
 yes
@@ -142,7 +142,7 @@ yes
 
 ## 显示内容
 
-NotionNext 会读取文章标题、页面 ID、作者、文章 URL 和正文纯文本，按固定结构生成 SHA-256 哈希。
+Notion Repo 会读取文章标题、页面 ID、作者、文章 URL 和正文纯文本，按固定结构生成 SHA-256 哈希。
 
 文章页默认显示一行紧凑徽章，例如：
 

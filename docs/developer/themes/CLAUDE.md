@@ -712,7 +712,7 @@ function getOrCreateTerminalSession() {
 - 路由：`/`（首页）
 - 变更：首页 title 从 `site title | site description` 改为仅显示 `site title`。
 - 结果：
-  - 未配置副标题时，不会再出现默认文案“这是一个由NotionNext生成的站点”。
+  - 未配置副标题时，不会再出现默认文案“这是一个由Notion Repo生成的站点”。
   - 分隔符 `|` 也不会显示。
 
 ### 19.3 ⚠️ 合并 / 升级注意（汇总）

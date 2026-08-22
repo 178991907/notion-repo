@@ -1,13 +1,13 @@
-﻿# Theme Migration Guide (NotionNext)
+﻿# Theme Migration Guide (Notion Repo)
 
 [中文](./THEME_MIGRATION_GUIDE.zh-CN.md)
 
-This guide is for migrating an external theme (for example Astro/Vite themes) into NotionNext's Next.js + Notion data architecture.
+This guide is for migrating an external theme (for example Astro/Vite themes) into Notion Repo's Next.js + Notion data architecture.
 
 ## 1) Migration Goal
 
 - Keep the original theme's visual language (layout, spacing, cards, motion).
-- Follow NotionNext's data flow and feature conventions.
+- Follow Notion Repo's data flow and feature conventions.
 - Expose behavior through `themes/<theme>/config.js` switches instead of hardcoding.
 
 ## 2) Required Structure
@@ -25,7 +25,7 @@ Rules:
 - Keep cross-theme shared components only from global `@/components/*` when needed (for example `NotionPage`, `Comment`, `ShareBar`, `FlipCard`, ads widgets).
 - Keep theme-specific rendering and style under the theme folder.
 
-## 3) Data Contract in NotionNext
+## 3) Data Contract in Notion Repo
 
 Common props available in theme layouts/components:
 
@@ -46,7 +46,7 @@ Typical post fields used by themes:
 - `category`, `tagItems`
 - `toc`
 
-## 4) Must-Have NotionNext Feature Compatibility
+## 4) Must-Have Notion Repo Feature Compatibility
 
 When migrating a new theme, verify all of these:
 
@@ -141,7 +141,7 @@ Minimum palette:
 1. Build minimum runnable skeleton (`LayoutBase`, `LayoutIndex`, `LayoutSlug`, etc.).
 2. Split large `index.js` into focused components.
 3. Port original style details (cards, banner, metadata density, transitions).
-4. Integrate NotionNext feature modules and config switches.
+4. Integrate Notion Repo feature modules and config switches.
 5. Add docs for all theme config keys and default values.
 6. Run lint and verify:
    - Home/list/search/archive/category/tag/article/404
@@ -188,7 +188,7 @@ Helpers live in `lib/plugins/mailEncrypt.js`: `handleEmailClick`, `decryptEmail`
 
 You can keep a custom theme under **`themes/<theme-id>/`** locally or in your fork without opening a PR.
 
-If you want the theme **merged into the official NotionNext repository**, you must also ship assets and manifest entries used by the **theme switcher** when `THEME_SWITCH` / `NEXT_PUBLIC_THEME_SWITCH` is enabled: cover previews plus human-readable name and summary.
+If you want the theme **merged into the official Notion Repo repository**, you must also ship assets and manifest entries used by the **theme switcher** when `THEME_SWITCH` / `NEXT_PUBLIC_THEME_SWITCH` is enabled: cover previews plus human-readable name and summary.
 
 ### 8.1 Preview assets directory and naming (fixed location)
 
@@ -225,7 +225,7 @@ The theme switcher should also become the entry point for color palettes. A them
 
 This subsection is for **theme authors**: how we collaborate in the open repo today, and **possible** future options for paid themes. Final policies and timelines will be announced officially.
 
-- **Acknowledging the work**: shipping and maintaining a theme (layout, UX, breakpoints, and ongoing compatibility) is real effort. Contributing redistributable themes to the **public NotionNext repo** remains highly valued.
+- **Acknowledging the work**: shipping and maintaining a theme (layout, UX, breakpoints, and ongoing compatibility) is real effort. Contributing redistributable themes to the **public Notion Repo repo** remains highly valued.
 - **Current path**: we still encourage **free-to-use** themes via **PRs to the main GitHub repository**, following §8.1–§8.3 for previews and manifest. Local or private-fork use is unrestricted.
 - **Future direction (not live yet)**: as the ecosystem matures, we **plan to allow paid theme submissions** so authors can be compensated while users get maintained, high-quality work.
 - **Planned shape (illustrative only)**: a **separate private Git repository** may be introduced for authors to **publish and version themes**; themes could be **priced**, and after **purchase**, buyers receive what they need to **privately deploy** the theme on their own sites (exact license, updates, and support will be defined at launch).

@@ -55,7 +55,7 @@ The JS SDK embedded to your website is only around 5kb (gzipped). It has built-i
 </details>
 
 
-### 配置NotionNext
+### 配置Notion Repo
 
 <details>
 <summary>在Vercel后台添加一个环境变量` NEXT_PUBLIC_COMMENT_CUSDIS_APP_ID`，值为上面获取到的`data-app-id`。</summary>

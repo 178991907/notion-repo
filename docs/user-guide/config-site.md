@@ -3,8 +3,8 @@
 > 发布日期：2024-5-13
 > 最后编辑：2026-5-2
 > 原栏目：🛠 站点配置
-> 标签：NotionNext
-> 摘要：如何配置NotionNext站点
+> 标签：Notion Repo
+> 摘要：如何配置Notion Repo站点
 
 按照前面的教程部署成功后，后续您可以随时更新您的站点配置，诸如切换主题、开启音乐组件、开启评论插件、开启动画特效、修改网站字体等等。
 
@@ -76,8 +76,8 @@ NEXT_PUBLIC_WIDGET_PET_SWITCH_THEME=false
 
 1. 您可以在`blog.config.js`以及各个主题的`config.js`中找到支持的配置，在4.8.0之后的版本，为了减少`blog.config.js`的体积，不同模块的配置被拆分到了 `/conf/xx.js` 中
 ![image.png](/legacy/13a2b97c3617197f.png)
-各类配置的参考路径： [https://github.com/notionnext-org/NotionNext/tree/main/conf](https://github.com/notionnext-org/NotionNext/tree/main/conf)
-主题支持的配置内容参考路径： [https://github.com/notionnext-org/NotionNext/blob/main/themes/example/config.js](https://github.com/notionnext-org/NotionNext/blob/main/themes/example/config.js)
+各类配置的参考路径： [https://github.com/notionnext-org/Notion Repo/tree/main/conf](https://github.com/notionnext-org/Notion Repo/tree/main/conf)
+主题支持的配置内容参考路径： [https://github.com/notionnext-org/Notion Repo/blob/main/themes/example/config.js](https://github.com/notionnext-org/Notion Repo/blob/main/themes/example/config.js)
 
 1. `NOTION_PAGE_ID` 必须在你的环境变量或代码中配置，不支持Notion_Config文档配置
 
@@ -88,7 +88,7 @@ NEXT_PUBLIC_WIDGET_PET_SWITCH_THEME=false
 1. 强烈建议添加的配置
 `**AUTHOR**`，作者名
 `**LINK**`，你的站点网址
-`**CONTACT_EMAIL **`, 你的联系邮箱，更多联系方式，在此查看配置方式： [https://github.com/notionnext-org/NotionNext/blob/main/conf/contact.config.js](https://github.com/notionnext-org/NotionNext/blob/main/conf/contact.config.js)
+`**CONTACT_EMAIL **`, 你的联系邮箱，更多联系方式，在此查看配置方式： [https://github.com/notionnext-org/Notion Repo/blob/main/conf/contact.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/conf/contact.config.js)
 （务必配置你自己的联系方式！）
 
 
@@ -144,12 +144,12 @@ A new tool that blends your everyday work apps into one. It's the all-in-one wor
 ## 2. 修改代码
 
 ::: tip 提示
-重要：站点的大部分配置都可以在您代码仓库的 **[blog.config.js](https://github.com/notionnext-org/NotionNext/blob/main/blog.config.js)**** **文件中找到；
+重要：站点的大部分配置都可以在您代码仓库的 **[blog.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/blog.config.js)**** **文件中找到；
 您只需修改对应的配置，Vercel将自动部署您Github仓库中的最新代码。
 :::
 
 ::: tip 提示
-若您更新到了NotionNext4.1之后的版本，推荐您直接在Notion-Config文件中添加配置，它将覆盖blog.config.js中的配置。
+若您更新到了Notion Repo4.1之后的版本，推荐您直接在Notion-Config文件中添加配置，它将覆盖blog.config.js中的配置。
 :::
 
 配置方法：在您的github中找到此文件，点击右上角的编辑按钮，即可修改参数。
@@ -179,7 +179,7 @@ A new tool that blends your everyday work apps into one. It's the all-in-one wor
 
 - 修改前
 ```JavaScript
-AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'NotionNext', // 修改前 作者 NotionNext
+AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Notion Repo', // 修改前 作者 Notion Repo
 ```
 
 - 修改后
@@ -214,7 +214,7 @@ LINK: process.env.NEXT_PUBLIC_LINK || 'https://qq.com', // 修改后
 
 #### 内置主题名称一览（与仓库同步）
 
-`NEXT_PUBLIC_THEME` / `THEME` 的取值需与仓库 `[themes/](https://github.com/notionnext-org/NotionNext/tree/main/themes)` 下的**文件夹名**一致（`next.config.js` 会在构建时扫描该目录）。以当前 **main** 分支为例，内置主题包括：**claude**、**commerce**、**example**、**fukasawa**、**fuwari**、**game**、**gitbook**、**heo**、**hexo**、**landing**、**magzine**、**matery**、**medium**、**movie**、**nav**、**next**、**nobelium**、**opc**、**photo**、**plog**、**proxio**、**simple**、**starter**、**typography**。
+`NEXT_PUBLIC_THEME` / `THEME` 的取值需与仓库 `[themes/](https://github.com/notionnext-org/Notion Repo/tree/main/themes)` 下的**文件夹名**一致（`next.config.js` 会在构建时扫描该目录）。以当前 **main** 分支为例，内置主题包括：**claude**、**commerce**、**example**、**fukasawa**、**fuwari**、**game**、**gitbook**、**heo**、**hexo**、**landing**、**magzine**、**matery**、**medium**、**movie**、**nav**、**next**、**nobelium**、**opc**、**photo**、**plog**、**proxio**、**simple**、**starter**、**typography**。
 
 - **默认**一般为 **simple**；与 `blog.config.js` 中 `THEME` 的写法保持一致即可。
 
@@ -251,7 +251,7 @@ LINK: process.env.NEXT_PUBLIC_LINK || '/user-guide/intro', // 站点域名
 #### 修改示例
 
 ### 如何知道key？
-在[blog.config.js](https://github.com/notionnext-org/NotionNext/blob/main/blog.config.js)文件中可以看到大量的配置项，配置项中的类似 `process.env.``**NEXT_PUBLIC_THEME**`** **； 这样的结构中、加粗部分就是key的名字。例如以下配置表明当前仓库默认值主题为 **simple**（也可通过环境变量改为 hexo 等）。
+在[blog.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/blog.config.js)文件中可以看到大量的配置项，配置项中的类似 `process.env.``**NEXT_PUBLIC_THEME**`** **； 这样的结构中、加粗部分就是key的名字。例如以下配置表明当前仓库默认值主题为 **simple**（也可通过环境变量改为 hexo 等）。
 ```JavaScript
 THEME: process.env.NEXT_PUBLIC_THEME || 'simple', // 默认主题
 ```

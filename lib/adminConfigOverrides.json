@@ -158,7 +158,7 @@
   "DOCS_CHAT_WELCOME": "你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。",
   "AI_CHAT_WELCOME": "你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。",
   "AI_CHAT_TITLE": "AI 助手",
-  "COZE_TITLE": "NotionNext助手",
+  "COZE_TITLE": "Notion Repo助手",
   "COZE_BOT_ID": "",
   "COZE_SRC_URL": "https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/0.1.0-beta.6/libs/cn/index.js",
   "AI_CHAT_API": "",

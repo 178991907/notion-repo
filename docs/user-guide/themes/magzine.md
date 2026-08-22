@@ -119,7 +119,7 @@ const CONFIG = {
   MAGZINE_HOME_BUTTON_TEXT: '了解更多',
   MAGZINE_HOME_TITLE: '立即开创您的在线业务。完全免费。',
   MAGZINE_HOME_DESCRIPTION:
-    '借助NotionNext，获得助您开创、经营和扩展业务所需的全部工具和帮助。',
+    '借助Notion Repo，获得助您开创、经营和扩展业务所需的全部工具和帮助。',
   MAGZINE_HOME_TIPS: 'AI时代来临，这是属于超级个体的狂欢盛宴！',
 
   // 首页按照分类展示的文章列表组件，这里可以设置要屏蔽的分类
@@ -162,7 +162,7 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/Notion Repo' },
         { title: '关于作者', href: '/about' }
       ]
     },
@@ -180,7 +180,7 @@ const CONFIG = {
       name: '解决方案',
       menus: [
         { title: '建站工具', href: 'https://www.tangly1024.com/' },
-        { title: 'NotionNext', href: '/user-guide/intro' }
+        { title: 'Notion Repo', href: '/user-guide/intro' }
       ]
     }
   ]
@@ -213,7 +213,7 @@ export default CONFIG
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/Notion Repo' },
         { title: '关于作者', href: '/about' }
       ]
     },
@@ -231,7 +231,7 @@ export default CONFIG
       name: '解决方案',
       menus: [
         { title: '建站工具', href: 'https://www.tangly1024.com/' },
-        { title: 'NotionNext', href: '/user-guide/intro' }
+        { title: 'Notion Repo', href: '/user-guide/intro' }
       ]
     }
   ]
@@ -260,7 +260,7 @@ export default CONFIG
                 "href": "https://blog.tangly1024.com"
             },
             {
-                "title": "NotionNext",
+                "title": "Notion Repo",
                 "href": "https://tangly1024.com/"
             }
         ]
@@ -270,7 +270,7 @@ export default CONFIG
         "menus": [
             {
                 "title": "Github",
-                "href": "https://github.com/notionnext-org/NotionNext"
+                "href": "https://github.com/notionnext-org/Notion Repo"
             },
             {
                 "title": "开发帮助",
@@ -278,11 +278,11 @@ export default CONFIG
             },
             {
                 "title": "功能反馈",
-                "href": "https://github.com/notionnext-org/NotionNext/issues/new/choose"
+                "href": "https://github.com/notionnext-org/Notion Repo/issues/new/choose"
             },
             {
                 "title": "技术讨论",
-                "href": "https://github.com/notionnext-org/NotionNext/discussions"
+                "href": "https://github.com/notionnext-org/Notion Repo/discussions"
             },
             {
                 "title": "关于作者",
@@ -323,7 +323,7 @@ export default CONFIG
                 "href": "https://www.tangly1024.com/"
             },
             {
-                "title": "NotionNext",
+                "title": "Notion Repo",
                 "href": "/user-guide/intro"
             }
         ]
@@ -344,7 +344,7 @@ export default CONFIG
 
 ![image.png](/legacy/66649f5a34b48b2f.png)
 
-用这种方式，基本上NotionNext中的所有配置都支持用NOTION_CONFIG来进行配置。
+用这种方式，基本上Notion Repo中的所有配置都支持用NOTION_CONFIG来进行配置。
 
 ## 原文链接
 

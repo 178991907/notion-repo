@@ -23,7 +23,7 @@ Chatbase.co 是**一款为网站构建自定义ChatGPT 界面的工具**，用�
 
 ## 配置方法
 
-用环境变量或修改代码的方式，在[blog.config.js](https://github.com/notionnext-org/NotionNext/blob/48cb3ee6779c117bcb6b61e5cb89fbd1c541a115/blog.config.js#L156)中添加您的chatbase-id即可。
+用环境变量或修改代码的方式，在[blog.config.js](https://github.com/notionnext-org/Notion Repo/blob/48cb3ee6779c117bcb6b61e5cb89fbd1c541a115/blog.config.js#L156)中添加您的chatbase-id即可。
 
 ```YAML
 //   ********挂件组件相关********
@@ -58,7 +58,7 @@ Build an AI chatbot from your knowledge base and add it to your website.
 
 ![Untitled](/legacy/0fe659b18f69ff1d.png)
 
-这里使用站点地图的方式提交内容，输入网址后面加上`/sitemap.xml`，如下图，这是NotionNext每个站点默认的地图位置。
+这里使用站点地图的方式提交内容，输入网址后面加上`/sitemap.xml`，如下图，这是Notion Repo每个站点默认的地图位置。
 
 ![Untitled](/legacy/4b41756a5efb9633.png)
 
@@ -96,7 +96,7 @@ Build an AI chatbot from your knowledge base and add it to your website.
 ![Untitled](/legacy/be78700f51a776cd.png)
 
 
-## 配置在NotionNext中
+## 配置在Notion Repo中
 
 两种方案配置,任选其一：
 

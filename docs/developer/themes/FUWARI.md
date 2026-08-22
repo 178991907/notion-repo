@@ -1,6 +1,6 @@
-# Fuwari Theme (NotionNext)
+# Fuwari Theme (Notion Repo)
 
-This is the NotionNext port of the Fuwari visual style.
+This is the Notion Repo port of the Fuwari visual style.
 
 ## Upstream Reference
 
@@ -10,7 +10,7 @@ This is the NotionNext port of the Fuwari visual style.
 ## Design Goal
 
 - Keep Fuwari's card-based visual language and light interaction feeling.
-- Stay fully compatible with NotionNext data flow and feature modules.
+- Stay fully compatible with Notion Repo data flow and feature modules.
 
 ## Key Features in This Port
 
@@ -21,7 +21,7 @@ This is the NotionNext port of the Fuwari visual style.
 - Right-side readmore action rail
 - Profile card + social links row (`CONTACT_*` keys)
 - Announcement block, TOC, analytics, ads, plugin slots
-- Global dark mode integration via NotionNext context
+- Global dark mode integration via Notion Repo context
 
 ## Online Theme Color Picker
 

@@ -3,7 +3,7 @@
 > 发布日期：2024-2-27
 > 最后编辑：2024-11-18
 > 原栏目：🚀 安装部署
-> 标签：部署方案、NotionNext
+> 标签：部署方案、Notion Repo
 > 摘要：Vercel可以同时部署多个网站
 
 如果部署一个网站没能满足您的需求，您可以在vercel中重复部署多个网站。除了vercel，其他的Netlify、CloudFLare等等也可以用类似的方法部署多个。
@@ -54,14 +54,14 @@ Github仓库是可以建立无数个分支的，每个分支的代码完全独�
 ![Untitled](/legacy/0feb925f1c5a294a.png)
 
 
-## 如何部署多个NotionNext站点
+## 如何部署多个Notion Repo站点
 
 了解了以上特性我们就可以尝试部署多个站点。
 
 
 ### Github的分支管理
 
-您可以在Github中的NotionNext项目中，创建多个分支，几个分支就是几个网站。
+您可以在Github中的Notion Repo项目中，创建多个分支，几个分支就是几个网站。
 
 点击左上角的分支名，并打开View all branches ，这里可以管理你的所有分支
 ![Untitled](/legacy/83ded51c244132b7.png)
@@ -82,11 +82,11 @@ vercel面板首页点击添加新项目
 
 ![Untitled](/legacy/bb90bbd8799c20eb.png)
 
-选择导入NotionNext
+选择导入Notion Repo
 
 ![Untitled](/legacy/41dd9c89e532fae2.png)
 
-这里需要注意，NotionNext这个仓库最多被重复导入3次，如果要导入新的站点，请将已存在的项目断开Github链接，取消链接的方法已在上文指出。
+这里需要注意，Notion Repo这个仓库最多被重复导入3次，如果要导入新的站点，请将已存在的项目断开Github链接，取消链接的方法已在上文指出。
 
 导入项目后注意给这个项目配置Notion_Page_ID
 

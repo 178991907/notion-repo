@@ -3,7 +3,7 @@
 > 发布日期：2022-5-27
 > 最后编辑：2024-1-31
 > 原栏目：📩 评论插件
-> 标签：NotionNext、插件、Valine
+> 标签：Notion Repo、插件、Valine
 > 摘要：Valine插件需要LeanCloud后端提供数据库存储功能，请按照以下步骤配置。
 
 ## 关于
@@ -49,11 +49,11 @@ Zeabur (https://zeabur.com) 是一个帮助开发者们可以一键部署自己�
 </details>
 
 
-## 2.NotionNext中配置VALINE
+## 2.Notion Repo中配置VALINE
 
-获取上述的`appId`、`appKey`等参数后，就可以直接在NotionNext（版本≥3.3.9）中激活valine了，**如果不想使用Valine可以直接跳到文章下一节《Waline部署》部分。**
+获取上述的`appId`、`appKey`等参数后，就可以直接在Notion Repo（版本≥3.3.9）中激活valine了，**如果不想使用Valine可以直接跳到文章下一节《Waline部署》部分。**
 
-在NotionNext的Vercel环境变量中配置以下内容：
+在Notion Repo的Vercel环境变量中配置以下内容：
 
 <details>
 <summary>环境变量配置示例：</summary>
@@ -98,11 +98,11 @@ valine没有自带后台，可以借助 [Valine-Admin](https://github.com/Desert
 ## Q&A
 
 1. 博客底部没有显示评论
-  - 可能是NotionNext版本不是最新，请更新项目；
+  - 可能是Notion Repo版本不是最新，请更新项目；
   - 可能是Vercel后台没有配置Valine/Waline的环境变量，配置后需要redeploy
 
 1. 评论出现 ‘Unexpected end of JSON input’
-配置的Waline地址有误，检查一下，参考此[issue](https://github.com/notionnext-org/NotionNext/issues/308)的回答
+配置的Waline地址有误，检查一下，参考此[issue](https://github.com/notionnext-org/Notion Repo/issues/308)的回答
 
 1. 评论出现错误提示 ‘fail to fetch’ 或者 ‘Network Error’
 可能是Vercel部署的Waline出现了跨域网络限制，按F12打开控制台，查看是否有打印“缺少CORS头“，相关的错误提示。
@@ -119,9 +119,9 @@ valine没有自带后台，可以借助 [Valine-Admin](https://github.com/Desert
 
 其他评论部署方式参考
 
-[NotionNext如何添加评论插件 | TANGLY's BLOG](/user-guide/comments/overview)
+[Notion Repo如何添加评论插件 | TANGLY's BLOG](/user-guide/comments/overview)
 
-NotionNext添加Cusdis/Giscus/Gitalk/Utterance的步骤教程
+Notion Repo添加Cusdis/Giscus/Gitalk/Utterance的步骤教程
 
 [https://source.unsplash.com/random/720x480/?encryption](https://source.unsplash.com/random/720x480/?encryption)
 

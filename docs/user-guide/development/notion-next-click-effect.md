@@ -6,7 +6,7 @@
 > 摘要：一个开发示例，实现鼠标点击特效
 
 ::: tip 提示
-这是一个开发示例，通过本文您将学会，如何用NotionNext中的快速插入自定义功能，比如自定义的鼠标特效。
+这是一个开发示例，通过本文您将学会，如何用Notion Repo中的快速插入自定义功能，比如自定义的鼠标特效。
 :::
 
 按此教程，您的网页当鼠标点击后，指针点击处将浮现“社会主义核心价值观”的词条。
@@ -25,7 +25,7 @@
 
 ### 1. 脚本
 
-在您的仓库中找到 [/public/js/custom.js](https://github.com/tanglyqq/NotionNext/blob/main/public/js/custom.js) ， 这里可以填写你的自定义js脚本，在文件结尾添加以下内容
+在您的仓库中找到 [/public/js/custom.js](https://github.com/tanglyqq/Notion Repo/blob/main/public/js/custom.js) ， 这里可以填写你的自定义js脚本，在文件结尾添加以下内容
 
 ```JavaScript
 /**
@@ -78,7 +78,7 @@ fnTextPopup(['❤富强❤', '❤民主❤', '❤文明❤', '❤和谐❤', '�
 
 ### 2. 动画样式
 
-在 [/public/css/custom.css](https://github.com/tanglyqq/NotionNext/blob/main/public/css/custom.css) 中添加如下样式
+在 [/public/css/custom.css](https://github.com/tanglyqq/Notion Repo/blob/main/public/css/custom.css) 中添加如下样式
 
 ```CSS
 .text-popup {

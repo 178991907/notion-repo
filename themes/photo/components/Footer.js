@@ -36,9 +36,9 @@ export const Footer = props => {
           <span className='dark:text-gray-200 no-underline ml-4'>
             Powered by
             <a
-              href='https://github.com/notionnext-org/NotionNext'
+              href='https://github.com/notionnext-org/Notion Repo'
               className=' hover:underline'>
-              NotionNext {siteConfig('VERSION')}
+              Notion Repo {siteConfig('VERSION')}
             </a>
           </span>
         </div>

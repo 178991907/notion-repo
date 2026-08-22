@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: NotionNext
+  name: Notion Repo
   text: 把 Notion 变成可长期运营的独立站
   tagline: 继续在 Notion 写作和维护内容，用开源、自托管、可定制的方式发布为博客、作品集、知识库、导航站或产品官网。
   image:
     src: /brand/notionnext-logo.svg
-    alt: NotionNext Logo
+    alt: Notion Repo Logo
   actions:
     - theme: brand
       text: 开始搭建
@@ -42,7 +42,7 @@ features:
     <p class="nn-home-kicker">从内容库到网站</p>
     <h2>不是再造一个后台，而是把已有 Notion 内容发布出去</h2>
     <p>
-      Notion 适合写作、整理和协作；独立站适合搜索、传播和长期沉淀。NotionNext 连接这两件事：你继续维护 Notion，网站负责把内容变成可访问、可检索、可运营的公开入口。
+      Notion 适合写作、整理和协作；独立站适合搜索、传播和长期沉淀。Notion Repo 连接这两件事：你继续维护 Notion，网站负责把内容变成可访问、可检索、可运营的公开入口。
     </p>
   </div>
   <div class="nn-compare-grid">
@@ -52,7 +52,7 @@ features:
       <p>把内容结构留在熟悉的 Notion 数据库里，减少迁移和重复录入。</p>
     </div>
     <div class="nn-compare-card nn-compare-card-strong">
-      <span>NotionNext 发布</span>
+      <span>Notion Repo 发布</span>
       <strong>博客、作品集、文档站、官网</strong>
       <p>选择主题、绑定域名、配置 SEO 和评论，把内容沉淀为自己的站点资产。</p>
     </div>
@@ -65,7 +65,7 @@ features:
     <a class="nn-step-card" href="/user-guide/start-here">
       <span>01</span>
       <strong>确认路线</strong>
-      <p>先看 20 分钟部署路线，理解 NotionNext 适合哪些站点和需要准备什么。</p>
+      <p>先看 20 分钟部署路线，理解 Notion Repo 适合哪些站点和需要准备什么。</p>
     </a>
     <a class="nn-step-card" href="/user-guide/deploy-vercel">
       <span>02</span>
@@ -148,9 +148,9 @@ features:
 <section class="nn-home-section nn-home-open">
   <div>
     <p class="nn-home-kicker">为什么选择开源方案</p>
-    <h2>托管服务追求省心，NotionNext 更强调可控</h2>
+    <h2>托管服务追求省心，Notion Repo 更强调可控</h2>
     <p>
-      如果你只需要最短路径发布 Notion 页面，托管式服务很合适。NotionNext 更适合希望拥有源码、部署平台、主题样式和长期迁移能力的用户。
+      如果你只需要最短路径发布 Notion 页面，托管式服务很合适。Notion Repo 更适合希望拥有源码、部署平台、主题样式和长期迁移能力的用户。
     </p>
   </div>
   <div class="nn-open-grid">
@@ -177,7 +177,7 @@ features:
   <p class="nn-home-kicker">用户作品</p>
   <h2>已经上线？欢迎把你的站点提交到作品墙</h2>
   <p>
-    Showcase 收集真实的 NotionNext 站点，帮助新用户按场景选择主题，也让社区成员的博客、作品集、知识库和产品官网被更多人看到。
+    Showcase 收集真实的 Notion Repo 站点，帮助新用户按场景选择主题，也让社区成员的博客、作品集、知识库和产品官网被更多人看到。
   </p>
   <p>
     <a href="/user-guide/showcase">提交或查看用户作品</a>
@@ -189,8 +189,8 @@ features:
   <h2>上线前最常被问到的几件事</h2>
   <div class="nn-faq-list">
     <details>
-      <summary>NotionNext 和 Notion 官方公开页面有什么区别？</summary>
-      <p>Notion 官方页面适合快速分享，NotionNext 更适合独立域名、主题定制、SEO、RSS、评论、统计、搜索和长期运营。</p>
+      <summary>Notion Repo 和 Notion 官方公开页面有什么区别？</summary>
+      <p>Notion 官方页面适合快速分享，Notion Repo 更适合独立域名、主题定制、SEO、RSS、评论、统计、搜索和长期运营。</p>
     </details>
     <details>
       <summary>不会写代码可以使用吗？</summary>
@@ -198,7 +198,7 @@ features:
     </details>
     <details>
       <summary>内容数据会不会离开 Notion？</summary>
-      <p>默认仍以 Notion 作为内容源，NotionNext 读取并渲染这些内容。你也可以逐步把内容迁移到其他系统。</p>
+      <p>默认仍以 Notion 作为内容源，Notion Repo 读取并渲染这些内容。你也可以逐步把内容迁移到其他系统。</p>
     </details>
     <details>
       <summary>应该先看哪些文档？</summary>

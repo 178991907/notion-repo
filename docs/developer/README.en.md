@@ -1,4 +1,4 @@
-# NotionNext Docs Navigation
+# Notion Repo Docs Navigation
 
 [中文](./README.md)
 
@@ -6,10 +6,10 @@ This docs directory helps contributors and new developers understand the project
 
 ## Repository and organization
 
-The main repository is maintained by the GitHub organization **[notionnext-org](https://github.com/notionnext-org)** (canonical: `https://github.com/notionnext-org/NotionNext`). **You are welcome to request org membership** when that fits your role. If you cloned before the transfer, run:
+The main repository is maintained by the GitHub organization **[notionnext-org](https://github.com/notionnext-org)** (canonical: `https://github.com/notionnext-org/Notion Repo`). **You are welcome to request org membership** when that fits your role. If you cloned before the transfer, run:
 
 ```bash
-git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+git remote set-url origin https://github.com/notionnext-org/Notion Repo.git
 ```
 
 See [Contributing](../CONTRIBUTING.md#repository-and-organization) (and the Chinese contributing guide) for details.

@@ -59,7 +59,7 @@ Hello|Welcome|Enjoy reading
 
 ## 配置说明
 
-配置文件：[`themes/xuhome/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/xuhome/config.js)
+配置文件：[`themes/xuhome/config.js`](https://github.com/notionnext-org/Notion Repo/blob/main/themes/xuhome/config.js)
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
 <!-- theme-config-table -->
@@ -111,7 +111,7 @@ Hello|Welcome|Enjoy reading
 
 ## 相关
 
-- [作者提交 Issue #4399](https://github.com/notionnext-org/NotionNext/issues/4399)
+- [作者提交 Issue #4399](https://github.com/notionnext-org/Notion Repo/issues/4399)
 - [XuHome Theme 原始仓库](https://github.com/govmoe/XuHome-Theme)
 - 视觉参考：[ImUpXuu/xuhome](https://github.com/ImUpXuu/xuhome)
 - [内置主题全览](./THEMES_CATALOG.md)

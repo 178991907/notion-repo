@@ -1,5 +1,5 @@
-# NotionNext定时发布文章
-> 迁移自：[NotionNext定时发布文章](https://docs.tangly1024.com/article/notionnext-scheduled-article-release)
+# Notion Repo定时发布文章
+> 迁移自：[Notion Repo定时发布文章](https://docs.tangly1024.com/article/notionnext-scheduled-article-release)
 > 发布日期：2025-1-5
 > 最后编辑：2025-1-5
 > 原栏目：✒ Notion教程

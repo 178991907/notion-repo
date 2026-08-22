@@ -39,7 +39,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 </details>
 
 
-## 配置NotionNext
+## 配置Notion Repo
 
 只需两步，设置环境变量，重新部署项目。
 

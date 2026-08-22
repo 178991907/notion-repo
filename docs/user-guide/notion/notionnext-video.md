@@ -3,8 +3,8 @@
 > 发布日期：2024-3-4
 > 最后编辑：2024-9-4
 > 原栏目：✒ Notion教程
-> 标签：NotionNext、Notion
-> 摘要：NotionNext 嵌入B站视频
+> 标签：Notion Repo、Notion
+> 摘要：Notion Repo 嵌入B站视频
 
 Notion默认没有优化B站的视频；但您可以这样操作：
 

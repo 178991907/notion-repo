@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
   const since = parseInt(siteConfig('SINCE') || currentYear, 10)
   const copyrightDate = since < currentYear ? `${since}-${currentYear}` : `${currentYear}`
-  const author = siteConfig('AUTHOR') || siteConfig('TITLE') || 'NotionNext'
+  const author = siteConfig('AUTHOR') || siteConfig('TITLE') || 'Notion Repo'
   const version = siteConfig('VERSION') || ''
 
   return (
@@ -19,11 +19,11 @@ const Footer = () => {
         <p className='mt-1'>
           Powered by{' '}
           <a
-            href='https://github.com/notionnext-org/NotionNext'
+            href='https://github.com/notionnext-org/Notion Repo'
             target='_blank'
             rel='noopener noreferrer'
             className='fuwari-link font-semibold'>
-            NotionNext{version ? ` v${version}` : ''}
+            Notion Repo{version ? ` v${version}` : ''}
           </a>{' '}
           / Theme{' '}
           <span className='font-semibold text-[var(--fuwari-primary)]'>

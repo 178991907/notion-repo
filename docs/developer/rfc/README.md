@@ -1,6 +1,6 @@
 # RFC（Request for Comments）
 
-较大或跨模块的改动，建议先在本目录提交 **RFC**（Markdown），在 [Discussions](https://github.com/notionnext-org/NotionNext/discussions) 或 Issue 中链接并收集反馈，**再开实现 PR**。
+较大或跨模块的改动，建议先在本目录提交 **RFC**（Markdown），在 [Discussions](https://github.com/notionnext-org/Notion Repo/discussions) 或 Issue 中链接并收集反馈，**再开实现 PR**。
 
 适用场景（参见 [GOVERNANCE.zh-CN.md](../../GOVERNANCE.zh-CN.md)）：
 

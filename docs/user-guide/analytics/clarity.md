@@ -71,9 +71,9 @@ Clarity is a free user behavior analytics tool that helps you understand how use
 ![Untitled](/legacy/abd6cc46cd509db2.png)
 
 
-## 配置NotionNext
+## 配置Notion Repo
 
-对应的配置文件在[blog.config.js：356行](https://github.com/notionnext-org/NotionNext/blob/eced20bfe7af015d69eef147af104df4c3ae88ee/blog.config.js#L356)，在NotionNext项目后台添加如下环境变量即可
+对应的配置文件在[blog.config.js：356行](https://github.com/notionnext-org/Notion Repo/blob/eced20bfe7af015d69eef147af104df4c3ae88ee/blog.config.js#L356)，在Notion Repo项目后台添加如下环境变量即可
 
 您可以在blog.config.js 或者在 vercel环境变量，或者直接在notion-config中配置
 

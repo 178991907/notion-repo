@@ -3,8 +3,8 @@
 > 发布日期：2023-2-10
 > 最后编辑：2024-10-30
 > 原栏目：🛠 站点配置
-> 标签：NotionNext
-> 摘要：介绍NotionNext的所有功能和常见问题说明
+> 标签：Notion Repo
+> 摘要：介绍Notion Repo的所有功能和常见问题说明
 
 ## 前言
 
@@ -13,7 +13,7 @@
 :::
 
 ::: tip 提示
-阅读本文前，请先确保已经部署好您的NotionNext站点，若您还没有自己的站点，请访问教程部署自己的站点: [/user-guide/intro](/user-guide/intro)
+阅读本文前，请先确保已经部署好您的Notion Repo站点，若您还没有自己的站点，请访问教程部署自己的站点: [/user-guide/intro](/user-guide/intro)
 :::
 
 
@@ -22,10 +22,10 @@
 
 ### 1. 站点信息
 
-网站的社交地址，站点域名，作者信息，以及默认主题在站点的配置文件 [blog.config.js ](https://github.com/notionnext-org/NotionNext/blob/fd29df3b26211aad04a9e6462cae038d7006e826/blog.config.js#L20-L34)中可以找到，您可以在配置文件中修改配置。
+网站的社交地址，站点域名，作者信息，以及默认主题在站点的配置文件 [blog.config.js ](https://github.com/notionnext-org/Notion Repo/blob/fd29df3b26211aad04a9e6462cae038d7006e826/blog.config.js#L20-L34)中可以找到，您可以在配置文件中修改配置。
 
 ```JavaScript
-AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'NotionNext', // 您的昵称 例如 tangly1024
+AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Notion Repo', // 您的昵称 例如 tangly1024
 BIO: process.env.NEXT_PUBLIC_BIO || '一个普通的干饭人🍚', // 作者简介
 LINK: process.env.NEXT_PUBLIC_LINK || '/user-guide/intro', // 网站地址
 KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || 'Notion, 博客', // 网站关键词 英文逗号隔开
@@ -69,7 +69,7 @@ LINK: process.env.NEXT_PUBLIC_LINK || '/user-guide/intro', // 网站地址
 
 #### 自定义社交图标按钮
 
-hexo主题的图标按钮在[此处修改](https://github.com/notionnext-org/NotionNext/blob/main/themes/hexo/components/SocialButton.js),
+hexo主题的图标按钮在[此处修改](https://github.com/notionnext-org/Notion Repo/blob/main/themes/hexo/components/SocialButton.js),
 
 例如github的图标是： `fab fa-github` ，可访问[fontawesome获取](https://fontawesome.com/search?o=r&m=free)其他图标
 
@@ -159,10 +159,10 @@ favicon在线制作,icon制作,网站图标,网站图标制作,ico图标制作
 
 ### 4. 自定义样式、自定义脚本
 
-您可以自行决定站点的样式和执行的脚本，NotionNext支持两种方式引入您的css 和 js ：
+您可以自行决定站点的样式和执行的脚本，Notion Repo支持两种方式引入您的css 和 js ：
 
 - 方法一：外部文件引入
-[blog.config.js](https://github.com/notionnext-org/NotionNext/blob/main/blog.config.js#L34-L35) 中 配置:`CUSTOM_EXTERNAL_JS `和`CUSTOM_EXTERNAL_CSS `即可
+[blog.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/blog.config.js#L34-L35) 中 配置:`CUSTOM_EXTERNAL_JS `和`CUSTOM_EXTERNAL_CSS `即可
 ```Bash
 // 自定义外部脚本，外部样式
 CUSTOM_EXTERNAL_JS: [''], // e.g. ['http://xx.com/script.js','http://xx.com/script.js']
@@ -170,12 +170,12 @@ CUSTOM_EXTERNAL_CSS: [''], // e.g. ['http://xx.com/style.css','http://xx.com/sty
 ```
 
 - 方法二：内部自定义
-  - [/public/css/custom.css](https://github.com/notionnext-org/NotionNext/blob/main/public/css/custom.css) 文件可以直接自定义样式。
-  - [/public/js/custom.js](https://github.com/notionnext-org/NotionNext/blob/main/public/js/custom.js) 文件中编写脚本将被自动引入页面。
+  - [/public/css/custom.css](https://github.com/notionnext-org/Notion Repo/blob/main/public/css/custom.css) 文件可以直接自定义样式。
+  - [/public/js/custom.js](https://github.com/notionnext-org/Notion Repo/blob/main/public/js/custom.js) 文件中编写脚本将被自动引入页面。
   - 每个主题的自定义css文件，例如 /public/css/theme-hexo.css
 
 ::: info 问题
-若引入js和css不能满足您的需求？试试参考《[NotionNext二次开发手册](/user-guide/development/getting-started)》进行自定义开发。
+若引入js和css不能满足您的需求？试试参考《[Notion Repo二次开发手册](/user-guide/development/getting-started)》进行自定义开发。
 :::
 
 
@@ -240,9 +240,9 @@ NOTION_PROPERTY_NAME: {
 
 请访问以下链接获取配置帮助：
 
-[NotionNext二级菜单使用说明 | TANGLY’s BLOG](/user-guide/menu-secondary)
+[Notion Repo二级菜单使用说明 | TANGLY’s BLOG](/user-guide/menu-secondary)
 
-NotionNext 3.13.0上线，支持更灵活的菜单配置
+Notion Repo 3.13.0上线，支持更灵活的菜单配置
 
 
 ### 8. 伪静态
@@ -251,7 +251,7 @@ NotionNext 3.13.0上线，支持更灵活的菜单配置
 网站使用NextJS开发，用户访问到的页面**本身就是静态页面**。
 :::
 
-NotionNext会将页面缓存一定的`时间`，超过此时间后，NotionNext会从Notion同步最新的文章内容。`缓存时间`通过修改`NEXT_REVALIDATE_SECOND` 配置。
+Notion Repo会将页面缓存一定的`时间`，超过此时间后，Notion Repo会从Notion同步最新的文章内容。`缓存时间`通过修改`NEXT_REVALIDATE_SECOND` 配置。
 
 另外，将 `PSEUDO_STATIC` 的值修改为 true后，页面的地址最后会以.html结尾，看上去会更像一个静态页面。
 
@@ -366,7 +366,7 @@ STARRY_SKY: process.env.NEXT_PUBLIC_STARRY_SKY || false, // 开关
 
 您共享的Notion页，他人只有查看权限，除非你手动开启编辑和评论的权限。
 
-另外，若您不希望别人访问到你的源Notion页面，可选择关闭Noton页面共享，然后通过Notion的[access_token](https://github.com/notionnext-org/NotionNext/issues/116#issuecomment-1081260413)进行数据访问。
+另外，若您不希望别人访问到你的源Notion页面，可选择关闭Noton页面共享，然后通过Notion的[access_token](https://github.com/notionnext-org/Notion Repo/issues/116#issuecomment-1081260413)进行数据访问。
 
 ![Untitled](/legacy/e39a99d8b73be154.png)
 

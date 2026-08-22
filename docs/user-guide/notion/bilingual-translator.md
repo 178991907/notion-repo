@@ -1,6 +1,6 @@
 # 双语库翻译 CLI（可选）
 
-NotionNext 站点多语言通过 `NOTION_PAGE_ID=id1,en:id2` 等形式切换**整站语言**，但中英两个 Notion **数据库之间的文章同步**默认仍需人工搬运。仓库提供可选 CLI：`scripts/translate/`（`yarn translate` 系列命令），在**两个语言数据库**之间用 LLM 自动翻译并建立配对关系。
+Notion Repo 站点多语言通过 `NOTION_PAGE_ID=id1,en:id2` 等形式切换**整站语言**，但中英两个 Notion **数据库之间的文章同步**默认仍需人工搬运。仓库提供可选 CLI：`scripts/translate/`（`yarn translate` 系列命令），在**两个语言数据库**之间用 LLM 自动翻译并建立配对关系。
 
 > 官方文档站说明：本功能为**维护者工具**，非开箱即用；不使用时不影响博客构建与访问。
 
@@ -39,7 +39,7 @@ NotionNext 站点多语言通过 `NOTION_PAGE_ID=id1,en:id2` 等形式切换**�
 | `yarn translate:backfill` | 交互式配对已有译文（不调 LLM） |
 | `yarn translate:diagnose` | 检查 token 与数据库权限 |
 
-完整参数、块处理规则与目录结构见仓库内 [scripts/translate/README.md](https://github.com/notionnext-org/NotionNext/blob/main/scripts/translate/README.md)。
+完整参数、块处理规则与目录结构见仓库内 [scripts/translate/README.md](https://github.com/notionnext-org/Notion Repo/blob/main/scripts/translate/README.md)。
 
 ## 与站点「多语言」的关系
 
@@ -48,4 +48,4 @@ NotionNext 站点多语言通过 `NOTION_PAGE_ID=id1,en:id2` 等形式切换**�
 
 ## 贡献与问题
 
-功能由社区 PR 引入；使用问题可在 [GitHub Discussions](https://github.com/notionnext-org/NotionNext/discussions) 反馈，并附上 `--dry-run` 输出（勿贴 API Key）。
+功能由社区 PR 引入；使用问题可在 [GitHub Discussions](https://github.com/notionnext-org/Notion Repo/discussions) 反馈，并附上 `--dry-run` 输出（勿贴 API Key）。

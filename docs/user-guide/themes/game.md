@@ -94,7 +94,7 @@ GAME_COLOR_PRIMARY: '#22c55e'
 
 直接访问** [站点]/games-external/common/index.htm?n=[一个域名] **，可以直接将一个外部网址当做iframe嵌入到项目。例如 [https://games.tangly1024.com/games-external/common/index.htm?n=https://www.tangly1024.com](https://games.tangly1024.com/games-external/common/index.htm?n=https://www.tangly1024.com)  ，就是将 www.tangly1024.com这个网页当做iframe嵌入。
 
-目前该脚本页面的唯一功能是：向嵌入的iframe添加了一个toggleFullscreen() 函数，便于我在NotionNext的文章详情页可以直接调用iframe的全屏功能:
+目前该脚本页面的唯一功能是：向嵌入的iframe添加了一个toggleFullscreen() 函数，便于我在Notion Repo的文章详情页可以直接调用iframe的全屏功能:
 
 ![Untitled](/legacy/c1149e45272be5ae.png)
 

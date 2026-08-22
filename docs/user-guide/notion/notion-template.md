@@ -24,7 +24,7 @@ Template（模板）是Notion的特色功能之一。
 
 ## 文章数据模板
 
-NotionNext的文章数据库中，有两个模板：一个是我创建的有固定结构”主旨内容“”文章归纳“的模板，另一个是Notion自带的空白的Empty模板。
+Notion Repo的文章数据库中，有两个模板：一个是我创建的有固定结构”主旨内容“”文章归纳“的模板，另一个是Notion自带的空白的Empty模板。
 
 ![空模板没有任何内容](/legacy/031ccd5aca13459b.png)
 ![文章模板预先填写了框架](/legacy/a8f1b6c90deac250.png)

@@ -4,9 +4,9 @@
 > 最后编辑：2024-10-4
 > 原栏目：✒ Notion教程
 
-## NotionNext和Notion的关系
+## Notion Repo和Notion的关系
 
-NotionNext只是一个脚本，将您Notion笔记中的内容渲染成博客的布局，并附加一些小功能和插件。而几乎所有的站点数据都存放在您的Notion笔记中，NotionNext仅在代码中保存简单的配置。
+Notion Repo只是一个脚本，将您Notion笔记中的内容渲染成博客的布局，并附加一些小功能和插件。而几乎所有的站点数据都存放在您的Notion笔记中，Notion Repo仅在代码中保存简单的配置。
 
 Notion是由Notion Labs Inc开发的一款应用程序，Notion Labs Inc于2016年在美国加利福利亚州旧金山市创立。截至2021年10月，Notion估值103亿美元，在全球拥有超2000万用户，团队规模为180人左右。
 

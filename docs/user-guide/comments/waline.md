@@ -3,7 +3,7 @@
 > 发布日期：2023-6-29
 > 最后编辑：2026-5-12
 > 原栏目：📩 评论插件
-> 标签：Waline、NotionNext、插件
+> 标签：Waline、Notion Repo、插件
 
 ::: tip 提示
 注意，本文中介绍的 LeanCloud 即将停止服务，因此文档已经过期，请参考Waline 官方文档部署
@@ -56,7 +56,7 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
 ![Untitled](/legacy/460fce1846c6e668.png)
 
 </details>
-  - 1. 点**[此链接](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftangly1024%2Fwaline&demo-title=WalineForNotionNext)**一键部署waline。
+  - 1. 点**[此链接](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftangly1024%2Fwaline&demo-title=WalineForNotion Repo)**一键部署waline。
 <details>
 <summary>2. 配置环境变量 （点击展开）</summary>
 
@@ -67,7 +67,7 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
 ![Untitled](/legacy/476b942890765788.png)
 ::: tip 提示
 注意：
-如果你使用 LeanCloud 国内版，请额外配置 `LEAN_SERVER` 环境变量，值为你绑定好的域名。否则可能会提示错误：”`serverURL option is required for apps from CN region`“，[详见此ISSUE](https://github.com/notionnext-org/NotionNext/issues/308#issuecomment-1157330084)。
+如果你使用 LeanCloud 国内版，请额外配置 `LEAN_SERVER` 环境变量，值为你绑定好的域名。否则可能会提示错误：”`serverURL option is required for apps from CN region`“，[详见此ISSUE](https://github.com/notionnext-org/Notion Repo/issues/308#issuecomment-1157330084)。
     - 最后要`redeploy`这个项目使配置生效。
 ![Untitled](/legacy/4ef8e75bf93a31c6.png)
 :::
@@ -90,7 +90,7 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
   - 1.点击 [一键部署](https://go.deta.dev/deploy?repo=https://github.com/walinejs/deta-starter)，未注册的需要注册登录。
   - 2.配置相关环境变量信息，点击Deploy按钮进行部署。
 ![Untitled](/legacy/9d5f122ebac73d2f.png)
-  - 3. 部署后在后台如图右上角获取你的访问地址，将其配置到NotionNext中
+  - 3. 部署后在后台如图右上角获取你的访问地址，将其配置到Notion Repo中
 ![Untitled](/legacy/fc5d9259417c7cb5.png)
 
 </details>
@@ -98,7 +98,7 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
 <details>
 <summary>部署Waline方式3： Railway</summary>
 
-此方式方式请参考博主[D_super](https://www.dsuper.xyz)的这篇文章配置《[NotionNext博客Waline评论系统](https://www.dsuper.xyz/article/waline-setting)》，文章步骤非常详尽👍
+此方式方式请参考博主[D_super](https://www.dsuper.xyz)的这篇文章配置《[Notion Repo博客Waline评论系统](https://www.dsuper.xyz/article/waline-setting)》，文章步骤非常详尽👍
 
 </details>
 
@@ -141,9 +141,9 @@ Waline的网络请求稳定性不如Valine，而且Valine-Admin支持在LeanClou
 ![Untitled](/legacy/f199ad33ac8d676b.png)
 
 
-## 3.NotionNext中配置Waline
+## 3.Notion Repo中配置Waline
 
-在**NotionNext**(版本需要≥3.3.9)中开启Waline：在Vercel环境变量中添加 一个环境变量：
+在**Notion Repo**(版本需要≥3.3.9)中开启Waline：在Vercel环境变量中添加 一个环境变量：
 
 `waline访问地址` 来自你上一步中部署好的Waline页面，他是一个独立的评论页面。
 

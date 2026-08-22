@@ -13,7 +13,7 @@ Opc 是面向个人主页、一人公司和独立开发者的入口主题。首�
 ## 主题特性
 
 - **定位**：个人主页 / 一人公司入口。
-- **主路径**：保留 NotionNext 项目和长期记录两个主要按钮。
+- **主路径**：保留 Notion Repo 项目和长期记录两个主要按钮。
 - **流水线展示**：说明 AI 不再模拟公司部门开会，而是作为市场调研、研发执行、视觉素材、发布运营、QA 验收等能力入口被临时调用。
 - **任务契约**：强调每轮先写任务文件、产物路径和验收标准；执行 AI 一次只领取一个任务，完成后交付文件并结束。
 - **验证优先**：先买/接入成熟方案，不能买再复制成熟竞品，最后才自研；没有数据验证前不开发大功能。
@@ -48,7 +48,7 @@ Opc 是面向个人主页、一人公司和独立开发者的入口主题。首�
 
 ## 配置说明
 
-配置文件：[themes/opc/config.js](https://github.com/notionnext-org/NotionNext/blob/main/themes/opc/config.js)
+配置文件：[themes/opc/config.js](https://github.com/notionnext-org/Notion Repo/blob/main/themes/opc/config.js)
 
 也可以在 **Notion Config** 表中填写同名键覆盖默认值。
 

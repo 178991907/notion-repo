@@ -3,18 +3,18 @@
 > 发布日期：2023-6-27
 > 最后编辑：2026-5-2
 > 原栏目：⭐ 主题参数
-> 标签：NotionNext、主题
+> 标签：Notion Repo、主题
 > 摘要：主题与 main 分支 themes 目录对齐：默认 simple、挂件内切换见 conf/widget.config.js；修改 THEME 与在线预览说明。
 
 ## 主题功能介绍
 
-NotionNext会扫描/themes目录下的文件夹，并根据文件夹的名字生成一个主题，只要在配置中将您的当前主题设置为**对应文件夹名字**即可，注意都是**小写**。
+Notion Repo会扫描/themes目录下的文件夹，并根据文件夹的名字生成一个主题，只要在配置中将您的当前主题设置为**对应文件夹名字**即可，注意都是**小写**。
 ![主题文件夹](/legacy/d72e7a174586dd05.png)
 
 
 ## 主题预览
 
-内置主题以 GitHub 仓库 `[themes/](https://github.com/notionnext-org/NotionNext/tree/main/themes)` 目录为准（会随版本迭代增减）。当前主线常见主题包括：`simple`（**新建仓库默认**，见 `blog.config.js` 的 `THEME`）、`next`、`medium`、`hexo`、`fukasawa`、`gitbook`、`matery`、`heo`、`nobelium`、`plog`、`landing`、`nav`、`starter`、`commerce`、`magzine`、`photo`、`movie`、`game`、`fuwari`、`claude`、`proxio`、`typography`、`example` 等。
+内置主题以 GitHub 仓库 `[themes/](https://github.com/notionnext-org/Notion Repo/tree/main/themes)` 目录为准（会随版本迭代增减）。当前主线常见主题包括：`simple`（**新建仓库默认**，见 `blog.config.js` 的 `THEME`）、`next`、`medium`、`hexo`、`fukasawa`、`gitbook`、`matery`、`heo`、`nobelium`、`plog`、`landing`、`nav`、`starter`、`commerce`、`magzine`、`photo`、`movie`、`game`、`fuwari`、`claude`、`proxio`、`typography`、`example` 等。
 
 可按用途粗选：GitBook 偏文档；Nav 偏导航聚合；Landing / Starter 偏落地页；Plog、Photo 偏图集；更多说明见各主题子文档或源码中对应 `config.js`。
 
@@ -84,7 +84,7 @@ THEME: process.env.NEXT_PUBLIC_THEME || 'simple', // 与当前主仓库默认值
 
 ### 在线切换主题
 
-您可以像我的博客站一样，在页面上开启一个实时切换主题的按钮，以供预览；开启方式：在主仓库 `[conf/widget.config.js](https://github.com/notionnext-org/NotionNext/blob/main/conf/widget.config.js)` 中调整（或在部署后台配置环境变量 `NEXT_PUBLIC_THEME_SWITCH`）：
+您可以像我的博客站一样，在页面上开启一个实时切换主题的按钮，以供预览；开启方式：在主仓库 `[conf/widget.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/conf/widget.config.js)` 中调整（或在部署后台配置环境变量 `NEXT_PUBLIC_THEME_SWITCH`）：
 
 ```JavaScript
 THEME_SWITCH: process.env.NEXT_PUBLIC_THEME_SWITCH || false, // 是否显示切换主题按钮；预览站常开便于体验
@@ -111,10 +111,10 @@ THEME_SWITCH: process.env.NEXT_PUBLIC_THEME_SWITCH || false, // 是否显示切�
 ![Untitled](/legacy/844fc33bec7482e4.png)
 
 - 另外您可以参考开发指引中的教程来自定义您的主题。
-[NotionNext开发先导 | NotionNext帮助手册](/user-guide/development/getting-started)
+[Notion Repo开发先导 | Notion Repo帮助手册](/user-guide/development/getting-started)
 
-小白入门如何开发notionnext，下载NotionNext、启动NotionNext、提交合并到NotionNext等。
-[NotionNext用配置调整样式 | NotionNext帮助手册](/user-guide/development/custom-style)
+小白入门如何开发notionnext，下载Notion Repo、启动Notion Repo、提交合并到Notion Repo等。
+[Notion Repo用配置调整样式 | Notion Repo帮助手册](/user-guide/development/custom-style)
 
 不会react、不会 nextjs、不会webpack、不会TailWindCSS如何调整样式
 
@@ -123,11 +123,11 @@ THEME_SWITCH: process.env.NEXT_PUBLIC_THEME_SWITCH || false, // 是否显示切�
 
 您可以复制一个现有的主题，并在此基础进行二次开发。更多关于创建主题与开发的功能，请阅读开发教程:
 
-[NotionNext自建主题 | NotionNext帮助手册](/user-guide/development/own-theme)
+[Notion Repo自建主题 | Notion Repo帮助手册](/user-guide/development/own-theme)
 
 简单几步骤即可创建属于自己的主题
 
-也欢迎您将自己开发设计的主题，通过PR的方式提交到NotionNext中央仓库中，提供给更多站友们使用。
+也欢迎您将自己开发设计的主题，通过PR的方式提交到Notion Repo中央仓库中，提供给更多站友们使用。
 
 
 ## 最后

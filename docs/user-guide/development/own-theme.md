@@ -1,20 +1,20 @@
-# NotionNext自建主题
-> 迁移自：[NotionNext自建主题](https://docs.tangly1024.com/article/your-own-theme)
+# Notion Repo自建主题
+> 迁移自：[Notion Repo自建主题](https://docs.tangly1024.com/article/your-own-theme)
 > 发布日期：2023-7-6
 > 最后编辑：2024-9-12
 > 原栏目：⌨ 开发教程
 > 摘要：简单几步骤即可创建属于自己的主题
 
 ::: tip 提示
-本篇主要介绍在NotionNext中如何 通过复制文件夹简单地创建一个新主题，并且介绍每个主题下必须包含的4种文件作用。
+本篇主要介绍在Notion Repo中如何 通过复制文件夹简单地创建一个新主题，并且介绍每个主题下必须包含的4种文件作用。
 :::
 
-在新上线的NotionNext4.0中，整体代码结构做了优化梳理，极大简化了用户自建主题的流程，我强烈推荐每个使用者创建自己的个性主题，并为其起一个自己的名字。
+在新上线的Notion Repo4.0中，整体代码结构做了优化梳理，极大简化了用户自建主题的流程，我强烈推荐每个使用者创建自己的个性主题，并为其起一个自己的名字。
 
 
 ## 主题管理
 
-NotionNext会**自动扫描themes目录**下的所有文件夹。例如themes目录下有一个example文件夹，则您可以在blog.config.js 或环境变量中直接切换当前主题theme为文件夹的名字即可。
+Notion Repo会**自动扫描themes目录**下的所有文件夹。例如themes目录下有一个example文件夹，则您可以在blog.config.js 或环境变量中直接切换当前主题theme为文件夹的名字即可。
 
 ![Untitled](/legacy/9248a3565e6b9f40.png)
 
@@ -29,7 +29,7 @@ NotionNext会**自动扫描themes目录**下的所有文件夹。例如themes目
 ### 如何创建主题
 
 ::: tip 提示
-最好的学习方式，就是模仿和复制，然后在您熟练上手了一些技巧后，再开始借助技术手册，尝试二次创作。NotionNext4.0，重新调整了目录结构，让您只需简单复制一个文件夹并重命名，即可开始属于您自己的主题。
+最好的学习方式，就是模仿和复制，然后在您熟练上手了一些技巧后，再开始借助技术手册，尝试二次创作。Notion Repo4.0，重新调整了目录结构，让您只需简单复制一个文件夹并重命名，即可开始属于您自己的主题。
 :::
 
 ::: tip 提示
@@ -78,7 +78,7 @@ NotionNext会**自动扫描themes目录**下的所有文件夹。例如themes目
 
 - 组件：决定了每个元素的颜色、边框、阴影、字体、图片背景等等。
 
-作为这个主题的入口文件，NotionNext会寻找这个主题目录下的index.js文件，从而读取布局。以example主题文件为例，example/index.js 的文件底部输出了以下布局：
+作为这个主题的入口文件，Notion Repo会寻找这个主题目录下的index.js文件，从而读取布局。以example主题文件为例，example/index.js 的文件底部输出了以下布局：
 
 ```
 export {

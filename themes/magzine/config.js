@@ -14,7 +14,7 @@ const CONFIG = {
 
   MAGZINE_HOME_TITLE: '立即开创您的在线业务。完全免费。',
   MAGZINE_HOME_DESCRIPTION:
-    '借助NotionNext，获得助您开创、经营和扩展业务所需的全部工具和帮助。',
+    '借助Notion Repo，获得助您开创、经营和扩展业务所需的全部工具和帮助。',
   MAGZINE_HOME_TIPS: 'AI时代来临，这是属于超级个体的狂欢盛宴！',
 
   MAGZINE_HERO_SUB_POST_COUNT: 2, // 首屏英雄区次要文章数量，通常2篇，如果关闭Banner，推荐改为3篇
@@ -53,7 +53,7 @@ const CONFIG = {
           href: 'https://blog.tangly1024.com'
         },
         {
-          title: 'NotionNext',
+          title: 'Notion Repo',
           href: 'https://www.tangly1024.com'
         }
       ]
@@ -61,18 +61,18 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/Notion Repo' },
         {
           title: '开发帮助',
           href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
         },
         {
           title: '功能反馈',
-          href: 'https://github.com/notionnext-org/NotionNext/issues/new/choose'
+          href: 'https://github.com/notionnext-org/Notion Repo/issues/new/choose'
         },
         {
           title: '技术讨论',
-          href: 'https://github.com/notionnext-org/NotionNext/discussions'
+          href: 'https://github.com/notionnext-org/Notion Repo/discussions'
         },
         {
           title: '关于作者',
@@ -106,7 +106,7 @@ const CONFIG = {
       name: '解决方案',
       menus: [
         { title: '建站工具', href: 'https://www.tangly1024.com/' },
-        { title: 'NotionNext', href: 'https://docs.tangly1024.com/about' }
+        { title: 'Notion Repo', href: 'https://docs.tangly1024.com/about' }
       ]
     }
   ],

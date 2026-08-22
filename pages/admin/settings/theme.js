@@ -948,7 +948,7 @@ export default function HeoThemeEditor() {
                     <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm border-2 border-white/40">N</div>
                   )}
                 </div>
-                <div className="text-2xl font-extrabold mt-1">{formData.AUTHOR || 'NotionNext'}</div>
+                <div className="text-2xl font-extrabold mt-1">{formData.AUTHOR || 'Notion Repo'}</div>
                 {formData.HEO_INFO_CARD_SHOW_ANNOUNCEMENT !== false && (
                   <div className="text-xs text-white/95 mt-2.5 bg-blue-700/50 p-2.5 rounded-lg border border-white/10">
                     {formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT ? (
@@ -1058,7 +1058,7 @@ export default function HeoThemeEditor() {
                   rows={4}
                   value={formData.HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT || ''}
                   onChange={e => handleChange('HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT', e.target.value)}
-                  placeholder="例如：&#10;🌻 **Notion笔记建站**&#10;轻松放大您的个人品牌！&#10;&#10;👭 [查看成功案例](https://your-link.com)&#10;&#10;🚀 **V4.0即将上线**&#10;请移步 [NotionNext文档中心](https://docs.tangly1024.com)"
+                  placeholder="例如：&#10;🌻 **Notion笔记建站**&#10;轻松放大您的个人品牌！&#10;&#10;👭 [查看成功案例](https://your-link.com)&#10;&#10;🚀 **V4.0即将上线**&#10;请移步 [Notion Repo文档中心](https://docs.tangly1024.com)"
                   className="w-full font-mono border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
                 />
 
@@ -1375,7 +1375,7 @@ export default function HeoThemeEditor() {
               <SectionCard>
                 <SectionTitle icon="©️" title="左下角版权与作者信息" desc="控制页面左下角显示的作者名称、格言简介、建站年份、驱动声明和备案号" />
                 <div className="grid grid-cols-2 gap-3">
-                  <TextField label="作者姓名 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="NotionNext" desc="页脚版权处展示的名字" />
+                  <TextField label="作者姓名 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="Notion Repo" desc="页脚版权处展示的名字" />
                   <TextField label="建站起始年份 (SINCE)" configKey="SINCE" value={formData.SINCE} onChange={handleChange} placeholder="2021" desc="用于显示 © 2021-2026" />
                 </div>
                 <TextField label="作者格言 / 简介 (BIO)" configKey="BIO" value={formData.BIO} onChange={handleChange} placeholder="一个普通的干饭人🍚" desc="作者名字右侧的标语或格言" />
@@ -1385,7 +1385,7 @@ export default function HeoThemeEditor() {
                   <ToggleField label="显示 Powered by 驱动声明" configKey="FOOTER_POWER_BY" value={formData.FOOTER_POWER_BY} onChange={handleChange} desc="是否在页脚左下角第一行显示驱动版权" />
                   {formData.FOOTER_POWER_BY !== false && (
                     <div className="grid grid-cols-2 gap-3 mt-2">
-                      <TextField label="驱动展示文案" configKey="FOOTER_POWER_BY_TEXT" value={formData.FOOTER_POWER_BY_TEXT} onChange={handleChange} placeholder="NotionNext 4.10.10" desc="留空则显示系统默认版本" />
+                      <TextField label="驱动展示文案" configKey="FOOTER_POWER_BY_TEXT" value={formData.FOOTER_POWER_BY_TEXT} onChange={handleChange} placeholder="Notion Repo 4.10.10" desc="留空则显示系统默认版本" />
                       <TextField label="驱动跳转链接" configKey="FOOTER_POWER_BY_URL" value={formData.FOOTER_POWER_BY_URL} onChange={handleChange} placeholder="https://github.com/..." />
                     </div>
                   )}
@@ -1503,15 +1503,15 @@ export default function HeoThemeEditor() {
                     {formData.FOOTER_POWER_BY !== false && (
                       <div className="text-xs text-gray-500 font-serif">
                         Powered by{' '}
-                        <a href={formData.FOOTER_POWER_BY_URL || 'https://github.com/notionnext-org/NotionNext'} target="_blank" rel="noreferrer" className="underline font-sans">
-                          {formData.FOOTER_POWER_BY_TEXT || 'NotionNext 4.10.10'}
+                        <a href={formData.FOOTER_POWER_BY_URL || 'https://github.com/notionnext-org/Notion Repo'} target="_blank" rel="noreferrer" className="underline font-sans">
+                          {formData.FOOTER_POWER_BY_TEXT || 'Notion Repo 4.10.10'}
                         </a>
                         .
                       </div>
                     )}
                     <div className="text-xs text-gray-600 flex items-center gap-1.5 flex-wrap justify-center lg:justify-start">
                       <span>© {formData.SINCE || '2021'}–{new Date().getFullYear()}</span>
-                      <a href="/about" className="font-bold underline text-gray-900">{formData.AUTHOR || 'NotionNext'}</a>
+                      <a href="/about" className="font-bold underline text-gray-900">{formData.AUTHOR || 'Notion Repo'}</a>
                       {formData.BIO && <span className="text-gray-500 font-normal"> | {formData.BIO}</span>}
                     </div>
                   </div>

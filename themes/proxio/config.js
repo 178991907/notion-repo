@@ -20,7 +20,7 @@ const CONFIG = {
   PROXIO_HERO_BUTTON_1_URL:
     'https://docs.tangly1024.com/article/vercel-deploy-notion-next', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_TEXT: '在Github上关注', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/NotionNext', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/Notion Repo', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_ICON: '/images/starter/github-mark.svg', // 英雄区按钮2的图标，不需要则留空
 
   // 英雄区配图，如需隐藏，改为空值即可 ''
@@ -67,7 +67,7 @@ const CONFIG = {
     '精益求精雕琢每个元素，确保成品精致统一，令人过目难忘',
 
   PROXIO_FEATURE_BUTTON_TEXT: '了解更多', // 按钮文字
-  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/notionnext-org/NotionNext', // 按钮跳转
+  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/notionnext-org/Notion Repo', // 按钮跳转
 
   // 首页生涯区块
   PROXIO_CAREER_ENABLE: true, // 区块开关
@@ -98,7 +98,7 @@ const CONFIG = {
   PROXIO_TESTIMONIALS_TITLE: '用户反馈',
   PROXIO_TESTIMONIALS_TEXT_1: '我们的用户怎么说',
   PROXIO_TESTIMONIALS_TEXT_2:
-    '数千位站长选择用NotionNext搭建他们的网站,通过帮助手册、交流社群以及技术咨询，大家成功上线了自己的网站',
+    '数千位站长选择用Notion Repo搭建他们的网站,通过帮助手册、交流社群以及技术咨询，大家成功上线了自己的网站',
 
   // 用户测评处的跳转按钮
   PROXIO_TESTIMONIALS_BUTTON_URL: '/about',
@@ -165,8 +165,8 @@ const CONFIG = {
   PROXIO_FAQ_TEXT_2: '我们收集了常见的用户疑问',
   PROXIO_FAQS: [
     {
-      q: 'NotionNext有帮助文档吗？',
-      a: 'NotionNext提供了<a href="https://docs.tangly1024.com/about" className="underline">帮助文档</a>，操作<a href="https://www.bilibili.com/video/BV1fM4y1L7Qi/" className="underline">演示视频</a>，以及<a href="https://docs.tangly1024.com/article/chat-community" className="underline">交流社群</a>来协助您完成网站的搭建部署'
+      q: 'Notion Repo有帮助文档吗？',
+      a: 'Notion Repo提供了<a href="https://docs.tangly1024.com/about" className="underline">帮助文档</a>，操作<a href="https://www.bilibili.com/video/BV1fM4y1L7Qi/" className="underline">演示视频</a>，以及<a href="https://docs.tangly1024.com/article/chat-community" className="underline">交流社群</a>来协助您完成网站的搭建部署'
     },
     {
       q: '部署后要如何编写文章？',
@@ -223,7 +223,7 @@ const CONFIG = {
           href: 'https://blog.tangly1024.com'
         },
         {
-          title: 'NotionNext',
+          title: 'Notion Repo',
           href: 'https://www.tangly1024.com'
         }
       ]
@@ -231,18 +231,18 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/Notion Repo' },
         {
           title: '开发帮助',
           href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
         },
         {
           title: '功能反馈',
-          href: 'https://github.com/notionnext-org/NotionNext/issues/new/choose'
+          href: 'https://github.com/notionnext-org/Notion Repo/issues/new/choose'
         },
         {
           title: '技术讨论',
-          href: 'https://github.com/notionnext-org/NotionNext/discussions'
+          href: 'https://github.com/notionnext-org/Notion Repo/discussions'
         },
         {
           title: '关于作者',
@@ -273,7 +273,7 @@ const CONFIG = {
   PROXIO_CTA_TITLE: '与我建立联系',
   PROXIO_CTA_TITLE_2: '让我们立刻启动您的项目',
   PROXIO_CTA_DESCRIPTION:
-    '访问NotionNext的操作文档，我们提供了详细的教程，帮助你即刻搭建站点',
+    '访问Notion Repo的操作文档，我们提供了详细的教程，帮助你即刻搭建站点',
   PROXIO_CTA_BUTTON: true, // 是否显示按钮
   PROXIO_CTA_BUTTON_URL: '/about',
   PROXIO_CTA_BUTTON_TEXT: '联系我',

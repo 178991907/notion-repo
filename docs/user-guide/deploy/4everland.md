@@ -1,13 +1,13 @@
-# 4EverLand部署NotionNext-Web3.0方案
-> 迁移自：[4EverLand部署NotionNext-Web3.0方案](https://docs.tangly1024.com/article/notionnext-deploy-web3.0-4everland)
+# 4EverLand部署Notion Repo-Web3.0方案
+> 迁移自：[4EverLand部署Notion Repo-Web3.0方案](https://docs.tangly1024.com/article/notionnext-deploy-web3.0-4everland)
 > 发布日期：2023-6-21
 > 最后编辑：2024-11-13
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案、Web3
-> 摘要：部署在Web3.0平台上的网站能够提供更加安全、透明、去中心化和创新的服务，为用户带来更好的体验和价值。NotionNext支持部署在去中心化的Web3.0平台上，这将为用户提供更加安全和可靠的服务，同时也将为网站带来新的商业机会和竞争优势。
+> 标签：Notion Repo、部署方案、Web3
+> 摘要：部署在Web3.0平台上的网站能够提供更加安全、透明、去中心化和创新的服务，为用户带来更好的体验和价值。Notion Repo支持部署在去中心化的Web3.0平台上，这将为用户提供更加安全和可靠的服务，同时也将为网站带来新的商业机会和竞争优势。
 
 ::: tip 提示
-NotionNext支持部署在去中心化的Web3.0平台，可以尝试体验一下
+Notion Repo支持部署在去中心化的Web3.0平台，可以尝试体验一下
 :::
 
 ![download.jpg](/legacy/26cf0917cf2fe01f.jpg)
@@ -31,7 +31,7 @@ Web3.0的核心是区块链技术，它是一种去中心化的分布式数据�
 
 1. 新的商业模式：Web3.0平台上的网站可以通过加密货币来实现支付和奖励，同时也可以通过NFT（非同质化代币）来实现数字资产的交易和管理，这将为网站带来全新的商业模式和机会。
 
-总之，部署在Web3.0平台上的网站能够提供更加安全、透明、去中心化和创新的服务，为用户带来更好的体验和价值。NotionNext支持部署在去中心化的Web3.0平台上，这将为用户提供更加安全和可靠的服务，同时也将为网站带来新的商业机会和竞争优势。
+总之，部署在Web3.0平台上的网站能够提供更加安全、透明、去中心化和创新的服务，为用户带来更好的体验和价值。Notion Repo支持部署在去中心化的Web3.0平台上，这将为用户提供更加安全和可靠的服务，同时也将为网站带来新的商业机会和竞争优势。
 
 
 ## 1.准备账号
@@ -49,7 +49,7 @@ Web3.0的核心是区块链技术，它是一种去中心化的分布式数据�
 
 ![Untitled](/legacy/bf40b64b4ace9184.png)
 
-找到您的NotionNext项目，(确保您的NotionNext项目是最新的，并且项目中有包含deploy/4everland分支)
+找到您的Notion Repo项目，(确保您的Notion Repo项目是最新的，并且项目中有包含deploy/4everland分支)
 
 点击右侧的Import导入
 

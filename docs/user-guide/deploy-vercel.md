@@ -1,17 +1,17 @@
-# Vercel 部署 NotionNext
-> 迁移自：[Vercel部署NotionNext](https://docs.tangly1024.com/article/vercel-deploy-notion-next)
+# Vercel 部署 Notion Repo
+> 迁移自：[Vercel部署Notion Repo](https://docs.tangly1024.com/article/vercel-deploy-notion-next)
 > 发布日期：2023-2-10
 > 最后编辑：2026-5-2
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案
+> 标签：Notion Repo、部署方案
 > 摘要：Vercel是一款国外的Serverless托管平台，对个人用户使用几乎免费，而且方便快捷，用Vercel托管你的Notion站点，无需再操心服务器的维护与资费问题。
 
 ## 前言
 
-遵循此教程您将在[Vercel](https://tangly1024.com/article/vercel)上免费搭建一个[NotionNext](/user-guide/intro)博客。
+遵循此教程您将在[Vercel](https://tangly1024.com/article/vercel)上免费搭建一个[Notion Repo](/user-guide/intro)博客。
 
 ::: info 问题
-[NotionNext](/user-guide/intro)是一个开源站点系统，可以把你的 Notion 内容发布为博客、作品集、知识库、导航站或产品官网。
+[Notion Repo](/user-guide/intro)是一个开源站点系统，可以把你的 Notion 内容发布为博客、作品集、知识库、导航站或产品官网。
 
 Vercel是一个来自国外的在线脚本托管平台，对于个人使用，其免费版已经完全足够，因此您无需购买服务器即可搭建自己的网站。
 :::
@@ -43,7 +43,7 @@ Vercel是一个来自国外的在线脚本托管平台，对于个人使用，�
 <div class="legacy-video-embed">
   <iframe
     src="https://player.bilibili.com/player.html?aid=913088616&bvid=BV1fM4y1L7Qi&cid=1203316294&page=1"
-    title="NotionNext Vercel 部署演示视频"
+    title="Notion Repo Vercel 部署演示视频"
     loading="lazy"
     allowfullscreen
   ></iframe>
@@ -55,19 +55,19 @@ Vercel是一个来自国外的在线脚本托管平台，对于个人使用，�
   <a class="legacy-bookmark-card" href="https://www.youtube.com/watch?v=zWlPyDQCkrk" target="_blank" rel="noreferrer">
     <span class="legacy-bookmark-content">
       <strong>将您的 Notion 笔记变为博客站，所有文章的编写发布都只在您的 Notion 笔记中完成</strong>
-      <span>Maple Tech 分享的 NotionNext 建站与 Vercel 部署过程。</span>
+      <span>Maple Tech 分享的 Notion Repo 建站与 Vercel 部署过程。</span>
       <small>youtube.com/watch?v=zWlPyDQCkrk</small>
     </span>
-    <img src="https://i.ytimg.com/vi/zWlPyDQCkrk/maxresdefault.jpg" alt="NotionNext YouTube 部署教程封面" loading="lazy" />
+    <img src="https://i.ytimg.com/vi/zWlPyDQCkrk/maxresdefault.jpg" alt="Notion Repo YouTube 部署教程封面" loading="lazy" />
   </a>
 
   <a class="legacy-bookmark-card" href="https://www.youtube.com/watch?v=AbI70b9KfXE" target="_blank" rel="noreferrer">
     <span class="legacy-bookmark-content">
-      <strong>零基础入门 NotionNext 网站搭建、个人博客、网站快速搭建部署教程</strong>
-      <span>404 实验室分享的零基础 NotionNext 网站搭建教程。</span>
+      <strong>零基础入门 Notion Repo 网站搭建、个人博客、网站快速搭建部署教程</strong>
+      <span>404 实验室分享的零基础 Notion Repo 网站搭建教程。</span>
       <small>youtube.com/watch?v=AbI70b9KfXE</small>
     </span>
-    <img src="https://i.ytimg.com/vi/AbI70b9KfXE/maxresdefault.jpg" alt="零基础 NotionNext YouTube 教程封面" loading="lazy" />
+    <img src="https://i.ytimg.com/vi/AbI70b9KfXE/maxresdefault.jpg" alt="零基础 Notion Repo YouTube 教程封面" loading="lazy" />
   </a>
 </div>
 
@@ -81,7 +81,7 @@ Vercel是一个来自国外的在线脚本托管平台，对于个人使用，�
 1. 点击下方链接，打开模板
 [Notion Blog](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)
 
-一个NotionNext搭建的博客
+一个Notion Repo搭建的博客
 
 1. 在右上角点击**Duplicate**复制模板，如图所示。点击后会将这个博客数据模板复制到您的笔记空间中。
 ![点击右上角的Duplicate，将模板复制到您的笔记中](/legacy/b6b81e01d512a122.png)
@@ -131,7 +131,7 @@ Vercel是一个来自国外的在线脚本托管平台，对于个人使用，�
 1. 请先注册并登陆[Github账号](https://github.com/)，
 
 1. 仅需点击下方链接，即可一键 **Fork（复刻）** 官方项目。
-[Fork NotionNext](https://github.com/notionnext-org/NotionNext/fork)
+[Fork Notion Repo](https://github.com/notionnext-org/Notion Repo/fork)
 
 
 ## 三、Vercel部署
@@ -165,8 +165,8 @@ Vercel是一个来自国外的在线脚本托管平台，对于个人使用，�
 
 To deploy a new Project, import an existing Git Repository or get started with one of our Templates.
 
-1. 在代码仓库列表中选择导入**NotionNext**
-![2.点击导入您的NotionNext项目](/legacy/fe71592782250a93.png)
+1. 在代码仓库列表中选择导入**Notion Repo**
+![2.点击导入您的Notion Repo项目](/legacy/fe71592782250a93.png)
 ::: tip 提示
 注意：这里步骤放慢些，**不要急着**点击页面上的**Deploy**按钮，先看下方教程。
 :::
@@ -195,7 +195,7 @@ To deploy a new Project, import an existing Git Repository or get started with o
 ## 注意事项
 
 ::: tip 提示
-NotionNext会实时抓取Notion笔记内容
+Notion Repo会实时抓取Notion笔记内容
 (由于缓存和网络延迟，最多刷新两次页面即可看到同步结果)。
 :::
 
@@ -214,9 +214,9 @@ NotionNext会实时抓取Notion笔记内容
 
 到这里，您已拥有了自己的独立博客，站点的一切内容：标题、描述、头像、菜单栏等所有配置都可随心所欲地定制。
 
-接下来，请访问下方的《**NotionNext 操作手册**》获取更多站点配置的帮助！
+接下来，请访问下方的《**Notion Repo 操作手册**》获取更多站点配置的帮助！
 
-[NotionNext-快速免费搭建网站 | NotionNext文档](/user-guide/intro)
+[Notion Repo-快速免费搭建网站 | Notion Repo文档](/user-guide/intro)
 
 无需服务器、即使是小白也能几分钟搭建自己的独立博客站～如果你在使用Notion这款神级笔记本的话，不妨来试试顺手建个网站🤣🤣🤣，这是一款基于NotionAPI的博客系统。
 

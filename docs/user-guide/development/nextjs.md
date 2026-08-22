@@ -14,7 +14,7 @@ Next.js 是一个基于 React 的服务器端渲染框架，它提供了一些�
 
 ### 1. 服务端渲染
 
-Next.js 可以将组件在服务器端进行渲染，并将渲染后的 HTML 代码返回给浏览器，从而加速页面的初始加载速度。NotionNext项目通过在服务端抓取Notion数据，并在服务端生成好页面标签返回前端。
+Next.js 可以将组件在服务器端进行渲染，并将渲染后的 HTML 代码返回给浏览器，从而加速页面的初始加载速度。Notion Repo项目通过在服务端抓取Notion数据，并在服务端生成好页面标签返回前端。
 
 
 ### 2. 静态页面生成
@@ -24,7 +24,7 @@ Next.js 可以自动生成静态页面，这对于需要 SEO 的页面来说非�
 
 ### 3. 文件系统路由
 
-Next.js 会根据 pages 目录下的文件结构自动生成路由规则，从而简化了路由配置的过程。NotionNext项目在/pages 路径下预先制定了博客常用的路由。并且通过 /themes/theme.js 文件，将路由映射到了themes主题目录下。
+Next.js 会根据 pages 目录下的文件结构自动生成路由规则，从而简化了路由配置的过程。Notion Repo项目在/pages 路径下预先制定了博客常用的路由。并且通过 /themes/theme.js 文件，将路由映射到了themes主题目录下。
 
 
 ### 4. 自动代码拆分
@@ -74,7 +74,7 @@ Next.js 提供了一个内置的路由组件，可以在客户端进行路由转
 
 ### _app.js
 
-这是NotionNext项目的 /pages/_app.js文件
+这是Notion Repo项目的 /pages/_app.js文件
 
 ```JavaScript
 import { useEffect } from 'react'

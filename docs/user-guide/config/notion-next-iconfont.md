@@ -6,7 +6,7 @@
 > 摘要：如何在notionnext中配置iconfont
 
 ::: tip 提示
-如需使用IconFont图标，请先将NotionNext 升级至 ≥4.8.4
+如需使用IconFont图标，请先将Notion Repo 升级至 ≥4.8.4
 :::
 
 
@@ -97,14 +97,14 @@ iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提�
 
 ![文件上传到项目中](/legacy/7d44ffcb58207b5e.png)
 
-上传文件的方式有两种，一是通过开发工具下载整个NotionNext工程，然后将文件放入项目，并同步代码到gihubt中，这种方法适合具有一定开发能力的用户。
+上传文件的方式有两种，一是通过开发工具下载整个Notion Repo工程，然后将文件放入项目，并同步代码到gihubt中，这种方法适合具有一定开发能力的用户。
 
 另一种则是直接在github中上传文件：
 
 
 ### 在github中上传图标素材
 
-1. 打开你的github中的NotionNext项目页面：
+1. 打开你的github中的Notion Repo项目页面：
 ![image.png](/legacy/80b9eec3e41004a8.png)
 
 1. 点击进入public目录

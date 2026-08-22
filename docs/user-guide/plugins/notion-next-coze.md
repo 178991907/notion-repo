@@ -6,7 +6,7 @@
 
 ## 前言
 
-你可以直接像站点右下角的AI助手提问，它会尽可能地帮你解决问题。本文将介绍如何将Coze的AI机器人接入到NotionNext。
+你可以直接像站点右下角的AI助手提问，它会尽可能地帮你解决问题。本文将介绍如何将Coze的AI机器人接入到Notion Repo。
 
 ![右下角AI助手](/legacy/7deb8fc1a9bf85e8.png)
 ![提问示例](/legacy/e0486743c1ca076f.png)
@@ -19,7 +19,7 @@ Coze支持介入Bing、百度等搜索引擎插件，提问时会自动检索互
 Coze支持将你的文章内容等等来源信息整理为一个知识库，便于在回答问题时检索这个知识库并给出更专业的回答。
 
 
-## NotionNext如何配置Coze
+## Notion Repo如何配置Coze
 
 在你的Notion_config中添加两项配置，分别是机器人的称呼和机器人ID即可：
 
@@ -27,7 +27,7 @@ Coze支持将你的文章内容等等来源信息整理为一个知识库，便�
 
 参考如下：
 
-这里的COZE_TITLE可以任意填写，他只会影响你窗口中AI机器人的标题，例如NotionNext-AI助理：
+这里的COZE_TITLE可以任意填写，他只会影响你窗口中AI机器人的标题，例如Notion Repo-AI助理：
 
 ![image.png](/legacy/a5a354cb17f68c5e.png)
 
@@ -41,7 +41,7 @@ Coze支持将你的文章内容等等来源信息整理为一个知识库，便�
 
 ```text
 NEXT_PUBLIC_COZE_BOT_ID=你的 Coze Bot ID
-NEXT_PUBLIC_COZE_TITLE=NotionNext助手
+NEXT_PUBLIC_COZE_TITLE=Notion Repo助手
 ```
 
 在 Vercel、Netlify、Docker 或服务器环境变量中配置后，重新部署即可。不要把 Coze 的访问令牌、个人 PAT 或长期密钥提交到 Git 仓库；如果 Coze 当前 SDK 要求鉴权，建议先放在服务端或边缘函数中处理。
@@ -118,7 +118,7 @@ Coze is a next-generation AI application and chatbot developing platform for eve
 
 ![image.png](/legacy/92b9722c10c3d04c.png)
 
-我这里已经提前创建好了一个NotionNext的知识库，而你还没创建知识库，因此这里是空的。这里我们可以先关闭此弹窗，先正常发布后，回过头再完善知识库。
+我这里已经提前创建好了一个Notion Repo的知识库，而你还没创建知识库，因此这里是空的。这里我们可以先关闭此弹窗，先正常发布后，回过头再完善知识库。
 
 知识库知识库允许你投喂给AI一些专业知识，以便它们可以更精确地按照你的要求回答问题。它需要另外维护和导入，因此我与这里的Chat插件分开介绍，在后文中我会提到知识库的创建和导入。
 
