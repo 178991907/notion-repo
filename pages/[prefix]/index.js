@@ -137,6 +137,15 @@ export async function getStaticProps({ params: { prefix }, locale }) {
     locale,
   })
 
+  if (!props.post && ['en', 'zh', 'zh-cn', 'en-us', 'ja'].includes((prefix || '').toLowerCase())) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
   return {
     props,
     revalidate: isStaticExport

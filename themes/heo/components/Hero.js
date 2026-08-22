@@ -68,9 +68,13 @@ function Banner(props) {
    * 随机跳转文章
    */
   function handleClickBanner() {
-    const randomIndex = Math.floor(Math.random() * allNavPages.length)
-    const randomPost = allNavPages[randomIndex]
-    router.push(`${siteConfig('SUB_PATH', '')}/${randomPost?.slug}`)
+    const list = Array.isArray(allNavPages) && allNavPages.length > 0 ? allNavPages : (Array.isArray(props.posts) ? props.posts : [])
+    if (list.length === 0) return
+    const randomIndex = Math.floor(Math.random() * list.length)
+    const randomPost = list[randomIndex]
+    if (randomPost?.slug) {
+      router.push(`${siteConfig('SUB_PATH', '')}/${randomPost.slug}`)
+    }
   }
 
   // 遮罩文字
@@ -265,48 +269,31 @@ function TopGroup(props) {
 /**
  * 获取推荐置顶文章
  */
-function getTopPosts({ latestPosts, allNavPages }) {
-  // 默认展示最近更新
-  if (
-    !siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) ||
-    siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) === ''
-  ) {
-    return latestPosts
+function getTopPosts({ latestPosts = [], allNavPages = [] }) {
+  const posts = Array.isArray(allNavPages) ? [...allNavPages] : (Array.isArray(latestPosts) ? [...latestPosts] : [])
+  const recommendTag = siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG)
+  if (!recommendTag || recommendTag === '') {
+    return Array.isArray(latestPosts) ? latestPosts : []
   }
 
-  // 显示包含‘推荐’标签的文章
-  let sortPosts = []
-
-  // 排序方式
-  if (
-    JSON.parse(
-      siteConfig('HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME', null, CONFIG)
-    )
-  ) {
-    sortPosts = Object.create(allNavPages).sort((a, b) => {
-      const dateA = new Date(a?.lastEditedDate)
-      const dateB = new Date(b?.lastEditedDate)
+  let sortPosts = [...posts]
+  const sortByUpdateTime = siteConfig('HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME', false, CONFIG)
+  if (sortByUpdateTime === true || sortByUpdateTime === 'true') {
+    sortPosts.sort((a, b) => {
+      const dateA = new Date(a?.lastEditedDate || a?.publishDate || 0)
+      const dateB = new Date(b?.lastEditedDate || b?.publishDate || 0)
       return dateB - dateA
     })
-  } else {
-    sortPosts = Object.create(allNavPages)
   }
 
   const topPosts = []
   for (const post of sortPosts) {
-    if (topPosts.length === 6) {
-      break
-    }
-    // 查找标签
-    if (
-      post?.tags?.indexOf(
-        siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG)
-      ) >= 0
-    ) {
+    if (topPosts.length === 6) break
+    if (post?.tags && Array.isArray(post.tags) && post.tags.includes(recommendTag)) {
       topPosts.push(post)
     }
   }
-  return topPosts
+  return topPosts.length > 0 ? topPosts : (Array.isArray(latestPosts) ? latestPosts.slice(0, 6) : [])
 }
 
 /**
