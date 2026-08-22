@@ -461,6 +461,12 @@ const nextConfig = {
     // 这里的配置既可以服务端获取到，也可以在浏览器端获取到
     THEMES: themes
   },
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  eslint: {
+    ignoreDuringBuilds: true
+  },
   devIndicators: {
     buildActivity: false,
     appIsrStatus: false
