@@ -3,7 +3,7 @@ import DarkModeButton from '@/components/DarkModeButton'
 import DashboardButton from '@/components/ui/dashboard/DashboardButton'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import ClerkAuthButtons from '@/components/ClerkAuthButtons'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { useMagzineGlobal } from '..'
@@ -167,21 +167,7 @@ export default function Header(props) {
           </div>
 
           {/* 登录相关 */}
-          {enableClerk && (
-            <>
-              <SignedOut>
-                <SignInButton mode='modal'>
-                  <button className='bg-gray-800 hover:bg-gray-900 text-white rounded-lg px-3 py-2'>
-                    {locale.COMMON.SIGN_IN}
-                  </button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-                <DashboardButton />
-              </SignedIn>
-            </>
-          )}
+          <ClerkAuthButtons locale={locale} />
         </div>
       </div>
 

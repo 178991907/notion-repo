@@ -13,7 +13,7 @@ import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { isBrowser } from '@/lib/utils'
 import { getShortId } from '@/lib/utils/pageId'
-import { SignIn, SignUp } from '@clerk/nextjs'
+import { SafeSignIn, SafeSignUp } from '@/components/ClerkAuthButtons'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import SmartLink from '@/components/SmartLink'
@@ -543,7 +543,7 @@ const LayoutSignIn = props => {
         {/* clerk预置表单 */}
         {enableClerk && (
           <div className='flex justify-center py-6'>
-            <SignIn />
+            <SafeSignIn />
           </div>
         )}
         <div id='article-wrapper'>
@@ -569,7 +569,7 @@ const LayoutSignUp = props => {
         {/* clerk预置表单 */}
         {enableClerk && (
           <div className='flex justify-center py-6'>
-            <SignUp />
+            <SafeSignUp />
           </div>
         )}
         <div id='article-wrapper'>
