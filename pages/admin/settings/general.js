@@ -23,8 +23,21 @@ export default function GeneralSettings() {
     THEME: 'heo',
     APPEARANCE: 'auto',
     LANG: 'zh-CN',
+    REDIRECT_LANG: false,
     BEI_AN: '',
-    BEI_AN_GONGAN: ''
+    BEI_AN_GONGAN: '',
+    // 社交媒体与联系方式
+    CONTACT_EMAIL: '',
+    CONTACT_WEIBO: '',
+    CONTACT_TWITTER: '',
+    CONTACT_GITHUB: '',
+    CONTACT_TELEGRAM: '',
+    CONTACT_LINKEDIN: '',
+    CONTACT_INSTAGRAM: '',
+    CONTACT_BILIBILI: '',
+    CONTACT_YOUTUBE: '',
+    CONTACT_XIAOHONGSHU: '',
+    CONTACT_WEHCHAT_PUBLIC: ''
   })
 
   useEffect(() => {
@@ -253,6 +266,117 @@ export default function GeneralSettings() {
                   <option value="zh-TW">繁体中文 - 台湾 (zh-TW)</option>
                   <option value="en-US">English (en-US)</option>
                 </select>
+              </div>
+
+              {/* 多语言自动重定向开关 */}
+              <div className="sm:col-span-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                <div>
+                  <label className="text-sm font-medium text-gray-900 flex items-center">
+                    🌐 多语言自动重定向 (根据浏览器跳转 /en)
+                    <span className="ml-2 text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">REDIRECT_LANG</span>
+                  </label>
+                  <p className="text-xs text-gray-500 mt-0.5">若开启，当访客浏览器首选语言为英文时将自动跳转至 /en。建议保持关闭以常驻中文主页。</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, REDIRECT_LANG: !prev.REDIRECT_LANG }))}
+                  className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none ${formData.REDIRECT_LANG ? 'bg-blue-600' : 'bg-gray-200'}`}
+                >
+                  <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200 ${formData.REDIRECT_LANG ? 'translate-x-5' : 'translate-x-0'}`} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 🌐 社交媒体与联系方式 */}
+        <section className="bg-white shadow-sm sm:rounded-xl border border-gray-200 overflow-hidden">
+          <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center">
+              <span className="mr-2">💬</span> 社交媒体主页与联系方式
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">配置作者在侧边栏、挂件中展示的个人主页链接，留空则不显示该图标。</p>
+          </div>
+          <div className="px-4 py-5 sm:p-6 space-y-6">
+            <div className="grid grid-cols-1 gap-y-5 gap-x-4 sm:grid-cols-2">
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  🐙 GitHub 个人主页
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_GITHUB</span>
+                </label>
+                <input type="text" name="CONTACT_GITHUB" value={formData.CONTACT_GITHUB} onChange={handleChange} placeholder="https://github.com/your-username" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  𝕏 Twitter / X 主页
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_TWITTER</span>
+                </label>
+                <input type="text" name="CONTACT_TWITTER" value={formData.CONTACT_TWITTER} onChange={handleChange} placeholder="https://twitter.com/your-handle" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  🔴 新浪微博主页
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_WEIBO</span>
+                </label>
+                <input type="text" name="CONTACT_WEIBO" value={formData.CONTACT_WEIBO} onChange={handleChange} placeholder="https://weibo.com/your-id" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  ✈️ Telegram 账号 / 频道
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_TELEGRAM</span>
+                </label>
+                <input type="text" name="CONTACT_TELEGRAM" value={formData.CONTACT_TELEGRAM} onChange={handleChange} placeholder="https://t.me/your-channel" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  📺 哔哩哔哩 (Bilibili)
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_BILIBILI</span>
+                </label>
+                <input type="text" name="CONTACT_BILIBILI" value={formData.CONTACT_BILIBILI} onChange={handleChange} placeholder="https://space.bilibili.com/123456" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  📕 小红书
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_XIAOHONGSHU</span>
+                </label>
+                <input type="text" name="CONTACT_XIAOHONGSHU" value={formData.CONTACT_XIAOHONGSHU} onChange={handleChange} placeholder="https://www.xiaohongshu.com/user/profile/..." className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  🎥 YouTube 主页
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_YOUTUBE</span>
+                </label>
+                <input type="text" name="CONTACT_YOUTUBE" value={formData.CONTACT_YOUTUBE} onChange={handleChange} placeholder="https://youtube.com/@channel" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  💬 微信公众号文章/名片链接
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_WEHCHAT_PUBLIC</span>
+                </label>
+                <input type="text" name="CONTACT_WEHCHAT_PUBLIC" value={formData.CONTACT_WEHCHAT_PUBLIC} onChange={handleChange} placeholder="https://mp.weixin.qq.com/..." className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  ✉️ 电子邮箱
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_EMAIL</span>
+                </label>
+                <input type="text" name="CONTACT_EMAIL" value={formData.CONTACT_EMAIL} onChange={handleChange} placeholder="your-email@example.com" className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
+              </div>
+
+              <div>
+                <label className="flex justify-between items-center text-sm font-medium text-gray-700">
+                  💼 领英 (LinkedIn)
+                  <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">CONTACT_LINKEDIN</span>
+                </label>
+                <input type="text" name="CONTACT_LINKEDIN" value={formData.CONTACT_LINKEDIN} onChange={handleChange} placeholder="https://linkedin.com/in/..." className="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border" />
               </div>
             </div>
           </div>

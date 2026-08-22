@@ -173,6 +173,25 @@ const COLOR_PRESETS = [
   }
 ]
 
+// ==================== 全量社交分享服务列表 ====================
+const ALL_SHARE_SERVICES = [
+  { id: 'link', name: '复制链接', icon: '🔗', bg: 'bg-amber-500', desc: '一键复制当前文章链接到剪贴板' },
+  { id: 'wechat', name: '微信扫码', icon: '💬', bg: 'bg-emerald-600', desc: '生成弹窗二维码供微信扫一扫' },
+  { id: 'qq', name: 'QQ 分享', icon: '🐧', bg: 'bg-sky-500', desc: '分享至 QQ 好友或 QQ 空间' },
+  { id: 'weibo', name: '新浪微博', icon: '🔴', bg: 'bg-red-500', desc: '一键发布图文微博' },
+  { id: 'twitter', name: 'Twitter / X', icon: '𝕏', bg: 'bg-zinc-900', desc: '发布推文分享至 X (Twitter)' },
+  { id: 'telegram', name: 'Telegram', icon: '✈️', bg: 'bg-sky-500', desc: '转发至 Telegram 频道或对话' },
+  { id: 'facebook', name: 'Facebook', icon: '🔵', bg: 'bg-blue-600', desc: '分享到 Facebook 动态' },
+  { id: 'messenger', name: 'Messenger', icon: '💬', bg: 'bg-indigo-500', desc: '发送至 Facebook Messenger' },
+  { id: 'line', name: 'LINE', icon: '🟢', bg: 'bg-green-500', desc: '分享至 LINE 好友' },
+  { id: 'reddit', name: 'Reddit', icon: '🟠', bg: 'bg-orange-500', desc: '提交链接到 Reddit 社区' },
+  { id: 'whatsapp', name: 'WhatsApp', icon: '🟢', bg: 'bg-green-600', desc: '通过 WhatsApp 消息发送' },
+  { id: 'linkedin', name: 'LinkedIn', icon: '💼', bg: 'bg-blue-700', desc: '分享至领英职场动态' },
+  { id: 'email', name: '邮件发送', icon: '✉️', bg: 'bg-gray-600', desc: '通过系统默认邮件客户端分享' },
+  { id: 'pinterest', name: 'Pinterest', icon: '📌', bg: 'bg-red-600', desc: '采集文章封面至 Pinterest 画板' },
+  { id: 'pocket', name: 'Pocket', icon: '🔖', bg: 'bg-rose-600', desc: '保存至 Pocket 稍后阅读' }
+]
+
 // ==================== 默认配置 ====================
 const HEO_DEFAULTS = {
   HEO_HERO_TITLE_1: '分享编程', HEO_HERO_TITLE_2: '与思维认知',
@@ -253,6 +272,9 @@ const HEO_DEFAULTS = {
   HEO_MENU_CUSTOM_ITEMS: [],
   HEO_ARTICLE_ADJACENT: true, HEO_ARTICLE_COPYRIGHT: true,
   HEO_ARTICLE_NOT_BY_AI: false, HEO_ARTICLE_RECOMMEND: true,
+  HEO_INFO_CARD_AVATAR_BLUR: true,
+  POST_SHARE_BAR_ENABLE: true,
+  POSTS_SHARE_SERVICES: 'link,wechat,qq,weibo,email,facebook,twitter,telegram,messenger,line,reddit,whatsapp,linkedin',
   HEO_WIDGET_LATEST_POSTS: true, HEO_WIDGET_ANALYTICS: false,
   HEO_WIDGET_TO_TOP: true, HEO_WIDGET_TO_COMMENT: true,
   HEO_WIDGET_DARK_MODE: true, HEO_WIDGET_TOC: true,
@@ -954,22 +976,103 @@ export default function HeoThemeEditor() {
 
         {/* ==================== 文章 ==================== */}
         {activeTab === 'article' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SectionCard>
-              <SectionTitle icon="📝" title="文章详情页" desc="单篇文章页面的显示控制" />
-              <ToggleField label="显示上/下一篇推荐" configKey="HEO_ARTICLE_ADJACENT" value={formData.HEO_ARTICLE_ADJACENT} onChange={handleChange} />
-              <ToggleField label="显示版权声明" configKey="HEO_ARTICLE_COPYRIGHT" value={formData.HEO_ARTICLE_COPYRIGHT} onChange={handleChange} />
-              <ToggleField label="显示非AI写作标识" configKey="HEO_ARTICLE_NOT_BY_AI" value={formData.HEO_ARTICLE_NOT_BY_AI} onChange={handleChange} />
-              <ToggleField label="显示关联推荐文章" configKey="HEO_ARTICLE_RECOMMEND" value={formData.HEO_ARTICLE_RECOMMEND} onChange={handleChange} />
-            </SectionCard>
-            <SectionCard>
-              <SectionTitle icon="🧭" title="菜单显示 (预留)" desc="顶部导航栏的菜单项显示控制" />
-              <ToggleField label="显示首页" configKey="HEO_MENU_INDEX" value={formData.HEO_MENU_INDEX} onChange={handleChange} />
-              <ToggleField label="显示分类" configKey="HEO_MENU_CATEGORY" value={formData.HEO_MENU_CATEGORY} onChange={handleChange} />
-              <ToggleField label="显示标签" configKey="HEO_MENU_TAG" value={formData.HEO_MENU_TAG} onChange={handleChange} />
-              <ToggleField label="显示归档" configKey="HEO_MENU_ARCHIVE" value={formData.HEO_MENU_ARCHIVE} onChange={handleChange} />
-              <ToggleField label="显示搜索" configKey="HEO_MENU_SEARCH" value={formData.HEO_MENU_SEARCH} onChange={handleChange} />
-            </SectionCard>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* 基础详情页组件 */}
+              <SectionCard>
+                <SectionTitle icon="📝" title="文章详情页基础显示" desc="单篇文章页面的核心功能卡片与标识控制" />
+                <ToggleField label="显示上/下一篇推荐" configKey="HEO_ARTICLE_ADJACENT" value={formData.HEO_ARTICLE_ADJACENT} onChange={handleChange} desc="文章末尾展示相邻文章快速翻页卡片" />
+                <ToggleField label="显示版权声明卡片" configKey="HEO_ARTICLE_COPYRIGHT" value={formData.HEO_ARTICLE_COPYRIGHT} onChange={handleChange} desc="展示作者名、文章原始链接及 CC 知识共享许可声明" />
+                <ToggleField label="显示非 AI 写作标识" configKey="HEO_ARTICLE_NOT_BY_AI" value={formData.HEO_ARTICLE_NOT_BY_AI} onChange={handleChange} desc="声明本文章由真人原创撰写" />
+                <ToggleField label="显示关联推荐文章" configKey="HEO_ARTICLE_RECOMMEND" value={formData.HEO_ARTICLE_RECOMMEND} onChange={handleChange} desc="基于标签相关度自动推荐 6 篇延伸阅读" />
+                <ToggleField label="文章页侧栏头像虚化" configKey="HEO_INFO_CARD_AVATAR_BLUR" value={formData.HEO_INFO_CARD_AVATAR_BLUR} onChange={handleChange} desc="在单篇文章页中名片头像呈现毛玻璃虚化装饰质感" />
+              </SectionCard>
+
+              {/* 分享栏总开关与实时预览 */}
+              <SectionCard>
+                <SectionTitle icon="🚀" title="文章底部分享栏 (ShareBar)" desc="控制文章末尾彩色社交分享按钮条" />
+                <ToggleField label="启用底部分享条" configKey="POST_SHARE_BAR_ENABLE" value={formData.POST_SHARE_BAR_ENABLE} onChange={handleChange} desc="关闭后文章底部将不再显示任何社交分享按钮" />
+
+                {formData.POST_SHARE_BAR_ENABLE !== false && (
+                  <div className="mt-4 p-4 rounded-xl bg-gray-50 border border-gray-200/70 space-y-2">
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center justify-between">
+                      <span>👁️ 1:1 视觉实时预览</span>
+                      <span className="text-gray-400 font-normal">共激活 {(formData.POSTS_SHARE_SERVICES || '').split(',').filter(Boolean).length} 个平台</span>
+                    </div>
+                    {/* 模拟文章底部真实的 ShareButtons 预览 */}
+                    <div className="flex items-center justify-end flex-wrap gap-1.5 p-3 bg-white rounded-lg border border-gray-100 shadow-sm min-h-[50px]">
+                      {(formData.POSTS_SHARE_SERVICES || '')
+                        .split(',')
+                        .map(s => s.trim())
+                        .filter(Boolean)
+                        .map(serviceId => {
+                          const item = ALL_SHARE_SERVICES.find(s => s.id === serviceId) || { id: serviceId, name: serviceId, icon: '🔗', bg: 'bg-gray-600' }
+                          return (
+                            <div
+                              key={serviceId}
+                              title={item.name}
+                              className={`w-7 h-7 rounded-full flex items-center justify-center text-white text-xs shadow-sm transform transition hover:scale-110 cursor-pointer ${item.bg}`}
+                            >
+                              <span>{item.icon}</span>
+                            </div>
+                          )
+                        })}
+                      {(!formData.POSTS_SHARE_SERVICES || formData.POSTS_SHARE_SERVICES.trim() === '') && (
+                        <div className="text-xs text-gray-400 italic">尚未勾选任何分享平台</div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </SectionCard>
+            </div>
+
+            {/* 社交媒体分享平台独立开关矩阵 */}
+            {formData.POST_SHARE_BAR_ENABLE !== false && (
+              <SectionCard>
+                <SectionTitle icon="🌐" title="社交分享平台独立勾选" desc="点击任意平台卡片即可快速启用/停用该分享按钮（按勾选顺序展示）" />
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {ALL_SHARE_SERVICES.map(service => {
+                    const currentServices = (formData.POSTS_SHARE_SERVICES || '').split(',').map(s => s.trim()).filter(Boolean)
+                    const isEnabled = currentServices.includes(service.id)
+
+                    const toggleService = () => {
+                      let nextServices = []
+                      if (isEnabled) {
+                        nextServices = currentServices.filter(s => s !== service.id)
+                      } else {
+                        nextServices = [...currentServices, service.id]
+                      }
+                      handleChange('POSTS_SHARE_SERVICES', nextServices.join(','))
+                    }
+
+                    return (
+                      <div
+                        key={service.id}
+                        onClick={toggleService}
+                        className={`p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
+                          isEnabled
+                            ? 'bg-blue-50/70 border-blue-300 ring-1 ring-blue-400 shadow-sm'
+                            : 'bg-gray-50/60 border-gray-200 text-gray-400 hover:bg-gray-100 hover:border-gray-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-white text-xs shadow-sm ${service.bg}`}>
+                            {service.icon}
+                          </div>
+                          <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${isEnabled ? 'bg-blue-600 text-white' : 'bg-gray-200 text-transparent'}`}>
+                            ✓
+                          </div>
+                        </div>
+                        <div className="mt-2">
+                          <div className={`text-xs font-bold ${isEnabled ? 'text-gray-900' : 'text-gray-500'}`}>{service.name}</div>
+                          <div className="text-[10px] text-gray-400 truncate mt-0.5" title={service.desc}>{service.desc}</div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </SectionCard>
+            )}
           </div>
         )}
 
