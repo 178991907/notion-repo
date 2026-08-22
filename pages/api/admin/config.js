@@ -129,9 +129,10 @@ async function handlePost(req, res) {
     console.warn('清理站点缓存提示:', err.message)
   }
 
-  // 尝试刷新首页缓存
+  // 尝试刷新首页与核心页面缓存
   try {
     await res.revalidate('/')
+    await res.revalidate('/archive').catch(() => {})
   } catch (err) {
     console.warn('revalidate(/) 提示:', err.message)
   }
@@ -143,7 +144,7 @@ async function handlePost(req, res) {
   })
 }
 
-const DEFAULT_TOKEN_ENCODED = 'bnRuXzQwMzAxNjUzMjcyOWpVNjZjQmhvUmpLWmVpYldDQ3JMVmxWdDVTcXV4NXIwc2Y='
+const DEFAULT_TOKEN_ENCODED = 'bnRuXzQwMzAxNjUzMjcyOWpVMTZjQmhvUmpLWmVpYldDQ3JMVmxWdDVTcXV4NXIwc2Y='
 const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, 'base64').toString('utf-8')
 const NOTION_CONFIG_DB_ID = process.env.NOTION_CONFIG_DB_ID || '33f9622a-6d18-8244-872a-012c05388e5a'
 
