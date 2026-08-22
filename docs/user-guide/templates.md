@@ -24,9 +24,9 @@
 
 ## 内容源说明
 
-NotionNext 的内容源是 Notion。文章、页面和菜单先在 Notion 模板里维护，GitHub 仓库主要负责代码、配置和部署。
+Notion Repo 的内容源是 Notion。文章、页面和菜单先在 Notion 模板里维护，GitHub 仓库主要负责代码、配置和部署。
 
-如果你的目标是直接在 GitHub 里写 Markdown 文章，NotionNext 不是最短路径；这种需求更适合 GitHub Pages 或其他 Markdown 博客。
+如果你的目标是直接在 GitHub 里写 Markdown 文章，Notion Repo 不是最短路径；这种需求更适合 GitHub Pages 或其他 Markdown 博客。
 
 ## 个人博客路线
 

@@ -3,7 +3,7 @@
 > 发布日期：2022-2-17
 > 最后编辑：2025-12-26
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案
+> 标签：Notion Repo、部署方案
 > 摘要：Vercel 借助cloudFlare可以快速绑定解析自己的域名
 
 ::: info 问题
@@ -183,9 +183,9 @@ CloudFlare具有Worker.js、全球免费CDN、SSL证书，网站DDoS防火墙等
 ![Untitled](/legacy/a11f1b9bb5dfb245.png)
 
 
-## 域名与NotionNext配置
+## 域名与Notion Repo配置
 
-您的新域名绑定后，请配置到NotionNext项目中，配置方法推荐用环境变量:
+您的新域名绑定后，请配置到Notion Repo项目中，配置方法推荐用环境变量:
 
 在Vercel后台添加如下变量：
 

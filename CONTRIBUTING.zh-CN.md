@@ -8,33 +8,33 @@
 - [环境变量](#环境变量)
 - [社区与治理](#社区与治理)
 
-感谢你愿意为 NotionNext 做贡献！
+感谢你愿意为 Notion Repo 做贡献！
 
 ## 仓库与组织
 
 本仓库已由**个人账号**托管转为 **[GitHub 组织 notionnext-org](https://github.com/notionnext-org)** 管理，canonical 地址为：
 
-**https://github.com/notionnext-org/NotionNext**
+**https://github.com/notionnext-org/Notion Repo**
 
 若你希望参与长期维护、CI 或组织内协作，可先按 [参与社区](./docs/user-guide/community-participate.md) 贡献 PR 并自荐。**欢迎加入组织**，与维护者一起推进项目。
 
-**已符合加入条件但未被邀请？** 请在 [GitHub Discussions](https://github.com/notionnext-org/NotionNext/discussions/new/choose) 留言（标题：**组织成员申请**），附上用户名与已合并 PR 链接；勿重复私信。详见 [GOVERNANCE.zh-CN.md](./GOVERNANCE.zh-CN.md#申请组织协作权限)。
+**已符合加入条件但未被邀请？** 请在 [GitHub Discussions](https://github.com/notionnext-org/Notion Repo/discussions/new/choose) 留言（标题：**组织成员申请**），附上用户名与已合并 PR 链接；勿重复私信。详见 [GOVERNANCE.zh-CN.md](./GOVERNANCE.zh-CN.md#申请组织协作权限)。
 
 若你仍在使用转让前克隆的本地仓库，建议将默认远端改为组织地址，避免长期依赖旧 URL 重定向：
 
 ```bash
-git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+git remote set-url origin https://github.com/notionnext-org/Notion Repo.git
 git remote -v
 ```
 
-Fork 开发与向 `main` 提 PR 的流程不变；PR 的目标仓库请选择 **notionnext-org/NotionNext**。
+Fork 开发与向 `main` 提 PR 的流程不变；PR 的目标仓库请选择 **notionnext-org/Notion Repo**。
 
 ## 第一次贡献（推荐路径）
 
-1. 在 [Issues](https://github.com/notionnext-org/NotionNext/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) 挑选带 **`good first issue`** 的任务，或修正你正在阅读的文档页。  
+1. 在 [Issues](https://github.com/notionnext-org/Notion Repo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) 挑选带 **`good first issue`** 的任务，或修正你正在阅读的文档页。  
 2. 文档改动：编辑 `docs/user-guide/**/*.md`，`yarn docs:site:dev` 预览，提 PR。详见 [参与维护在线文档](./docs/user-guide/maintain-docs.md)。  
 3. 代码改动：独立分支 → `yarn lint` / `yarn type-check` / 必要测试 → PR。  
-4. 大功能或公共 API：先读 [RFC 指南](./docs/developer/rfc/README.md) 或在 [Discussions](https://github.com/notionnext-org/NotionNext/discussions) 对齐。  
+4. 大功能或公共 API：先读 [RFC 指南](./docs/developer/rfc/README.md) 或在 [Discussions](https://github.com/notionnext-org/Notion Repo/discussions) 对齐。  
 5. 长期维护：见 [参与社区](./docs/user-guide/community-participate.md) 与 [MAINTAINERS.md](./MAINTAINERS.md)。
 
 ## 环境准备
@@ -46,7 +46,7 @@ Fork 开发与向 `main` 提 PR 的流程不变；PR 的目标仓库请选择 **
 3. 为本次任务创建独立分支。
 4. 完成功能或修复并本地验证。
 5. 提交并推送分支。
-6. 发起 PR 到 NotionNext 的 `main` 分支。
+6. 发起 PR 到 Notion Repo 的 `main` 分支。
 
 常用命令：
 
@@ -96,7 +96,7 @@ Fork 开发与向 `main` 提 PR 的流程不变；PR 的目标仓库请选择 **
 - [参与社区](./docs/user-guide/community-participate.md)  
 - [项目治理](./GOVERNANCE.zh-CN.md) · [维护者名单](./MAINTAINERS.md)  
 - [行为准则](./CODE_OF_CONDUCT.md)  
-- [Discussions](https://github.com/notionnext-org/NotionNext/discussions)
+- [Discussions](https://github.com/notionnext-org/Notion Repo/discussions)
 
 配置优先级：
 

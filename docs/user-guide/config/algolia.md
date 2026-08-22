@@ -3,10 +3,10 @@
 > 发布日期：2023-7-30
 > 最后编辑：2026-5-2
 > 原栏目：🧷 外部扩展
-> 摘要：NotionNext如何配置Algolia
+> 摘要：Notion Repo如何配置Algolia
 
 ::: info 问题
-NotionNext4.0 系列支持algolia全文搜索
+Notion Repo4.0 系列支持algolia全文搜索
 这样即使你的站点是纯静态部署，也可以支持全文搜索。
 :::
 
@@ -42,7 +42,7 @@ Algolia是一家提供全文搜索和实时搜索解决方案的云服务提供�
 ~~所有主题已支持Algolia
 :::
 
-只需在部署平台的环境变量中添加以下四项配置即可开启，相关配置可参考仓库 [conf/plugin.config.js](https://github.com/notionnext-org/NotionNext/blob/main/conf/plugin.config.js)。
+只需在部署平台的环境变量中添加以下四项配置即可开启，相关配置可参考仓库 [conf/plugin.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/conf/plugin.config.js)。
 
 在algolia后台可以查询到 apikey相关参数，[https://dashboard.algolia.com/account/api-keys/](https://dashboard.algolia.com/account/api-keys/)
 
@@ -72,7 +72,7 @@ Algolia's Search API makes it easy to deliver a great search experience in your 
 
 通常会跳到这个引导页面，提示您创建您的第一个数据库，这里我演示填写 demo作为数据库名，并点击Create index 创建。
 ![Untitled](/legacy/b0e00a87de78f378.png)
-第二步，Algolia会提示您上传数据，这里我们不用上传，NotionNext会自动在您创建修改文章时创建。
+第二步，Algolia会提示您上传数据，这里我们不用上传，Notion Repo会自动在您创建修改文章时创建。
 ![Untitled](/legacy/a2cc131f41df2da5.png)
 
 </details>
@@ -105,7 +105,7 @@ Algolia新版本首次登录打开会自动跳转到另一个版本的引导页�
 
 ![Untitled](/legacy/86cc8ec92803f0ba.png)
 
-最右侧可以点击复制秘钥，这三个秘钥对应NotionNext后台环境变量如下：
+最右侧可以点击复制秘钥，这三个秘钥对应Notion Repo后台环境变量如下：
 
 
 ## 完成配置

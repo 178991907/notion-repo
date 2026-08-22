@@ -29,7 +29,7 @@ Material 卡片封面列表
 
 ## 配置说明
 
-配置文件：[`themes/matery/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/matery/config.js)  
+配置文件：[`themes/matery/config.js`](https://github.com/notionnext-org/Notion Repo/blob/main/themes/matery/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
 ### Matery 主题调色

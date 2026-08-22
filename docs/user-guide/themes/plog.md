@@ -29,7 +29,7 @@
 
 ## 配置说明
 
-配置文件：[`themes/plog/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/plog/config.js)  
+配置文件：[`themes/plog/config.js`](https://github.com/notionnext-org/Notion Repo/blob/main/themes/plog/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
 ### Plog 主题调色

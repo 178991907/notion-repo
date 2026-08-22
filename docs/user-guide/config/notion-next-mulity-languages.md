@@ -65,11 +65,11 @@ xxxxxxx**,en:xxxxx,zh:xxxxx,blog:xxxxxx,product:xxxxx,docs:xxxxxx**
 
 [Notion Blog - EN | Notion](https://tanghh.notion.site/7c1d570661754c8fbc568e00a01fd70e)
 
-NotionNext Blog
+Notion Repo Blog
 
 [Notion Blog | Notion](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5?v=b7eb215720224ca5827bfaa5ef82cf2d)
 
-一个NotionNext搭建的博客
+一个Notion Repo搭建的博客
 
 
 ### 2. 配置`NOTION_PAGE_ID`。
@@ -79,7 +79,7 @@ NotionNext Blog
 
 ![Untitled](/legacy/0009cc51e2e13f02.png)
 
-其中第一个`PAGE_ID`视作默认主语言，与以往旧版的NotionNext使用方式无异。
+其中第一个`PAGE_ID`视作默认主语言，与以往旧版的Notion Repo使用方式无异。
 
 而逗号后面的ID要以`语言名`开头且ID中间用`英文冒号:`隔开。例如缩写`en:xxxx` 表示英文站点使用`xxxx`这个数据库，访问站点的` [domain.com]/en` 读取的站点数据来自`xxxx` 这个数据库。
 
@@ -135,7 +135,7 @@ NOTION_PAGE_ID = 'xxJPxx,en:xxENxx,zh:xxZHxx,es:xxESxx'
 
 方案一，势必会导致单个Notion数据库模板的庞大复杂，从而难以维护。
 
-我决定使用“**多数据源**”的方案， 即一个NotionNext网站支持绑定多个Notion数据库，根据用户的语言地区或者所选语言自动切换展示对应数据库的内容。这样的好处有：
+我决定使用“**多数据源**”的方案， 即一个Notion Repo网站支持绑定多个Notion数据库，根据用户的语言地区或者所选语言自动切换展示对应数据库的内容。这样的好处有：
 
 1. 差异化运营：针对不同人群，显示的菜单数量和内容、文章内容和数量都可完全不同的，便于不同地区定制化运营。
 

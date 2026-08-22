@@ -1,10 +1,10 @@
-# NotionNext-升级教程
-> 迁移自：[NotionNext-升级教程](https://docs.tangly1024.com/article/how-to-update-notionnext)
+# Notion Repo-升级教程
+> 迁移自：[Notion Repo-升级教程](https://docs.tangly1024.com/article/how-to-update-notionnext)
 > 发布日期：2022-6-2
 > 最后编辑：2025-1-21
 > 原栏目：✨ 更新日志
-> 标签：NotionNext、升级教程
-> 摘要：当NotionNext发布新版后，如何更新你的项目？
+> 标签：Notion Repo、升级教程
+> 摘要：当Notion Repo发布新版后，如何更新你的项目？
 
 ::: tip 提示
 4.8版本加入一些新的功能和配置，同时大量调整了配置文件，**更新时blog.config.js文件会发生大量冲突**，请小心驾驶。
@@ -14,7 +14,7 @@
 
 ## 前言
 
-通过此文档您将学会如何将NotionNext升级至最新版本，参考此文档您可以完成整个项目的升级。
+通过此文档您将学会如何将Notion Repo升级至最新版本，参考此文档您可以完成整个项目的升级。
 
 若您实在无法独立完成可以参考文末的求助方式。
 
@@ -32,15 +32,15 @@
 
 本项目在长期维护更新中，不时将修复一些bug和增加新特性。新版本中对页面样式以及加载速度都做了大量的优化，因此推荐您更新到最新版。
 
-您可以在[NotionNext的Github仓库](https://github.com/notionnext-org/NotionNext)右上角点击Star，以便关注项目动态，您将第一时间收到新版本发布的消息。
+您可以在[Notion Repo的Github仓库](https://github.com/notionnext-org/Notion Repo)右上角点击Star，以便关注项目动态，您将第一时间收到新版本发布的消息。
 
 ![Untitled](/legacy/5c03aa929431ec11.png)
 
 访问以下文章可以查看版本更新记录：
 
-[NotionNext文档](/user-guide/changelog/latest)
+[Notion Repo文档](/user-guide/changelog/latest)
 
-NotionNext教程
+Notion Repo教程
 
 ## 4.10.10 升级提示
 
@@ -112,7 +112,7 @@ NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true
 
 ## 简单更新方法
 
-当您的代码版本落后于NotionNext最新版时，项目右上角将会出现一个更新按钮，这个按钮可能会有三种情况：
+当您的代码版本落后于Notion Repo最新版时，项目右上角将会出现一个更新按钮，这个按钮可能会有三种情况：
 
 1. 显示 `Fetch upstream` 按钮，点击并选择 `Fetch and merge`即可更新为最新的代码。
 ![https%3A%2F%2Fs3.us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F4d421dbe-0706-4d4a-98bc-5b10e2c3d12e%2FUntitled.png](/legacy/12eafe232fc36221.png)
@@ -121,7 +121,7 @@ NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true
 ![Untitled](/legacy/03ded28f962b1c4f.png)
 
 ::: tip 按需开启自动同步
-NotionNext 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长在同步失败时反复收到 GitHub Actions 邮件。
+Notion Repo 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长在同步失败时反复收到 GitHub Actions 邮件。
 
 平时建议使用上面的 `Sync fork` 按钮手动更新。只有你确实希望仓库每天自动同步上游时，再打开 `.github/workflows/sync.yaml`，在 `on:` 下加入：
 
@@ -138,7 +138,7 @@ NotionNext 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长�
 
 先恢复线上站点：进入 Vercel 项目 `Deployments`，找到最近一条绿色 `Ready` 的 `Production` 记录，点击右侧 `...`，选择 `Promote to Production` 或 `Redeploy`。
 
-再处理根因：同步最新 NotionNext 代码。本仓库已默认关闭 `Upstream Sync` 定时任务，并让 Vercel 跳过 `[skip-version]` 版本号提交，减少自动流程对站长的打扰。
+再处理根因：同步最新 Notion Repo 代码。本仓库已默认关闭 `Upstream Sync` 定时任务，并让 Vercel 跳过 `[skip-version]` 版本号提交，减少自动流程对站长的打扰。
 :::
 
 1. 没有上面两种情况的按钮，这种情况下大概率是因为修改了相同部分的代码导致冲突，需要手动确认才能合并，请看下文。
@@ -154,7 +154,7 @@ NotionNext 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长�
 
 - `Discard xx commits` 的意思是放弃修改的代码，这样就可以消除你与我的代码冲突，然后就可以点击update更新。点击此选项请注意备份自己在代码中修改的配置。
 
-- `Open Pull Request` 非专业人士请勿点击此项。它意味着你希望将你修改的功能或者修复的bug，提交到NotionNext的中央仓库，简称**[PR（贡献代码）](/user-guide/help/support-notion-next#eccae64337804d32a0a7f54ab8c946ad)****，**我会审核你的提交内容，如果审核通过将会在新版本中发布。
+- `Open Pull Request` 非专业人士请勿点击此项。它意味着你希望将你修改的功能或者修复的bug，提交到Notion Repo的中央仓库，简称**[PR（贡献代码）](/user-guide/help/support-notion-next#eccae64337804d32a0a7f54ab8c946ad)****，**我会审核你的提交内容，如果审核通过将会在新版本中发布。
 
 
 ## 带有冲突的更新
@@ -189,22 +189,22 @@ NotionNext 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长�
 操作方式，联系小助理告知”代码付费升级“，定价是￥**9.9/**次。
 :::
 
-NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马上解决冲突！
-[047 一种更新NotionNext版本的简单方法 | Dongdong’s Blog](https://ddw2019.com/047)
+Notion Repo更新冲突？网上教程还要VS code和git?通通不需要，马上解决冲突！
+[047 一种更新Notion Repo版本的简单方法 | Dongdong’s Blog](https://ddw2019.com/047)
 
 这是一种简答的更新notionNext版本的方法
-[手动 NotionNext 版本更新教程 | D_SUPER BLOG](https://www.dsuper.xyz/article/notionnext_update_221228)
+[手动 Notion Repo 版本更新教程 | D_SUPER BLOG](https://www.dsuper.xyz/article/notionnext_update_221228)
 
-勤劳的 tangly1024 [ Github][ Blog] 大大又更新了 NotionNext 内容。之前的更新内容不涉及 blog.config.js 文件（配置博客唯一要更改的文件），可以直接 Fetch upstream → Fetch and merge 跟进版本。但是这次涉及到 blog.config.js 文件的修改，新旧内容冲突导致 Github 懵了，需要手动更新。数日前就看到需要更新，今天才得以抽空完成这一"大工程"（实在是懒）。 (1) 浏览器 [Github 已经 Fork 过 NotionNext 项目]; (2) Github desktop 客户端 [ 安装地址]; (3) Visual Studio Code - VS Code [ 安装地址].
+勤劳的 tangly1024 [ Github][ Blog] 大大又更新了 Notion Repo 内容。之前的更新内容不涉及 blog.config.js 文件（配置博客唯一要更改的文件），可以直接 Fetch upstream → Fetch and merge 跟进版本。但是这次涉及到 blog.config.js 文件的修改，新旧内容冲突导致 Github 懵了，需要手动更新。数日前就看到需要更新，今天才得以抽空完成这一"大工程"（实在是懒）。 (1) 浏览器 [Github 已经 Fork 过 Notion Repo 项目]; (2) Github desktop 客户端 [ 安装地址]; (3) Visual Studio Code - VS Code [ 安装地址].
 
 
 ## Github 自动化（高阶方法，需要一定知识）
 
-除了手动点击 `Fetch upstream` / `Sync fork` 按钮，仓库内置了一个 GitHub Actions workflow（[`.github/workflows/sync.yaml`](https://github.com/notionnext-org/NotionNext/blob/main/.github/workflows/sync.yaml)），可以自动帮你完成每日同步上游最新代码的工作。
+除了手动点击 `Fetch upstream` / `Sync fork` 按钮，仓库内置了一个 GitHub Actions workflow（[`.github/workflows/sync.yaml`](https://github.com/notionnext-org/Notion Repo/blob/main/.github/workflows/sync.yaml)），可以自动帮你完成每日同步上游最新代码的工作。
 
 ### 功能说明
 
-该 workflow 每天 UTC 0点（对应北京时间早上8点）自动运行一次，将上游仓库 `notionnext-org/NotionNext` 的 `main` 分支同步合并到你 fork 仓库的 `main` 分支，不需要每天手动点击更新按钮。
+该 workflow 每天 UTC 0点（对应北京时间早上8点）自动运行一次，将上游仓库 `notionnext-org/Notion Repo` 的 `main` 分支同步合并到你 fork 仓库的 `main` 分支，不需要每天手动点击更新按钮。
 
 关键配置如下：
 
@@ -220,7 +220,7 @@ jobs:
     steps:
       - uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
         with:
-          upstream_sync_repo: notionnext-org/NotionNext
+          upstream_sync_repo: notionnext-org/Notion Repo
           upstream_sync_branch: main
           target_sync_branch: main
 ```
@@ -258,7 +258,7 @@ GitHub 出于安全考虑，**新 fork 的仓库默认关闭了 Actions（自动
 ![Untitled](/legacy/7095faf911737b2d.png)
 ![Untitled](/legacy/9330a22b133f9c00.png)
 
-这样，以后您只需在自己的分支修改代码，然后每次更新NotionNext版本只是main分支的更新，然后在自己的仓库中选择将main合并到自己建立的部署分支即可。
+这样，以后您只需在自己的分支修改代码，然后每次更新Notion Repo版本只是main分支的更新，然后在自己的仓库中选择将main合并到自己建立的部署分支即可。
 
 
 ## 部署更新失败如何解决
@@ -295,7 +295,7 @@ GitHub 出于安全考虑，**新 fork 的仓库默认关闭了 Actions（自动
 ## 寻求帮助
 
 - 留言求助
-[1.联系我们 | NotionNext文档](/user-guide/help/feedback)
+[1.联系我们 | Notion Repo文档](/user-guide/help/feedback)
 
 开始练习写作的小白，我觉得相比写什么、怎么写、写得如何来说，更重要的是坚持写作。
 
@@ -303,7 +303,7 @@ GitHub 出于安全考虑，**新 fork 的仓库默认关闭了 Actions（自动
 [/user-guide/help/community](/user-guide/help/community)
 
 - 向我寻求助
-[1.联系我们 | NotionNext文档](/user-guide/help/feedback)
+[1.联系我们 | Notion Repo文档](/user-guide/help/feedback)
 
 开始练习写作的小白，我觉得相比写什么、怎么写、写得如何来说，更重要的是坚持写作。
 

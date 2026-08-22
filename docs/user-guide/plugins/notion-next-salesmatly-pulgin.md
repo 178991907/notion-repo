@@ -3,8 +3,8 @@
 > 发布日期：2024-5-10
 > 最后编辑：2024-9-21
 > 原栏目：🧷 外部扩展
-> 标签：NotionNext、插件、聊天
-> 摘要：NotionNext配置Salesmatly插件
+> 标签：Notion Repo、插件、聊天
+> 摘要：Notion Repo配置Salesmatly插件
 
 由于Facebook聊天插件停运，目前可以选择用SaleSmartly插件作为对话工具
 
@@ -23,7 +23,7 @@ SaleSmartly的免费版上线是一千个会话，即超过一千位客户咨询
 
 1. 登录[SaleSmartly](https://share.salesmartly.com/gsuvhl)后台获取安装代码
 
-1. 配置在NotionNext中。
+1. 配置在Notion Repo中。
 
 安装代码获取方式：
 

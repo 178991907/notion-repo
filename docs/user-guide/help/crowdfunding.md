@@ -17,7 +17,7 @@
 
 让您和访客更加紧密链接，并围绕会员开展出更多的服务功能，例如表单申请提交、订阅、知识付费等等。
 
-NotionNext轻量化地链接Notion的数据库，无感知地加入会员注册、登录和管理功能，在您的Notion笔记中像管理您的数字资产一样维护用户数据。
+Notion Repo轻量化地链接Notion的数据库，无感知地加入会员注册、登录和管理功能，在您的Notion笔记中像管理您的数字资产一样维护用户数据。
 
 ![在notion中管理会员](/legacy/e0a8979e6a49099d.png)
 ![用户登录页面](/legacy/b38bc31a9dcf44b3.png)
@@ -37,9 +37,9 @@ NotionNext轻量化地链接Notion的数据库，无感知地加入会员注册�
 1. 基于clerk的成熟登录校验功能，绑定到Notion数据库写入功能。
 
 1. 基于NextAuth，做一个属于自己的clerk，类似[这样](https://juejin.cn/post/7379055111936606259)。有趣的事，若此方案可以替代clerk，那么仅“授权认证”这一功能就将成为一个市场非常广阔的应用。
-一旦要写入数据、修改数据，最重要的就是安全认证问题。NotionNext作为第三方信任背书代用户向Notion写入数据。此方案下，NotionNex有两件事要做。
+一旦要写入数据、修改数据，最重要的就是安全认证问题。Notion Repo作为第三方信任背书代用户向Notion写入数据。此方案下，NotionNex有两件事要做。
   1. 上线授权认证中心，并持续运营维护，站长需要将写入Notion数据的权限授予“认证中心”。
-  1. 在NotionNext搭建的站点整合一个**权限安全+登录验证**的功能；可能基于Clerk或NextAuth。
+  1. 在Notion Repo搭建的站点整合一个**权限安全+登录验证**的功能；可能基于Clerk或NextAuth。
 
 
 ### 费用？
@@ -100,10 +100,10 @@ clerk方案的免费版支持：每月10,000 个活跃用户 ， 但如果要开
 ::: info 说明
 承蒙厚爱！截止**V4.4.3(2024-4-12)**版本，全站多语言功能已经上线
 一个网站同时[支持多种语言](https://www.notion.so/e62797070e0d4046aca1f07664c2d610?pvs=25)，任意切换。多语言不仅限于一个网站支持中英双语，而是支持无限多种多语言。次项开发的难度耗时都比较大，但它是个免费功能。访问文档获取帮助：
-[全站多语言 | NotionNext帮助手册](/user-guide/config/notion-next-mulity-languages)
+[全站多语言 | Notion Repo帮助手册](/user-guide/config/notion-next-mulity-languages)
 :::
 
-NotionNext操作手册，部署教程，如何部署
+Notion Repo操作手册，部署教程，如何部署
 
 
 ## 三、参与方式

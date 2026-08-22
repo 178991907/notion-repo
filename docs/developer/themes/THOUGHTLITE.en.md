@@ -1,15 +1,15 @@
-﻿# ThoughtLite theme (NotionNext)
+﻿# ThoughtLite theme (Notion Repo)
 
 [中文](./THOUGHTLITE.md) | Task plan (Chinese): [THOUGHTLITE_MIGRATION_PLAN.zh-CN.md](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)
 
-This document is for **developers who maintain the ThoughtLite port** in NotionNext: why it exists, upstream provenance, original author repository, compliance notes, and day-to-day maintenance.
+This document is for **developers who maintain the ThoughtLite port** in Notion Repo: why it exists, upstream provenance, original author repository, compliance notes, and day-to-day maintenance.
 
 ---
 
 ## 1. Why it was added
 
-- **Community request**: [Issue #3987](https://github.com/notionnext-org/NotionNext/issues/3987) proposed a new theme inspired by the open-source Astro theme **ThoughtLite** (timeline-style home, reading-first layout).
-- **Goal**: Provide an optional React skin that **stays compatible with NotionNext data contracts** (`posts`, `post`, `customNav`, comments, plugins, etc.) while **approximating ThoughtLite’s look and information architecture**.
+- **Community request**: [Issue #3987](https://github.com/notionnext-org/Notion Repo/issues/3987) proposed a new theme inspired by the open-source Astro theme **ThoughtLite** (timeline-style home, reading-first layout).
+- **Goal**: Provide an optional React skin that **stays compatible with Notion Repo data contracts** (`posts`, `post`, `customNav`, comments, plugins, etc.) while **approximating ThoughtLite’s look and information architecture**.
 
 ---
 
@@ -24,7 +24,7 @@ This document is for **developers who maintain the ThoughtLite port** in NotionN
 | **Upstream stack** | Astro, Svelte, Tailwind CSS (see upstream README) |
 | **Upstream license** | **GPL-3.0** |
 
-NotionNext is primarily **MIT**. This theme is implemented as a **design-informed React rewrite**, **without copying** upstream `.astro` / `.svelte` source wholesale. If someone later wants to vendor GPL code paths, maintainers must assess **GPL/MIT compatibility** (see [migration plan §0](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)).
+Notion Repo is primarily **MIT**. This theme is implemented as a **design-informed React rewrite**, **without copying** upstream `.astro` / `.svelte` source wholesale. If someone later wants to vendor GPL code paths, maintainers must assess **GPL/MIT compatibility** (see [migration plan §0](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)).
 
 ---
 
@@ -93,7 +93,7 @@ Use `yarn dev` locally; `?theme=thoughtlite` may work where the app exposes them
 
 ## 8. Links
 
-- Issue: [notionnext-org/NotionNext#3987](https://github.com/notionnext-org/NotionNext/issues/3987)
+- Issue: [notionnext-org/Notion Repo#3987](https://github.com/notionnext-org/Notion Repo/issues/3987)
 - Upstream: [tuyuritio/astro-theme-thought-lite](https://github.com/tuyuritio/astro-theme-thought-lite)
 - Demo: [thought-lite.ttio.workers.dev](https://thought-lite.ttio.workers.dev/)
 

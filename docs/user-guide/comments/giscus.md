@@ -3,7 +3,7 @@
 > 发布日期：2023-6-29
 > 最后编辑：2024-1-31
 > 原栏目：📩 评论插件
-> 标签：NotionNext、插件、Giscus
+> 标签：Notion Repo、插件、Giscus
 
 ## Giscus
 
@@ -58,7 +58,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 ![Untitled](/legacy/5f462484859abb12.png)
 
 
-## 配置NotionNext
+## 配置Notion Repo
 
 添加giscus环境变量即可
 

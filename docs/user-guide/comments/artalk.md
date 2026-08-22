@@ -3,7 +3,7 @@
 > 发布日期：2023-8-8
 > 最后编辑：2024-1-31
 > 原栏目：📩 评论插件
-> 摘要：NotionNext支持Artalk评论插件
+> 摘要：Notion Repo支持Artalk评论插件
 
 ## Artalk介绍
 

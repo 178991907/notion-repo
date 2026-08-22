@@ -5,7 +5,7 @@
 
 ## 背景
 
-静态导出（`EXPORT=true`）时，NotionNext 会：
+静态导出（`EXPORT=true`）时，Notion Repo 会：
 
 1. **全量预热**（prefetch）：在生成路径前，为站点内**每一篇文章**拉取 block 并写入构建缓存（`lib/build/prefetch.js`）。
 2. **逐页 SSG**：为每个路由生成 HTML；单页若拉取 Notion 过慢，可能触发 Next.js 默认 **300 秒**超时（`staticPageGenerationTimeout`）。
@@ -108,7 +108,7 @@ PERF_PAGE_DATA_FAIL=true yarn perf:page-data
 - [Cloudflare Pages 静态部署](./cloudflare-pages.md)
 - [Vercel 静态导出](./vercel-static.md)
 - [部署索引](./index.md)
-- 仓库根目录 [DEPLOYMENT.md](https://github.com/notionnext-org/NotionNext/blob/main/DEPLOYMENT.md)
+- 仓库根目录 [DEPLOYMENT.md](https://github.com/notionnext-org/Notion Repo/blob/main/DEPLOYMENT.md)
 
 ## 原文 / 维护
 

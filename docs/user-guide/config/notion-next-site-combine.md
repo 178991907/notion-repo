@@ -8,7 +8,7 @@
 
 围绕一个核心站点域名，通常可以做很多业务，例如搭建内容更丰富的综合网站，既有博客、相册、文档、落地页、产品页、甚至电商页面等功能的综合网站该怎么做？
 
-旧的做法是用二级域名多站点，新的NotionNext中则支持多板块。
+旧的做法是用二级域名多站点，新的Notion Repo中则支持多板块。
 
 
 ## 二级域名多站点
@@ -28,7 +28,7 @@
 
 ## 单站点多板块
 
-NotionNext结合[《多数据库》](/user-guide/config/notion-next-mulity-languages)可以有很多灵活的玩法
+Notion Repo结合[《多数据库》](/user-guide/config/notion-next-mulity-languages)可以有很多灵活的玩法
 
 “一个站点支持绑定多个notion数据库”，部署的第2个以上的数据库，可以指定子路径访问；并且每个数据库可以配置自己的主题(用`NOTION_CONFIG`)。
 

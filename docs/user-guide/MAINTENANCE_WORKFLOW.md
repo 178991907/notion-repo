@@ -1,6 +1,6 @@
 ﻿# 用户文档维护工作流
 
-面向**站长、贡献者、维护者**：如何在仓库内正确新增、修改、排序 NotionNext 使用说明。
+面向**站长、贡献者、维护者**：如何在仓库内正确新增、修改、排序 Notion Repo 使用说明。
 
 > 策略总纲：[DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)  
 > 读者导航：[使用说明目录](./) · 官方 slug 对照：[ARTICLE_INDEX.md](./ARTICLE_INDEX.md)
@@ -169,7 +169,7 @@ https://docs.tangly1024.com/article/slug
 
 - 文档专用分支：`docs/xxx` 或 `docs/user-guide-xxx`。  
 - 文档与功能分 PR 时，在功能 PR 中写 `Docs follow-up: #xxx`。  
-- 遵循 [CONTRIBUTION_WORKFLOW.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/CONTRIBUTION_WORKFLOW.md)（lint/test 对纯文档 PR 可选，但勿改无关文件）。
+- 遵循 [CONTRIBUTION_WORKFLOW.md（GitHub）](https://github.com/notionnext-org/Notion Repo/blob/main/docs/developer/CONTRIBUTION_WORKFLOW.md)（lint/test 对纯文档 PR 可选，但勿改无关文件）。
 
 ---
 

@@ -1,9 +1,9 @@
-# NotionNext用配置调整样式
-> 迁移自：[NotionNext用配置调整样式](https://docs.tangly1024.com/article/custom-your-style)
+# Notion Repo用配置调整样式
+> 迁移自：[Notion Repo用配置调整样式](https://docs.tangly1024.com/article/custom-your-style)
 > 发布日期：2024-3-2
 > 最后编辑：2024-9-29
 > 原栏目：⌨ 开发教程
-> 标签：NotionNext
+> 标签：Notion Repo
 > 摘要：不会react、不会 nextjs、不会webpack、不会TailWindCSS如何调整样式
 
 如果没有技术开发基础，如何自定义样式，调整页面的背景色、字号、框架？本文分享用纯css方案自定义站点，此方案对纯小白会友好一些。
@@ -11,7 +11,7 @@
 
 ## 前言
 
-NotionNext在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Notion中编辑CSS和JS脚本，从而实时修改网页样式，这种方式调整样式对源代码无是无侵入的。换言之，您无需打开Github代码，只要在Notion笔记中编写几个指令即可调整网页上的效果。
+Notion Repo在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Notion中编辑CSS和JS脚本，从而实时修改网页样式，这种方式调整样式对源代码无是无侵入的。换言之，您无需打开Github代码，只要在Notion笔记中编写几个指令即可调整网页上的效果。
 
 
 ### 效果
@@ -119,7 +119,7 @@ NotionConfig指的是您的Notion笔记数据库中，一个类型为CONFIG、�
 
 ## 最后
 
-关于CSS调整页面样式的介绍就到这里，NotionNext本身用到了框架化的 React+ TailWindCSS等技术，通过纯css的方案能实现的功能有限。如果需要更进一步的调整，例如版面布局的调整则需要更专业的开发。
+关于CSS调整页面样式的介绍就到这里，Notion Repo本身用到了框架化的 React+ TailWindCSS等技术，通过纯css的方案能实现的功能有限。如果需要更进一步的调整，例如版面布局的调整则需要更专业的开发。
 
 ## 原文链接
 

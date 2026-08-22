@@ -2,7 +2,7 @@
 
 ## 概述
 
-NotionNext 支持多种部署方式，本指南将详细介绍各种部署选项和最佳实践。
+Notion Repo 支持多种部署方式，本指南将详细介绍各种部署选项和最佳实践。
 
 ## 部署前准备
 
@@ -68,7 +68,7 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
 1. **连接 GitHub**
    - 访问 [Vercel](https://vercel.com)
    - 使用 GitHub 账号登录
-   - 导入你的 NotionNext 仓库
+   - 导入你的 Notion Repo 仓库
 
 2. **配置环境变量**
    - 在 Vercel 项目设置中添加环境变量
@@ -201,7 +201,7 @@ EdgeOne 构建阶段会按仓库中的 `.nvmrc` 切换 Node 版本。若控制�
 
 处理方式：
 
-1. **保持上游**：拉取最新 NotionNext，确认 `.nvmrc` 已与 EdgeOne「项目设置 → Node.js 版本」下拉列表中可选版本一致。
+1. **保持上游**：拉取最新 Notion Repo，确认 `.nvmrc` 已与 EdgeOne「项目设置 → Node.js 版本」下拉列表中可选版本一致。
 2. **自建仓库**：在 EdgeOne 控制台选择与 `.nvmrc` **完全一致**的 Node 版本；仍失败时检查构建日志是否仍在读取旧的 `.nvmrc`（需推送后再构建）。
 3. `package.json` 中 `engines.node` 为 `>=22 <25`；关键是 **构建环境实际安装的版本**能解析 `.nvmrc`。
 

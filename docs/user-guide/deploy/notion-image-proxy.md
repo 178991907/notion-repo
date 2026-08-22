@@ -8,7 +8,7 @@ Notion 图片默认会先访问 `www.notion.so`，再跳到 Notion 临时生成�
 https://cdn.example.com
 ```
 
-然后让 NotionNext 把 Notion 图片都改成这个域名：
+然后让 Notion Repo 把 Notion 图片都改成这个域名：
 
 ```text
 NEXT_PUBLIC_NOTION_HOST=https://cdn.example.com
@@ -35,9 +35,9 @@ https://cdn.example.com/image/...
 你可以这样说：
 
 ```text
-请按这篇文档帮我完成 NotionNext 的 Notion 图片反代配置。
+请按这篇文档帮我完成 Notion Repo 的 Notion 图片反代配置。
 我的图片 CDN 域名是：cdn.example.com
-请帮我创建或修改 Cloudflare Worker，并把 NotionNext 的 NEXT_PUBLIC_NOTION_HOST 配好。
+请帮我创建或修改 Cloudflare Worker，并把 Notion Repo 的 NEXT_PUBLIC_NOTION_HOST 配好。
 ```
 
 如果你想自己手动操作，也可以按下面的步骤做。主流程不需要你会写代码，只需要会复制、粘贴、保存、重新部署。
@@ -305,9 +305,9 @@ cdn.example.com/image/*
 
 Cloudflare 这里绑定的是完整域名，不是图片路径。
 
-### 5. 配置 NotionNext
+### 5. 配置 Notion Repo
 
-只需要给 NotionNext 增加一个环境变量：
+只需要给 Notion Repo 增加一个环境变量：
 
 ```text
 NEXT_PUBLIC_NOTION_HOST=https://cdn.example.com
@@ -353,7 +353,7 @@ https://cdn.example.com/
 如果你用的是服务器动态部署：
 
 ```text
-重启 NotionNext 服务
+重启 Notion Repo 服务
 ```
 
 如果你用的是静态导出：

@@ -1,9 +1,9 @@
-# NotionNext 版本更新指南
+# Notion Repo 版本更新指南
 
 本指南帮助您安全地将博客更新到上游最新版本，同时保留所有个性化配置。
 
 按照以下流程操作，您可以：
-- ✅ 获取 NotionNext 的最新功能和修复
+- ✅ 获取 Notion Repo 的最新功能和修复
 - ✅ 保留您的个人配置（头像、标题、域名等）
 - ✅ 安全处理可能的代码冲突
 
@@ -11,7 +11,7 @@
 
 ## 分支管理策略
 
-本策略参考 [NotionNext 官方升级教程](/user-guide/update) 中的建议，使用双分支管理模式。
+本策略参考 [Notion Repo 官方升级教程](/user-guide/update) 中的建议，使用双分支管理模式。
 
 ### 分支说明
 
@@ -25,7 +25,7 @@
 
 ```
 GitHub Fork Repository
-├── main (同步 notionnext-org/NotionNext)
+├── main (同步 notionnext-org/Notion Repo)
 ├── deploy (生产分支 → Vercel)
 └── feature/* (开发分支)
 ```
@@ -37,7 +37,7 @@ GitHub Fork Repository
 在 Vercel 中将生产分支设置为 `deploy`：
 
 1. 登录 [Vercel Dashboard](https://vercel.com)
-2. 进入你的 NotionNext 项目
+2. 进入你的 Notion Repo 项目
 3. 点击 **Settings** → **Git**
 4. 找到 **Production Branch** 设置
 5. 将默认的 `main` 改为 `deploy`
@@ -49,7 +49,7 @@ GitHub Fork Repository
 
 ```bash
 # 添加上游仓库
-git remote add upstream https://github.com/notionnext-org/NotionNext.git
+git remote add upstream https://github.com/notionnext-org/Notion Repo.git
 
 # 验证配置
 git remote -v
@@ -57,10 +57,10 @@ git remote -v
 
 预期输出：
 ```
-origin    https://github.com/[你的用户名]/NotionNext.git (fetch)
-origin    https://github.com/[你的用户名]/NotionNext.git (push)
-upstream  https://github.com/notionnext-org/NotionNext.git (fetch)
-upstream  https://github.com/notionnext-org/NotionNext.git (push)
+origin    https://github.com/[你的用户名]/Notion Repo.git (fetch)
+origin    https://github.com/[你的用户名]/Notion Repo.git (push)
+upstream  https://github.com/notionnext-org/Notion Repo.git (fetch)
+upstream  https://github.com/notionnext-org/Notion Repo.git (push)
 ```
 
 > ⚠️ 如果没有看到 upstream 行，说明上游仓库未成功添加
@@ -264,8 +264,8 @@ git push origin deploy
 
 ## 相关资源
 
-- [NotionNext 官方仓库](https://github.com/notionnext-org/NotionNext)
-- [NotionNext 文档](/user-guide/intro)
+- [Notion Repo 官方仓库](https://github.com/notionnext-org/Notion Repo)
+- [Notion Repo 文档](/user-guide/intro)
 - [Vercel 文档](https://vercel.com/docs)
 
 ---

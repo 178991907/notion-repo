@@ -1,6 +1,6 @@
 # OpenAI 兼容 AI 助手
 
-NotionNext 内置了一个轻量 AI 聊天入口，可以接入 DeepSeek 或其它兼容 OpenAI `chat/completions` 格式的模型服务。页面前端只负责显示聊天窗口，真正的模型请求必须走服务端代理。
+Notion Repo 内置了一个轻量 AI 聊天入口，可以接入 DeepSeek 或其它兼容 OpenAI `chat/completions` 格式的模型服务。页面前端只负责显示聊天窗口，真正的模型请求必须走服务端代理。
 
 ## 为什么这样设计
 

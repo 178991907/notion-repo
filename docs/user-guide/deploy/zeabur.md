@@ -3,21 +3,21 @@
 > 发布日期：2023-6-29
 > 最后编辑：2026-5-2
 > 原栏目：🚀 安装部署
-> 标签：部署方案、NotionNext、Zeabur
+> 标签：部署方案、Notion Repo、Zeabur
 
 ## Zeabur
 
 Zeabur是一款优秀的、国人自研的托管平台，部署效果预览：
 
-[Notion Blog | 一个NotionNext搭建的博客](https://tangly.zeabur.app/)
+[Notion Blog | 一个Notion Repo搭建的博客](https://tangly.zeabur.app/)
 
-一个NotionNext搭建的博客
+一个Notion Repo搭建的博客
 
 - 绑定个性域名
 
-[Notion Blog | 一个NotionNext搭建的博客](https://zeabur-tangly.tangly1024.com/)
+[Notion Blog | 一个Notion Repo搭建的博客](https://zeabur-tangly.tangly1024.com/)
 
-一个NotionNext搭建的博客
+一个Notion Repo搭建的博客
 
 
 ## 开始
@@ -51,7 +51,7 @@ Zeabur是一款优秀的、国人自研的托管平台，部署效果预览：
 
 返回刷新授权页面
 
-搜索查找你的NotionNext项目
+搜索查找你的Notion Repo项目
 
 ![Untitled](/legacy/3071cd872e59cf8b.png)
 

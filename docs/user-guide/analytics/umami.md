@@ -29,7 +29,7 @@
 其代码在 MIT 许可证下开源，可以免费使用和修改。拥有一个活跃的社区支持其发展。
 
 
-## NotionNext嵌入RPA
+## Notion Repo嵌入RPA
 
 如果用云托管服务的话，只需要在Notion的配置中心添加`UMAMI_ID`即可：
 
@@ -60,7 +60,7 @@ UMAMI云托管提供免费14天试用，到期后每月20$。除了选择官方�
 
 ## 自行搭建
 
-自行搭建的UMAMI，在NotionNext中的配置需要多一项UMAMI_HOST，指向你自建的umami的脚本地址。
+自行搭建的UMAMI，在Notion Repo中的配置需要多一项UMAMI_HOST，指向你自建的umami的脚本地址。
 
 umami后台获取的HOST地址：
 

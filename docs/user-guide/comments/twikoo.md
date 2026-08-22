@@ -3,8 +3,8 @@
 > 发布日期：2022-12-20
 > 最后编辑：2024-7-31
 > 原栏目：📩 评论插件
-> 标签：NotionNext
-> 摘要：NotionNext现在支持 Twikoo啦，很好用的评论 插件
+> 标签：Notion Repo
+> 摘要：Notion Repo现在支持 Twikoo啦，很好用的评论 插件
 
 ## Twikoo
 
@@ -21,7 +21,7 @@ Twikoo支持一键导入valine评论数据，您可以很方便地迁移评论�
 
 ### 快速配置
 
-在最新版本中 NotionNext已经 支持该评论插件，配置 方法很简单：
+在最新版本中 Notion Repo已经 支持该评论插件，配置 方法很简单：
 
 在Vercel后台添加一个环境变量 `NEXT_PUBLIC_COMMENT_ENV_ID` ; 值为您部署好的`twikoo`后台地址。以我的举例：
 
@@ -158,9 +158,9 @@ Create Git Repository To ensure you can easily update your project after deployi
 [https://twikoo.tangly1024.com/](https://twikoo.tangly1024.com/)
 
 
-## 配置在NotionNext
+## 配置在Notion Repo
 
-将您的twikoo后台地址配置在NotionNext的后台，并redeploy即可。
+将您的twikoo后台地址配置在Notion Repo的后台，并redeploy即可。
 
 ![Untitled](/legacy/1699a663f2cd5e46.png)
 
@@ -183,15 +183,15 @@ Create Git Repository To ensure you can easily update your project after deployi
 
 ## 结束
 
-NotionNext还支持其它多种评论插件，可访问以下文章获得帮助：
+Notion Repo还支持其它多种评论插件，可访问以下文章获得帮助：
 
-[NotionNext如何添加评论插件 | TANGLY's BLOG](/user-guide/comments/overview)
+[Notion Repo如何添加评论插件 | TANGLY's BLOG](/user-guide/comments/overview)
 
-NotionNext添加Cusdis/Giscus/Gitalk/Utterance的步骤教程
+Notion Repo添加Cusdis/Giscus/Gitalk/Utterance的步骤教程
 
-[NotionNext配置评论插件-Valine/Waline | TANGLY's BLOG](/user-guide/comments/valine)
+[Notion Repo配置评论插件-Valine/Waline | TANGLY's BLOG](/user-guide/comments/valine)
 
-Valine和Waline都是 基于LeanCloud 的 快速、简洁的评论系统，理论上支持但不限于静态博客。 Waline 是从 Valine 衍生的带后端评论系统，可以看作是Valine的升级版，具备更多Valine不支持的功能，两者的数据结构是可以兼容的，你甚至可以同时安装Valine和Waline，两者的评论互通。 两个插件均要借助LeanCloud提供的云函数，云数据存储等功能，对于普通开发者来说免费版已经足够使用。 1.请先登录或注册 LeanCloud, 进入控制台后点击左下角创建应用： 2.进入刚刚创建的应用，选择左下角的设置&gt;应用Key，查看你的APP ID和APP Key。 获取上述的 appId、 appKey等参数后，就可以直接在NotionNext（版本≥3.3.9）中激活valine了， 如果不想使用Valine可以直接跳到文章下一节《Waline部署》部分。 在NotionNext的Vercel环境变量中配置以下内容： NEXT_PUBLIC_VALINE_SERVER_URLS NEXT_PUBLIC_VALINE_PLACEHOLDER 环境变量配置示例： NEXT_PUBLIC_VALINE_SERVER_URLS 说明 此参数选填，在应用内部会尝试自动获取，如果发现获取失败，请手动提供配置，配置方法： 在LeanCloud刚创建的应用中，选择左下角的 设置&gt; 应用Key，找到 Request 域名 第一行： 注意，需要手动在域名前加上 https:// 否则会无法访问valine评论。 安全域名（可选） 点击展开 leanCloud支持设置自己的 安全域名 ，设置后，仅列表中配置的域名才可以访问你的服务。例如我只在博客中用到valine服务，那么我的安全域名只需要配置为 /user-guide/intro。 部署valine后台（可选）点击展开 valine没有自带后台，可以借助 Valine-Admin 几分钟就可以部署一个管理后台，支持行评论的查看、删除，以及邮件通知，垃圾评论过滤等功能。部署方式不在此文赘述，可以请参阅 官方文档中的"云引擎一键部署 "部分.
+Valine和Waline都是 基于LeanCloud 的 快速、简洁的评论系统，理论上支持但不限于静态博客。 Waline 是从 Valine 衍生的带后端评论系统，可以看作是Valine的升级版，具备更多Valine不支持的功能，两者的数据结构是可以兼容的，你甚至可以同时安装Valine和Waline，两者的评论互通。 两个插件均要借助LeanCloud提供的云函数，云数据存储等功能，对于普通开发者来说免费版已经足够使用。 1.请先登录或注册 LeanCloud, 进入控制台后点击左下角创建应用： 2.进入刚刚创建的应用，选择左下角的设置&gt;应用Key，查看你的APP ID和APP Key。 获取上述的 appId、 appKey等参数后，就可以直接在Notion Repo（版本≥3.3.9）中激活valine了， 如果不想使用Valine可以直接跳到文章下一节《Waline部署》部分。 在Notion Repo的Vercel环境变量中配置以下内容： NEXT_PUBLIC_VALINE_SERVER_URLS NEXT_PUBLIC_VALINE_PLACEHOLDER 环境变量配置示例： NEXT_PUBLIC_VALINE_SERVER_URLS 说明 此参数选填，在应用内部会尝试自动获取，如果发现获取失败，请手动提供配置，配置方法： 在LeanCloud刚创建的应用中，选择左下角的 设置&gt; 应用Key，找到 Request 域名 第一行： 注意，需要手动在域名前加上 https:// 否则会无法访问valine评论。 安全域名（可选） 点击展开 leanCloud支持设置自己的 安全域名 ，设置后，仅列表中配置的域名才可以访问你的服务。例如我只在博客中用到valine服务，那么我的安全域名只需要配置为 /user-guide/intro。 部署valine后台（可选）点击展开 valine没有自带后台，可以借助 Valine-Admin 几分钟就可以部署一个管理后台，支持行评论的查看、删除，以及邮件通知，垃圾评论过滤等功能。部署方式不在此文赘述，可以请参阅 官方文档中的"云引擎一键部署 "部分.
 
 
 ### FAQ

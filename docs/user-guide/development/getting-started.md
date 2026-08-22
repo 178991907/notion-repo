@@ -1,10 +1,10 @@
-# NotionNext开发先导
-> 迁移自：[NotionNext开发先导](https://docs.tangly1024.com/article/how-to-develop-with-notion-next)
+# Notion Repo开发先导
+> 迁移自：[Notion Repo开发先导](https://docs.tangly1024.com/article/how-to-develop-with-notion-next)
 > 发布日期：2022-11-13
 > 最后编辑：2026-5-2
 > 原栏目：⌨ 开发教程
-> 标签：NotionNext
-> 摘要：小白入门如何开发notionnext，下载NotionNext、启动NotionNext、提交合并到NotionNext等。
+> 标签：Notion Repo
+> 摘要：小白入门如何开发notionnext，下载Notion Repo、启动Notion Repo、提交合并到Notion Repo等。
 
 ::: warning 注意
 此处文档较旧。如需更全面的开发指导，请阅读项目仓库中的 [README.md](http://README.md)，以及 /docs 目录下的相关文档。
@@ -13,17 +13,17 @@
 
 ## 前言
 
-在进行二次开发之前，您需要了解到：NotionNext本身支持大量的自定义配置，开发之前，请先访问《[配置手册](/user-guide/config-site)》获取帮助、配置您的站点，例如：
+在进行二次开发之前，您需要了解到：Notion Repo本身支持大量的自定义配置，开发之前，请先访问《[配置手册](/user-guide/config-site)》获取帮助、配置您的站点，例如：
 
 - `blog.config.js` 文件中可以修改站点的基础信息、主题、语言、评论插件等核心配置
 
 - 每个主题下都有一个配置文件`config_[theme].js`，以便用户配置自己的页面个性化。
-![NotionNext 代码结构](/legacy/d4d1adb97885d113.png)
+![Notion Repo 代码结构](/legacy/d4d1adb97885d113.png)
 
 
 ### 自定义脚本
 
-NotionNext操作手册中，有关于自定义脚本和样式的引入方式；即：
+Notion Repo操作手册中，有关于自定义脚本和样式的引入方式；即：
 
 1. 在`/public/js/custom.js` `/public/css/custom.css` 中引入您的脚本，就可以实现任意的页面功能。
 
@@ -43,7 +43,7 @@ NotionNext操作手册中，有关于自定义脚本和样式的引入方式；�
 
 ## 自行开发
 
-如果上述的配置方式，不能满足您的需要，例如新增组件、深度定制等等。您可以选择在github上[发起issue](https://github.com/notionnext-org/NotionNext/issues/new/choose)，提出改进页面的建议，或者遵循此教程，进行您的开发之旅。
+如果上述的配置方式，不能满足您的需要，例如新增组件、深度定制等等。您可以选择在github上[发起issue](https://github.com/notionnext-org/Notion Repo/issues/new/choose)，提出改进页面的建议，或者遵循此教程，进行您的开发之旅。
 
 ::: tip 提示
 可选Codespaces云开发，以及本地开发两种方案。
@@ -72,11 +72,11 @@ Codespaces是Github官方提供的云开发环境。
     - 等上一步安装全部完成（约3分钟）后，在终端输入 `yarn dev`  即可开始实时调试
 终端会提示以下内容，说明服务启动成功：
 ```Bash
-@tangly1024 ➜ /workspaces/NotionNext (main) $ yarn dev
+@tangly1024 ➜ /workspaces/Notion Repo (main) $ yarn dev
 yarn run v1.22.19
 $ next dev
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-info  - Loaded env from /workspaces/NotionNext/.env.local
+info  - Loaded env from /workspaces/Notion Repo/.env.local
 Attention: Next.js now collects completely anonymous telemetry regarding usage.
 This information is used to shape Next.js' roadmap and prioritize features.
 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
@@ -207,7 +207,7 @@ yarn dev
 yarn run v1.22.19
 $ next dev
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-info  - Loaded env from D:\Workspace\NotionNext\.env.local
+info  - Loaded env from D:\Workspace\Notion Repo\.env.local
 ```
 ![Untitled](/legacy/0b354b31415ec084.png)
 <details>

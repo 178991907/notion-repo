@@ -11,13 +11,13 @@
 
 ## 序
 
-NotionNext 后续版本将陆续支持Newsletter功能，目前基于Mailchimp邮件订阅，可以轻松实现您与读者建立紧密的链接。
+Notion Repo 后续版本将陆续支持Newsletter功能，目前基于Mailchimp邮件订阅，可以轻松实现您与读者建立紧密的链接。
 
 按照本操作步骤，将为您创建一个Mailchimp的api-key以及对应的邮件列表id，便于您通过接口，对接自己的页面表单。
 
 ::: tip 提示
 目前只有landing主题上支持了 Mailchimp的ui组件，后续将在其它主题中  也加入对应的UI组件。
-预览体验：访问[NotionNext主页](/user-guide/intro)，在底部的邮件订阅处填写您的邮箱体验。
+预览体验：访问[Notion Repo主页](/user-guide/intro)，在底部的邮件订阅处填写您的邮箱体验。
 :::
 
 

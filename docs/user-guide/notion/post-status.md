@@ -1,6 +1,6 @@
 # 文章状态
 
-NotionNext 用 `status` 决定文章是否进入公共入口，用 `password` 决定正文是否需要密码查看。两者是独立字段，不要把 `Invisible` 当成私密文章使用。
+Notion Repo 用 `status` 决定文章是否进入公共入口，用 `password` 决定正文是否需要密码查看。两者是独立字段，不要把 `Invisible` 当成私密文章使用。
 
 ## status 基础状态
 

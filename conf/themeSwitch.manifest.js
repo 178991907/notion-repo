@@ -126,7 +126,7 @@ export const THEME_SWITCH_MANIFEST = {
       { key: 'OPC_TITLE', label: '主标题', type: 'text', defaultValue: 'Tangly1024' },
       { key: 'OPC_SUBTITLE', label: '副标题', type: 'text', defaultValue: '一人公司的 AI 任务流水线实验室' },
       { key: 'OPC_DESCRIPTION', label: '主介绍', type: 'text', defaultValue: '我把 AI 当作能力入口，而不是模拟公司部门开会；用任务文件、产物路径和验收标准，运行内容、产品与交易实验。' },
-      { key: 'OPC_PRIMARY_TEXT', label: '主按钮文字', type: 'text', defaultValue: '查看 NotionNext' },
+      { key: 'OPC_PRIMARY_TEXT', label: '主按钮文字', type: 'text', defaultValue: '查看 Notion Repo' },
       { key: 'OPC_PRIMARY_URL', label: '主按钮链接', type: 'text', defaultValue: 'https://preview.tangly1024.com' },
       { key: 'OPC_SECONDARY_TEXT', label: '副按钮文字', type: 'text', defaultValue: '阅读长期记录' },
       { key: 'OPC_SECONDARY_URL', label: '副按钮链接', type: 'text', defaultValue: 'https://blog.tangly1024.com' },

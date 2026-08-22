@@ -17,7 +17,7 @@
  * 3. 设置 Title 为你想要的菜单名称
  * 4. 设置 Slug 为对应的路径
  * 5. 在 Notion 中创建对应的页面内容
- * 具体可参考NotionNext的帮助手册：https://docs.tangly1024.com/article/notion-next-secondary-menu
+ * 具体可参考Notion Repo的帮助手册：https://docs.tangly1024.com/article/notion-next-secondary-menu
  * 
  * 示例配置：
  * | Type | Title     | Slug       |

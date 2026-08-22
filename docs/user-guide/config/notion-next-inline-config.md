@@ -50,7 +50,7 @@ js键值对注入配置非常不安全，因此废弃
 
 ### 适用场景
 
-需要大量导入配置，例如starter主题的全站翻译，因为starter主题的文字配置很多，逐一在NOTION_CONFIG中配置很慢，所以我干脆将`/themes/starter/config.js`中的对象复制出来用AI批量翻译即可。具体配置效果，可以参考我的NotionNext英文官网的`INLINE_CONFIG`：
+需要大量导入配置，例如starter主题的全站翻译，因为starter主题的文字配置很多，逐一在NOTION_CONFIG中配置很慢，所以我干脆将`/themes/starter/config.js`中的对象复制出来用AI批量翻译即可。具体配置效果，可以参考我的Notion Repo英文官网的`INLINE_CONFIG`：
 
 [INLINE_CONFIG | Notion](https://www.notion.so/tanghh/INLINE_CONFIG-ec90bdbe977646388e9329d24f6600cf?pvs=4)
 

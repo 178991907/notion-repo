@@ -8,7 +8,7 @@
 这是一个临时的配置，用于解决4.9.0→4.9.1版本由于notion接口变化产生站点无法编译的异常。并非每一个人都遇到，若你的站点能够正常部署，并且没有出现530异常，则可以忽略此文。
 :::
 
-相关提交与说明可参考：[https://github.com/notionnext-org/NotionNext/pull/3632](https://github.com/notionnext-org/NotionNext/pull/3632)
+相关提交与说明可参考：[https://github.com/notionnext-org/Notion Repo/pull/3632](https://github.com/notionnext-org/Notion Repo/pull/3632)
 
 
 ## 配置的作用
@@ -32,10 +32,10 @@ API_BASE_URL: process.env.API_BASE_URL || 'https://app.notion.com/api/v3', // AP
 
 ![image.png](/legacy/32ae4c60c37fc2b9.png)
 
-将个性域名地址拼接成完成的api地址例如：`https://[xxxx].notion.site/api/v3`，然后添加到NotionNext的环境变量`API_BASE_URL`中即可。
+将个性域名地址拼接成完成的api地址例如：`https://[xxxx].notion.site/api/v3`，然后添加到Notion Repo的环境变量`API_BASE_URL`中即可。
 
 ::: tip 提示
-前提请升级到最新版本的NotionNext，添加环境变量可通过local.env文件**或**vercel环境变量等方式添加
+前提请升级到最新版本的Notion Repo，添加环境变量可通过local.env文件**或**vercel环境变量等方式添加
 :::
 
 ::: tip 提示

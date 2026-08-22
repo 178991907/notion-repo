@@ -483,7 +483,7 @@ const LayoutSignIn = props => {
   const title = starterConfig('STARTER_SIGNIN', '登录')
   const description = starterConfig(
     'STARTER_SIGNIN_DESCRITION',
-    '这里是演示页面，NotionNext目前不提供会员登录功能'
+    '这里是演示页面，Notion Repo目前不提供会员登录功能'
   )
   return (
     <>
@@ -514,7 +514,7 @@ const LayoutSignUp = props => {
   const title = starterConfig('STARTER_SIGNIN', '注册')
   const description = starterConfig(
     'STARTER_SIGNIN_DESCRITION',
-    '这里是演示页面，NotionNext目前不提供会员注册功能'
+    '这里是演示页面，Notion Repo目前不提供会员注册功能'
   )
   return (
     <>

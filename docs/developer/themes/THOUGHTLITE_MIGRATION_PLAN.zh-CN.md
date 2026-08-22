@@ -1,6 +1,6 @@
-﻿# ThoughtLite 主题迁移任务计划（NotionNext）
+﻿# ThoughtLite 主题迁移任务计划（Notion Repo）
 
-关联需求：[Issue #3987 · 新主题 ThoughtLite](https://github.com/notionnext-org/NotionNext/issues/3987)
+关联需求：[Issue #3987 · 新主题 ThoughtLite](https://github.com/notionnext-org/Notion Repo/issues/3987)
 
 | 项目 | 链接 |
 |------|------|
@@ -13,7 +13,7 @@
 
 ## 0. 许可证与合规（必须先确认）
 
-上游仓库为 **GPL-3.0**。NotionNext 主仓库为 **MIT**。
+上游仓库为 **GPL-3.0**。Notion Repo 主仓库为 **MIT**。
 
 - **直接复制**上游 `.astro` / `.svelte` 等源码进本仓库，可能触发 **GPL 与 MIT 的兼容性**问题，需在合并前由维护者确认策略（例如：主题单独以 GPL 子目录说明、或仅「参考设计」用 React 重写而不复制 GPL 文本等）。  
 - 请在 **PR 描述与 `docs/developer/themes/THOUGHTLITE.md`** 中写明许可证结论后再合入 `main`。
@@ -24,8 +24,8 @@
 
 对照 [`docs/developer/themes/FUWARI.md`](./FUWARI.md) 与 [主题迁移指南（中文）](../THEME_MIGRATION_GUIDE.zh-CN.md)：
 
-1. **技术栈**：上游为 **Astro + Svelte**，NotionNext 主题为 **Next.js Pages Router + React**；不能「直接挂载」Astro 工程，只能 **移植视觉与信息架构**。  
-2. **数据契约**：仅使用 NotionNext 传入的 `props`（`siteInfo`、`posts`、`post`、`customNav`、`customMenu`、`notice`、`tagOptions` 等），见迁移指南 §3。  
+1. **技术栈**：上游为 **Astro + Svelte**，Notion Repo 主题为 **Next.js Pages Router + React**；不能「直接挂载」Astro 工程，只能 **移植视觉与信息架构**。  
+2. **数据契约**：仅使用 Notion Repo 传入的 `props`（`siteInfo`、`posts`、`post`、`customNav`、`customMenu`、`notice`、`tagOptions` 等），见迁移指南 §3。  
 3. **必接能力**：菜单（含 `CUSTOM_MENU`）、公告 `NotionPage`、深浅色 `useGlobal`、文章 TOC/评论/分享/版权/相邻篇、侧栏挂件与 `rightAreaSlot`、联系邮箱 `handleEmailClick` / `resolveContactEmail` 约定（迁移指南 §7）。  
 4. **配置**：使用 `siteConfig('THOUGHTLITE_*', default, CONFIG)`，集中在 `themes/thoughtlite/config.js`，避免魔法常量。  
 5. **目录隔离**：不引用其他主题目录组件；通用能力用 `@/components/*`。
@@ -44,7 +44,7 @@
 
 ### Phase B — 版式对齐 ThoughtLite
 
-- [ ] 阅读上游 `src/layouts`、`src/pages` 与首页「时间线 / Latest」结构，画出与 NotionNext 路由的映射表（`/`、`/[prefix]/[slug]` 等）。  
+- [ ] 阅读上游 `src/layouts`、`src/pages` 与首页「时间线 / Latest」结构，画出与 Notion Repo 路由的映射表（`/`、`/[prefix]/[slug]` 等）。  
 - [x] 替换顶栏导航：站点名 + 横向菜单 + 搜索入口 + 深浅色切换。  
 - [x] 首页：按 `publishDay` 分组的时间线列表（滚动/分页均支持）。  
 - [x] 归档页：按月分组列表与首页一致的时间线视觉。  

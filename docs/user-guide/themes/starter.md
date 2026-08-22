@@ -27,7 +27,7 @@ V4.3版本中加入的免费主题：为公司、创业者、独立开发者、�
 
 ### 如何切换至Starter主题？
 
-请先升级NotionNext至最新版，`&gt; V4.3`
+请先升级Notion Repo至最新版，`&gt; V4.3`
 
 然后参考《[主题功能说明-如何修改默认主题进行配置](/user-guide/themes/overview#2d5076c82d854615b995c4eee08c2182)》修改您的默认主题即可。
 
@@ -136,7 +136,7 @@ STARTER_COLOR_TEXT_MUTED: '#637381'
   STARTER_HERO_BUTTON_1_TEXT: '开始体验', // 英雄区按钮
   STARTER_HERO_BUTTON_1_URL: '/user-guide/deploy-vercel', // 英雄区按钮
   STARTER_HERO_BUTTON_2_TEXT: '在Github上关注', // 英雄区按钮
-  STARTER_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/NotionNext', // 英雄区按钮
+  STARTER_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/Notion Repo', // 英雄区按钮
   STARTER_HERO_PREVIEW_IMAGE: '/images/starter/hero/hero-image.webp', // 产品预览图 ，默认读取public目录下图片； 您可以上传自己的图片至/public/starter/hero目录下；
 ```
 
@@ -168,13 +168,13 @@ STARTER_COLOR_TEXT_MUTED: '#637381'
 ```JavaScript
 // 特性区块
   STARTER_FEATURE_TITLE: '特性', // 特性
-  STARTER_FEATURE_TEXT_1: 'NotionNext的主要特性', // 特性
-  STARTER_FEATURE_TEXT_2: 'NotionNext的愿景是帮助您简单、无感知地稳定地搭建自己的网站，放大品牌的价值。 ', // 特性
+  STARTER_FEATURE_TEXT_1: 'Notion Repo的主要特性', // 特性
+  STARTER_FEATURE_TEXT_2: 'Notion Repo的愿景是帮助您简单、无感知地稳定地搭建自己的网站，放大品牌的价值。 ', // 特性
 
   STARTER_FEATURE_1_TITLE_1: '免费且开源', // 特性1
   STARTER_FEATURE_1_TEXT_1: '项目源码在Github上完全开放共享，遵循MIT协议', // 特性1
   STARTER_FEATURE_1_BUTTON_TEXT: '了解更多', // 特性1
-  STARTER_FEATURE_1_BUTTON_URL: 'https://github.com/notionnext-org/NotionNext', // 特性1
+  STARTER_FEATURE_1_BUTTON_URL: 'https://github.com/notionnext-org/Notion Repo', // 特性1
 
   STARTER_FEATURE_2_TITLE_1: '多种主题定制', // 特性2
   STARTER_FEATURE_2_TEXT_1: '数十种主题,适用于不同场景，总有一款适合你', // 特性2
@@ -200,7 +200,7 @@ STARTER_COLOR_TEXT_MUTED: '#637381'
 ```JavaScript
 // 首页ABOUT区块
   STARTER_ABOUT_TITLE: '一套轻量实用的建站解决方案',
-  STARTER_ABOUT_TEXT: 'NotionNext的愿景是帮助非技术人员的小白，最低成本、最快速地搭建自己的网站，帮助您将自己的产品与故事高效地传达给世界。 &lt;br /&gt; &lt;br /&gt; 功能强大的Notion笔记，简单快速的Vercel托管平台，组成一个简单的网站',
+  STARTER_ABOUT_TEXT: 'Notion Repo的愿景是帮助非技术人员的小白，最低成本、最快速地搭建自己的网站，帮助您将自己的产品与故事高效地传达给世界。 &lt;br /&gt; &lt;br /&gt; 功能强大的Notion笔记，简单快速的Vercel托管平台，组成一个简单的网站',
   STARTER_ABOUT_BUTTON_TEXT: '了解更多',
   STARTER_ABOUT_BUTTON_URL: '/user-guide/intro',
   STARTER_ABOUT_IMAGE_1: '/images/starter/about/about-image-01.jpg',
@@ -218,14 +218,14 @@ STARTER_COLOR_TEXT_MUTED: '#637381'
 ![Untitled](/legacy/d409016f312f9079.png)
 
 ::: warning 注意
-NotionNext不提供电商购买相关服务，这里的价格链接可以借助第三方支付平台，例如[Stripe](https://stripe.com/)、[Lemonsqueezy](https://www.lemonsqueezy.com/)、[千寻寄售](https://qianxun1688.com/)以及第三方的电商平台链接等。
+Notion Repo不提供电商购买相关服务，这里的价格链接可以借助第三方支付平台，例如[Stripe](https://stripe.com/)、[Lemonsqueezy](https://www.lemonsqueezy.com/)、[千寻寄售](https://qianxun1688.com/)以及第三方的电商平台链接等。
 :::
 
 ```JavaScript
 // 首页价格区块
   STARTER_PRICING_TITLE: '价格表',
   STARTER_PRICING_TEXT_1: '很棒的定价计划',
-  STARTER_PRICING_TEXT_2: '我们制定了灵活的付费模式，您可以按需选择。（NotionNext免费开源，这里仅演示产品订阅付费功能，请勿下单购买！）',
+  STARTER_PRICING_TEXT_2: '我们制定了灵活的付费模式，您可以按需选择。（Notion Repo免费开源，这里仅演示产品订阅付费功能，请勿下单购买！）',
 
   STARTER_PRICING_1_TITLE: '入门版',
   STARTER_PRICING_1_PRICE: '19.9',
@@ -266,7 +266,7 @@ NotionNext不提供电商购买相关服务，这里的价格链接可以借助�
 ```JavaScript
 STARTER_TESTIMONIALS_TITLE: '用户反馈',
   STARTER_TESTIMONIALS_TEXT_1: '我们的用户怎么说',
-  STARTER_TESTIMONIALS_TEXT_2: '数千位站长选择用NotionNext搭建他们的网站,通过帮助手册、交流社群以及技术咨询，大家成功上线了自己的网站',
+  STARTER_TESTIMONIALS_TEXT_2: '数千位站长选择用Notion Repo搭建他们的网站,通过帮助手册、交流社群以及技术咨询，大家成功上线了自己的网站',
   STARTER_TESTIMONIALS_STAR_ICON: '/images/starter/testimonials/icon-star.svg', // 评分图标
 
   // 这里不支持CONFIG和环境变量，需要一一修改此处代码。
@@ -329,8 +329,8 @@ STARTER_TESTIMONIALS_TITLE: '用户反馈',
   STARTER_FAQ_TEXT_1: '有任何问题吗？请看这里',
   STARTER_FAQ_TEXT_2: '我们收集了常见的用户疑问',
 
-  STARTER_FAQ_1_QUESTION: 'NotionNext有帮助文档吗？',
-  STARTER_FAQ_1_ANSWER: 'NotionNext提供了&lt;a href="/user-guide/intro" className="underline"&gt;帮助文档&lt;/a&gt;，操作&lt;a href="https://www.bilibili.com/video/BV1fM4y1L7Qi/" className="underline"&gt;演示视频&lt;/a&gt;，以及&lt;a href="/user-guide/help/community" className="underline"&gt;交流社群&lt;/a&gt;来协助您完成网站的搭建部署',
+  STARTER_FAQ_1_QUESTION: 'Notion Repo有帮助文档吗？',
+  STARTER_FAQ_1_ANSWER: 'Notion Repo提供了&lt;a href="/user-guide/intro" className="underline"&gt;帮助文档&lt;/a&gt;，操作&lt;a href="https://www.bilibili.com/video/BV1fM4y1L7Qi/" className="underline"&gt;演示视频&lt;/a&gt;，以及&lt;a href="/user-guide/help/community" className="underline"&gt;交流社群&lt;/a&gt;来协助您完成网站的搭建部署',
 
   STARTER_FAQ_2_QUESTION: '部署后要如何编写文章？',
   STARTER_FAQ_2_ANSWER: '您可以在Notion中之间添加或修改类型为Post的页面，内容将被实时同步在站点中，详情参考&lt;a className="underline" href="/user-guide/notion-database"&gt;《帮助文档》&lt;/a&gt;',
@@ -352,7 +352,7 @@ STARTER_TESTIMONIALS_TITLE: '用户反馈',
 ```JavaScript
 STARTER_TEAM_TITLE: '团队成员',
   STARTER_TEAM_TEXT_1: '我们的开发者团队',
-  STARTER_TEAM_TEXT_2: 'NotionNext 由众多开源技术爱好者们共同合作完成，感谢每一位&lt;a className="underline" href="https://github.com/notionnext-org/NotionNext/graphs/contributors"&gt;贡献者&lt;/a&gt;',
+  STARTER_TEAM_TEXT_2: 'Notion Repo 由众多开源技术爱好者们共同合作完成，感谢每一位&lt;a className="underline" href="https://github.com/notionnext-org/Notion Repo/graphs/contributors"&gt;贡献者&lt;/a&gt;',
 
   // 这里不支持CONFIG和环境变量，需要一一修改此处代码。
   STARTER_TEAM_ITEMS: [
@@ -391,7 +391,7 @@ STARTER_TEAM_TITLE: '团队成员',
   STARTER_BLOG_TITLE: '我们的博客',
   STARTER_BLOG_COUNT: 3, // 首页博文区块默认展示前3篇文章
   STARTER_BLOG_TEXT_1: '最近的新闻',
-  STARTER_BLOG_TEXT_2: '这里会发布一些关于NotionNext的最新动态，包括新的动向、新的未来计划，以及新功能的特性',
+  STARTER_BLOG_TEXT_2: '这里会发布一些关于Notion Repo的最新动态，包括新的动向、新的未来计划，以及新功能的特性',
 ```
 
 
@@ -549,9 +549,9 @@ export default CONFIG
 
 其它页面也都支持：
 
-[https://www.tangly1024.com/tag/NotionNext](https://www.tangly1024.com/tag/NotionNext)
+[https://www.tangly1024.com/tag/Notion Repo](https://www.tangly1024.com/tag/Notion Repo)
 
-[https://www.tangly1024.com/tag/NotionNext?lite=true](https://www.tangly1024.com/tag/NotionNext?lite=true)
+[https://www.tangly1024.com/tag/Notion Repo?lite=true](https://www.tangly1024.com/tag/Notion Repo?lite=true)
 
 ## 原文链接
 

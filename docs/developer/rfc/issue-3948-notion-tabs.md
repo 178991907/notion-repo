@@ -3,17 +3,17 @@
 - **作者**: @RHZHZ
 - **日期**: 2026-08-01
 - **状态**: 已实现（待评审）
-- **关联 Issue**: https://github.com/notionnext-org/NotionNext/issues/3948
+- **关联 Issue**: https://github.com/notionnext-org/Notion Repo/issues/3948
 
 ## 摘要
 
-为 NotionNext 增加 Notion 原生选项卡块的渲染支持，使文章中用于多版本、原文译文、方案对比等场景的选项卡内容可以在站点前台正常展示和切换。
+为 Notion Repo 增加 Notion 原生选项卡块的渲染支持，使文章中用于多版本、原文译文、方案对比等场景的选项卡内容可以在站点前台正常展示和切换。
 
-实现建议采用数据适配加自定义组件的方式：在 Notion blockMap 格式化阶段识别选项卡块，将其标记为 NotionNext 内部可识别的特殊 embed，再由现有 `NotionEmbed` 扩展点分流到 `NotionTabs` 组件渲染。
+实现建议采用数据适配加自定义组件的方式：在 Notion blockMap 格式化阶段识别选项卡块，将其标记为 Notion Repo 内部可识别的特殊 embed，再由现有 `NotionEmbed` 扩展点分流到 `NotionTabs` 组件渲染。
 
 ## 动机
 
-Notion 已新增选项卡能力，作者可以在同一块区域内通过顶部标签切换不同内容。当前 NotionNext 使用 `react-notion-x@7.10.0` 渲染正文，该版本对未知 block type 会输出 `Unsupported block type ...` 并渲染空内容，导致选项卡块在站点中不可用。
+Notion 已新增选项卡能力，作者可以在同一块区域内通过顶部标签切换不同内容。当前 Notion Repo 使用 `react-notion-x@7.10.0` 渲染正文，该版本对未知 block type 会输出 `Unsupported block type ...` 并渲染空内容，导致选项卡块在站点中不可用。
 
 该问题影响所有主题，因为正文最终都复用 `components/NotionPage.js`。因此实现应位于 Notion 数据格式化和通用 Notion 组件层，而不是逐个主题补丁。
 
@@ -262,5 +262,5 @@ yarn lint
 
 ## 讨论记录
 
-- Issue: https://github.com/notionnext-org/NotionNext/issues/3948
+- Issue: https://github.com/notionnext-org/Notion Repo/issues/3948
 - Notion Block 文档: https://developers.notion.com/reference/block

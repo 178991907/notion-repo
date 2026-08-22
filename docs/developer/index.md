@@ -1,6 +1,6 @@
-# NotionNext 开发文档
+# Notion Repo 开发文档
 
-NotionNext 文档不再把“站长教程”和“开发者文档”做成两个隔离区域。每个使用者都可以先完成部署和配置，再逐步理解运行原理、修改主题、提交 PR。
+Notion Repo 文档不再把“站长教程”和“开发者文档”做成两个隔离区域。每个使用者都可以先完成部署和配置，再逐步理解运行原理、修改主题、提交 PR。
 
 如果你刚开始搭建网站，先读 [从这里开始](../user-guide/start-here.md)。当你想改样式、改主题、排查问题或参与维护时，继续阅读本页下面的开发文档。
 
@@ -33,5 +33,5 @@ NotionNext 文档不再把“站长教程”和“开发者文档”做成两个
 | 社区路线图 | [COMMUNITY_SITE_ROADMAP.md](./COMMUNITY_SITE_ROADMAP.md) |
 | 会员、权限与评论可选集成 | [MEMBERSHIP_COMMENTS_ROADMAP.md](./MEMBERSHIP_COMMENTS_ROADMAP.md) |
 | 5.0 愿景与参与方向 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) |
-| 项目治理 | [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md) · [GOVERNANCE.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.md) |
-| 仓库贡献总则 | [CONTRIBUTING.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md) |
+| 项目治理 | [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/Notion Repo/blob/main/GOVERNANCE.zh-CN.md) · [GOVERNANCE.md](https://github.com/notionnext-org/Notion Repo/blob/main/GOVERNANCE.md) |
+| 仓库贡献总则 | [CONTRIBUTING.zh-CN.md](https://github.com/notionnext-org/Notion Repo/blob/main/CONTRIBUTING.zh-CN.md) |

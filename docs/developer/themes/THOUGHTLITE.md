@@ -1,4 +1,4 @@
-﻿# ThoughtLite 主题（NotionNext）
+﻿# ThoughtLite 主题（Notion Repo）
 
 [English](./THOUGHTLITE.en.md) | 任务计划：[THOUGHTLITE_MIGRATION_PLAN.zh-CN.md](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)
 
@@ -8,8 +8,8 @@
 
 ## 1. 加入背景与原因
 
-- **社区提议**：用户在 [Issue #3987](https://github.com/notionnext-org/NotionNext/issues/3987) 中建议新增主题，参考对象为开源 Astro 主题 **ThoughtLite**，认为其阅读向、时间线式首页与轻量导航适合作为 NotionNext 的可选皮肤之一。
-- **产品目标**：在 **不破坏 NotionNext 既有数据契约**（`posts` / `post` / `customNav` / 评论与插件等）的前提下，提供一套**视觉与信息架构上贴近 ThoughtLite** 的 React 主题，便于站点一键切换试用。
+- **社区提议**：用户在 [Issue #3987](https://github.com/notionnext-org/Notion Repo/issues/3987) 中建议新增主题，参考对象为开源 Astro 主题 **ThoughtLite**，认为其阅读向、时间线式首页与轻量导航适合作为 Notion Repo 的可选皮肤之一。
+- **产品目标**：在 **不破坏 Notion Repo 既有数据契约**（`posts` / `post` / `customNav` / 评论与插件等）的前提下，提供一套**视觉与信息架构上贴近 ThoughtLite** 的 React 主题，便于站点一键切换试用。
 
 ---
 
@@ -24,7 +24,7 @@
 | **上游技术栈** | Astro、Svelte、Tailwind CSS 等（见上游 README） |
 | **上游许可证** | **GPL-3.0** |
 
-NotionNext 本仓库主体为 **MIT**。本主题目录下的实现为 **基于上游「设计参考」在 Next.js + React 中重写**，**不直接复制**上游 `.astro` / `.svelte` 等 GPL 源码文本；若未来有人希望合入上游组件源码，须由维护者单独评估 **GPL 与 MIT 的兼容性**（详见 [迁移计划 §0](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)）。
+Notion Repo 本仓库主体为 **MIT**。本主题目录下的实现为 **基于上游「设计参考」在 Next.js + React 中重写**，**不直接复制**上游 `.astro` / `.svelte` 等 GPL 源码文本；若未来有人希望合入上游组件源码，须由维护者单独评估 **GPL 与 MIT 的兼容性**（详见 [迁移计划 §0](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md)）。
 
 ---
 
@@ -96,7 +96,7 @@ NEXT_PUBLIC_THEME=thoughtlite
 
 ## 8. 相关链接汇总
 
-- 需求：[notionnext-org/NotionNext#3987](https://github.com/notionnext-org/NotionNext/issues/3987)
+- 需求：[notionnext-org/Notion Repo#3987](https://github.com/notionnext-org/Notion Repo/issues/3987)
 - 上游仓库：[tuyuritio/astro-theme-thought-lite](https://github.com/tuyuritio/astro-theme-thought-lite)
 - 上游演示：[thought-lite.ttio.workers.dev](https://thought-lite.ttio.workers.dev/)
 

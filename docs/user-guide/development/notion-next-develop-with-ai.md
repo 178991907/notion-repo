@@ -1,5 +1,5 @@
-# 借助AI开发NotionNext
-> 迁移自：[借助AI开发NotionNext](https://docs.tangly1024.com/article/notion-next-develop-with-ai)
+# 借助AI开发Notion Repo
+> 迁移自：[借助AI开发Notion Repo](https://docs.tangly1024.com/article/notion-next-develop-with-ai)
 > 发布日期：2025-4-25
 > 最后编辑：2026-5-2
 > 原栏目：⌨ 开发教程
@@ -13,7 +13,7 @@
 
 ## 云环境
 
-建议先阅读‣ 这篇文章，其中介绍了开发NotionNext项目可能需要具备的一些基础知识。
+建议先阅读‣ 这篇文章，其中介绍了开发Notion Repo项目可能需要具备的一些基础知识。
 
 
 ### GitHub Codespaces
@@ -74,7 +74,7 @@ Firebase会自动导入项目代码并进行环境安装。
 
 不建议直接修改原先的主题，否则后续如果我也同步修改了这个主题文件夹，在更新的过程可能会产生大量的冲突。
 
-在themes 目录，找到你较喜欢的主题，或者和你预期的新主题结构比较类似的主题，例如example主题文件夹。各主题的补充说明见仓库 [docs/themes](https://github.com/notionnext-org/NotionNext/tree/main/docs/themes)（如 Fuwari、Claude 等）。点击右键copy复制这个文件夹。
+在themes 目录，找到你较喜欢的主题，或者和你预期的新主题结构比较类似的主题，例如example主题文件夹。各主题的补充说明见仓库 [docs/themes](https://github.com/notionnext-org/Notion Repo/tree/main/docs/themes)（如 Fuwari、Claude 等）。点击右键copy复制这个文件夹。
 
 ![image.png](/legacy/0a4be92d0f2060f3.png)
 
@@ -249,7 +249,7 @@ AI 修改代码时，不要只让它改组件或配置文件。凡是新增或�
 
 ## 结尾
 
-需要注意的是，AI和云环境只是一个效率工具，本质是帮不懂的人快速入门学习，帮住本来就懂的人节省开发时间。因此要想彻底掌握开发，还需要结合学习NotionNext所使用的框架技术和文件目录的规范结构。
+需要注意的是，AI和云环境只是一个效率工具，本质是帮不懂的人快速入门学习，帮住本来就懂的人节省开发时间。因此要想彻底掌握开发，还需要结合学习Notion Repo所使用的框架技术和文件目录的规范结构。
 
 将来再过几年，等AI-Agent智能体普及之后，就完全不需要上面这么复杂的步骤了，到时候只要负责发布命令，如何实现都是智能体应该考虑的。
 

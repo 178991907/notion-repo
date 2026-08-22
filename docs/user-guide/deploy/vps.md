@@ -3,8 +3,8 @@
 > 发布日期：2022-11-20
 > 最后编辑：2026-5-2
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案、VPS
-> 摘要：在你的云服务器上手动部署NotionNext
+> 标签：Notion Repo、部署方案、VPS
+> 摘要：在你的云服务器上手动部署Notion Repo
 
 ::: tip 提示
 更新记录：
@@ -14,7 +14,7 @@
 
 ## 前言
 
-NotionNext可以轻松地使用Vercel免费托管，不过免费的流量和函数执行次数有限，如果你的网站访问量非常大，可以尝试在自己的云服务器、vps上部署。
+Notion Repo可以轻松地使用Vercel免费托管，不过免费的流量和函数执行次数有限，如果你的网站访问量非常大，可以尝试在自己的云服务器、vps上部署。
 
 用国内的VPS部署服务、会大大提升网站的访问速度。
 
@@ -28,7 +28,7 @@ NotionNext可以轻松地使用Vercel免费托管，不过免费的流量和函�
 
 分享一篇网友自己实践分享的教程：
 
-[建站|VPS裸机安装NotionNext个人博客 | Ywba's Blog](https://www.ywba.top/article/375dc6b6-1eaa-4a0f-bbc1-f2149b285b7a)
+[建站|VPS裸机安装Notion Repo个人博客 | Ywba's Blog](https://www.ywba.top/article/375dc6b6-1eaa-4a0f-bbc1-f2149b285b7a)
 
 个人博客
 
@@ -39,10 +39,10 @@ NotionNext可以轻松地使用Vercel免费托管，不过免费的流量和函�
 准备一台任意操作系统的VPS云服务器，不同系统的安装步骤大同小异，以下我用 `linux-centos-7` 主机为例
 :::
 
-安装分为三个步骤，一是下载NotionNext代码；二是安装运行环境、三是启动项目。
+安装分为三个步骤，一是下载Notion Repo代码；二是安装运行环境、三是启动项目。
 
 
-### 一、NotionNext代码下载
+### 一、Notion Repo代码下载
 
 1. 安装Git
 ::: tip 提示
@@ -143,9 +143,9 @@ Complete!
 cd ~
 
 # 将Git上的代码下载到服务器中 ;
-git clone https://github.com/notionnext-org/NotionNext &&
+git clone https://github.com/notionnext-org/Notion Repo &&
 
-# 若您的服务器因为网络问题，无法访问github，可手动下载NotionNext代码 上传至服务器
+# 若您的服务器因为网络问题，无法访问github，可手动下载Notion Repo代码 上传至服务器
 ```
 
 
@@ -187,8 +187,8 @@ sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 1. 创建Dockerfile文件
 由于国内防火墙的规定，Docker的镜像网络访问受限，现在Docker要下载官方NodeJs环境变得困难，因此推荐使用国内替代的镜像源下载(来自[https://docker.aityp.com/](https://docker.aityp.com/))。以下是我尝试成功的完整版本（已将镜像替换成国内版本，可能存在过期风险）。
 ```Bash
-# 1.确保当前目录是NotionNext代码文件夹
-cd NotionNext
+# 1.确保当前目录是Notion Repo代码文件夹
+cd Notion Repo
 
 # 2.创建构建文件
 cat &gt; Dockerfile &lt;&lt;EOF
@@ -244,7 +244,7 @@ EOF
 ```
 
 1. 开始构建
-以下命令将读取当前NotionNext文件夹下的Dockerfile文件，按照文件内容下载Nodejs环境，并将NotionNext代码包括blog.config.js等配置打包进环境中，成为一个可执行的Docker镜像，并且镜像名为my-app。
+以下命令将读取当前Notion Repo文件夹下的Dockerfile文件，按照文件内容下载Nodejs环境，并将Notion Repo代码包括blog.config.js等配置打包进环境中，成为一个可执行的Docker镜像，并且镜像名为my-app。
 ```Bash
 docker build --build-arg NEXT_DEBUG=true -t my-app .
 ```
@@ -321,7 +321,7 @@ nvm install 22
 :::
 
 1. 安装yarn环境
-NodeJS 自带了 NPM（Node Package Manager），他可以用来安装打包编译NotionNext这类基于Webpack打包的项目。不过npm不太好用，这里安装一个npm升级版yarn。
+NodeJS 自带了 NPM（Node Package Manager），他可以用来安装打包编译Notion Repo这类基于Webpack打包的项目。不过npm不太好用，这里安装一个npm升级版yarn。
 ```Java
 # 1.【可选步骤】 NPM切换国内淘宝网镜像，便于加速安装。
 npm config set registry https://registry.npmmirror.com
@@ -330,9 +330,9 @@ npm config set registry https://registry.npmmirror.com
 npm install -g yarn
 ```
 
-NodeJs运行NotionNext
+NodeJs运行Notion Repo
 
-1. 安装NotionNext依赖
+1. 安装Notion Repo依赖
 ```JavaScript
 # 执行以下命令，使用yarn安装项目所有依赖的脚本和库
 yarn
@@ -358,7 +358,7 @@ yarn start
 <summary>执行效果记录</summary>
 
 ```Bash
-[root@tangly1024 NotionNext]# yarn
+[root@tangly1024 Notion Repo]# yarn
 yarn install v1.22.19
 info No lockfile found.
 [1/4] Resolving packages...
@@ -384,10 +384,10 @@ warning "eslint-config-next &gt; @typescript-eslint/parser &gt; @typescript-esli
 [4/4] Building fresh packages...
 success Saved lockfile.
 Done in 214.69s.
-[root@tangly1024 NotionNext]# yarn build
+[root@tangly1024 Notion Repo]# yarn build
 yarn run v1.22.19
 $ next build && next-sitemap --config next-sitemap.config.js
-info  - Loaded env from /root/NotionNext/.env.local
+info  - Loaded env from /root/Notion Repo/.env.local
 Attention: Next.js now collects completely anonymous telemetry regarding usage.
 This information is used to shape Next.js' roadmap and prioritize features.
 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
@@ -472,9 +472,9 @@ Page                                                          Size     First Loa
 ├ ● /page/[page]                                              652 B           543 kB
 ├ ● /search (ISR: 1 Seconds) (1944 ms)                        801 B           543 kB
 ├ ● /search/[keyword] (ISR: 1 Seconds) (1899 ms)              678 B           543 kB
-├   └ /search/NotionNext BLOG (1759 ms)
+├   └ /search/Notion Repo BLOG (1759 ms)
 ├ ● /search/[keyword]/page/[page] (ISR: 1 Seconds) (1867 ms)  687 B           543 kB
-├   └ /search/NotionNext BLOG/page/1 (1735 ms)
+├   └ /search/Notion Repo BLOG/page/1 (1735 ms)
 ├ ● /tag (ISR: 1 Seconds) (1606 ms)                           651 B           543 kB
 ├ ● /tag/[tag] (ISR: 1 Seconds) (6924 ms)                     679 B           543 kB
 ├   ├ /tag/开发 (1743 ms)
@@ -494,13 +494,13 @@ Page                                                          Size     First Loa
 ●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
    (ISR)     incremental static regeneration (uses revalidate in getStaticProps)
 
-Loaded env from /root/NotionNext/.env.local
+Loaded env from /root/Notion Repo/.env.local
 Done in 113.42s.
-[root@tangly1024 NotionNext]# yarn start
+[root@tangly1024 Notion Repo]# yarn start
 yarn run v1.22.19
 $ next start
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-info  - Loaded env from /root/NotionNext/.env.local
+info  - Loaded env from /root/Notion Repo/.env.local
 ```
 
 </details>
@@ -550,7 +550,7 @@ nohup是linux系统的指令，用于在系统后台不挂断地运行命令。�
 
 1. 改用nohup运行
 ```Bash
-cd NotionNext
+cd Notion Repo
 
 nohup yarn start &gt;/dev/null 2&gt;&1 &
 ```
@@ -576,7 +576,7 @@ pkill -f "yarn start"
 ```
 
 
-### 方式二：使用PM2管理NotionNext
+### 方式二：使用PM2管理Notion Repo
 
 PM2作为Node的进程管理工具，可以提升您维护站点的效率，您可以阅读《[**使用PM2启动Notionnext实现多开和进程守护**](https://jjdctg.com/pm2)**》获取帮助。**
 
@@ -589,11 +589,11 @@ PM2作为Node的进程管理工具，可以提升您维护站点的效率，您�
 此处特指用Nodejs运行项目可能出现的问题，若使用docker运行则可忽略此章节文档。
 :::
 
-部分网友的服务器运行NotionNext站点后，总会出现过一段时间 站点进程莫名其妙被杀死，导致网站暂停，这个问题，我目前还没有找到原因，也有可能是服务器配置不够导致的。
+部分网友的服务器运行Notion Repo站点后，总会出现过一段时间 站点进程莫名其妙被杀死，导致网站暂停，这个问题，我目前还没有找到原因，也有可能是服务器配置不够导致的。
 
 如果您的站点出现这种情况，可以尝试这种做法，创建一个启动脚本启动网站，并且实时检测网站关闭时自动启动站点：
 
-1. 创建一个脚本`**start_yarn.sh**`** 在服务器NotionNext文件夹下，**脚本的内容如下：
+1. 创建一个脚本`**start_yarn.sh**`** 在服务器Notion Repo文件夹下，**脚本的内容如下：
 
 ```Bash
 #!/bin/bash
@@ -622,7 +622,7 @@ done
 
 ```Bash
 # 进入项目文件夹
-cd NotionNext
+cd Notion Repo
 # 用编辑器创建并打开这个文件
 vim start_yarn.sh
 
@@ -676,14 +676,14 @@ nohup yarn start &gt;/dev/null 2&gt;&1 &
 删除环境变量可用以下命令： `unset NOTION_PAGE_ID`
 :::
 
-- 支持环境变量的配置可参考[blog.config.js](https://github.com/notionnext-org/NotionNext/blob/main/blog.config.js) 文件
+- 支持环境变量的配置可参考[blog.config.js](https://github.com/notionnext-org/Notion Repo/blob/main/blog.config.js) 文件
 
 
 ### 2.修改代码
 
 - 如果修改blog.config.js或其他代码文件，NodeJS环境需要重新执行 `yarn build` 才可 生效，Docker环境重新执行前面的docker build 相关命令即可重新构建镜像。
 
-- 您可以在项目根目录的[`.env.local`](https://github.com/notionnext-org/NotionNext/blob/main/.env.local)文件中配置您的环境变量
+- 您可以在项目根目录的[`.env.local`](https://github.com/notionnext-org/Notion Repo/blob/main/.env.local)文件中配置您的环境变量
 
 - 重新编译后需要先关闭旧进程，再用 `yarn start` 重启服务 。
 
@@ -743,17 +743,17 @@ sudo systemctl reload nginx
 如果访问出错可能是SELinux设置不允许nginx的转发 ，执行 `setsebool -P httpd_can_network_connect on` 即可修复。
 :::
 
-## VPS部署NotionNext如何自动更新？
+## VPS部署Notion Repo如何自动更新？
 因为代码是在自己的服务器上拉取和部署，所以每次都要执行更新代码，编译代码，并重启服务的步骤，建议是创建一个`update.sh`脚本在服务器上。
 示例代码，仅供参考：
 ```Bash
 #!/bin/bash
 
 # 切换到工作目录
-cd NotionNext
+cd Notion Repo
 
 # 从仓库更新拉取最新代码
-git pull https://github.com/notionnext-org/NotionNext
+git pull https://github.com/notionnext-org/Notion Repo
 
 # 编译新版代码
 yarn build

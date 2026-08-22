@@ -2,7 +2,7 @@
 
 [English summary](./GOVERNANCE.md)
 
-NotionNext 由 **[notionnext-org](https://github.com/notionnext-org)** 托管，目标是从「个人主导」过渡到 **社区协作维护**：欢迎既是站长又是开发者的参与者，通过公开渠道讨论、通过 PR 交付、通过书面规则降低沟通成本。
+Notion Repo 由 **[notionnext-org](https://github.com/notionnext-org)** 托管，目标是从「个人主导」过渡到 **社区协作维护**：欢迎既是站长又是开发者的参与者，通过公开渠道讨论、通过 PR 交付、通过书面规则降低沟通成本。
 
 ## 低负担与合规原则
 
@@ -22,7 +22,7 @@ NotionNext 由 **[notionnext-org](https://github.com/notionnext-org)** 托管，
 | --- | --- |
 | 文档修正、错别字、链接 | 直接 PR，维护者合并 |
 | Bug 修复（范围清晰） | Issue 可选 → PR → Review → 合并 |
-| 新功能、跨主题/公共 API 改动 | 先在 [Discussions](https://github.com/notionnext-org/NotionNext/discussions) 或 Issue 对齐范围；较大改动建议先写 [RFC](./docs/developer/rfc/README.md) |
+| 新功能、跨主题/公共 API 改动 | 先在 [Discussions](https://github.com/notionnext-org/Notion Repo/discussions) 或 Issue 对齐范围；较大改动建议先写 [RFC](./docs/developer/rfc/README.md) |
 | 破坏性变更、大版本依赖 | RFC + 维护者共识；需写迁移说明与 `docs/user-guide/` 同步 |
 | 安全漏洞 | 见 [SECURITY.md](./SECURITY.md)，勿在公开 Issue 贴细节 |
 
@@ -41,10 +41,10 @@ NotionNext 由 **[notionnext-org](https://github.com/notionnext-org)** 托管，
 ### 申请组织协作权限
 
 1. 先完成 **1～2 个合并 PR**（推荐从 `docs/user-guide/` 或 `good first issue` 开始）。  
-2. 在 [Discussions · 维护者自荐](https://github.com/notionnext-org/NotionNext/discussions/categories/general) 或 Issue 说明：希望负责的域（文档 / 某主题 / CI 等）、可投入时间。  
+2. 在 [Discussions · 维护者自荐](https://github.com/notionnext-org/Notion Repo/discussions/categories/general) 或 Issue 说明：希望负责的域（文档 / 某主题 / CI 等）、可投入时间。  
 3. 现有 **Maintainer** 在讨论中确认后，由 **Org Admin** 邀请加入组织或授予仓库 **Write / Maintain**。
 
-**已符合条件但尚未收到邀请？** 请勿重复私信或仅在 Issue 追问。请到 [GitHub Discussions](https://github.com/notionnext-org/NotionNext/discussions/new/choose) 发帖（可选用「组织成员申请」模板），标题注明 **组织成员申请**，正文附上：GitHub 用户名、已合并 PR 链接、希望负责的域、可投入时间。维护者按队列处理，邀请可能有延迟。
+**已符合条件但尚未收到邀请？** 请勿重复私信或仅在 Issue 追问。请到 [GitHub Discussions](https://github.com/notionnext-org/Notion Repo/discussions/new/choose) 发帖（可选用「组织成员申请」模板），标题注明 **组织成员申请**，正文附上：GitHub 用户名、已合并 PR 链接、希望负责的域、可投入时间。维护者按队列处理，邀请可能有延迟。
 
 不要求加入微信群；**GitHub 为官方协作主战场**。
 
@@ -61,7 +61,7 @@ NotionNext 由 **[notionnext-org](https://github.com/notionnext-org)** 托管，
 ## 发版与 Changelog
 
 - 版本号以 `package.json` 为准；发版由 **Maintainer + Org Admin** 执行。  
-- 用户可见变更写入 `docs/user-guide/changelog/latest.md`，并在 [Releases](https://github.com/notionnext-org/NotionNext/releases) 附说明。  
+- 用户可见变更写入 `docs/user-guide/changelog/latest.md`，并在 [Releases](https://github.com/notionnext-org/Notion Repo/releases) 附说明。  
 - 自动化 workflow（如 `bump-version-on-main`）仅维护者触发。
 
 ## 争议与行为

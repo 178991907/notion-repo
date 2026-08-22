@@ -3,7 +3,7 @@
 > 发布日期：2023-3-13
 > 最后编辑：2026-5-10
 > 原栏目：🚀 安装部署
-> 标签：NotionNext、部署方案、CloudFlare
+> 标签：Notion Repo、部署方案、CloudFlare
 > 摘要：cloudflare支持纯静态导出的notionnext，兼容性不那么好，但不失为一种选择。
 
 ## 前言
@@ -13,25 +13,25 @@ CloudFlare方案适用于站点访问量大，而文章更新不频繁的用户�
 目前是我个人在用的方案。
 :::
 
-参考haixin的文章[《NotionNext建站-cloudflare版》](https://www.haixin.io/article/notion-next-on-cf)，这里做了优化
+参考haixin的文章[《Notion Repo建站-cloudflare版》](https://www.haixin.io/article/notion-next-on-cf)，这里做了优化
 
 部署效果预览
 
-[Notion Blog | 一个NotionNext搭建的博客](https://cloudflare.tangly1024.com/)
+[Notion Blog | 一个Notion Repo搭建的博客](https://cloudflare.tangly1024.com/)
 
-一个NotionNext搭建的博客
+一个Notion Repo搭建的博客
 
 ::: info 问题
 CloudFlare版本是静态导出的，**不支持实时更新文章**，每次更改Notion内容后请手动部署站点。若需要实时动态更新请使用Vercel\Netlify\Zeabur\VPS部署方案。
 :::
 
 ::: tip 提示
-CloudFlare部署方案，以及其他所有使用 静态导出的方案，默认都不支持NotionNext自带的搜索功能，必须集成Algolia插件才能实现全文搜索。
+CloudFlare部署方案，以及其他所有使用 静态导出的方案，默认都不支持Notion Repo自带的搜索功能，必须集成Algolia插件才能实现全文搜索。
 
 详情参考Algolia全文搜索插件获取帮助:
-[Algolia搜索引擎 | NotionNext帮助手册](/user-guide/config/algolia)
+[Algolia搜索引擎 | Notion Repo帮助手册](/user-guide/config/algolia)
 
-NotionNext如何配置Algolia
+Notion Repo如何配置Algolia
 :::
 
 
@@ -67,7 +67,7 @@ Build your next application with Cloudflare Pages
 ![Untitled](/legacy/eae0c1921ef7ccc0.png)
 
 ::: warning 注意
-注意，2026年新版的Cloudflare 默认引导部署Workers，但是NotionNext目前的代码不支持Workers动态。 暂时还是选择使用Pages静态部署：
+注意，2026年新版的Cloudflare 默认引导部署Workers，但是Notion Repo目前的代码不支持Workers动态。 暂时还是选择使用Pages静态部署：
 ![部署页面底部有个小小的Pages](/legacy/2e139d8baa050794.png)
 :::
 

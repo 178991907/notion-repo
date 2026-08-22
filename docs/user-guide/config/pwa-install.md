@@ -1,6 +1,6 @@
 # PWA 安装入口
 
-NotionNext 可以为博客开启 PWA 安装能力。开启后，Android Chrome 会在访问博客首页且满足 HTTPS、固定 manifest、service worker 等条件时显示「安装应用」入口；用户安装后，桌面会出现使用站点图标和站点名称的快捷方式。
+Notion Repo 可以为博客开启 PWA 安装能力。开启后，Android Chrome 会在访问博客首页且满足 HTTPS、固定 manifest、service worker 等条件时显示「安装应用」入口；用户安装后，桌面会出现使用站点图标和站点名称的快捷方式。
 
 ## 开启方式
 

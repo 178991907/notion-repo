@@ -13,7 +13,7 @@
 ```bash
 # 克隆项目
 git clone <repository-url>
-cd NotionNext
+cd Notion Repo
 
 # 切到统一 Node 版本
 nvm use
@@ -152,7 +152,7 @@ yarn remove-hooks
 ## 项目结构
 
 ```
-NotionNext/
+Notion Repo/
 ├── components/          # React组件
 ├── pages/              # Next.js页面
 ├── lib/                # 工具库和配置

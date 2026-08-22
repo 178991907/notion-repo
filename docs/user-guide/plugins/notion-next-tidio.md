@@ -35,7 +35,7 @@ Convert more leads, provide stellar support, and boost your revenue with Tidio�
 
 将上述安装代码中的URL部分复制出来，即这段：**//code.tidio.co/xxxxxx.js**
 
-配置到NotionNext中,添加一个配置 CUSTOM_EXTERNAL_JS，参考如下
+配置到Notion Repo中,添加一个配置 CUSTOM_EXTERNAL_JS，参考如下
 
 ![image.png](/legacy/3b4d809da726e148.png)
 

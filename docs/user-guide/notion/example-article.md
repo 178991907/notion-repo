@@ -3,7 +3,7 @@
 > 发布日期：2021-11-5
 > 最后编辑：2024-10-28
 > 原栏目：✒ Notion教程
-> 标签：Notion、NotionNext
+> 标签：Notion、Notion Repo
 > 摘要：这是示例的文章摘要，摘要内容可被用做搜索，预览。文章列表默认展示概要；若要在列表直接展示文章内容，可在blog.config.js中配置。
 
 ## 基本段落
@@ -258,13 +258,13 @@ tailwindcss.pdf
 
 ### Notion HTML Block
 
-Notion 2026 年新增的 HTML Block 可以在 Notion 中通过 Notion AI 生成交互式小工具，也可以上传 `.html` 文件。NotionNext 会将这种 `html_artifact` 以 sandbox iframe 渲染，适合房贷计算器、ROI 计算器、互动表单、轻量图表等只依赖前端 HTML/CSS/JavaScript 的内容。
+Notion 2026 年新增的 HTML Block 可以在 Notion 中通过 Notion AI 生成交互式小工具，也可以上传 `.html` 文件。Notion Repo 会将这种 `html_artifact` 以 sandbox iframe 渲染，适合房贷计算器、ROI 计算器、互动表单、轻量图表等只依赖前端 HTML/CSS/JavaScript 的内容。
 
 使用建议：
 
 - 在 Notion 页面中插入 HTML Block，使用 Notion AI 生成，或上传一个 `.html` 文件。
 - HTML Block 会被隔离在 iframe 中运行，不会直接注入站点正文 DOM。
-- NotionNext 会在 HTML Block 加载及内容变化时自动调整显示高度；Notion 中设置的块高度仅作为首次加载的初始高度。内容超过 4096px 时 iframe 会保留内部滚动，避免单个区块无限撑长页面。
+- Notion Repo 会在 HTML Block 加载及内容变化时自动调整显示高度；Notion 中设置的块高度仅作为首次加载的初始高度。内容超过 4096px 时 iframe 会保留内部滚动，避免单个区块无限撑长页面。
 - 适合无后端的小工具；需要数据库、登录态、支付等能力时，仍应做成独立应用后再用普通 Embed 嵌入。
 - 为避免页面数据过大，单个 HTML artifact 建议控制在 512KB 以内。
 
@@ -306,7 +306,7 @@ Notion 2026 年新增的 HTML Block 可以在 Notion 中通过 Notion AI 生成�
 Notion支持将不同页面的块进行同步，即 SyncBlock，以下是来自另一个页面的块：
 
 ::: tip 提示
-注意 ： 同步块的使用条件是源页面也要被**开放共享** ，否则NotionNext将无权访问，页面上会被忽略渲染。
+注意 ： 同步块的使用条件是源页面也要被**开放共享** ，否则Notion Repo将无权访问，页面上会被忽略渲染。
 
 ![Untitled](/legacy/0583aa5143d9cb20.png)
 :::
@@ -349,7 +349,7 @@ heading标题在博客中自动转为目录
 
 ## 模板使用说明
 
-若要部署你的NotionNext项目，请复制该模板，并按照模板格式创建文章：
+若要部署你的Notion Repo项目，请复制该模板，并按照模板格式创建文章：
 
 [NOTION BLOG](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5?v=b7eb215720224ca5827bfaa5ef82cf2d)
 
@@ -364,17 +364,17 @@ Notion页面中，每篇文章都将有以下属性🤔：
 
 按照以下教程可以开启相应的评论插件
 
-[评论插件说明 | NotionNext帮助手册](/user-guide/comments/overview)
+[评论插件说明 | Notion Repo帮助手册](/user-guide/comments/overview)
 
-NotionNext-快速免费建站
+Notion Repo-快速免费建站
 
-[Twikoo | NotionNext帮助手册](/user-guide/comments/twikoo)
+[Twikoo | Notion Repo帮助手册](/user-guide/comments/twikoo)
 
-NotionNext现在支持 Twikoo啦，很好用的评论 插件
+Notion Repo现在支持 Twikoo啦，很好用的评论 插件
 
-[Waline | NotionNext帮助手册](/user-guide/comments/waline)
+[Waline | Notion Repo帮助手册](/user-guide/comments/waline)
 
-NotionNext-快速免费建站
+Notion Repo-快速免费建站
 
 测试嵌入PDF.pdf
 

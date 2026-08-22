@@ -177,7 +177,7 @@ npm run dev
 
 ## 📄 开源协议与鸣谢
 
-本项目基于 MIT 协议开源。感谢 [NotionNext](https://github.com/notionnext-org/NotionNext) 社区与所有开源贡献者的付出！
+本项目基于 MIT 协议开源。感谢 [Notion Repo](https://github.com/notionnext-org/Notion Repo) 社区与所有开源贡献者的付出！
 
 ---
 
@@ -186,4 +186,4 @@ npm run dev
 </div>
 
 - 本项目基于 [MIT License](./LICENSE) 开源；
-- 感谢 [NotionNext 官方团队与开源社区](https://github.com/notionnext-org/NotionNext)。
+- 感谢 [Notion Repo 官方团队与开源社区](https://github.com/notionnext-org/Notion Repo)。

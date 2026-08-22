@@ -9,7 +9,7 @@
 
 ![Simple 主题预览](/images/themes-preview/simple.webp)
 
-NotionNext 4.0 系列，用户首次安装的默认主题是Simple。这也是目前我主要在用的简洁主题。
+Notion Repo 4.0 系列，用户首次安装的默认主题是Simple。这也是目前我主要在用的简洁主题。
 
 
 ## Simple 主题相关配置

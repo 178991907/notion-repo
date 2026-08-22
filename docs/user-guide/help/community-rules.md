@@ -5,13 +5,13 @@
 > 原栏目：👨‍👦‍👦 获取帮助
 
 ::: info 公告
-NotionNext并未商业化，一切开发和帮助都由网友自发进行、用爱发电。
+Notion Repo并未商业化，一切开发和帮助都由网友自发进行、用爱发电。
 :::
 
 
 ## 序
 
-NotionNext提供了博客文档，社群交流，评论留言、邮件等渠道可供您获取帮助。
+Notion Repo提供了博客文档，社群交流，评论留言、邮件等渠道可供您获取帮助。
 
 1. 您可以免费分享的[操作文档](/user-guide/intro)中，看到建站教学，步骤很简单。
 
@@ -76,7 +76,7 @@ NotionNext提供了博客文档，社群交流，评论留言、邮件等渠道�
 
 我希望切换站点的主题为`example`，因此我在 GitHub 上修改了配置文件 `blog.config.js` 的`THEME`这个参数的配置，但在网页上并没有看到生效，我使用的部署方案是 Vercel 。以下是相关信息，请帮我看一下，非常感谢！
 
-1. 【代码地址】 `https://github.com/username/NotionNext` （这里贴你自己的仓库）
+1. 【代码地址】 `https://github.com/username/Notion Repo` （这里贴你自己的仓库）
 
 1. 【NotionID】02ab3b8678004aa69e9e415905ef32a5 (这里可以贴你的页面ID)
 
@@ -99,16 +99,16 @@ NotionNext提供了博客文档，社群交流，评论留言、邮件等渠道�
 
 ## 留言讨论
 
-[联系我 | NotionNext文档](/user-guide/help/feedback)
+[联系我 | Notion Repo文档](/user-guide/help/feedback)
 
 开始练习写作的小白，我觉得相比写什么、怎么写、写得如何来说，更重要的是坚持写作。
 
 
 ## 加入社群
 
-[2.社群交流 | NotionNext文档](/user-guide/help/community)
+[2.社群交流 | Notion Repo文档](/user-guide/help/community)
 
-NotionNext教程
+Notion Repo教程
 
 ## 原文链接
 

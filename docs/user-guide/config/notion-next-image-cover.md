@@ -3,7 +3,7 @@
 > 发布日期：2023-11-9
 > 最后编辑：2024-9-20
 > 原栏目：🛠 站点配置
-> 摘要：NotionNext 修改封面图背景图等
+> 摘要：Notion Repo 修改封面图背景图等
 
 ## 网站图片如何修改
 
@@ -112,9 +112,9 @@ NEXT_PUBLIC_RANDOM_IMAGE_NOT_REPLACE_TEXT=images.unsplash.com
 
 它不会从 Notion Config 中读取。
 
-再检查文章自己的封面。如果文章已经设置了普通自定义封面，NotionNext 会优先使用这张图，不会强制替换成随机图。想让随机图生效，可以移除文章封面，或把封面设置成会被 `RANDOM_IMAGE_NOT_REPLACE_TEXT` 命中的图片地址。
+再检查文章自己的封面。如果文章已经设置了普通自定义封面，Notion Repo 会优先使用这张图，不会强制替换成随机图。想让随机图生效，可以移除文章封面，或把封面设置成会被 `RANDOM_IMAGE_NOT_REPLACE_TEXT` 命中的图片地址。
 
-如果所有文章都显示同一张随机图，通常是随机图片 API 被缓存。NotionNext 会自动给图片 URL 追加文章 ID 参数，但部分图片服务会忽略这个参数；这种情况需要换一个支持按 query 返回不同图片的 API。
+如果所有文章都显示同一张随机图，通常是随机图片 API 被缓存。Notion Repo 会自动给图片 URL 追加文章 ID 参数，但部分图片服务会忽略这个参数；这种情况需要换一个支持按 query 返回不同图片的 API。
 
 ## 原文链接
 
