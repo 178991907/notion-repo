@@ -1,6 +1,6 @@
 {
   "cleanUrls": false,
   "trailingSlash": false,
-  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_MESSAGE\" in *\"[skip-version]\"*) exit 0;; *) exit 1;; esac",
+  "ignoreCommand": "exit 0",
   "headers": []
 }
