@@ -1,0 +1,29 @@
+name: MongoDB Atlas Keep-Alive Auto Heartbeat
+
+on:
+  # 每天固定时间自动触发（UTC 02:00，即北京时间 10:00）
+  schedule:
+    - cron: '0 2 * * *'
+  # 支持在 GitHub Actions 页面手动点击触发测试
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run MongoDB Keep-Alive Heartbeat
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: node scripts/mongodb-keepalive.js
