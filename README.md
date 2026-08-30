@@ -19,7 +19,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.12.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.13.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
@@ -30,11 +30,30 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.12.0)
+## 🌟 核心特性与架构亮点 (v4.13.0)
 
-本项目深度研发并集成了 **全功能可视化管理后台** 与 **高自由度主题深度定制体系**，所有配置支持在后台可视化编辑并永久固化保存：
+本项目深度研发并集成了 **全功能可视化管理后台**、**分类/标签深度双向管理系统** 与 **高自由度主题定制体系**：
 
-### 1. 🎛️ 全功能可视化管理后台 (`/admin`)
+### 1. 📁 Category（分类）可视化编辑管理 (`/admin/categories`)
+- **📊 实时分类总览与文章透视**：实时聚合 Notion 数据库中的全部已注册分类，展示各分类下的文章总数，支持点击即时展开文章明细（标题、发布日期、Slug 与前台直达链接）。
+- **✏️ 一键批量重命名 (Rename)**：后台输入新分类名称，自动并发更新 Notion 数据库中所有对应文章的 `category` 属性，并智能更新 Schema Options。
+- **🔀 智能分类合并 (Merge)**：将源分类下的所有文章一键迁移到目标分类，并自动注销旧分类。
+- **🗑️ 彻底删除与未分类管理**：支持一键清空/转移分类文章并从 Notion Schema 中注销该分类；专设未分类文章看板，支持下拉框一键分配。
+- **🧹 一键清理空分类**：自动检测并一键清理 0 篇文章引用的废弃 Schema 分类选项。
+
+---
+
+### 2. 🏷️ Tags（标签）全景云与批量打标管理 (`/admin/tags`)
+- **🎨 Notion 原生多彩 Badge 全景云**：完美还原 Notion 的彩色胶囊（红色、橙色、黄色、绿色、蓝色、紫色、粉色等），实时统计每个标签的文章引用数。
+- **➕ 新建标签**：支持在后台直接创建新标签并选择 Notion 原生色彩预设。
+- **✏️ 一键批量重命名**：例如一键将 `NotionNext` 标签更名为 `Notion Repo`，自动遍历替换所有关联文章的多选标签数组。
+- **🔀 多选批量合并**：勾选任意多个相近标签，一键合并为一个统称标签。
+- **⚡ 批量文章打标**：可视化勾选多篇文章，一键批量追加或移除指定标签。
+- **🧹 一键清理空标签**：自动检测并一键注销 0 篇文章引用的废弃 Schema 标签。
+
+---
+
+### 3. 🎛️ 全功能可视化管理后台 (`/admin`)
 - **安全鉴权系统**：基于轻量级 HMAC-SHA256 Token 与环境变量 `ADMIN_PASSWORD` 认证，具备防暴力破解速率限制。
 - **全维度主题可视化编辑器 (`/admin/settings/theme`)**：
   - 🧭 **顶栏导航**：9 大内置功能菜单开关、Notion 页面显隐控制、自定义导航菜单列表（增删改与上下排序）、Logo 悬停高清大图浮窗。
