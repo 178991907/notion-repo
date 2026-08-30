@@ -8,10 +8,9 @@ const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || 
 /**
  * 标签管理 API
  * GET: 获取所有标签与文章统计
- * POST: 重命名、合并、删除、新建标签、批量打标
+ * POST: 重命名、合并、删除、新建标签、清理空标签、批量打标
  */
 export default async function handler(req, res) {
-  // 1. 验证登录状态
   const auth = verifyRequestToken(req)
   if (!auth) {
     return res.status(401).json({ error: '未登录或登录已过期' })
@@ -34,7 +33,7 @@ async function handleGet(req, res) {
     const { Client } = require('@notionhq/client')
     const notion = new Client({ auth: NOTION_TOKEN })
 
-    // 1. 获取数据库 Schema 中的 tags options 颜色
+    // 1. 获取数据库 Schema 中的 tags options
     const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
     const tagProp = db.properties.tags || db.properties.Tags || {}
     const schemaOptions = tagProp.multi_select?.options || []
@@ -114,14 +113,14 @@ async function handleGet(req, res) {
 }
 
 /**
- * 处理标签操作 (rename, merge, delete, create, batch_tag_posts)
+ * 处理标签操作 (create, rename, merge, delete, cleanup_empty, batch_tag_posts)
  */
 async function handlePost(req, res) {
   if (!req.headers['x-admin-csrf']) {
     return res.status(403).json({ error: '缺少 CSRF 验证头' })
   }
 
-  const { action, oldName, newName, sourceNames, targetName, name, pageIds, addTags, removeTags } = req.body || {}
+  const { action, oldName, newName, sourceNames, targetName, name, color, pageIds, addTags, removeTags } = req.body || {}
   const { Client } = require('@notionhq/client')
   const notion = new Client({ auth: NOTION_TOKEN })
 
@@ -134,11 +133,28 @@ async function handlePost(req, res) {
       page_size: 100
     })
 
-    // 1. 重命名标签 (Rename)
-    if (action === 'rename') {
+    // 1. 新建标签 (Create): 同步在 Schema options 中注册
+    if (action === 'create') {
+      if (!name || !name.trim()) {
+        return res.status(400).json({ error: '标签名称不能为空' })
+      }
+      const newTagName = name.trim()
+
+      await updateTagSchemaOptions(notion, (options) => {
+        if (!options.some(o => o.name === newTagName)) {
+          options.push({ name: newTagName, color: color || 'default' })
+        }
+        return options
+      })
+      affectedCount = 1
+    }
+
+    // 2. 重命名标签 (Rename): 更新文章 tags 数组 + 同步更新 Schema options
+    else if (action === 'rename') {
       if (!oldName || !newName || oldName === newName) {
         return res.status(400).json({ error: '请提供有效的原标签名称与新标签名称' })
       }
+      const targetNameTrim = newName.trim()
 
       for (const page of response.results) {
         const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
@@ -146,28 +162,35 @@ async function handlePost(req, res) {
 
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
         if (currentTags.includes(oldName)) {
-          const newTags = currentTags.map(t => (t === oldName ? newName.trim() : t))
-          // 去重
+          const newTags = currentTags.map(t => (t === oldName ? targetNameTrim : t))
           const uniqueTags = Array.from(new Set(newTags))
           await notion.pages.update({
             page_id: page.id,
             properties: {
               [propName]: {
-                multi_select: uniqueTags.map(name => ({ name }))
+                multi_select: uniqueTags.map(n => ({ name: n }))
               }
             }
           })
           affectedCount++
         }
       }
+
+      // 同步更新 Schema options
+      await updateTagSchemaOptions(notion, (options) => {
+        const filtered = options.filter(o => o.name !== oldName && o.name !== targetNameTrim)
+        filtered.push({ name: targetNameTrim, color: color || 'default' })
+        return filtered
+      })
     }
 
-    // 2. 合并标签 (Merge)
+    // 3. 合并标签 (Merge): 迁移文章 + 从 Schema options 中彻底移除源标签
     else if (action === 'merge') {
       const sources = Array.isArray(sourceNames) ? sourceNames : [sourceNames].filter(Boolean)
       if (sources.length === 0 || !targetName) {
         return res.status(400).json({ error: '请提供有效的源标签列表与合并目标标签' })
       }
+      const targetTrim = targetName.trim()
 
       for (const page of response.results) {
         const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
@@ -177,7 +200,7 @@ async function handlePost(req, res) {
         const hasSource = currentTags.some(t => sources.includes(t))
         if (hasSource) {
           const filtered = currentTags.filter(t => !sources.includes(t))
-          filtered.push(targetName.trim())
+          filtered.push(targetTrim)
           const uniqueTags = Array.from(new Set(filtered))
           await notion.pages.update({
             page_id: page.id,
@@ -190,9 +213,18 @@ async function handlePost(req, res) {
           affectedCount++
         }
       }
+
+      // 从 Schema options 中移除被合并的源标签
+      await updateTagSchemaOptions(notion, (options) => {
+        const filtered = options.filter(o => !sources.includes(o.name))
+        if (!filtered.some(o => o.name === targetTrim)) {
+          filtered.push({ name: targetTrim, color: 'default' })
+        }
+        return filtered
+      })
     }
 
-    // 3. 删除标签 (Delete)
+    // 4. 删除标签 (Delete): 从文章中移除 + 从 Schema options 中彻底移除
     else if (action === 'delete') {
       if (!name) {
         return res.status(400).json({ error: '请提供要删除的标签名称' })
@@ -216,9 +248,29 @@ async function handlePost(req, res) {
           affectedCount++
         }
       }
+
+      // 从 Schema options 中彻底移除该标签
+      await updateTagSchemaOptions(notion, (options) => {
+        return options.filter(o => o.name !== name)
+      })
     }
 
-    // 4. 批量给文章添加或移除标签 (Batch Tag Posts)
+    // 5. 一键清理空标签 (Cleanup Empty): 移除 0 篇文章引用的废弃 Schema 标签
+    else if (action === 'cleanup_empty') {
+      const usedTags = new Set()
+      for (const page of response.results) {
+        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
+        if (!propName) continue
+        const pageTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
+        pageTags.forEach(t => usedTags.add(t))
+      }
+
+      await updateTagSchemaOptions(notion, (options) => {
+        return options.filter(o => usedTags.has(o.name))
+      })
+    }
+
+    // 6. 批量给文章添加或移除标签
     else if (action === 'batch_tag_posts') {
       if (!Array.isArray(pageIds) || pageIds.length === 0) {
         return res.status(400).json({ error: '请选择至少一篇文章' })
@@ -234,7 +286,6 @@ async function handlePost(req, res) {
         const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : 'tags')
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
         
-        // 执行添加与移除
         let nextTags = currentTags.filter(t => !toRemove.includes(t))
         nextTags = Array.from(new Set([...nextTags, ...toAdd]))
 
@@ -247,6 +298,18 @@ async function handlePost(req, res) {
           }
         })
         affectedCount++
+      }
+
+      // 如果有新添加的 tags，也自动在 Schema options 中注册
+      if (toAdd.length > 0) {
+        await updateTagSchemaOptions(notion, (options) => {
+          toAdd.forEach(t => {
+            if (!options.some(o => o.name === t)) {
+              options.push({ name: t, color: 'default' })
+            }
+          })
+          return options
+        })
       }
     } else {
       return res.status(400).json({ error: '未知的操作类型: ' + action })
@@ -264,6 +327,28 @@ async function handlePost(req, res) {
     console.error('标签操作失败:', error)
     return res.status(500).json({ error: error.message || '操作失败' })
   }
+}
+
+/**
+ * 更新 Notion 数据库 Schema 中的 tags options
+ */
+async function updateTagSchemaOptions(notion, modifier) {
+  const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+  const tagPropName = db.properties.tags ? 'tags' : 'Tags'
+  const currentOptions = db.properties[tagPropName]?.multi_select?.options || []
+  
+  const nextOptions = modifier([...currentOptions])
+  
+  await notion.databases.update({
+    database_id: NOTION_DATABASE_ID,
+    properties: {
+      [tagPropName]: {
+        multi_select: {
+          options: nextOptions
+        }
+      }
+    }
+  })
 }
 
 /**

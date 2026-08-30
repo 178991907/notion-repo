@@ -8,10 +8,9 @@ const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || 
 /**
  * 分类管理 API
  * GET: 获取所有分类与文章统计
- * POST: 重命名、合并、删除、新建分类、修改文章分类
+ * POST: 重命名、合并、删除、新建分类、清理空分类、修改文章分类
  */
 export default async function handler(req, res) {
-  // 1. 验证登录状态
   const auth = verifyRequestToken(req)
   if (!auth) {
     return res.status(401).json({ error: '未登录或登录已过期' })
@@ -64,7 +63,6 @@ async function handleGet(req, res) {
 
     for (const page of response.results) {
       const type = page.properties.type?.select?.name || page.properties.Type?.select?.name || ''
-      // 只统计类型为 Post 的文章（不包含 Menu、Config 等）
       if (type !== 'Post') continue
 
       const title = page.properties.title?.title?.[0]?.plain_text || page.properties.Name?.title?.[0]?.plain_text || '无标题'
@@ -116,10 +114,9 @@ async function handleGet(req, res) {
 }
 
 /**
- * 处理分类操作 (rename, merge, delete, create, update_post_category)
+ * 处理分类操作 (rename, merge, delete, create, cleanup_empty, update_post_category)
  */
 async function handlePost(req, res) {
-  // CSRF 防护
   if (!req.headers['x-admin-csrf']) {
     return res.status(403).json({ error: '缺少 CSRF 验证头' })
   }
@@ -131,26 +128,33 @@ async function handlePost(req, res) {
   try {
     let affectedCount = 0
 
-    // 1. 重命名分类 (Rename)
+    // 1. 重命名分类 (Rename): 文章批量更新 + 同步更新 Schema options
     if (action === 'rename') {
       if (!oldName || !newName || oldName === newName) {
         return res.status(400).json({ error: '请提供有效的原分类名称与新分类名称' })
       }
 
-      // 查询所有属于 oldName 的文章
+      // 更新文章属性
       const pagesToUpdate = await queryPagesByProp(notion, 'category', oldName)
       for (const page of pagesToUpdate) {
         await notion.pages.update({
           page_id: page.id,
           properties: {
-            category: { select: { name: newName } }
+            category: { select: { name: newName.trim() } }
           }
         })
         affectedCount++
       }
+
+      // 同步更新 Database Schema options: 替换 oldName 为 newName，并确保旧名字被彻底清除
+      await updateCategorySchemaOptions(notion, (options) => {
+        const filtered = options.filter(o => o.name !== oldName && o.name !== newName.trim())
+        filtered.push({ name: newName.trim(), color: color || 'blue' })
+        return filtered
+      })
     }
 
-    // 2. 合并分类 (Merge)
+    // 2. 合并分类 (Merge): 迁移文章 + 从 Schema options 中彻底移除 sourceName
     else if (action === 'merge') {
       if (!sourceName || !targetName || sourceName === targetName) {
         return res.status(400).json({ error: '请提供有效的源分类与目标分类' })
@@ -166,9 +170,14 @@ async function handlePost(req, res) {
         })
         affectedCount++
       }
+
+      // 从 Schema options 中移除 sourceName
+      await updateCategorySchemaOptions(notion, (options) => {
+        return options.filter(o => o.name !== sourceName)
+      })
     }
 
-    // 3. 删除分类 (Delete)
+    // 3. 删除分类 (Delete): 清空/转移文章 + 从 Schema options 中彻底移除 name
     else if (action === 'delete') {
       if (!name) {
         return res.status(400).json({ error: '请提供要删除的分类名称' })
@@ -184,26 +193,58 @@ async function handlePost(req, res) {
         })
         affectedCount++
       }
+
+      // 从 Schema options 中彻底移除该分类
+      await updateCategorySchemaOptions(notion, (options) => {
+        return options.filter(o => o.name !== name)
+      })
     }
 
-    // 4. 创建新分类 (Create)
+    // 4. 创建新分类 (Create): 同步在 Schema options 中注册
     else if (action === 'create') {
-      if (!name) {
+      if (!name || !name.trim()) {
         return res.status(400).json({ error: '分类名称不能为空' })
       }
-      // 如果指定了 pageId，直接分配给该文章
+      const newCatName = name.trim()
+
+      await updateCategorySchemaOptions(notion, (options) => {
+        if (!options.some(o => o.name === newCatName)) {
+          options.push({ name: newCatName, color: color || 'blue' })
+        }
+        return options
+      })
+
       if (pageId) {
         await notion.pages.update({
           page_id: pageId,
           properties: {
-            category: { select: { name: name.trim() } }
+            category: { select: { name: newCatName } }
           }
         })
-        affectedCount = 1
       }
+      affectedCount = 1
     }
 
-    // 5. 修改单篇文章的分类 (Update Post Category)
+    // 5. 一键清理空分类 (Cleanup Empty): 移除 0 篇文章的无用选项
+    else if (action === 'cleanup_empty') {
+      // 先查询出所有有文章在用的分类
+      const response = await notion.databases.query({
+        database_id: NOTION_DATABASE_ID,
+        page_size: 100
+      })
+      const usedCategories = new Set()
+      for (const page of response.results) {
+        const cat = page.properties.category?.select?.name || page.properties.Category?.select?.name
+        if (cat) usedCategories.add(cat)
+      }
+
+      // 只保留有文章使用的分类
+      await updateCategorySchemaOptions(notion, (options) => {
+        return options.filter(o => usedCategories.has(o.name))
+      })
+    }
+
+    // 6. 修改单篇文章分类
     else if (action === 'update_post_category') {
       if (!pageId) {
         return res.status(400).json({ error: '请提供文章 ID' })
@@ -219,7 +260,7 @@ async function handlePost(req, res) {
       return res.status(400).json({ error: '未知的操作类型: ' + action })
     }
 
-    // 清理缓存以确保前台即时感知
+    // 清理缓存
     await clearSiteCache(res)
 
     return res.status(200).json({
@@ -231,6 +272,28 @@ async function handlePost(req, res) {
     console.error('分类操作失败:', error)
     return res.status(500).json({ error: error.message || '操作失败' })
   }
+}
+
+/**
+ * 更新 Notion 数据库 Schema 中的 category options
+ */
+async function updateCategorySchemaOptions(notion, modifier) {
+  const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+  const catPropName = db.properties.category ? 'category' : 'Category'
+  const currentOptions = db.properties[catPropName]?.select?.options || []
+  
+  const nextOptions = modifier([...currentOptions])
+  
+  await notion.databases.update({
+    database_id: NOTION_DATABASE_ID,
+    properties: {
+      [catPropName]: {
+        select: {
+          options: nextOptions
+        }
+      }
+    }
+  })
 }
 
 /**
