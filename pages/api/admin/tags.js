@@ -1,9 +1,9 @@
-import BLOG from '@/blog.config'
-import { verifyRequestToken } from '@/lib/admin/auth'
+import BLOG from "@/blog.config"
+import { verifyRequestToken } from "@/lib/admin/auth"
 
-const DEFAULT_TOKEN_ENCODED = 'bnRuXzQwMzAxNjUzMjcyOWpVMTZjQmhvUmpLWmVpYldDQ3JMVmxWdDVTcXV4NXIwc2Y='
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, 'base64').toString('utf-8')
-const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || 'd699622a6d1882f09e68814c63554113'
+const DEFAULT_TOKEN_ENCODED = "bnRuXzQwMzAxNjUzMjcyOWpVMTZjQmhvUmpLWmVpYldDQ3JMVmxWdDVTcXV4NXIwc2Y="
+const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, "base64").toString("utf-8")
+const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || "d699622a6d1882f09e68814c63554113"
 
 /**
  * 标签管理 API
@@ -13,16 +13,16 @@ const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || 
 export default async function handler(req, res) {
   const auth = verifyRequestToken(req)
   if (!auth) {
-    return res.status(401).json({ error: '未登录或登录已过期' })
+    return res.status(401).json({ error: "未登录或登录已过期" })
   }
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     return handleGet(req, res)
   }
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     return handlePost(req, res)
   }
-  return res.status(405).json({ error: '不支持的请求方法' })
+  return res.status(405).json({ error: "不支持的请求方法" })
 }
 
 /**
@@ -30,30 +30,27 @@ export default async function handler(req, res) {
  */
 async function handleGet(req, res) {
   try {
-    const { Client } = require('@notionhq/client')
+    const { Client } = require("@notionhq/client")
     const notion = new Client({ auth: NOTION_TOKEN })
 
-    // 1. 获取数据库 Schema 中的 tags options
     const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
     const tagProp = db.properties.tags || db.properties.Tags || {}
     const schemaOptions = tagProp.multi_select?.options || []
     const optionColorMap = {}
     schemaOptions.forEach(opt => {
-      optionColorMap[opt.name] = opt.color || 'default'
+      optionColorMap[opt.name] = opt.color || "default"
     })
 
-    // 2. 查询所有文章
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
       page_size: 100
     })
 
     const tagsMap = {}
-    // 先初始化 Schema 中预设的标签
     schemaOptions.forEach(opt => {
       tagsMap[opt.name] = {
         name: opt.name,
-        color: opt.color || 'default',
+        color: opt.color || "default",
         count: 0,
         posts: []
       }
@@ -62,14 +59,14 @@ async function handleGet(req, res) {
     const allPosts = []
 
     for (const page of response.results) {
-      const type = page.properties.type?.select?.name || page.properties.Type?.select?.name || ''
-      if (type !== 'Post') continue
+      const type = page.properties.type?.select?.name || page.properties.Type?.select?.name || ""
+      if (type !== "Post") continue
 
-      const title = page.properties.title?.title?.[0]?.plain_text || page.properties.Name?.title?.[0]?.plain_text || '无标题'
-      const cat = page.properties.category?.select?.name || page.properties.Category?.select?.name || ''
-      const date = page.properties.date?.date?.start || page.properties.Date?.date?.start || ''
+      const title = page.properties.title?.title?.[0]?.plain_text || page.properties.Name?.title?.[0]?.plain_text || "无标题"
+      const cat = page.properties.category?.select?.name || page.properties.Category?.select?.name || ""
+      const date = page.properties.date?.date?.start || page.properties.Date?.date?.start || ""
       const slug = page.properties.slug?.rich_text?.[0]?.plain_text || page.properties.Slug?.rich_text?.[0]?.plain_text || page.id
-      const status = page.properties.status?.select?.name || page.properties.Status?.select?.name || 'Published'
+      const status = page.properties.status?.select?.name || page.properties.Status?.select?.name || "Published"
       const postTags = page.properties.tags?.multi_select?.map(t => t.name) || page.properties.Tags?.multi_select?.map(t => t.name) || []
 
       const postItem = {
@@ -87,7 +84,7 @@ async function handleGet(req, res) {
         if (!tagsMap[t]) {
           tagsMap[t] = {
             name: t,
-            color: optionColorMap[t] || 'default',
+            color: optionColorMap[t] || "default",
             count: 0,
             posts: []
           }
@@ -107,8 +104,8 @@ async function handleGet(req, res) {
       totalPosts: allPosts.length
     })
   } catch (error) {
-    console.error('获取标签列表异常:', error)
-    return res.status(500).json({ error: error.message || '获取标签列表失败' })
+    console.error("获取标签列表异常:", error)
+    return res.status(500).json({ error: error.message || "获取标签列表失败" })
   }
 }
 
@@ -116,48 +113,43 @@ async function handleGet(req, res) {
  * 处理标签操作 (create, rename, merge, delete, cleanup_empty, batch_tag_posts)
  */
 async function handlePost(req, res) {
-  if (!req.headers['x-admin-csrf']) {
-    return res.status(403).json({ error: '缺少 CSRF 验证头' })
+  if (!req.headers["x-admin-csrf"]) {
+    return res.status(403).json({ error: "缺少 CSRF 验证头" })
   }
 
   const { action, oldName, newName, sourceNames, targetName, name, color, pageIds, addTags, removeTags } = req.body || {}
-  const { Client } = require('@notionhq/client')
+  const { Client } = require("@notionhq/client")
   const notion = new Client({ auth: NOTION_TOKEN })
 
   try {
     let affectedCount = 0
 
-    // 获取所有文章
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
       page_size: 100
     })
 
-    // 1. 新建标签 (Create): 同步在 Schema options 中注册
-    if (action === 'create') {
+    // 1. 新建标签 (Create)
+    if (action === "create") {
       if (!name || !name.trim()) {
-        return res.status(400).json({ error: '标签名称不能为空' })
+        return res.status(400).json({ error: "标签名称不能为空" })
       }
       const newTagName = name.trim()
 
-      await updateTagSchemaOptions(notion, (options) => {
-        if (!options.some(o => o.name === newTagName)) {
-          options.push({ name: newTagName, color: color || 'default' })
-        }
-        return options
-      })
+      await safeUpdateTagSchemaOptions(notion, "create", { name: newTagName, color })
       affectedCount = 1
     }
 
-    // 2. 重命名标签 (Rename): 更新文章 tags 数组 + 同步更新 Schema options
-    else if (action === 'rename') {
+    // 2. 重命名标签 (Rename)
+    else if (action === "rename") {
       if (!oldName || !newName || oldName === newName) {
-        return res.status(400).json({ error: '请提供有效的原标签名称与新标签名称' })
+        return res.status(400).json({ error: "请提供有效的原标签名称与新标签名称" })
       }
       const targetNameTrim = newName.trim()
 
+      // 更新所有文章中的标签
       for (const page of response.results) {
-        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
+        const propName = page.properties.tags ? "tags" : (page.properties.Tags ? "Tags" : null)
         if (!propName) continue
 
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
@@ -176,24 +168,20 @@ async function handlePost(req, res) {
         }
       }
 
-      // 同步更新 Schema options
-      await updateTagSchemaOptions(notion, (options) => {
-        const filtered = options.filter(o => o.name !== oldName && o.name !== targetNameTrim)
-        filtered.push({ name: targetNameTrim, color: color || 'default' })
-        return filtered
-      })
+      // 安全同步更新 Schema options
+      await safeUpdateTagSchemaOptions(notion, "rename", { oldName, newName: targetNameTrim, color })
     }
 
-    // 3. 合并标签 (Merge): 迁移文章 + 从 Schema options 中彻底移除源标签
-    else if (action === 'merge') {
+    // 3. 合并标签 (Merge)
+    else if (action === "merge") {
       const sources = Array.isArray(sourceNames) ? sourceNames : [sourceNames].filter(Boolean)
       if (sources.length === 0 || !targetName) {
-        return res.status(400).json({ error: '请提供有效的源标签列表与合并目标标签' })
+        return res.status(400).json({ error: "请提供有效的源标签列表与合并目标标签" })
       }
       const targetTrim = targetName.trim()
 
       for (const page of response.results) {
-        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
+        const propName = page.properties.tags ? "tags" : (page.properties.Tags ? "Tags" : null)
         if (!propName) continue
 
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
@@ -214,24 +202,17 @@ async function handlePost(req, res) {
         }
       }
 
-      // 从 Schema options 中移除被合并的源标签
-      await updateTagSchemaOptions(notion, (options) => {
-        const filtered = options.filter(o => !sources.includes(o.name))
-        if (!filtered.some(o => o.name === targetTrim)) {
-          filtered.push({ name: targetTrim, color: 'default' })
-        }
-        return filtered
-      })
+      await safeUpdateTagSchemaOptions(notion, "merge", { sourceNames: sources, targetName: targetTrim })
     }
 
-    // 4. 删除标签 (Delete): 从文章中移除 + 从 Schema options 中彻底移除
-    else if (action === 'delete') {
+    // 4. 删除标签 (Delete)
+    else if (action === "delete") {
       if (!name) {
-        return res.status(400).json({ error: '请提供要删除的标签名称' })
+        return res.status(400).json({ error: "请提供要删除的标签名称" })
       }
 
       for (const page of response.results) {
-        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
+        const propName = page.properties.tags ? "tags" : (page.properties.Tags ? "Tags" : null)
         if (!propName) continue
 
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
@@ -249,31 +230,26 @@ async function handlePost(req, res) {
         }
       }
 
-      // 从 Schema options 中彻底移除该标签
-      await updateTagSchemaOptions(notion, (options) => {
-        return options.filter(o => o.name !== name)
-      })
+      await safeUpdateTagSchemaOptions(notion, "delete", { name })
     }
 
-    // 5. 一键清理空标签 (Cleanup Empty): 移除 0 篇文章引用的废弃 Schema 标签
-    else if (action === 'cleanup_empty') {
+    // 5. 一键清理空标签 (Cleanup Empty)
+    else if (action === "cleanup_empty") {
       const usedTags = new Set()
       for (const page of response.results) {
-        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : null)
+        const propName = page.properties.tags ? "tags" : (page.properties.Tags ? "Tags" : null)
         if (!propName) continue
         const pageTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
         pageTags.forEach(t => usedTags.add(t))
       }
 
-      await updateTagSchemaOptions(notion, (options) => {
-        return options.filter(o => usedTags.has(o.name))
-      })
+      await safeUpdateTagSchemaOptions(notion, "cleanup_empty", { usedTags })
     }
 
-    // 6. 批量给文章添加或移除标签
-    else if (action === 'batch_tag_posts') {
+    // 6. 批量文章打标
+    else if (action === "batch_tag_posts") {
       if (!Array.isArray(pageIds) || pageIds.length === 0) {
-        return res.status(400).json({ error: '请选择至少一篇文章' })
+        return res.status(400).json({ error: "请选择至少一篇文章" })
       }
 
       const toAdd = Array.isArray(addTags) ? addTags.map(t => t.trim()).filter(Boolean) : []
@@ -283,7 +259,7 @@ async function handlePost(req, res) {
         const page = response.results.find(p => p.id === pId)
         if (!page) continue
 
-        const propName = page.properties.tags ? 'tags' : (page.properties.Tags ? 'Tags' : 'tags')
+        const propName = page.properties.tags ? "tags" : (page.properties.Tags ? "Tags" : "tags")
         const currentTags = page.properties[propName]?.multi_select?.map(t => t.name) || []
         
         let nextTags = currentTags.filter(t => !toRemove.includes(t))
@@ -300,76 +276,96 @@ async function handlePost(req, res) {
         affectedCount++
       }
 
-      // 如果有新添加的 tags，也自动在 Schema options 中注册
       if (toAdd.length > 0) {
-        await updateTagSchemaOptions(notion, (options) => {
-          toAdd.forEach(t => {
-            if (!options.some(o => o.name === t)) {
-              options.push({ name: t, color: 'default' })
-            }
-          })
-          return options
-        })
+        for (const t of toAdd) {
+          await safeUpdateTagSchemaOptions(notion, "create", { name: t })
+        }
       }
     } else {
-      return res.status(400).json({ error: '未知的操作类型: ' + action })
+      return res.status(400).json({ error: "未知的操作类型: " + action })
     }
 
-    // 清理站点缓存
     await clearSiteCache(res)
 
     return res.status(200).json({
       success: true,
-      message: '标签操作执行成功',
+      message: "标签操作执行成功",
       affectedCount
     })
   } catch (error) {
-    console.error('标签操作失败:', error)
-    return res.status(500).json({ error: error.message || '操作失败' })
+    console.error("标签操作失败:", error)
+    return res.status(500).json({ error: error.message || "操作失败" })
   }
 }
 
 /**
- * 更新 Notion 数据库 Schema 中的 tags options
+ * 健壮更新 Notion 数据库 Schema 中的 tags options (防 color 冲突报错)
  */
-async function updateTagSchemaOptions(notion, modifier) {
-  const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
-  const tagPropName = db.properties.tags ? 'tags' : 'Tags'
-  const currentOptions = db.properties[tagPropName]?.multi_select?.options || []
-  
-  const nextOptions = modifier([...currentOptions])
-  
-  await notion.databases.update({
-    database_id: NOTION_DATABASE_ID,
-    properties: {
-      [tagPropName]: {
-        multi_select: {
-          options: nextOptions
+async function safeUpdateTagSchemaOptions(notion, action, params = {}) {
+  try {
+    const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+    const tagPropName = db.properties.tags ? "tags" : "Tags"
+    const currentOptions = db.properties[tagPropName]?.multi_select?.options || []
+    
+    let nextOptions = []
+    
+    if (action === "create") {
+      const trimName = params.name.trim()
+      if (currentOptions.some(o => o.name === trimName)) return
+      nextOptions = [...currentOptions, { name: trimName, color: params.color || "default" }]
+    } else if (action === "rename") {
+      const trimNew = params.newName.trim()
+      const existingTarget = currentOptions.find(o => o.name === trimNew)
+      if (existingTarget) {
+        nextOptions = currentOptions.filter(o => o.name !== params.oldName)
+      } else {
+        nextOptions = currentOptions.map(o => {
+          if (o.name === params.oldName) {
+            return { id: o.id, name: trimNew }
+          }
+          return { id: o.id, name: o.name, color: o.color }
+        })
+      }
+    } else if (action === "delete") {
+      nextOptions = currentOptions.filter(o => o.name !== params.name)
+    } else if (action === "merge") {
+      const sources = Array.isArray(params.sourceNames) ? params.sourceNames : [params.sourceNames]
+      nextOptions = currentOptions.filter(o => !sources.includes(o.name))
+    } else if (action === "cleanup_empty") {
+      nextOptions = currentOptions.filter(o => params.usedTags.has(o.name))
+    }
+
+    await notion.databases.update({
+      database_id: NOTION_DATABASE_ID,
+      properties: {
+        [tagPropName]: {
+          multi_select: {
+            options: nextOptions
+          }
         }
       }
-    }
-  })
+    })
+  } catch (err) {
+    console.warn("⚠️ 同步 Schema 选项提示 (文章数据已完成更新):", err.message)
+  }
 }
 
-/**
- * 清理全站缓存并触发 ISR 刷新
- */
 async function clearSiteCache(res) {
   try {
-    const { cleanCache: cleanFileCache } = require('@/lib/cache/local_file_cache')
-    const { cleanCache: cleanMemCache } = require('@/lib/cache/memory_cache')
+    const { cleanCache: cleanFileCache } = require("@/lib/cache/local_file_cache")
+    const { cleanCache: cleanMemCache } = require("@/lib/cache/memory_cache")
     cleanFileCache()
     await cleanMemCache()
   } catch (err) {
-    console.warn('清理站点缓存提示:', err.message)
+    console.warn("清理站点缓存提示:", err.message)
   }
 
   try {
-    if (res && typeof res.revalidate === 'function') {
-      await res.revalidate('/')
-      await res.revalidate('/tag').catch(() => {})
+    if (res && typeof res.revalidate === "function") {
+      await res.revalidate("/")
+      await res.revalidate("/tag").catch(() => {})
     }
   } catch (err) {
-    console.warn('revalidate 提示:', err.message)
+    console.warn("revalidate 提示:", err.message)
   }
 }
