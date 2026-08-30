@@ -1,31 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import Link from 'next/link'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import Head from "next/head"
+import Link from "next/link"
 
 export default function CategoryManagement() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [categories, setCategories] = useState([])
   const [uncategorizedPosts, setUncategorizedPosts] = useState([])
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
-  const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" })
 
+  // Modal 状态
   const [modalType, setModalType] = useState(null)
   const [modalData, setModalData] = useState({})
 
-  const showToast = (message, type = 'success') => {
+  const showToast = (message, type = "success") => {
     setToast({ show: true, message, type })
-    setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 3000)
+    setTimeout(() => setToast({ show: false, message: "", type: "success" }), 3000)
   }
 
   const loadData = async () => {
     try {
-      const res = await fetch('/api/admin/categories')
+      const res = await fetch("/api/admin/categories")
       if (res.status === 401) {
-        router.push('/admin/login')
+        router.push("/admin/login")
         return
       }
       const data = await res.json()
@@ -34,7 +35,7 @@ export default function CategoryManagement() {
         setUncategorizedPosts(data.uncategorizedPosts || [])
       }
     } catch (err) {
-      showToast('加载数据失败: ' + err.message, 'error')
+      showToast("加载数据失败: " + err.message, "error")
     } finally {
       setIsLoading(false)
     }
@@ -47,25 +48,25 @@ export default function CategoryManagement() {
   const handleAction = async (payload) => {
     setIsProcessing(true)
     try {
-      const res = await fetch('/api/admin/categories', {
-        method: 'POST',
+      const res = await fetch("/api/admin/categories", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'x-admin-csrf': '1'
+          "Content-Type": "application/json",
+          "x-admin-csrf": "1"
         },
         body: JSON.stringify(payload)
       })
       const result = await res.json()
       if (result.success) {
-        showToast(result.message || '操作成功')
+        showToast(result.message || "操作成功")
         setModalType(null)
         setModalData({})
         await loadData()
       } else {
-        showToast(result.error || '操作失败', 'error')
+        showToast(result.error || "操作失败", "error")
       }
     } catch (err) {
-      showToast('请求异常: ' + err.message, 'error')
+      showToast("请求异常: " + err.message, "error")
     } finally {
       setIsProcessing(false)
     }
@@ -74,6 +75,8 @@ export default function CategoryManagement() {
   const filteredCategories = categories.filter(c =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  const emptyCategoriesCount = categories.filter(c => c.count === 0).length
 
   if (isLoading) {
     return (
@@ -90,7 +93,7 @@ export default function CategoryManagement() {
       </Head>
 
       {toast.show && (
-        <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-lg shadow-lg text-white font-medium text-sm transition-all duration-300 ${toast.type === 'error' ? 'bg-red-600' : 'bg-green-600'}`}>
+        <div className={"fixed top-5 right-5 z-50 px-4 py-3 rounded-lg shadow-lg text-white font-medium text-sm transition-all duration-300 " + (toast.type === "error" ? "bg-red-600" : "bg-green-600")}>
           {toast.message}
         </div>
       )}
@@ -106,10 +109,19 @@ export default function CategoryManagement() {
               <span className="text-gray-900 font-bold text-base">📁 分类编辑管理 (Categories)</span>
             </div>
             <div className="flex items-center space-x-3">
+              {emptyCategoriesCount > 0 && (
+                <button
+                  onClick={() => handleAction({ action: "cleanup_empty" })}
+                  disabled={isProcessing}
+                  className="inline-flex items-center px-3 py-2 border border-orange-300 text-xs font-medium rounded-lg text-orange-700 bg-orange-50 hover:bg-orange-100 transition-colors disabled:opacity-50"
+                >
+                  🧹 清理 {emptyCategoriesCount} 个无文章空分类
+                </button>
+              )}
               <button
                 onClick={() => {
-                  setModalType('create')
-                  setModalData({ name: '' })
+                  setModalType("create")
+                  setModalData({ name: "" })
                 }}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
               >
@@ -166,7 +178,7 @@ export default function CategoryManagement() {
             </div>
           </div>
           <div className="text-xs text-gray-500">
-            提示：修改分类将直接同步至 Notion 数据库中的文章属性，前台页面毫秒级生效。
+            提示：重命名/删除分类将同步更新文章与 Notion Schema 结构，旧卡片会自动移除。
           </div>
         </div>
 
@@ -178,7 +190,7 @@ export default function CategoryManagement() {
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-blue-50 text-blue-700 border border-blue-100">
                     📁 {cat.name}
                   </span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-700">
+                  <span className={"text-xs font-semibold px-2.5 py-0.5 rounded-full " + (cat.count === 0 ? "bg-orange-100 text-orange-700" : "bg-gray-100 text-gray-700")}>
                     {cat.count} 篇文章
                   </span>
                 </div>
@@ -189,7 +201,7 @@ export default function CategoryManagement() {
                 <div className="flex items-center space-x-2 pt-2 border-t border-gray-100">
                   <button
                     onClick={() => {
-                      setModalType('rename')
+                      setModalType("rename")
                       setModalData({ oldName: cat.name, newName: cat.name })
                     }}
                     className="text-xs text-blue-600 hover:text-blue-800 font-medium px-2.5 py-1.5 rounded hover:bg-blue-50 transition-colors"
@@ -198,8 +210,8 @@ export default function CategoryManagement() {
                   </button>
                   <button
                     onClick={() => {
-                      setModalType('merge')
-                      setModalData({ sourceName: cat.name, targetName: '' })
+                      setModalType("merge")
+                      setModalData({ sourceName: cat.name, targetName: "" })
                     }}
                     className="text-xs text-purple-600 hover:text-purple-800 font-medium px-2.5 py-1.5 rounded hover:bg-purple-50 transition-colors"
                   >
@@ -207,8 +219,8 @@ export default function CategoryManagement() {
                   </button>
                   <button
                     onClick={() => {
-                      setModalType('delete')
-                      setModalData({ name: cat.name, targetCategory: '' })
+                      setModalType("delete")
+                      setModalData({ name: cat.name, targetCategory: "" })
                     }}
                     className="text-xs text-red-600 hover:text-red-800 font-medium px-2.5 py-1.5 rounded hover:bg-red-50 transition-colors"
                   >
@@ -222,23 +234,23 @@ export default function CategoryManagement() {
                   onClick={() => setActiveCategory(activeCategory === cat.name ? null : cat.name)}
                   className="text-xs font-medium text-gray-600 hover:text-gray-900 flex items-center"
                 >
-                  {activeCategory === cat.name ? '收起文章列表 ▲' : `查看包含的 ${cat.count} 篇文章 ▼`}
+                  {activeCategory === cat.name ? "收起文章列表 ▲" : ("查看包含的 " + cat.count + " 篇文章 ▼")}
                 </button>
               </div>
 
               {activeCategory === cat.name && (
                 <div className="p-4 bg-gray-50 border-t border-gray-200 max-h-60 overflow-y-auto space-y-2">
                   {cat.posts.length === 0 ? (
-                    <div className="text-xs text-gray-400 py-2 text-center">暂无关联文章</div>
+                    <div className="text-xs text-gray-400 py-2 text-center">暂无关联文章（可直接点击上方删除移除该分类）</div>
                   ) : (
                     cat.posts.map(p => (
                       <div key={p.id} className="p-2 bg-white rounded border border-gray-200 text-xs flex justify-between items-center">
                         <div className="truncate mr-2">
                           <div className="font-medium text-gray-900 truncate">{p.title}</div>
-                          <div className="text-gray-400 text-[10px]">{p.date || '无日期'} · {p.slug}</div>
+                          <div className="text-gray-400 text-[10px]">{p.date || "无日期"} · {p.slug}</div>
                         </div>
                         <a
-                          href={`/${p.slug}`}
+                          href={"/" + p.slug}
                           target="_blank"
                           rel="noreferrer"
                           className="text-blue-500 hover:underline flex-shrink-0"
@@ -263,8 +275,8 @@ export default function CategoryManagement() {
                 </h3>
                 <p className="text-xs text-orange-700 mt-1">
                   以下文章在 Notion 数据库中未设置 category 属性，建议为它们分配一个分类：
-                </p
-              ></div>
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -272,14 +284,14 @@ export default function CategoryManagement() {
                 <div key={p.id} className="bg-white p-4 rounded-lg border border-orange-200 shadow-sm flex flex-col justify-between">
                   <div className="mb-3">
                     <div className="font-bold text-sm text-gray-900 truncate">{p.title}</div>
-                    <div className="text-xs text-gray-400 mt-1">发布时间: {p.date || '未设置'}</div>
+                    <div className="text-xs text-gray-400 mt-1">发布时间: {p.date || "未设置"}</div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <select
                       onChange={(e) => {
                         if (e.target.value) {
                           handleAction({
-                            action: 'update_post_category',
+                            action: "update_post_category",
                             pageId: p.id,
                             category: e.target.value
                           })
@@ -301,7 +313,7 @@ export default function CategoryManagement() {
         )}
       </main>
 
-      {modalType === 'create' && (
+      {modalType === "create" && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
             <h3 className="text-lg font-bold text-gray-900">新建分类</h3>
@@ -310,7 +322,7 @@ export default function CategoryManagement() {
               <input
                 type="text"
                 placeholder="例如：AI 探索、英语进阶、随笔感悟..."
-                value={modalData.name || ''}
+                value={modalData.name || ""}
                 onChange={(e) => setModalData({ ...modalData, name: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -323,29 +335,29 @@ export default function CategoryManagement() {
                 取消
               </button>
               <button
-                onClick={() => handleAction({ action: 'create', name: modalData.name })}
+                onClick={() => handleAction({ action: "create", name: modalData.name })}
                 disabled={isProcessing || !modalData.name?.trim()}
                 className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >
-                {isProcessing ? '创建中...' : '确认创建'}
+                {isProcessing ? "创建中..." : "确认创建"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {modalType === 'rename' && (
+      {modalType === "rename" && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
             <h3 className="text-lg font-bold text-gray-900">重命名分类</h3>
             <p className="text-xs text-gray-500">
-              将原分类 <span className="font-bold text-gray-900">「{modalData.oldName}」</span> 重命名。确认后将自动更新所有关联文章的属性。
+              将原分类 <span className="font-bold text-gray-900">「{modalData.oldName}」</span> 重命名。确认后将更新全部关联文章，并在 Notion Schema 中完成同步替换。
             </p>
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">新分类名称</label>
               <input
                 type="text"
-                value={modalData.newName || ''}
+                value={modalData.newName || ""}
                 onChange={(e) => setModalData({ ...modalData, newName: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -359,31 +371,31 @@ export default function CategoryManagement() {
               </button>
               <button
                 onClick={() => handleAction({
-                  action: 'rename',
+                  action: "rename",
                   oldName: modalData.oldName,
                   newName: modalData.newName
                 })}
                 disabled={isProcessing || !modalData.newName?.trim()}
                 className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >
-                {isProcessing ? '更新中...' : '确认修改'}
+                {isProcessing ? "更新中..." : "确认修改"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {modalType === 'merge' && (
+      {modalType === "merge" && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
             <h3 className="text-lg font-bold text-gray-900">合并分类</h3>
             <p className="text-xs text-gray-500">
-              将分类 <span className="font-bold text-gray-900">「{modalData.sourceName}」</span> 下的所有文章转移到目标分类中：
+              将分类 <span className="font-bold text-gray-900">「{modalData.sourceName}」</span> 下的所有文章转移到目标分类中，原分类将被移除：
             </p>
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">目标分类</label>
               <select
-                value={modalData.targetName || ''}
+                value={modalData.targetName || ""}
                 onChange={(e) => setModalData({ ...modalData, targetName: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-purple-500"
               >
@@ -402,21 +414,21 @@ export default function CategoryManagement() {
               </button>
               <button
                 onClick={() => handleAction({
-                  action: 'merge',
+                  action: "merge",
                   sourceName: modalData.sourceName,
                   targetName: modalData.targetName
                 })}
                 disabled={isProcessing || !modalData.targetName}
                 className="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >
-                {isProcessing ? '合并中...' : '确认合并'}
+                {isProcessing ? "合并中..." : "确认合并"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {modalType === 'delete' && (
+      {modalType === "delete" && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
             <h3 className="text-lg font-bold text-red-600 flex items-center">
@@ -424,12 +436,12 @@ export default function CategoryManagement() {
               删除分类
             </h3>
             <p className="text-xs text-gray-600">
-              确定要删除分类 <span className="font-bold text-gray-900">「{modalData.name}」</span> 吗？
+              确定要删除分类 <span className="font-bold text-gray-900">「{modalData.name}」</span> 吗？该分类将彻底从 Notion 数据库 Schema 中注销。
             </p>
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">该分类下的文章如何处理？</label>
               <select
-                value={modalData.targetCategory || ''}
+                value={modalData.targetCategory || ""}
                 onChange={(e) => setModalData({ ...modalData, targetCategory: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-red-500"
               >
@@ -448,14 +460,14 @@ export default function CategoryManagement() {
               </button>
               <button
                 onClick={() => handleAction({
-                  action: 'delete',
+                  action: "delete",
                   name: modalData.name,
                   targetCategory: modalData.targetCategory || null
                 })}
                 disabled={isProcessing}
                 className="px-4 py-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >
-                {isProcessing ? '删除中...' : '确认删除'}
+                {isProcessing ? "删除中..." : "确认彻底删除"}
               </button>
             </div>
           </div>
