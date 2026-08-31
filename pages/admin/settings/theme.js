@@ -732,7 +732,14 @@ export default function HeoThemeEditor() {
                 <TextField label="推荐副标题" configKey="HEO_HERO_TITLE_4" value={formData.HEO_HERO_TITLE_4} onChange={handleChange} placeholder="新版上线" />
                 <TextField label="推荐主标题" configKey="HEO_HERO_TITLE_5" value={formData.HEO_HERO_TITLE_5} onChange={handleChange} placeholder="轻松定制主题" />
               </div>
-              <TextField label="推荐卡片跳转链接" configKey="HEO_HERO_TITLE_LINK" value={formData.HEO_HERO_TITLE_LINK} onChange={handleChange} placeholder="https://..." />
+              <TextField label="推荐卡片封面背景图 URL" configKey="HEO_HERO_RECOMMEND_COVER" value={formData.HEO_HERO_RECOMMEND_COVER} onChange={handleChange} placeholder="https://...（留空则默认使用 Notion 根页面顶部封面图）" desc="【推荐尺寸】比例 2:1（如 1200×600 px 或 16:9 1920×1080 px 高清横图）。" />
+              {formData.HEO_HERO_RECOMMEND_COVER && (
+                <div className="mb-4 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="text-[10px] text-gray-500 mb-1">封面图实时预览：</div>
+                  <img src={formData.HEO_HERO_RECOMMEND_COVER} alt="推荐卡片封面预览" className="w-full h-24 object-cover rounded" />
+                </div>
+              )}
+              <TextField label="推荐卡片跳转链接" configKey="HEO_HERO_TITLE_LINK" value={formData.HEO_HERO_TITLE_LINK} onChange={handleChange} placeholder="https://..." desc="点击该推荐大卡时跳转的目标文章或外链地址。" />
               <TextField label="推荐文章抓取标签" configKey="HEO_HERO_RECOMMEND_POST_TAG" value={formData.HEO_HERO_RECOMMEND_POST_TAG} onChange={handleChange}
                 desc="填写 Notion 中的文章标签名。无匹配文章时右侧区域自动隐藏。" />
               <ToggleField label="按更新时间排序" configKey="HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME" value={formData.HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME} onChange={handleChange} />
