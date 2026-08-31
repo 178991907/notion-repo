@@ -19,7 +19,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.13.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.14.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
@@ -30,11 +30,18 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.13.0)
+## 🌟 核心特性与架构亮点 (v4.14.0)
 
 本项目深度研发并集成了 **全功能可视化管理后台**、**分类/标签深度双向管理系统** 与 **高自由度主题定制体系**：
 
-### 1. 📁 Category（分类）可视化编辑管理 (`/admin/categories`)
+### 1. 🖼️ 英雄区右侧推荐大卡封面可视化与双驱动引擎
+- **后台一键自定义封面 URL (`HEO_HERO_RECOMMEND_COVER`)**：在 `/admin/settings/theme` ->「英雄区」直接粘贴任意图床海报链接，并支持**实时缩略图即时预览**。
+- **智能双驱动与自动回退机制**：当后台配置了图片 URL 时优先渲染自定义海报；留空时自动无缝回退至 Notion 根主页面顶部的封面大图（`siteInfo.pageCover`），兼具极高自由度与原生便捷度。
+- **高清自适应海报排版**：支持 **2:1 (1200×600 px)** 与 **16:9 (1920×1080 px)** 宽幅高清海报，智能居中裁切并叠加渐变暗光，完美烘托推荐文章标题。
+
+---
+
+### 2. 📁 Category（分类）可视化编辑管理 (`/admin/categories`)
 - **📊 实时分类总览与文章透视**：实时聚合 Notion 数据库中的全部已注册分类，展示各分类下的文章总数，支持点击即时展开文章明细（标题、发布日期、Slug 与前台直达链接）。
 - **✏️ 一键批量重命名 (Rename)**：后台输入新分类名称，自动并发更新 Notion 数据库中所有对应文章的 `category` 属性，并智能更新 Schema Options。
 - **🔀 智能分类合并 (Merge)**：将源分类下的所有文章一键迁移到目标分类，并自动注销旧分类。
@@ -43,7 +50,7 @@
 
 ---
 
-### 2. 🏷️ Tags（标签）全景云与批量打标管理 (`/admin/tags`)
+### 3. 🏷️ Tags（标签）全景云与批量打标管理 (`/admin/tags`)
 - **🎨 Notion 原生多彩 Badge 全景云**：完美还原 Notion 的彩色胶囊（红色、橙色、黄色、绿色、蓝色、紫色、粉色等），实时统计每个标签的文章引用数。
 - **➕ 新建标签**：支持在后台直接创建新标签并选择 Notion 原生色彩预设。
 - **✏️ 一键批量重命名**：例如一键将 `NotionNext` 标签更名为 `Notion Repo`，自动遍历替换所有关联文章的多选标签数组。
@@ -53,7 +60,7 @@
 
 ---
 
-### 3. 🎛️ 全功能可视化管理后台 (`/admin`)
+### 4. 🎛️ 全功能可视化管理后台 (`/admin`)
 - **安全鉴权系统**：基于轻量级 HMAC-SHA256 Token 与环境变量 `ADMIN_PASSWORD` 认证，具备防暴力破解速率限制。
 - **全维度主题可视化编辑器 (`/admin/settings/theme`)**：
   - 🧭 **顶栏导航**：9 大内置功能菜单开关、Notion 页面显隐控制、自定义导航菜单列表（增删改与上下排序）、Logo 悬停高清大图浮窗。
