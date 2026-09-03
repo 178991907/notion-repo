@@ -25,6 +25,16 @@ export const MenuListTop = props => {
   if (Boolean(siteConfig('HEO_MENU_SEARCH', false, CONFIG))) {
     links.push({ id: 'sch', icon: 'fas fa-search', name: locale?.NAV?.SEARCH || '搜索', href: '/search', show: true })
   }
+  // 内置会员专区菜单入口（默认开启）
+  if (Boolean(siteConfig('HEO_MENU_VIP', true, CONFIG))) {
+    links.push({
+      id: 'vip',
+      icon: 'fas fa-crown text-amber-500',
+      name: '会员专区',
+      href: '/vip',
+      show: true
+    })
+  }
 
   // 2. 后台自定义配置的顶栏菜单列表
   const customItems = siteConfig('HEO_MENU_CUSTOM_ITEMS', [], CONFIG)

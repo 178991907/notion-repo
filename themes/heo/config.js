@@ -149,6 +149,7 @@ const CONFIG = {
   HEO_MENU_TAG: true, // 显示标签
   HEO_MENU_ARCHIVE: false, // 显示归档
   HEO_MENU_SEARCH: false, // 显示搜索
+  HEO_MENU_VIP: true, // 显示会员专区菜单
   HEO_MENU_FRIENDS: true, // 显示「友情链接」菜单 (Friendship links)
   HEO_MENU_TUTORIAL: true, // 显示「建站教程」菜单 (Tutorial)
   HEO_MENU_HISTORY: true, // 显示「往期整理 / 历史」菜单 (History)

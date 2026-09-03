@@ -20,6 +20,8 @@ import ExternalPlugins from '@/components/ExternalPlugins'
 import PWAInstaller from '@/components/PWAInstaller'
 import SEO from '@/components/SEO'
 import dynamic from 'next/dynamic'
+import { MemberProvider } from '@/hooks/useMember'
+import MemberAuthModal from '@/components/MemberAuthModal'
 
 // Clerk 相关组件：仅在配置了 Clerk 密钥时才加载，避免未配置时 SDK 初始化崩溃
 let clerkLocalization = undefined
@@ -104,12 +106,15 @@ const MyApp = ({ Component, pageProps }) => {
         <Component {...pageProps} />
       ) : (
         <GlobalContextProvider {...pageProps}>
-          <GLayout {...pageProps}>
-            <SEO {...pageProps} />
-            <Component {...pageProps} />
-          </GLayout>
-          <PWAInstaller NOTION_CONFIG={pageProps?.NOTION_CONFIG} />
-          <ExternalPlugins {...pageProps} />
+          <MemberProvider>
+            <GLayout {...pageProps}>
+              <SEO {...pageProps} />
+              <Component {...pageProps} />
+            </GLayout>
+            <PWAInstaller NOTION_CONFIG={pageProps?.NOTION_CONFIG} />
+            <ExternalPlugins {...pageProps} />
+            <MemberAuthModal />
+          </MemberProvider>
         </GlobalContextProvider>
       )}
     </AppErrorBoundary>
