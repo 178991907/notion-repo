@@ -94,8 +94,8 @@ export default function CategoryBar(props) {
             href='/vip'
             isVip
             name={
-              <span className='inline-flex items-center gap-1 text-amber-500 dark:text-amber-400 font-extrabold'>
-                <i className='fas fa-crown text-[11px]' />
+              <span className='inline-flex items-center gap-1 font-extrabold' style={{ color: siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG) }}>
+                <span>{siteConfig('HEO_VIP_ICON', '👑', CONFIG)}</span>
                 <span>{siteConfig('HEO_CATEGORY_BAR_VIP_TITLE', '会员专区', CONFIG)}</span>
               </span>
             }
@@ -106,8 +106,8 @@ export default function CategoryBar(props) {
           <MenuItem
             href='/fans'
             name={
-              <span className='inline-flex items-center gap-1 text-emerald-500 dark:text-emerald-400 font-extrabold'>
-                <i className='fas fa-gift text-[11px]' />
+              <span className='inline-flex items-center gap-1 font-extrabold' style={{ color: siteConfig('HEO_FANS_COLOR', '#10b981', CONFIG) }}>
+                <span>{siteConfig('HEO_FANS_ICON', '🎁', CONFIG)}</span>
                 <span>{siteConfig('HEO_CATEGORY_BAR_FANS_TITLE', '粉丝福利', CONFIG)}</span>
               </span>
             }

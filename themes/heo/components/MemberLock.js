@@ -13,19 +13,25 @@ export const MemberLock = ({ requiredLevel = 'VIP', lockReason = 'not_logged_in'
   const isSVIP = requiredLevel === 'SVIP'
 
   const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', CONFIG)
+  const vipIcon = siteConfig('HEO_VIP_ICON', '👑', CONFIG)
+  const vipColor = siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG)
+  const vipColorEnd = siteConfig('HEO_VIP_COLOR_END', '#eab308', CONFIG)
+  const svipIcon = siteConfig('HEO_SVIP_ICON', '💎', CONFIG)
+  const svipColor = siteConfig('HEO_SVIP_COLOR', '#8b5cf6', CONFIG)
+  const svipColorEnd = siteConfig('HEO_SVIP_COLOR_END', '#d97706', CONFIG)
 
   return (
     <div className='w-full py-16 px-6 my-8 flex flex-col items-center justify-center bg-gradient-to-b from-indigo-50/50 via-white to-indigo-50/20 dark:from-indigo-950/20 dark:via-[#1e1e20] dark:to-indigo-950/10 border border-indigo-100/80 dark:border-indigo-900/40 rounded-3xl shadow-sm text-center'>
       {/* 锁图标 / 皇冠 / 宝石徽章 */}
       <div className='relative mb-5'>
-        <div className={`w-16 h-16 rounded-2xl ${isSVIP ? 'bg-gradient-to-br from-purple-600 via-indigo-600 to-amber-500 shadow-purple-500/30' : 'bg-indigo-600 shadow-indigo-500/30'} text-white flex items-center justify-center shadow-lg`}>
-          {isSVIP ? (
-            <i className='fas fa-gem text-2xl' />
-          ) : (
-            <svg className='w-8 h-8' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' />
-            </svg>
-          )}
+        <div
+          style={{
+            background: isSVIP
+              ? `linear-gradient(135deg, ${svipColor}, ${svipColorEnd})`
+              : `linear-gradient(135deg, ${vipColor}, ${vipColorEnd})`
+          }}
+          className='w-16 h-16 rounded-2xl text-white flex items-center justify-center text-3xl shadow-lg'>
+          <span>{isSVIP ? svipIcon : vipIcon}</span>
         </div>
         <span className={`absolute -top-1 -right-1 px-2 py-0.5 text-[10px] font-bold ${isSVIP ? 'bg-amber-400 text-purple-950' : 'bg-amber-400 text-amber-950'} rounded-full shadow-sm uppercase`}>
           {isSVIP ? 'SVIP' : 'VIP'}
@@ -67,7 +73,8 @@ export const MemberLock = ({ requiredLevel = 'VIP', lockReason = 'not_logged_in'
               href={contactUrl}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-md shadow-purple-600/20 transition-all duration-200 cursor-pointer text-center'>
+              style={{ background: `linear-gradient(135deg, ${svipColor}, ${svipColorEnd})` }}
+              className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white shadow-md transition-all duration-200 cursor-pointer text-center hover:brightness-105 active:scale-98'>
               联系管理员升级等级
             </a>
             <button
@@ -80,7 +87,8 @@ export const MemberLock = ({ requiredLevel = 'VIP', lockReason = 'not_logged_in'
           <>
             <button
               onClick={() => openAuthModal('login')}
-              className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 shadow-md shadow-indigo-600/20 transition-all duration-200 cursor-pointer'>
+              style={{ background: `linear-gradient(135deg, ${vipColor}, ${vipColorEnd})` }}
+              className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white shadow-md transition-all duration-200 cursor-pointer hover:brightness-105 active:scale-98'>
               会员账号登录
             </button>
             <button

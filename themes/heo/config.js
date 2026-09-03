@@ -162,6 +162,17 @@ const CONFIG = {
   HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利', // 分类横条中粉丝专区的显示文案
   HEO_FANS_DEFAULT_PASSCODE: '888888', // 全站默认通用粉丝暗号 / 验证码
   HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码', // 粉丝解锁引导提示语
+  // 会员专区图标与个性化配色
+  HEO_VIP_ICON: '👑', // 普通 VIP 图标
+  HEO_VIP_COLOR: '#f59e0b', // 普通 VIP 渐变起始色
+  HEO_VIP_COLOR_END: '#eab308', // 普通 VIP 渐变结束色
+  HEO_SVIP_ICON: '💎', // 高级 SVIP 图标
+  HEO_SVIP_COLOR: '#8b5cf6', // 高级 SVIP 渐变起始色
+  HEO_SVIP_COLOR_END: '#d97706', // 高级 SVIP 渐变结束色
+  // 粉丝专区图标与个性化配色
+  HEO_FANS_ICON: '🎁', // 粉丝福利图标
+  HEO_FANS_COLOR: '#10b981', // 粉丝福利渐变起始色
+  HEO_FANS_COLOR_END: '#14b8a6', // 粉丝福利渐变结束色
   HEO_MENU_FRIENDS: true, // 显示「友情链接」菜单 (Friendship links)
   HEO_MENU_TUTORIAL: true, // 显示「建站教程」菜单 (Tutorial)
   HEO_MENU_HISTORY: true, // 显示「往期整理 / 历史」菜单 (History)

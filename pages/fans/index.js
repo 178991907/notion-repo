@@ -17,6 +17,9 @@ const FansIndex = props => {
     props.NOTION_CONFIG
   )
   const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', props.NOTION_CONFIG)
+  const fansIcon = siteConfig('HEO_FANS_ICON', '🎁', props.NOTION_CONFIG)
+  const fansColor = siteConfig('HEO_FANS_COLOR', '#10b981', props.NOTION_CONFIG)
+  const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', props.NOTION_CONFIG)
 
   return (
     <div className='w-full min-h-screen px-4 md:px-6 py-6 max-w-7xl mx-auto'>
@@ -30,11 +33,12 @@ const FansIndex = props => {
           {/* 专区标题与介绍 */}
           <div className='max-w-2xl'>
             <div className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold mb-3'>
-              <i className='fas fa-gift text-[11px]' />
+              <span>{fansIcon}</span>
               <span>TERRY 粉丝专属特权空间</span>
             </div>
-            <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight mb-2'>
-              粉丝福利专区
+            <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight mb-2 flex items-center gap-2'>
+              <span>{fansIcon}</span>
+              <span>粉丝福利专区</span>
             </h1>
             <p className='text-emerald-100/80 text-sm md:text-base leading-relaxed'>
               专为社群与公众号粉丝打造的轻量级知识库。无需繁琐注册登录，输入专属暗号即可免费解锁全部深度实战手册与干货源码。
@@ -77,11 +81,13 @@ const FansIndex = props => {
       <div className='w-full'>
         <div className='flex items-center justify-between mb-6'>
           <div className='flex items-center gap-2'>
-            <span className='w-2.5 h-6 bg-emerald-500 rounded-full' />
+            <span className='w-2.5 h-6 rounded-full' style={{ backgroundColor: fansColor }} />
             <h2 className='text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100'>
               粉丝专享文章列表
             </h2>
-            <span className='ml-2 text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-medium'>
+            <span
+              style={{ color: fansColor, backgroundColor: `${fansColor}20` }}
+              className='ml-2 text-xs px-2.5 py-0.5 rounded-full font-medium'>
               共 {posts.length} 篇
             </span>
           </div>

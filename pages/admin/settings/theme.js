@@ -258,6 +258,15 @@ const HEO_DEFAULTS = {
   HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利',
   HEO_FANS_DEFAULT_PASSCODE: '888888',
   HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
+  HEO_VIP_ICON: '👑',
+  HEO_VIP_COLOR: '#f59e0b',
+  HEO_VIP_COLOR_END: '#eab308',
+  HEO_SVIP_ICON: '💎',
+  HEO_SVIP_COLOR: '#8b5cf6',
+  HEO_SVIP_COLOR_END: '#d97706',
+  HEO_FANS_ICON: '🎁',
+  HEO_FANS_COLOR: '#10b981',
+  HEO_FANS_COLOR_END: '#14b8a6',
   HEO_COLOR_PRIMARY: '#4f65f0',
   HEO_COLOR_PRIMARY_HOVER: '#4f46e5',
   HEO_COLOR_PRIMARY_TEXT: '#ffffff',
@@ -339,6 +348,42 @@ function ColorField({ label, configKey, value, onChange }) {
         <input type="text" value={value || ''} onChange={e => onChange(configKey, e.target.value)}
           className="w-full border border-gray-200 rounded px-2 py-1 text-xs font-mono mt-0.5" />
       </div>
+    </div>
+  )
+}
+
+function IconPickerField({ label, configKey, value, onChange, presets = ['👑', '💎', '🎁', '⚡', '🏆', '🌟', '🚀', '🔥', '🎟️', '🎈'], desc }) {
+  return (
+    <div className="mb-4">
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <div className="flex items-center gap-2">
+        <div className="w-10 h-10 flex items-center justify-center text-xl bg-gray-100 rounded-lg border border-gray-300 shrink-0">
+          {value || '👑'}
+        </div>
+        <input
+          type="text"
+          value={value || ''}
+          onChange={e => onChange(configKey, e.target.value)}
+          placeholder="可输入任意 Emoji 或文字"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+      {presets && presets.length > 0 && (
+        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+          <span className="text-xs text-gray-400 mr-1">常用推荐:</span>
+          {presets.map((p, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => onChange(configKey, p)}
+              className={`w-7 h-7 rounded-md border text-sm flex items-center justify-center transition-all cursor-pointer ${value === p ? 'border-blue-500 bg-blue-50 font-bold scale-110 shadow-xs' : 'border-gray-200 hover:bg-gray-100'}`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      )}
+      {desc && <p className="text-xs text-gray-400 mt-1">{desc}</p>}
     </div>
   )
 }
@@ -1674,13 +1719,18 @@ export default function HeoThemeEditor() {
               <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
                 <div className="text-xs font-bold text-gray-500">👁️ 侧边栏卡片 1:1 预览（鼠标悬停可查看翻转）：</div>
                 {formData.HEO_SIDEBAR_VIP_CARD !== false ? (
-                  <div className="group relative h-28 rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-white p-4 shadow-md overflow-hidden cursor-pointer">
+                  <div
+                    style={{ background: `linear-gradient(135deg, ${formData.HEO_VIP_COLOR || '#f59e0b'}, ${formData.HEO_VIP_COLOR_END || '#eab308'})` }}
+                    className="group relative h-28 rounded-xl text-white p-4 shadow-md overflow-hidden cursor-pointer">
                     <div className="flex flex-col justify-center h-full transition-opacity duration-300 group-hover:opacity-0">
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-white/20 uppercase w-fit tracking-wider">VIP CLUB</span>
-                      <div className="text-xl font-black mt-1">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_1 || '👑 会员专区'}</div>
-                      <div className="text-xs text-amber-100 truncate mt-0.5">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_2 || '解锁全部深度实战专栏与源码'}</div>
+                      <div className="text-xl font-black mt-1 flex items-center gap-1.5">
+                        <span>{formData.HEO_VIP_ICON || '👑'}</span>
+                        <span>{formData.HEO_SIDEBAR_VIP_CARD_TITLE_1 || '会员专区'}</span>
+                      </div>
+                      <div className="text-xs text-white/90 truncate mt-0.5">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_2 || '解锁全部深度实战专栏与源码'}</div>
                     </div>
-                    <div className="absolute inset-0 bg-amber-700/95 flex items-center justify-center font-extrabold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center font-extrabold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {formData.HEO_SIDEBAR_VIP_CARD_TITLE_3 || '点击进入会员专区 →'}
                     </div>
                   </div>
@@ -1689,6 +1739,179 @@ export default function HeoThemeEditor() {
                     当前已关闭侧边栏会员卡片
                   </div>
                 )}
+              </div>
+            </SectionCard>
+
+            {/* 会员专属配色与图标设置 */}
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="🎨" title="会员专属配色与图标设置" desc="自由自定义普通 VIP 与高级 SVIP 的图标、渐变主色调与前台视觉" />
+              
+              {/* 预设风格一键套用 */}
+              <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                <div className="text-xs font-bold text-gray-700 mb-2.5">⚡ 经典会员风格一键套用：</div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_VIP_ICON', '👑')
+                      handleChange('HEO_VIP_COLOR', '#f59e0b')
+                      handleChange('HEO_VIP_COLOR_END', '#eab308')
+                      handleChange('HEO_SVIP_ICON', '💎')
+                      handleChange('HEO_SVIP_COLOR', '#8b5cf6')
+                      handleChange('HEO_SVIP_COLOR_END', '#d97706')
+                    }}
+                    className="p-2.5 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-amber-900">👑 经典黑金 / 琥珀金</div>
+                    <div className="text-[10px] text-amber-700 mt-0.5">尊贵典雅黄金视觉</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_VIP_ICON', '💎')
+                      handleChange('HEO_VIP_COLOR', '#7c3aed')
+                      handleChange('HEO_VIP_COLOR_END', '#a855f7')
+                      handleChange('HEO_SVIP_ICON', '🪐')
+                      handleChange('HEO_SVIP_COLOR', '#4f46e5')
+                      handleChange('HEO_SVIP_COLOR_END', '#ec4899')
+                    }}
+                    className="p-2.5 rounded-lg border border-purple-300 bg-purple-50 hover:bg-purple-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-purple-900">💎 幻彩紫金 / 星空</div>
+                    <div className="text-[10px] text-purple-700 mt-0.5">神秘梦幻高奢感</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_VIP_ICON', '🚀')
+                      handleChange('HEO_VIP_COLOR', '#2563eb')
+                      handleChange('HEO_VIP_COLOR_END', '#06b6d4')
+                      handleChange('HEO_SVIP_ICON', '⚡')
+                      handleChange('HEO_SVIP_COLOR', '#0284c7')
+                      handleChange('HEO_SVIP_COLOR_END', '#6366f1')
+                    }}
+                    className="p-2.5 rounded-lg border border-blue-300 bg-blue-50 hover:bg-blue-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-blue-900">🚀 极客深蓝 / 科技</div>
+                    <div className="text-[10px] text-blue-700 mt-0.5">前沿代码极客范</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_VIP_ICON', '🔥')
+                      handleChange('HEO_VIP_COLOR', '#dc2626')
+                      handleChange('HEO_VIP_COLOR_END', '#f97316')
+                      handleChange('HEO_SVIP_ICON', '🏆')
+                      handleChange('HEO_SVIP_COLOR', '#b91c1c')
+                      handleChange('HEO_SVIP_COLOR_END', '#eab308')
+                    }}
+                    className="p-2.5 rounded-lg border border-red-300 bg-red-50 hover:bg-red-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-red-900">🔥 烈焰赤金 / 激情</div>
+                    <div className="text-[10px] text-red-700 mt-0.5">高转化冲击力</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* 细分配置区 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* 普通 VIP 样式 */}
+                <div className="p-4 border border-amber-200 bg-amber-50/30 rounded-xl space-y-3">
+                  <div className="font-bold text-sm text-amber-900 flex items-center gap-1.5">
+                    <span>👑 普通会员 (VIP) 样式</span>
+                  </div>
+                  <IconPickerField
+                    label="VIP 图标"
+                    configKey="HEO_VIP_ICON"
+                    value={formData.HEO_VIP_ICON || '👑'}
+                    onChange={handleChange}
+                    presets={['👑', '🏆', '⚡', '🎖️', '🌟', '🛡️', '🔑', '🚀']}
+                    desc="将显示在分类横条、文章角标与侧边栏卡片中"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <ColorField
+                      label="渐变起始色"
+                      configKey="HEO_VIP_COLOR"
+                      value={formData.HEO_VIP_COLOR || '#f59e0b'}
+                      onChange={handleChange}
+                    />
+                    <ColorField
+                      label="渐变结束色"
+                      configKey="HEO_VIP_COLOR_END"
+                      value={formData.HEO_VIP_COLOR_END || '#eab308'}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {/* VIP 实时预览 */}
+                  <div className="pt-2 border-t border-amber-200/60">
+                    <div className="text-[11px] font-bold text-gray-500 mb-1.5">效果预览：</div>
+                    <div className="flex items-center gap-3">
+                      <div
+                        style={{ background: `linear-gradient(135deg, ${formData.HEO_VIP_COLOR || '#f59e0b'}, ${formData.HEO_VIP_COLOR_END || '#eab308'})` }}
+                        className="px-3 py-1 rounded-md text-white text-xs font-bold flex items-center gap-1 shadow-sm"
+                      >
+                        <span>{formData.HEO_VIP_ICON || '👑'}</span>
+                        <span>VIP 专享</span>
+                      </div>
+                      <span
+                        style={{ color: formData.HEO_VIP_COLOR || '#f59e0b', borderColor: `${formData.HEO_VIP_COLOR || '#f59e0b'}40`, backgroundColor: `${formData.HEO_VIP_COLOR || '#f59e0b'}15` }}
+                        className="px-2.5 py-0.5 rounded-md border text-xs font-bold flex items-center gap-1"
+                      >
+                        <span>{formData.HEO_VIP_ICON || '👑'}</span>
+                        <span>会员专享</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 高级 SVIP 样式 */}
+                <div className="p-4 border border-purple-200 bg-purple-50/30 rounded-xl space-y-3">
+                  <div className="font-bold text-sm text-purple-900 flex items-center gap-1.5">
+                    <span>💎 高级会员 (SVIP) 样式</span>
+                  </div>
+                  <IconPickerField
+                    label="SVIP 图标"
+                    configKey="HEO_SVIP_ICON"
+                    value={formData.HEO_SVIP_ICON || '💎'}
+                    onChange={handleChange}
+                    presets={['💎', '👑', '🪐', '🔮', '⚡', '🌌', '🌟', '⚜️']}
+                    desc="将显示在 SVIP 专属深度文章封面角标与拦截提示中"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <ColorField
+                      label="渐变起始色"
+                      configKey="HEO_SVIP_COLOR"
+                      value={formData.HEO_SVIP_COLOR || '#8b5cf6'}
+                      onChange={handleChange}
+                    />
+                    <ColorField
+                      label="渐变结束色"
+                      configKey="HEO_SVIP_COLOR_END"
+                      value={formData.HEO_SVIP_COLOR_END || '#d97706'}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {/* SVIP 实时预览 */}
+                  <div className="pt-2 border-t border-purple-200/60">
+                    <div className="text-[11px] font-bold text-gray-500 mb-1.5">效果预览：</div>
+                    <div className="flex items-center gap-3">
+                      <div
+                        style={{ background: `linear-gradient(135deg, ${formData.HEO_SVIP_COLOR || '#8b5cf6'}, ${formData.HEO_SVIP_COLOR_END || '#d97706'})` }}
+                        className="px-3 py-1 rounded-md text-white text-xs font-bold flex items-center gap-1 shadow-sm"
+                      >
+                        <span>{formData.HEO_SVIP_ICON || '💎'}</span>
+                        <span>SVIP 尊享</span>
+                      </div>
+                      <span
+                        style={{ color: formData.HEO_SVIP_COLOR || '#8b5cf6', borderColor: `${formData.HEO_SVIP_COLOR || '#8b5cf6'}40`, backgroundColor: `${formData.HEO_SVIP_COLOR || '#8b5cf6'}15` }}
+                        className="px-2.5 py-0.5 rounded-md border text-xs font-bold flex items-center gap-1"
+                      >
+                        <span>{formData.HEO_SVIP_ICON || '💎'}</span>
+                        <span>SVIP 尊享</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </SectionCard>
 
@@ -1763,38 +1986,141 @@ export default function HeoThemeEditor() {
               <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
                 <div className="text-xs font-bold text-gray-500">👁️ 粉丝专享拦截卡片 1:1 实时预览：</div>
                 <div className="p-4 bg-gradient-to-b from-emerald-50 via-white to-teal-50 rounded-xl border border-emerald-100 text-center space-y-2">
-                  <div className="w-10 h-10 mx-auto rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-lg shadow-sm">
-                    🎁
+                  <div
+                    style={{ background: `linear-gradient(135deg, ${formData.HEO_FANS_COLOR || '#10b981'}, ${formData.HEO_FANS_COLOR_END || '#14b8a6'})` }}
+                    className="w-10 h-10 mx-auto rounded-xl text-white flex items-center justify-center text-lg shadow-sm">
+                    {formData.HEO_FANS_ICON || '🎁'}
                   </div>
                   <div className="text-sm font-bold text-gray-800">本文为【粉丝专享福利】内容</div>
                   <div className="text-xs text-gray-500 leading-relaxed px-2">
                     {formData.HEO_FANS_UNLOCK_TIPS || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'}
                   </div>
-                  <div className="w-48 mx-auto py-1.5 px-3 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-xs">
+                  <div
+                    style={{ background: `linear-gradient(135deg, ${formData.HEO_FANS_COLOR || '#10b981'}, ${formData.HEO_FANS_COLOR_END || '#14b8a6'})` }}
+                    className="w-48 mx-auto py-1.5 px-3 text-white text-xs font-bold rounded-lg shadow-xs">
                     ✨ 立即解锁阅读 (暗号: {formData.HEO_FANS_DEFAULT_PASSCODE || '888888'})
                   </div>
                 </div>
               </div>
             </SectionCard>
 
-            {/* 位置入口：文章分类横条 (CategoryBar) */}
+            {/* 粉丝福利配色与图标设置 */}
             <SectionCard>
+              <SectionTitle icon="🎨" title="粉丝福利配色与图标设置" desc="自定义粉丝福利专区的图标、双色渐变与角标样式" />
+              
+              {/* 预设风格一键套用 */}
+              <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                <div className="text-xs font-bold text-gray-700 mb-2">⚡ 经典风格一键套用：</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_FANS_ICON', '🎁')
+                      handleChange('HEO_FANS_COLOR', '#10b981')
+                      handleChange('HEO_FANS_COLOR_END', '#14b8a6')
+                    }}
+                    className="p-2 rounded-lg border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-emerald-900">🎁 清新翡翠 / 薄荷</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_FANS_ICON', '🎟️')
+                      handleChange('HEO_FANS_COLOR', '#ec4899')
+                      handleChange('HEO_FANS_COLOR_END', '#f43f5e')
+                    }}
+                    className="p-2 rounded-lg border border-pink-300 bg-pink-50 hover:bg-pink-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-pink-900">🎟️ 珊瑚甜粉 / 门票</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_FANS_ICON', '⚡')
+                      handleChange('HEO_FANS_COLOR', '#f97316')
+                      handleChange('HEO_FANS_COLOR_END', '#eab308')
+                    }}
+                    className="p-2 rounded-lg border border-orange-300 bg-orange-50 hover:bg-orange-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-orange-900">⚡ 阳光金橙 / 能量</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleChange('HEO_FANS_ICON', '🎈')
+                      handleChange('HEO_FANS_COLOR', '#06b6d4')
+                      handleChange('HEO_FANS_COLOR_END', '#3b82f6')
+                    }}
+                    className="p-2 rounded-lg border border-cyan-300 bg-cyan-50 hover:bg-cyan-100 text-left text-xs transition cursor-pointer"
+                  >
+                    <div className="font-bold text-cyan-900">🎈 海盐湛蓝 / 纯净</div>
+                  </button>
+                </div>
+              </div>
+
+              <IconPickerField
+                label="粉丝福利图标"
+                configKey="HEO_FANS_ICON"
+                value={formData.HEO_FANS_ICON || '🎁'}
+                onChange={handleChange}
+                presets={['🎁', '🎟️', '⚡', '🎈', '🌟', '🍀', '🍬', '🧧']}
+                desc="展示在文章角标、分类条与解锁卡片中"
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <ColorField
+                  label="渐变起始色"
+                  configKey="HEO_FANS_COLOR"
+                  value={formData.HEO_FANS_COLOR || '#10b981'}
+                  onChange={handleChange}
+                />
+                <ColorField
+                  label="渐变结束色"
+                  configKey="HEO_FANS_COLOR_END"
+                  value={formData.HEO_FANS_COLOR_END || '#14b8a6'}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* 实时角标预览 */}
+              <div className="mt-3 p-3 bg-white rounded-xl border border-emerald-100 flex items-center gap-3">
+                <div
+                  style={{ background: `linear-gradient(135deg, ${formData.HEO_FANS_COLOR || '#10b981'}, ${formData.HEO_FANS_COLOR_END || '#14b8a6'})` }}
+                  className="px-3 py-1 rounded-md text-white text-xs font-bold flex items-center gap-1 shadow-sm"
+                >
+                  <span>{formData.HEO_FANS_ICON || '🎁'}</span>
+                  <span>粉丝专享</span>
+                </div>
+                <span
+                  style={{ color: formData.HEO_FANS_COLOR || '#10b981', borderColor: `${formData.HEO_FANS_COLOR || '#10b981'}40`, backgroundColor: `${formData.HEO_FANS_COLOR || '#10b981'}15` }}
+                  className="px-2.5 py-0.5 rounded-md border text-xs font-bold flex items-center gap-1"
+                >
+                  <span>{formData.HEO_FANS_ICON || '🎁'}</span>
+                  <span>粉丝专享</span>
+                </span>
+              </div>
+            </SectionCard>
+
+            {/* 位置入口：文章分类横条 (CategoryBar) */}
+            <SectionCard className="lg:col-span-2">
               <SectionTitle icon="🧭" title="位置一：文章分类横条快捷入口" desc="位于首页文章列表上方横条，紧邻「首页」分类" />
-              <ToggleField
-                label="在文章分类条显示「粉丝福利」Tab"
-                configKey="HEO_CATEGORY_BAR_FANS"
-                value={formData.HEO_CATEGORY_BAR_FANS}
-                onChange={handleChange}
-                desc="开启后，在博客首页文章列表分类横条中高亮显示「🎁 粉丝福利」快捷 Tab"
-              />
-              <TextField
-                label="分类条展示文案"
-                configKey="HEO_CATEGORY_BAR_FANS_TITLE"
-                value={formData.HEO_CATEGORY_BAR_FANS_TITLE}
-                onChange={handleChange}
-                placeholder="粉丝福利"
-                desc="默认文案：粉丝福利"
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ToggleField
+                  label="在文章分类条显示「粉丝福利」Tab"
+                  configKey="HEO_CATEGORY_BAR_FANS"
+                  value={formData.HEO_CATEGORY_BAR_FANS}
+                  onChange={handleChange}
+                  desc="开启后在分类条高亮显示快捷 Tab"
+                />
+                <TextField
+                  label="分类条展示文案"
+                  configKey="HEO_CATEGORY_BAR_FANS_TITLE"
+                  value={formData.HEO_CATEGORY_BAR_FANS_TITLE}
+                  onChange={handleChange}
+                  placeholder="粉丝福利"
+                  desc="默认文案：粉丝福利"
+                />
+              </div>
 
               {/* 分类栏实时效果预览 */}
               <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
@@ -1802,13 +2128,17 @@ export default function HeoThemeEditor() {
                 <div className="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-gray-100 overflow-x-auto text-xs font-bold">
                   <span className="px-2.5 py-1 rounded bg-blue-600 text-white">首页</span>
                   {formData.HEO_CATEGORY_BAR_VIP !== false && (
-                    <span className="px-2.5 py-1 rounded border border-amber-300 bg-amber-500/10 text-amber-600 flex items-center gap-1 shadow-xs">
-                      👑 会员专区
+                    <span
+                      style={{ color: formData.HEO_VIP_COLOR || '#f59e0b', borderColor: `${formData.HEO_VIP_COLOR || '#f59e0b'}40`, backgroundColor: `${formData.HEO_VIP_COLOR || '#f59e0b'}15` }}
+                      className="px-2.5 py-1 rounded border flex items-center gap-1 shadow-xs">
+                      {formData.HEO_VIP_ICON || '👑'} {formData.HEO_CATEGORY_BAR_VIP_TITLE || '会员专区'}
                     </span>
                   )}
                   {formData.HEO_CATEGORY_BAR_FANS !== false && (
-                    <span className="px-2.5 py-1 rounded border border-emerald-300 bg-emerald-500/10 text-emerald-600 flex items-center gap-1 shadow-xs">
-                      🎁 {formData.HEO_CATEGORY_BAR_FANS_TITLE || '粉丝福利'}
+                    <span
+                      style={{ color: formData.HEO_FANS_COLOR || '#10b981', borderColor: `${formData.HEO_FANS_COLOR || '#10b981'}40`, backgroundColor: `${formData.HEO_FANS_COLOR || '#10b981'}15` }}
+                      className="px-2.5 py-1 rounded border flex items-center gap-1 shadow-xs">
+                      {formData.HEO_FANS_ICON || '🎁'} {formData.HEO_CATEGORY_BAR_FANS_TITLE || '粉丝福利'}
                     </span>
                   )}
                   <span className="px-2.5 py-1 text-gray-700">AI 教程</span>
