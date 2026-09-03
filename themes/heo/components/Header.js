@@ -11,6 +11,7 @@ import ReadingProgress from './ReadingProgress'
 import RssButton from './RssButton'
 import SearchButton from './SearchButton'
 import SlideOver from './SlideOver'
+import { useMember } from '@/hooks/useMember'
 
 /**
  * 页头：顶部导航
@@ -18,6 +19,7 @@ import SlideOver from './SlideOver'
  * @returns
  */
 const Header = props => {
+  const { isLoggedIn, member, openAuthModal } = useMember()
   const [fixedNav, setFixedNav] = useState(false)
   const [textWhite, setTextWhite] = useState(false)
   const [navBgWhite, setBgWhite] = useState(false)
@@ -189,6 +191,23 @@ const Header = props => {
               </div>
             )}
             <ReadingProgress />
+
+            {/* 会员专区与登录态快捷入口 */}
+            <div
+              onClick={() => {
+                if (isLoggedIn) {
+                  router.push('/vip')
+                } else {
+                  openAuthModal('login')
+                }
+              }}
+              title={isLoggedIn ? `已登录: ${member?.username || 'VIP会员'} (点击进入专区)` : '会员登录 / 注册'}
+              className='cursor-pointer w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[var(--heo-color-text)] relative select-none'>
+              <i className={`fas ${isLoggedIn ? 'fa-crown text-amber-500' : 'fa-user'}`} />
+              {isLoggedIn && (
+                <span className='absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-emerald-500 rounded-full ring-2 ring-white dark:ring-gray-900' />
+              )}
+            </div>
 
             {/* 移动端菜单按钮 */}
             <div

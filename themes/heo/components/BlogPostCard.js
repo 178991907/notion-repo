@@ -61,18 +61,26 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             ' flex p-6  flex-col justify-between h-48 md:h-full w-full md:w-7/12'
           }>
           <header>
-            {/* 分类 */}
-            {post?.category && (
-              <div
-                className={`flex mb-1 items-center ${showPreview ? 'justify-center' : 'justify-start'} hidden md:block flex-wrap dark:text-gray-300 text-gray-600 hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)]`}>
-                <SmartLink
-                  passHref
-                  href={`/category/${post.category}`}
-                  className='cursor-pointer text-xs font-normal menu-link '>
-                  {post.category}
-                </SmartLink>
-              </div>
-            )}
+            {/* 分类与会员专享标记 */}
+            <div className='flex mb-1 items-center justify-start flex-wrap gap-1.5'>
+              {post?.vip && (
+                <span className='inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 shadow-xs select-none'>
+                  <i className='fas fa-crown text-[10px]' />
+                  会员专享
+                </span>
+              )}
+              {post?.category && (
+                <div
+                  className={`flex items-center ${showPreview ? 'justify-center' : 'justify-start'} hidden md:block dark:text-gray-300 text-gray-600 hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)]`}>
+                  <SmartLink
+                    passHref
+                    href={`/category/${post.category}`}
+                    className='cursor-pointer text-xs font-normal menu-link '>
+                    {post.category}
+                  </SmartLink>
+                </div>
+              )}
+            </div>
 
             {/* 标题和图标 */}
             <SmartLink

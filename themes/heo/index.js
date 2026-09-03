@@ -37,6 +37,8 @@ import PostAdjacent from './components/PostAdjacent'
 import PostCopyright from './components/PostCopyright'
 import PostHeader from './components/PostHeader'
 import { PostLock } from './components/PostLock'
+import { MemberLock } from './components/MemberLock'
+import { useMember } from '@/hooks/useMember'
 import PostRecommend from './components/PostRecommend'
 import SearchNav from './components/SearchNav'
 import SideRight from './components/SideRight'
@@ -251,6 +253,8 @@ const LayoutArchive = props => {
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
   const { locale, fullWidth } = useGlobal()
+  const { isLoggedIn, loading: memberLoading } = useMember()
+  const isVipLocked = Boolean(post?.vip && !isLoggedIn && !memberLoading)
 
   const [hasCode, setHasCode] = useState(false)
 
@@ -299,7 +303,10 @@ const LayoutSlug = props => {
         {/* 文章锁 */}
         {lock && <PostLock validPassword={validPassword} />}
 
-        {!lock && post && (
+        {/* 会员专享文章锁定 */}
+        {!lock && isVipLocked && <MemberLock />}
+
+        {!lock && !isVipLocked && post && (
           <div className='mx-auto md:w-full md:px-5'>
             {/* 文章主体 */}
             <article id='article-wrapper'>
