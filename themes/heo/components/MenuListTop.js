@@ -35,6 +35,16 @@ export const MenuListTop = props => {
       show: true
     })
   }
+  // 内置粉丝福利专区菜单入口（默认开启）
+  if (Boolean(siteConfig('HEO_MENU_FANS', true, CONFIG))) {
+    links.push({
+      id: 'fans',
+      icon: 'fas fa-gift text-emerald-500',
+      name: '粉丝专区',
+      href: '/fans',
+      show: true
+    })
+  }
 
   // 2. 后台自定义配置的顶栏菜单列表
   const customItems = siteConfig('HEO_MENU_CUSTOM_ITEMS', [], CONFIG)

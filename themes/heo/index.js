@@ -38,6 +38,9 @@ import PostCopyright from './components/PostCopyright'
 import PostHeader from './components/PostHeader'
 import { PostLock } from './components/PostLock'
 import { MemberLock } from './components/MemberLock'
+import { FansLock } from './components/FansLock'
+import { hasAccessLevel } from '@/lib/member/auth'
+import { isFansPostUnlocked } from '@/lib/fans/auth'
 import { useMember } from '@/hooks/useMember'
 import PostRecommend from './components/PostRecommend'
 import SearchNav from './components/SearchNav'
@@ -253,8 +256,23 @@ const LayoutArchive = props => {
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
   const { locale, fullWidth } = useGlobal()
-  const { isLoggedIn } = useMember()
-  const isVipLocked = Boolean(post?.vip && !isLoggedIn)
+  const { isLoggedIn, member } = useMember()
+
+  // 1. 会员专享判定（支持普通 VIP 与高级 SVIP 多等级判断）
+  const userLevel = member?.level || 'VIP'
+  const requiredLevel = post?.vip_level || (post?.vip ? 'VIP' : null)
+  const isVipLocked = Boolean(requiredLevel && (!isLoggedIn || !hasAccessLevel(userLevel, requiredLevel)))
+  const vipLockReason = !isLoggedIn ? 'not_logged_in' : 'level_required'
+
+  // 2. 粉丝专区判定（免注册免登录暗号解锁）
+  const isFansPost = Boolean(post?.fans || post?.fans_code)
+  const [fansUnlocked, setFansUnlocked] = useState(false)
+  useEffect(() => {
+    if (isFansPost && post) {
+      setFansUnlocked(isFansPostUnlocked(post.id || post.slug))
+    }
+  }, [isFansPost, post])
+  const isFansLocked = Boolean(isFansPost && !fansUnlocked)
 
   const [hasCode, setHasCode] = useState(false)
 
@@ -300,13 +318,20 @@ const LayoutSlug = props => {
     <>
       <div
         className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
-        {/* 文章锁 */}
+        {/* 文章密码锁 */}
         {lock && <PostLock validPassword={validPassword} />}
 
-        {/* 会员专享文章锁定 */}
-        {!lock && isVipLocked && <MemberLock />}
+        {/* 粉丝专享福利内容拦截（免注册登录，输入暗号解锁） */}
+        {!lock && isFansLocked && (
+          <FansLock post={post} onUnlocked={() => setFansUnlocked(true)} />
+        )}
 
-        {!lock && !isVipLocked && post && (
+        {/* 会员专享文章锁定（支持未登录拦截与普通会员跨级访问 SVIP 升级提示） */}
+        {!lock && !isFansLocked && isVipLocked && (
+          <MemberLock requiredLevel={requiredLevel} lockReason={vipLockReason} />
+        )}
+
+        {!lock && !isFansLocked && !isVipLocked && post && (
           <div className='mx-auto md:w-full md:px-5'>
             {/* 文章主体 */}
             <article id='article-wrapper'>

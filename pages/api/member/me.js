@@ -38,7 +38,8 @@ export default function handler(req, res) {
     member: {
       username: payload.username,
       expireDate: payload.expireDate || null,
-      status: payload.status || 'Active'
+      status: payload.status || 'Active',
+      level: payload.level || 'VIP'
     }
   })
 }

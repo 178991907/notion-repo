@@ -253,6 +253,11 @@ const HEO_DEFAULTS = {
   HEO_SIDEBAR_VIP_CARD_TITLE_2: '解锁全部深度实战专栏与源码',
   HEO_SIDEBAR_VIP_CARD_TITLE_3: '进入会员专区',
   HEO_SIDEBAR_VIP_CARD_URL: '/vip',
+  HEO_MENU_FANS: true,
+  HEO_CATEGORY_BAR_FANS: true,
+  HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利',
+  HEO_FANS_DEFAULT_PASSCODE: '888888',
+  HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
   HEO_COLOR_PRIMARY: '#4f65f0',
   HEO_COLOR_PRIMARY_HOVER: '#4f46e5',
   HEO_COLOR_PRIMARY_TEXT: '#ffffff',
@@ -511,6 +516,7 @@ export default function HeoThemeEditor() {
     { id: 'header', icon: '🧭', label: '顶栏导航' },
     { id: 'hero', icon: '🎯', label: '英雄区' },
     { id: 'member', icon: '👑', label: '会员专区' },
+    { id: 'fans', icon: '🎁', label: '粉丝专区' },
     { id: 'sidebar', icon: '👤', label: '侧边栏' },
     { id: 'colors', icon: '🎨', label: '配色' },
     { id: 'layout', icon: '📐', label: '布局' },
@@ -1713,6 +1719,131 @@ export default function HeoThemeEditor() {
                     setTimeout(() => setToast(null), 3000)
                   }}
                   className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white rounded-xl font-bold text-xs shadow-sm transition whitespace-nowrap cursor-pointer"
+                >
+                  ⚡ 一键添加至英雄区胶囊
+                </button>
+              </div>
+            </SectionCard>
+          </div>
+        )}
+
+        {/* ==================== 粉丝专区设置 ==================== */}
+        {activeTab === 'fans' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* 核心配置：通用验证码与暗号引导 */}
+            <SectionCard>
+              <SectionTitle icon="🔑" title="免登录验证码与引导设置" desc="设置全站默认通用暗号及文章解锁提示语" />
+              <TextField
+                label="全站默认通用粉丝暗号 / 验证码"
+                configKey="HEO_FANS_DEFAULT_PASSCODE"
+                value={formData.HEO_FANS_DEFAULT_PASSCODE}
+                onChange={handleChange}
+                placeholder="888888"
+                desc="当文章勾选了 fans 但未填写独立 fans_code 时，输入此暗号即可解锁"
+              />
+              <TextField
+                label="粉丝解锁引导提示语"
+                configKey="HEO_FANS_UNLOCK_TIPS"
+                value={formData.HEO_FANS_UNLOCK_TIPS}
+                onChange={handleChange}
+                placeholder="关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码"
+                desc="展示在文章未解锁卡片及专区横幅中的引导说明"
+              />
+              <div className="pt-3 mt-3 border-t border-gray-100">
+                <ToggleField
+                  label="在全站顶栏主菜单显示「粉丝专区」"
+                  configKey="HEO_MENU_FANS"
+                  value={formData.HEO_MENU_FANS}
+                  onChange={handleChange}
+                  desc="控制网站最顶部导航菜单中是否展示「🎁 粉丝专区」导航项"
+                />
+              </div>
+
+              {/* 粉丝解锁卡片 1:1 动态实时预览 */}
+              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                <div className="text-xs font-bold text-gray-500">👁️ 粉丝专享拦截卡片 1:1 实时预览：</div>
+                <div className="p-4 bg-gradient-to-b from-emerald-50 via-white to-teal-50 rounded-xl border border-emerald-100 text-center space-y-2">
+                  <div className="w-10 h-10 mx-auto rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-lg shadow-sm">
+                    🎁
+                  </div>
+                  <div className="text-sm font-bold text-gray-800">本文为【粉丝专享福利】内容</div>
+                  <div className="text-xs text-gray-500 leading-relaxed px-2">
+                    {formData.HEO_FANS_UNLOCK_TIPS || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'}
+                  </div>
+                  <div className="w-48 mx-auto py-1.5 px-3 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-xs">
+                    ✨ 立即解锁阅读 (暗号: {formData.HEO_FANS_DEFAULT_PASSCODE || '888888'})
+                  </div>
+                </div>
+              </div>
+            </SectionCard>
+
+            {/* 位置入口：文章分类横条 (CategoryBar) */}
+            <SectionCard>
+              <SectionTitle icon="🧭" title="位置一：文章分类横条快捷入口" desc="位于首页文章列表上方横条，紧邻「首页」分类" />
+              <ToggleField
+                label="在文章分类条显示「粉丝福利」Tab"
+                configKey="HEO_CATEGORY_BAR_FANS"
+                value={formData.HEO_CATEGORY_BAR_FANS}
+                onChange={handleChange}
+                desc="开启后，在博客首页文章列表分类横条中高亮显示「🎁 粉丝福利」快捷 Tab"
+              />
+              <TextField
+                label="分类条展示文案"
+                configKey="HEO_CATEGORY_BAR_FANS_TITLE"
+                value={formData.HEO_CATEGORY_BAR_FANS_TITLE}
+                onChange={handleChange}
+                placeholder="粉丝福利"
+                desc="默认文案：粉丝福利"
+              />
+
+              {/* 分类栏实时效果预览 */}
+              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                <div className="text-xs font-bold text-gray-500">👁️ 分类横条 (CategoryBar) 1:1 动态实时预览：</div>
+                <div className="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-gray-100 overflow-x-auto text-xs font-bold">
+                  <span className="px-2.5 py-1 rounded bg-blue-600 text-white">首页</span>
+                  {formData.HEO_CATEGORY_BAR_VIP !== false && (
+                    <span className="px-2.5 py-1 rounded border border-amber-300 bg-amber-500/10 text-amber-600 flex items-center gap-1 shadow-xs">
+                      👑 会员专区
+                    </span>
+                  )}
+                  {formData.HEO_CATEGORY_BAR_FANS !== false && (
+                    <span className="px-2.5 py-1 rounded border border-emerald-300 bg-emerald-500/10 text-emerald-600 flex items-center gap-1 shadow-xs">
+                      🎁 {formData.HEO_CATEGORY_BAR_FANS_TITLE || '粉丝福利'}
+                    </span>
+                  )}
+                  <span className="px-2.5 py-1 text-gray-700">AI 教程</span>
+                  <span className="px-2.5 py-1 text-gray-400">...</span>
+                </div>
+              </div>
+            </SectionCard>
+
+            {/* 英雄区推荐胶囊一键添加 */}
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="🎯" title="位置二：英雄区推荐胶囊按钮栏（必看精选那排）" desc="将粉丝福利专区以高亮胶囊按钮的形式添加到英雄区下方推荐按钮组中" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-emerald-50 border border-emerald-200 rounded-xl gap-3">
+                <div>
+                  <div className="text-sm font-bold text-emerald-900">✨ 一键将【🎁 粉丝福利】添加到英雄区胶囊栏</div>
+                  <div className="text-xs text-emerald-700 mt-1">点击按钮将自动在英雄区推荐卡片中新增一个直达 /fans 的翡翠彩色胶囊，无需手动输入。</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const exists = categories.some(c => c.url === '/fans' || c.title?.includes('粉丝'))
+                    if (exists) {
+                      setToast({ type: 'success', msg: '英雄区推荐卡片中已存在粉丝专区！' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    if (categories.length >= 6) {
+                      setToast({ type: 'error', msg: '卡片已达上限 6 个，请在「英雄区」Tab 删除一个后再添加' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    setCategories([...categories, { title: '🎁 粉丝专区', url: '/fans' }])
+                    setToast({ type: 'success', msg: '已成功添加【🎁 粉丝专区】胶囊！请记得点击保存' })
+                    setTimeout(() => setToast(null), 3000)
+                  }}
+                  className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-bold text-xs shadow-sm transition whitespace-nowrap cursor-pointer"
                 >
                   ⚡ 一键添加至英雄区胶囊
                 </button>
