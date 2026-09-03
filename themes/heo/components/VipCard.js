@@ -16,11 +16,14 @@ export default function VipCard() {
   const title2 = siteConfig('HEO_SIDEBAR_VIP_CARD_TITLE_2', '解锁全部深度实战专栏与源码', CONFIG)
   const title3 = siteConfig('HEO_SIDEBAR_VIP_CARD_TITLE_3', '点击进入会员专区 →', CONFIG)
   const url = siteConfig('HEO_SIDEBAR_VIP_CARD_URL', '/vip', CONFIG)
+  const vipColor = siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG)
+  const vipColorEnd = siteConfig('HEO_VIP_COLOR_END', '#eab308', CONFIG)
 
   return (
     <div className='relative h-28 text-white flex flex-col select-none'>
       <FlipCard
-        className='cursor-pointer lg:p-6 p-4 border rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 dark:from-amber-600 dark:to-yellow-700 shadow-md border-amber-400/40 dark:border-amber-500/30'
+        style={{ background: `linear-gradient(135deg, ${vipColor}, ${vipColorEnd})` }}
+        className='cursor-pointer lg:p-6 p-4 border rounded-xl shadow-md border-white/20'
         frontContent={
           <div className='h-full flex flex-col justify-center'>
             <div className='flex items-center gap-2'>

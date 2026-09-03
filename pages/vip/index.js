@@ -2,6 +2,7 @@ import BLOG from '@/blog.config'
 import { fetchGlobalAllData } from '@/lib/db/SiteDataApi'
 import { useMember } from '@/hooks/useMember'
 import BlogPostCard from '@/themes/heo/components/BlogPostCard'
+import { siteConfig } from '@/lib/config'
 
 /**
  * 会员专区聚合首页
@@ -17,6 +18,10 @@ const VipIndex = props => {
     logout
   } = useMember()
 
+  const vipIcon = siteConfig('HEO_VIP_ICON', '👑', props.NOTION_CONFIG)
+  const vipColor = siteConfig('HEO_VIP_COLOR', '#f59e0b', props.NOTION_CONFIG)
+  const vipColorEnd = siteConfig('HEO_VIP_COLOR_END', '#eab308', props.NOTION_CONFIG)
+
   return (
     <div className='w-full min-h-screen px-4 md:px-6 py-6 max-w-7xl mx-auto'>
       {/* 顶部会员专属横幅与信息卡片 */}
@@ -29,11 +34,12 @@ const VipIndex = props => {
           {/* 专区标题与介绍 */}
           <div className='max-w-2xl'>
             <div className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-semibold mb-3'>
-              <i className='fas fa-crown text-[11px]' />
+              <span>{vipIcon}</span>
               <span>TERRY 专属会员空间</span>
             </div>
-            <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight mb-2'>
-              会员深度专区
+            <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight mb-2 flex items-center gap-2'>
+              <span>{vipIcon}</span>
+              <span>会员深度专区</span>
             </h1>
             <p className='text-indigo-200/80 text-sm md:text-base leading-relaxed'>
               这里汇集全站精选深度文章、实战课程、源码资源与前沿 AI 解锁指南。专为会员持续输出核心干货。
@@ -103,10 +109,12 @@ const VipIndex = props => {
       <div className='flex items-center justify-between mb-6 border-b border-gray-200 dark:border-gray-800 pb-3'>
         <div className='flex items-center gap-2'>
           <h2 className='text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2'>
-            <i className='fas fa-book-open text-indigo-600 dark:text-indigo-400' />
+            <span>{vipIcon}</span>
             会员专属文章与资源
           </h2>
-          <span className='text-xs px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-medium'>
+          <span
+            style={{ color: vipColor, backgroundColor: `${vipColor}20` }}
+            className='text-xs px-2 py-0.5 rounded-full font-medium'>
             共 {posts.length} 篇
           </span>
         </div>

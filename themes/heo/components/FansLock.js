@@ -21,6 +21,9 @@ export const FansLock = ({ post, onUnlocked }) => {
     CONFIG
   )
   const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', CONFIG)
+  const fansIcon = siteConfig('HEO_FANS_ICON', '🎁', CONFIG)
+  const fansColor = siteConfig('HEO_FANS_COLOR', '#10b981', CONFIG)
+  const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', CONFIG)
 
   // 处理解锁校验
   const handleUnlock = e => {
@@ -52,8 +55,10 @@ export const FansLock = ({ post, onUnlocked }) => {
     <div className='w-full py-14 px-6 my-8 flex flex-col items-center justify-center bg-gradient-to-b from-emerald-50/60 via-white to-teal-50/30 dark:from-emerald-950/20 dark:via-[#1e1e20] dark:to-teal-950/10 border border-emerald-100/90 dark:border-emerald-900/40 rounded-3xl shadow-sm text-center'>
       {/* 礼物图标与徽标 */}
       <div className='relative mb-5'>
-        <div className='w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 transform transition-transform hover:scale-105 duration-300'>
-          <i className='fas fa-gift text-2xl animate-bounce' />
+        <div
+          style={{ background: `linear-gradient(135deg, ${fansColor}, ${fansColorEnd})` }}
+          className='w-16 h-16 rounded-2xl text-white flex items-center justify-center text-3xl shadow-lg transform transition-transform hover:scale-105 duration-300'>
+          <span>{fansIcon}</span>
         </div>
         <span className='absolute -top-1 -right-1 px-2.5 py-0.5 text-[10px] font-bold bg-amber-400 text-emerald-950 rounded-full shadow-sm'>
           粉丝福利
@@ -113,7 +118,8 @@ export const FansLock = ({ post, onUnlocked }) => {
         <button
           type='submit'
           disabled={loading || success}
-          className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:from-emerald-800 shadow-md shadow-emerald-600/20 transition-all duration-200 cursor-pointer disabled:opacity-50'>
+          style={{ background: `linear-gradient(135deg, ${fansColor}, ${fansColorEnd})` }}
+          className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white shadow-md transition-all duration-200 cursor-pointer disabled:opacity-50 hover:brightness-105 active:scale-98'>
           {loading ? '正在验证暗号...' : success ? '解锁成功' : '✨ 立即解锁阅读'}
         </button>
 
