@@ -33,16 +33,16 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
       <div
         data-wow-delay='.2s'
         className={
-          (POST_TWO_COLS ? '2xl:h-auto 2xl:min-h-0 2xl:flex-col' : '') +
-          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col h-auto min-h-0 md:h-52 md:flex-row group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-2xl'
+          (POST_TWO_COLS ? '2xl:h-96 2xl:flex-col' : '') +
+          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
         }>
         {/* 图片封面 */}
         {showPageCover && (
           <SmartLink href={post?.href} passHref legacyBehavior>
             <div
               className={
-                (POST_TWO_COLS ? '2xl:w-full 2xl:h-44' : '') +
-                ' relative w-full h-44 md:h-full md:w-5/12 overflow-hidden cursor-pointer select-none bg-gray-50 dark:bg-gray-900/40'
+                (POST_TWO_COLS ? ' 2xl:w-full' : '') +
+                ' relative w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
               }>
               {post?.vip && (
                 <div className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
@@ -54,19 +54,19 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}
                 alt={post?.title}
-                className='h-full w-full object-cover object-center group-hover:scale-105 group-hover:brightness-90 transition-all duration-500 ease-in-out'
+                className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' //宽高都调整为自适应,保证封面居中
               />
             </div>
           </SmartLink>
         )}
 
-        {/* 文字区块：顶部间距调至 1，消除多余留白 */}
+        {/* 文字区块 */}
         <div
           className={
-            (POST_TWO_COLS ? '2xl:px-4 2xl:pt-1 2xl:pb-3 2xl:h-auto 2xl:w-full' : '') +
-            ' flex px-5 pt-1 pb-4 flex-col justify-between flex-1 w-full md:w-7/12 md:py-4'
+            (POST_TWO_COLS ? '2xl:p-4 2xl:h-48 2xl:w-full' : '') +
+            ' flex p-6  flex-col justify-between h-48 md:h-full w-full md:w-7/12'
           }>
-          <header className='mt-1'>
+          <header>
             {/* 分类与会员专享标记 */}
             <div className='flex mb-1 items-center justify-start flex-wrap gap-1.5'>
               {post?.vip && (
