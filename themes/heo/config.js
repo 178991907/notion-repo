@@ -150,6 +150,13 @@ const CONFIG = {
   HEO_MENU_ARCHIVE: false, // 显示归档
   HEO_MENU_SEARCH: false, // 显示搜索
   HEO_MENU_VIP: true, // 显示会员专区菜单
+  HEO_CATEGORY_BAR_VIP: true, // 是否在文章列表上方的分类横条中显示「会员专区」Tab
+  HEO_CATEGORY_BAR_VIP_TITLE: '会员专区', // 分类横条中会员专区的显示文案
+  HEO_SIDEBAR_VIP_CARD: true, // 是否在右侧边栏显示会员专区推广卡片
+  HEO_SIDEBAR_VIP_CARD_TITLE_1: '会员专区', // 侧边栏卡片主标题
+  HEO_SIDEBAR_VIP_CARD_TITLE_2: '解锁全部深度实战专栏与源码', // 侧边栏卡片副标题
+  HEO_SIDEBAR_VIP_CARD_TITLE_3: '进入会员专区', // 侧边栏卡片翻转后按钮文案
+  HEO_SIDEBAR_VIP_CARD_URL: '/vip', // 侧边栏卡片跳转链接
   HEO_MENU_FRIENDS: true, // 显示「友情链接」菜单 (Friendship links)
   HEO_MENU_TUTORIAL: true, // 显示「建站教程」菜单 (Tutorial)
   HEO_MENU_HISTORY: true, // 显示「往期整理 / 历史」菜单 (History)

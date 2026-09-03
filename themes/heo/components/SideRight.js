@@ -8,6 +8,7 @@ import { InfoCard } from './InfoCard'
 import LatestPostsGroupMini from './LatestPostsGroupMini'
 import TagGroups from './TagGroups'
 import TouchMeCard from './TouchMeCard'
+import VipCard from './VipCard'
 
 const FaceBookPage = dynamic(
   () => {
@@ -50,6 +51,11 @@ export default function SideRight(props) {
         {/* 联系交流群 */}
         <div className='wow fadeInUp'>
           <TouchMeCard />
+        </div>
+
+        {/* 会员专区推荐特权卡片 */}
+        <div className='wow fadeInUp'>
+          <VipCard />
         </div>
 
         {/* 最新文章列表 */}
