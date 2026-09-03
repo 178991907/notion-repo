@@ -3,6 +3,8 @@ import { useGlobal } from '@/lib/global'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
 import { useRef, useState, useEffect } from 'react'
+import { siteConfig } from '@/lib/config'
+import CONFIG from '../config'
 
 /**
  * 博客列表上方嵌入条
@@ -86,6 +88,19 @@ export default function CategoryBar(props) {
         onScroll={checkScroll}
         className='scroll-smooth flex-1 rounded-lg scroll-hidden flex justify-start flex-nowrap items-center overflow-x-auto no-scrollbar'>
         <MenuItem href='/' name={locale?.NAV?.INDEX || '首页'} />
+        {/* 会员专区专属 Tab 快捷入口 */}
+        {Boolean(siteConfig('HEO_CATEGORY_BAR_VIP', true, CONFIG)) && (
+          <MenuItem
+            href='/vip'
+            isVip
+            name={
+              <span className='inline-flex items-center gap-1 text-amber-500 dark:text-amber-400 font-extrabold'>
+                <i className='fas fa-crown text-[11px]' />
+                <span>{siteConfig('HEO_CATEGORY_BAR_VIP_TITLE', '会员专区', CONFIG)}</span>
+              </span>
+            }
+          />
+        )}
         {categoryOptions?.map((c, index) => (
           <MenuItem key={index} href={`/category/${c.name}`} name={c.name} />
         ))}
@@ -123,13 +138,13 @@ export default function CategoryBar(props) {
  * @param {*} param0
  * @returns
  */
-const MenuItem = ({ href, name }) => {
+const MenuItem = ({ href, name, isVip }) => {
   const router = useRouter()
   const { category } = router.query
-  const selected = category === name
+  const selected = (category && category === name) || (href === '/vip' && router.asPath?.startsWith('/vip'))
   return (
     <div
-      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2 py-0.5 rounded-md text-gray-900 dark:text-white hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] ${selected ? 'text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)]' : ''}`}>
+      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2.5 py-0.5 rounded-lg text-gray-900 dark:text-white hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] ${selected ? 'text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)]' : ''} ${isVip && !selected ? 'border border-amber-300/70 dark:border-amber-700/50 bg-amber-500/10 dark:bg-amber-400/15 hover:border-transparent' : ''}`}>
       <SmartLink href={href}>{name}</SmartLink>
     </div>
   )

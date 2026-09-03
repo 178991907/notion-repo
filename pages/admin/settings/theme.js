@@ -245,6 +245,14 @@ const HEO_DEFAULTS = {
   HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
   HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
   HEO_SOCIAL_CARD_URL: 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png',
+  HEO_MENU_VIP: true,
+  HEO_CATEGORY_BAR_VIP: true,
+  HEO_CATEGORY_BAR_VIP_TITLE: '会员专区',
+  HEO_SIDEBAR_VIP_CARD: true,
+  HEO_SIDEBAR_VIP_CARD_TITLE_1: '会员专区',
+  HEO_SIDEBAR_VIP_CARD_TITLE_2: '解锁全部深度实战专栏与源码',
+  HEO_SIDEBAR_VIP_CARD_TITLE_3: '进入会员专区',
+  HEO_SIDEBAR_VIP_CARD_URL: '/vip',
   HEO_COLOR_PRIMARY: '#4f65f0',
   HEO_COLOR_PRIMARY_HOVER: '#4f46e5',
   HEO_COLOR_PRIMARY_TEXT: '#ffffff',
@@ -502,6 +510,7 @@ export default function HeoThemeEditor() {
   const tabs = [
     { id: 'header', icon: '🧭', label: '顶栏导航' },
     { id: 'hero', icon: '🎯', label: '英雄区' },
+    { id: 'member', icon: '👑', label: '会员专区' },
     { id: 'sidebar', icon: '👤', label: '侧边栏' },
     { id: 'colors', icon: '🎨', label: '配色' },
     { id: 'layout', icon: '📐', label: '布局' },
@@ -515,12 +524,12 @@ export default function HeoThemeEditor() {
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => router.push('/admin')} className="text-gray-400 hover:text-gray-700 transition">← 返回</button>
+            <button onClick={() => { void router.push('/admin') }} className="text-gray-400 hover:text-gray-700 transition">← 返回</button>
             <h1 className="text-lg font-bold text-gray-900">🎨 Heo 主题可视化编辑器</h1>
           </div>
           <div className="flex items-center gap-3">
             <a href="/" target="_blank" className="text-sm text-blue-600 hover:underline">预览前台 ↗</a>
-            <button onClick={handleSave} disabled={saving}
+            <button onClick={() => { void handleSave() }} disabled={saving}
               className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium disabled:opacity-50 transition shadow-sm">
               {saving ? '保存中...' : '💾 保存全部配置'}
             </button>
@@ -763,10 +772,34 @@ export default function HeoThemeEditor() {
                   </div>
                 </DraggableItem>
               ))}
-              <button onClick={() => { if (categories.length < 6) setCategories([...categories, { title: '', url: '' }]) }} disabled={categories.length >= 6}
-                className="mt-2 w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-blue-400 hover:text-blue-600 transition text-sm disabled:opacity-30">
-                + 添加卡片 ({categories.length}/6)
-              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                <button onClick={() => { if (categories.length < 6) setCategories([...categories, { title: '', url: '' }]) }} disabled={categories.length >= 6}
+                  className="py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-blue-400 hover:text-blue-600 transition text-xs font-bold disabled:opacity-30">
+                  + 添加空白卡片 ({categories.length}/6)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const exists = categories.some(c => c.url === '/vip' || c.title?.includes('会员'))
+                    if (exists) {
+                      setToast({ type: 'success', msg: '推荐卡片中已存在会员专区！' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    if (categories.length >= 6) {
+                      setToast({ type: 'error', msg: '卡片已满 6 个，请先删除一个后再添加' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    setCategories([...categories, { title: '👑 会员专区', url: '/vip' }])
+                    setToast({ type: 'success', msg: '已成功添加【👑 会员专区】卡片！请点击下方保存' })
+                    setTimeout(() => setToast(null), 3000)
+                  }}
+                  className="py-2 bg-amber-500/10 border border-amber-300 dark:border-amber-700/60 rounded-xl text-amber-700 dark:text-amber-300 hover:bg-amber-500 hover:text-white transition text-xs font-bold shadow-xs cursor-pointer"
+                >
+                  👑 快速添加【会员专区】卡片
+                </button>
+              </div>
             </SectionCard>
 
             {/* 首页顶部滚动通知栏 (此刻) */}
@@ -1542,13 +1575,159 @@ export default function HeoThemeEditor() {
           </div>
         )}
 
+        {/* ==================== 会员专区设置 ==================== */}
+        {activeTab === 'member' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* 位置 1：文章列表上方分类横条 (CategoryBar) */}
+            <SectionCard>
+              <SectionTitle icon="🧭" title="位置一：文章分类横条入口" desc="位于首页文章列表上方横条，紧邻「首页」分类" />
+              <ToggleField
+                label="在文章分类条显示「会员专区」Tab"
+                configKey="HEO_CATEGORY_BAR_VIP"
+                value={formData.HEO_CATEGORY_BAR_VIP}
+                onChange={handleChange}
+                desc="开启后，在博客首页【首页】分类旁边高亮显示金色皇冠会员专区快捷 Tab"
+              />
+              <TextField
+                label="分类条展示文案"
+                configKey="HEO_CATEGORY_BAR_VIP_TITLE"
+                value={formData.HEO_CATEGORY_BAR_VIP_TITLE}
+                onChange={handleChange}
+                placeholder="会员专区"
+                desc="默认文案：会员专区"
+              />
+              <div className="pt-3 mt-3 border-t border-gray-100">
+                <ToggleField
+                  label="在全站顶栏主菜单显示「会员专区」"
+                  configKey="HEO_MENU_VIP"
+                  value={formData.HEO_MENU_VIP}
+                  onChange={handleChange}
+                  desc="控制网站最顶部导航菜单中是否展示「👑 会员专区」导航项"
+                />
+              </div>
+
+              {/* 分类栏实时效果预览 */}
+              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                <div className="text-xs font-bold text-gray-500">👁️ 分类横条 (CategoryBar) 1:1 动态实时预览：</div>
+                <div className="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-gray-100 overflow-x-auto text-xs font-bold">
+                  <span className="px-2.5 py-1 rounded bg-blue-600 text-white">首页</span>
+                  {formData.HEO_CATEGORY_BAR_VIP !== false && (
+                    <span className="px-2.5 py-1 rounded border border-amber-300 bg-amber-500/10 text-amber-600 flex items-center gap-1 shadow-xs">
+                      👑 {formData.HEO_CATEGORY_BAR_VIP_TITLE || '会员专区'}
+                    </span>
+                  )}
+                  <span className="px-2.5 py-1 text-gray-700">AI 教程</span>
+                  <span className="px-2.5 py-1 text-gray-700">英语启蒙</span>
+                  <span className="px-2.5 py-1 text-gray-400">...</span>
+                </div>
+              </div>
+            </SectionCard>
+
+            {/* 位置 2：右侧边栏会员专属特权卡片 (Sidebar Card) */}
+            <SectionCard>
+              <SectionTitle icon="👤" title="位置二：右侧边栏专属特权卡片" desc="位于文章列表右侧边栏，支持 3D 悬停翻转交互" />
+              <ToggleField
+                label="启用侧边栏会员卡片"
+                configKey="HEO_SIDEBAR_VIP_CARD"
+                value={formData.HEO_SIDEBAR_VIP_CARD}
+                onChange={handleChange}
+                desc="关闭后右侧栏将隐藏会员推荐卡片"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <TextField
+                  label="正面主标题"
+                  configKey="HEO_SIDEBAR_VIP_CARD_TITLE_1"
+                  value={formData.HEO_SIDEBAR_VIP_CARD_TITLE_1}
+                  onChange={handleChange}
+                  placeholder="会员专区"
+                />
+                <TextField
+                  label="翻转后按钮文案"
+                  configKey="HEO_SIDEBAR_VIP_CARD_TITLE_3"
+                  value={formData.HEO_SIDEBAR_VIP_CARD_TITLE_3}
+                  onChange={handleChange}
+                  placeholder="进入会员专区"
+                />
+              </div>
+              <TextField
+                label="正面副标题 / 特权描述"
+                configKey="HEO_SIDEBAR_VIP_CARD_TITLE_2"
+                value={formData.HEO_SIDEBAR_VIP_CARD_TITLE_2}
+                onChange={handleChange}
+                placeholder="解锁全部深度实战专栏与源码"
+              />
+              <TextField
+                label="点击跳转链接"
+                configKey="HEO_SIDEBAR_VIP_CARD_URL"
+                value={formData.HEO_SIDEBAR_VIP_CARD_URL}
+                onChange={handleChange}
+                placeholder="/vip"
+              />
+
+              {/* 侧边栏卡片 1:1 预览 */}
+              <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                <div className="text-xs font-bold text-gray-500">👁️ 侧边栏卡片 1:1 预览（鼠标悬停可查看翻转）：</div>
+                {formData.HEO_SIDEBAR_VIP_CARD !== false ? (
+                  <div className="group relative h-28 rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-white p-4 shadow-md overflow-hidden cursor-pointer">
+                    <div className="flex flex-col justify-center h-full transition-opacity duration-300 group-hover:opacity-0">
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-white/20 uppercase w-fit tracking-wider">VIP CLUB</span>
+                      <div className="text-xl font-black mt-1">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_1 || '👑 会员专区'}</div>
+                      <div className="text-xs text-amber-100 truncate mt-0.5">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_2 || '解锁全部深度实战专栏与源码'}</div>
+                    </div>
+                    <div className="absolute inset-0 bg-amber-700/95 flex items-center justify-center font-extrabold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {formData.HEO_SIDEBAR_VIP_CARD_TITLE_3 || '点击进入会员专区 →'}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-4 text-xs text-gray-400 bg-white rounded-lg border border-dashed border-gray-200">
+                    当前已关闭侧边栏会员卡片
+                  </div>
+                )}
+              </div>
+            </SectionCard>
+
+            {/* 位置 3：英雄区推荐胶囊 (Hero Categories) */}
+            <SectionCard className="lg:col-span-2">
+              <SectionTitle icon="🎯" title="位置三：英雄区推荐胶囊按钮栏（必看精选那排）" desc="将会员专区以高亮胶囊按钮的形式添加到英雄区下方推荐按钮组中" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-xl gap-3">
+                <div>
+                  <div className="text-sm font-bold text-amber-900">✨ 一键将【👑 会员专区】添加到英雄区胶囊栏</div>
+                  <div className="text-xs text-amber-700 mt-1">点击按钮将自动在英雄区推荐卡片中新增一个直达 /vip 的彩色胶囊，无需手动输入。</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const exists = categories.some(c => c.url === '/vip' || c.title?.includes('会员'))
+                    if (exists) {
+                      setToast({ type: 'success', msg: '英雄区推荐卡片中已存在会员专区！' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    if (categories.length >= 6) {
+                      setToast({ type: 'error', msg: '卡片已达上限 6 个，请在「英雄区」Tab 删除一个后再添加' })
+                      setTimeout(() => setToast(null), 3000)
+                      return
+                    }
+                    setCategories([...categories, { title: '👑 会员专区', url: '/vip' }])
+                    setToast({ type: 'success', msg: '已成功添加【👑 会员专区】胶囊！请记得点击保存' })
+                    setTimeout(() => setToast(null), 3000)
+                  }}
+                  className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white rounded-xl font-bold text-xs shadow-sm transition whitespace-nowrap cursor-pointer"
+                >
+                  ⚡ 一键添加至英雄区胶囊
+                </button>
+              </div>
+            </SectionCard>
+          </div>
+        )}
+
       </main>
 
       {/* 底部保存栏 */}
       <div className="sticky bottom-0 bg-white border-t border-gray-200 py-3 shadow-lg">
         <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
           <p className="text-sm text-gray-500">修改后请点击右侧保存，刷新前台页面查看效果。</p>
-          <button onClick={handleSave} disabled={saving}
+          <button onClick={() => { void handleSave() }} disabled={saving}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl text-sm font-bold disabled:opacity-50 transition shadow">
             {saving ? '⏳ 保存中...' : '💾 保存全部配置'}
           </button>
