@@ -91,14 +91,10 @@ export function InfoCard(props) {
           <GreetingsWords />
           <h2 className='text-3xl font-extrabold mt-3 tracking-tight'>{siteConfig('AUTHOR')}</h2>
         </div>
-        {/* 右上角大头像 */}
-        <SmartLink href={avatarLink} className='flex-shrink-0'>
+        {/* 右上角大头像（无论首页还是文章页均始终保持清晰正常展示） */}
+        <SmartLink href={avatarLink} className='flex-shrink-0 z-10'>
           <div
-            className={`${
-              useBlurAvatar
-                ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-0 hover:scale-150 blur'
-                : 'cursor-pointer hover:scale-105'
-            } justify-center items-center flex dark:text-gray-100 transform transition-all duration-200`}>
+            className='cursor-pointer hover:scale-105 justify-center items-center flex dark:text-gray-100 transform transition-all duration-200'>
             <LazyImage
               src={avatarUrl}
               className='rounded-full object-cover border-2 border-white/60 shadow-lg'
