@@ -42,8 +42,14 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             <div
               className={
                 (POST_TWO_COLS ? ' 2xl:w-full' : '') +
-                ' w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
+                ' relative w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
               }>
+              {post?.vip && (
+                <div className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  <i className='fas fa-crown text-[10px]' />
+                  <span>VIP 专享</span>
+                </div>
+              )}
               <LazyImage
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}

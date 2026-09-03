@@ -253,8 +253,8 @@ const LayoutArchive = props => {
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
   const { locale, fullWidth } = useGlobal()
-  const { isLoggedIn, loading: memberLoading } = useMember()
-  const isVipLocked = Boolean(post?.vip && !isLoggedIn && !memberLoading)
+  const { isLoggedIn } = useMember()
+  const isVipLocked = Boolean(post?.vip && !isLoggedIn)
 
   const [hasCode, setHasCode] = useState(false)
 
