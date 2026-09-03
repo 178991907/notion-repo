@@ -1,3 +1,4 @@
+import { useMember } from '@/hooks/useMember'
 import Live2D from '@/components/Live2D'
 import dynamic from 'next/dynamic'
 import { AnalyticsCard } from './AnalyticsCard'
@@ -28,6 +29,8 @@ const FaceBookPage = dynamic(
  */
 export default function SideRight(props) {
   const { post, lock, tagOptions, currentTag, rightAreaSlot } = props
+  const { isLoggedIn } = useMember()
+  const isVipLocked = Boolean(post?.vip && !isLoggedIn)
 
   // 只摘取标签的前60个，防止右侧过长
   const sortedTags = tagOptions?.slice(0, 60) || []
@@ -37,8 +40,8 @@ export default function SideRight(props) {
       <InfoCard {...props} className='w-72 wow fadeInUp' />
 
       <div className='sticky top-20 space-y-4'>
-        {/* 文章页显示目录（上锁文章不显示） */}
-        {!lock && post && post.toc && post.toc.length > 0 && (
+        {/* 文章页显示目录（上锁或未登录会员专享文章不显示） */}
+        {!lock && !isVipLocked && post && post.toc && post.toc.length > 0 && (
           <Card className='bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] wow fadeInUp'>
             <Catalog toc={post.toc} />
           </Card>
