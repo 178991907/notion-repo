@@ -67,6 +67,7 @@ export default async function handler(req, res) {
       password: cleanPassword,
       inviteCode: cleanInviteCode,
       expireDate,
+      level: inviteCheck.level || 'VIP',
       remark: `前台邀请码注册 [${cleanInviteCode}]`
     })
 
@@ -75,7 +76,8 @@ export default async function handler(req, res) {
       {
         username: newMember.username,
         expireDate: newMember.expireDate,
-        status: newMember.status
+        status: newMember.status,
+        level: newMember.level || inviteCheck.level || 'VIP'
       },
       true // 注册默认长期保持登录
     )
@@ -88,7 +90,8 @@ export default async function handler(req, res) {
       member: {
         username: newMember.username,
         expireDate: newMember.expireDate,
-        status: newMember.status
+        status: newMember.status,
+        level: newMember.level || inviteCheck.level || 'VIP'
       }
     })
   } catch (error) {

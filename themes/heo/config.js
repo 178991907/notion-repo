@@ -157,6 +157,11 @@ const CONFIG = {
   HEO_SIDEBAR_VIP_CARD_TITLE_2: '解锁全部深度实战专栏与源码', // 侧边栏卡片副标题
   HEO_SIDEBAR_VIP_CARD_TITLE_3: '进入会员专区', // 侧边栏卡片翻转后按钮文案
   HEO_SIDEBAR_VIP_CARD_URL: '/vip', // 侧边栏卡片跳转链接
+  HEO_MENU_FANS: true, // 顶栏菜单是否显示「粉丝专区」
+  HEO_CATEGORY_BAR_FANS: true, // 分类横条是否显示「粉丝福利」Tab
+  HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利', // 分类横条中粉丝专区的显示文案
+  HEO_FANS_DEFAULT_PASSCODE: '888888', // 全站默认通用粉丝暗号 / 验证码
+  HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码', // 粉丝解锁引导提示语
   HEO_MENU_FRIENDS: true, // 显示「友情链接」菜单 (Friendship links)
   HEO_MENU_TUTORIAL: true, // 显示「建站教程」菜单 (Tutorial)
   HEO_MENU_HISTORY: true, // 显示「往期整理 / 历史」菜单 (History)

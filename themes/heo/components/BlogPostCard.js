@@ -44,12 +44,23 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                 (POST_TWO_COLS ? ' 2xl:w-full' : '') +
                 ' relative w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
               }>
-              {post?.vip && (
+              {/* 角标展示优先级：粉丝专享 > SVIP尊享 > VIP专享 */}
+              {post?.fans ? (
+                <div className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  <i className='fas fa-gift text-[10px]' />
+                  <span>粉丝专享</span>
+                </div>
+              ) : post?.vip_level === 'SVIP' ? (
+                <div className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  <i className='fas fa-gem text-[10px]' />
+                  <span>SVIP 尊享</span>
+                </div>
+              ) : post?.vip ? (
                 <div className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
                   <i className='fas fa-crown text-[10px]' />
                   <span>VIP 专享</span>
                 </div>
-              )}
+              ) : null}
               <LazyImage
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}
@@ -67,14 +78,24 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             ' flex p-6  flex-col justify-between h-48 md:h-full w-full md:w-7/12'
           }>
           <header>
-            {/* 分类与会员专享标记 */}
+            {/* 分类与会员/粉丝专享标记 */}
             <div className='flex mb-1 items-center justify-start flex-wrap gap-1.5'>
-              {post?.vip && (
+              {post?.fans ? (
+                <span className='inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-emerald-500/10 dark:bg-emerald-400/20 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 shadow-xs select-none'>
+                  <i className='fas fa-gift text-[10px]' />
+                  粉丝专享
+                </span>
+              ) : post?.vip_level === 'SVIP' ? (
+                <span className='inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-purple-500/10 dark:bg-purple-400/20 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60 shadow-xs select-none'>
+                  <i className='fas fa-gem text-[10px]' />
+                  SVIP 尊享
+                </span>
+              ) : post?.vip ? (
                 <span className='inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 shadow-xs select-none'>
                   <i className='fas fa-crown text-[10px]' />
                   会员专享
                 </span>
-              )}
+              ) : null}
               {post?.category && (
                 <div
                   className={`flex items-center ${showPreview ? 'justify-center' : 'justify-start'} hidden md:block dark:text-gray-300 text-gray-600 hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)]`}>

@@ -101,6 +101,18 @@ export default function CategoryBar(props) {
             }
           />
         )}
+        {/* 粉丝福利专属 Tab 快捷入口 */}
+        {Boolean(siteConfig('HEO_CATEGORY_BAR_FANS', true, CONFIG)) && (
+          <MenuItem
+            href='/fans'
+            name={
+              <span className='inline-flex items-center gap-1 text-emerald-500 dark:text-emerald-400 font-extrabold'>
+                <i className='fas fa-gift text-[11px]' />
+                <span>{siteConfig('HEO_CATEGORY_BAR_FANS_TITLE', '粉丝福利', CONFIG)}</span>
+              </span>
+            }
+          />
+        )}
         {categoryOptions?.map((c, index) => (
           <MenuItem key={index} href={`/category/${c.name}`} name={c.name} />
         ))}

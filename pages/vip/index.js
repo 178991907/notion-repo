@@ -53,8 +53,8 @@ const VipIndex = props => {
                     <div>
                       <div className='font-bold text-sm text-white flex items-center gap-1.5'>
                         <span>{member.username}</span>
-                        <span className='text-[10px] px-1.5 py-0.5 rounded bg-amber-400/30 text-amber-300 font-medium'>
-                          VIP
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${member.level === 'SVIP' ? 'bg-gradient-to-r from-purple-500 to-amber-400 text-white shadow-xs' : 'bg-amber-400/30 text-amber-300'}`}>
+                          {member.level === 'SVIP' ? 'SVIP 尊享' : 'VIP 会员'}
                         </span>
                       </div>
                       <div className='text-xs text-indigo-200/70'>

@@ -1,0 +1,137 @@
+import React, { useState } from 'react'
+import { siteConfig } from '@/lib/config'
+import CONFIG from '../config'
+import { verifyFansPasscode, saveFansUnlockRecord } from '@/lib/fans/auth'
+
+/**
+ * 粉丝专享福利内容拦截与验证码解锁卡片
+ * 免登录免注册，输入暗号即可秒看
+ */
+export const FansLock = ({ post, onUnlocked }) => {
+  const [passcode, setPasscode] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  // 读取配置项
+  const defaultPasscode = siteConfig('HEO_FANS_DEFAULT_PASSCODE', '888888', CONFIG)
+  const unlockTips = siteConfig(
+    'HEO_FANS_UNLOCK_TIPS',
+    '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
+    CONFIG
+  )
+  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', CONFIG)
+
+  // 处理解锁校验
+  const handleUnlock = e => {
+    if (e) e.preventDefault()
+    if (!passcode.trim()) {
+      setError('请输入验证码或暗号')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+
+    setTimeout(() => {
+      const result = verifyFansPasscode(passcode, post?.fans_code, defaultPasscode)
+      if (result.valid) {
+        setSuccess(true)
+        saveFansUnlockRecord(post?.id || post?.slug, result.isGlobal)
+        setTimeout(() => {
+          if (onUnlocked) onUnlocked()
+        }, 500)
+      } else {
+        setError(result.message || '验证码或暗号不正确')
+      }
+      setLoading(false)
+    }, 200)
+  }
+
+  return (
+    <div className='w-full py-14 px-6 my-8 flex flex-col items-center justify-center bg-gradient-to-b from-emerald-50/60 via-white to-teal-50/30 dark:from-emerald-950/20 dark:via-[#1e1e20] dark:to-teal-950/10 border border-emerald-100/90 dark:border-emerald-900/40 rounded-3xl shadow-sm text-center'>
+      {/* 礼物图标与徽标 */}
+      <div className='relative mb-5'>
+        <div className='w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 transform transition-transform hover:scale-105 duration-300'>
+          <i className='fas fa-gift text-2xl animate-bounce' />
+        </div>
+        <span className='absolute -top-1 -right-1 px-2.5 py-0.5 text-[10px] font-bold bg-amber-400 text-emerald-950 rounded-full shadow-sm'>
+          粉丝福利
+        </span>
+      </div>
+
+      {/* 标题 */}
+      <h3 className='text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2'>
+        本文为【粉丝专享福利】内容
+      </h3>
+
+      {/* 引导文案 */}
+      <p className='text-sm text-gray-600 dark:text-gray-300 max-w-md mb-6 leading-relaxed'>
+        {unlockTips}
+      </p>
+
+      {/* 粉丝权益标签 */}
+      <div className='flex flex-wrap items-center justify-center gap-2 mb-7 max-w-lg'>
+        <span className='inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900 shadow-xs'>
+          ⚡ 免注册免登录
+        </span>
+        <span className='inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900 shadow-xs'>
+          🔑 输入暗号秒开
+        </span>
+        <span className='inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900 shadow-xs'>
+          ✨ 30 天自动免密
+        </span>
+      </div>
+
+      {/* 验证码表单 */}
+      <form onSubmit={handleUnlock} className='w-full max-w-sm space-y-3'>
+        <div className='relative'>
+          <input
+            type='text'
+            value={passcode}
+            onChange={e => {
+              setPasscode(e.target.value)
+              setError('')
+            }}
+            placeholder='请输入粉丝暗号 / 验证码'
+            className='w-full px-4 py-3 text-center tracking-widest text-base font-medium rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/80 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all'
+          />
+        </div>
+
+        {error && (
+          <p className='text-xs text-rose-500 dark:text-rose-400 font-medium animate-shake'>
+            {error}
+          </p>
+        )}
+
+        {success && (
+          <p className='text-xs text-emerald-600 dark:text-emerald-400 font-bold'>
+            ✨ 验证通过，正在为您展示全文...
+          </p>
+        )}
+
+        <button
+          type='submit'
+          disabled={loading || success}
+          className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:from-emerald-800 shadow-md shadow-emerald-600/20 transition-all duration-200 cursor-pointer disabled:opacity-50'>
+          {loading ? '正在验证暗号...' : success ? '解锁成功' : '✨ 立即解锁阅读'}
+        </button>
+
+        {contactUrl && (
+          <div className='pt-1'>
+            <a
+              href={contactUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-xs text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1'>
+              <span>还没有暗号？点击扫码获取</span>
+              <i className='fas fa-arrow-up-right-from-square text-[10px]' />
+            </a>
+          </div>
+        )}
+      </form>
+    </div>
+  )
+}
+
+export default FansLock

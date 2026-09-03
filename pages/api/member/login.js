@@ -93,7 +93,8 @@ export default async function handler(req, res) {
       {
         username: member.username,
         expireDate: member.expireDate,
-        status: member.status
+        status: member.status,
+        level: member.level || 'VIP'
       },
       Boolean(rememberMe)
     )
@@ -106,7 +107,8 @@ export default async function handler(req, res) {
       member: {
         username: member.username,
         expireDate: member.expireDate,
-        status: member.status
+        status: member.status,
+        level: member.level || 'VIP'
       }
     })
   } catch (error) {
