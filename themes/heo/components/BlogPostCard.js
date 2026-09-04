@@ -79,11 +79,17 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                   <span>VIP 专享</span>
                 </div>
               ) : null}
+              {/* 底层柔光微光背景，消除边缘死板留白 */}
+              <div
+                className='absolute inset-0 bg-cover bg-center filter blur-md opacity-30 scale-125 transition-transform duration-500 ease-in-out group-hover:scale-135'
+                style={{ backgroundImage: `url(${post?.pageCoverThumbnail})` }}
+              />
+              {/* 顶层居中 100% 完整展示，杜绝裁切帽子与文字 */}
               <LazyImage
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}
                 alt={post?.title}
-                className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' //宽高都调整为自适应,保证封面居中
+                className='relative z-10 h-full w-full object-contain drop-shadow-sm group-hover:scale-105 group-hover:brightness-95 transition-all duration-500 ease-in-out'
               />
             </div>
           </SmartLink>
