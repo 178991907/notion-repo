@@ -247,18 +247,26 @@ function TopGroup(props) {
         {topPosts?.map((p, index) => {
           return (
             <SmartLink href={`${siteConfig('SUB_PATH', '')}/${p?.slug}`} key={index}>
-              <div className='cursor-pointer h-[164px] group relative flex flex-col w-52 xl:w-full overflow-hidden shadow bg-white dark:bg-black dark:text-white rounded-xl'>
-                <LazyImage
-                  priority={index === 0}
-                  className='h-24 object-cover'
-                  alt={p?.title}
-                  src={p?.pageCoverThumbnail || siteInfo?.pageCover}
-                />
-                <div className='group-hover:text-[var(--heo-color-primary)] dark:group-hover:text-[var(--heo-color-accent)] line-clamp-2 overflow-hidden m-2 font-semibold'>
+              <div className='cursor-pointer h-[164px] group relative flex flex-col w-52 xl:w-full overflow-hidden shadow-xs hover:shadow-md bg-white dark:bg-black dark:text-white rounded-xl transition-all duration-300'>
+                <div className='h-24 w-full overflow-hidden relative flex items-center justify-center bg-gray-50/90 dark:bg-gray-900/60'>
+                  {/* 背景柔光：当图片较扁时自然填补边框，消除黑边或生硬白边 */}
+                  <div
+                    style={{ backgroundImage: `url(${p?.pageCoverThumbnail || siteInfo?.pageCover})` }}
+                    className='absolute inset-0 bg-cover bg-center blur-md opacity-30 scale-125 pointer-events-none'
+                  />
+                  {/* 清晰原图：object-contain 确保无论何种长宽比均 100% 完整显示，Logo 与文字绝不被截断 */}
+                  <LazyImage
+                    priority={index === 0}
+                    className='h-full w-full object-contain relative z-10 p-1 group-hover:scale-105 transition-transform duration-300'
+                    alt={p?.title}
+                    src={p?.pageCoverThumbnail || siteInfo?.pageCover}
+                  />
+                </div>
+                <div className='group-hover:text-[var(--heo-color-primary)] dark:group-hover:text-[var(--heo-color-accent)] line-clamp-2 overflow-hidden m-2 font-semibold text-xs leading-snug'>
                   {p?.title}
                 </div>
                 {/* hover 悬浮的 ‘荐’ 字 */}
-                <div className='opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-200 transition-all absolute -top-2 -left-2 bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] rounded-xl overflow-hidden pr-2 pb-2 pl-4 pt-4 text-xs'>
+                <div className='opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-200 transition-all absolute -top-2 -left-2 bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] rounded-xl overflow-hidden pr-2 pb-2 pl-4 pt-4 text-xs z-20'>
                   {locale.COMMON.RECOMMEND_BADGES}
                 </div>
               </div>
