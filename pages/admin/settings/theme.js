@@ -1722,13 +1722,19 @@ export default function HeoThemeEditor() {
                   <div
                     style={{ background: `linear-gradient(135deg, ${formData.HEO_VIP_COLOR || '#f59e0b'}, ${formData.HEO_VIP_COLOR_END || '#eab308'})` }}
                     className="group relative h-28 rounded-xl text-white p-4 shadow-md overflow-hidden cursor-pointer">
-                    <div className="flex flex-col justify-center h-full transition-opacity duration-300 group-hover:opacity-0">
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-white/20 uppercase w-fit tracking-wider">VIP CLUB</span>
-                      <div className="text-xl font-black mt-1 flex items-center gap-1.5">
-                        <span>{formData.HEO_VIP_ICON || '👑'}</span>
-                        <span>{formData.HEO_SIDEBAR_VIP_CARD_TITLE_1 || '会员专区'}</span>
+                    <div className="flex flex-col justify-center h-full transition-opacity duration-300 group-hover:opacity-0 relative z-10">
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-white/25 uppercase w-fit tracking-wider shadow-xs">VIP CLUB</span>
+                      <div className="text-xl font-black mt-0.5 tracking-tight flex items-center gap-1.5 leading-snug">
+                        {(() => {
+                          const rawT = formData.HEO_SIDEBAR_VIP_CARD_TITLE_1 || '会员专区'
+                          const hasEmoji = /\p{Extended_Pictographic}/u.test(rawT.slice(0, 4))
+                          return hasEmoji ? rawT : `${formData.HEO_VIP_ICON || '👑'} ${rawT}`
+                        })()}
                       </div>
-                      <div className="text-xs text-white/90 truncate mt-0.5">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_2 || '解锁全部深度实战专栏与源码'}</div>
+                      <div className="text-xs text-white/95 truncate mt-0.5 font-medium">{formData.HEO_SIDEBAR_VIP_CARD_TITLE_2 || '解锁全部深度实战专栏与源码'}</div>
+                      <div className="absolute right-2 bottom-0 opacity-20 pointer-events-none text-6xl text-white leading-none select-none">
+                        {formData.HEO_VIP_ICON || '👑'}
+                      </div>
                     </div>
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center font-extrabold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {formData.HEO_SIDEBAR_VIP_CARD_TITLE_3 || '点击进入会员专区 →'}
