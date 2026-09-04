@@ -104,6 +104,20 @@ export default function AdminDashboard() {
 
         <h2 className="text-lg font-medium text-gray-900 mb-4">核心管理入口</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* 会员与邀请码管理 */}
+          <Link href="/admin/members" className="group block h-full">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-6 border border-gray-200 h-full flex flex-col items-start cursor-pointer hover:border-amber-400">
+              <div className="p-3 bg-amber-50 text-amber-600 rounded-lg mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+              </div>
+              <div className="flex items-center justify-between w-full">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">🔑 会员与邀请码管理</h3>
+                <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">核心功能</span>
+              </div>
+              <p className="text-sm text-gray-500 mt-1">管理会员账号、生成一人一码（一次性）与全站固定通用码，一键批量生成与复制。</p>
+            </div>
+          </Link>
+
           {/* 分类管理 */}
           <Link href="/admin/categories" className="group block h-full">
             <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-6 border border-gray-200 h-full flex flex-col items-start cursor-pointer hover:border-blue-300">
