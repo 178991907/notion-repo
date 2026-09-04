@@ -9,9 +9,14 @@ import Link from 'next/link'
 export default function AdminMembers() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('invites') // 'invites' | 'members'
+  const [activeTab, setActiveTab] = useState('invites') // 'invites' | 'members' | 'fans'
   const [members, setMembers] = useState([])
   const [inviteCodes, setInviteCodes] = useState([])
+  const [fansConfig, setFansConfig] = useState({
+    defaultPasscode: '888888',
+    unlockTips: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+  })
+  const [savingFans, setSavingFans] = useState(false)
   const [toast, setToast] = useState(null)
 
   // 弹窗状态
@@ -66,6 +71,12 @@ export default function AdminMembers() {
       if (data.success) {
         setMembers(data.members || [])
         setInviteCodes(data.inviteCodes || [])
+        if (data.fansConfig) {
+          setFansConfig({
+            defaultPasscode: data.fansConfig.defaultPasscode || '888888',
+            unlockTips: data.fansConfig.unlockTips || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+          })
+        }
       } else {
         showToast('error', data.message || '加载数据失败')
       }
@@ -80,6 +91,37 @@ export default function AdminMembers() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  // 保存粉丝专区通用暗号与引导文案
+  const handleSaveFansConfig = async (e) => {
+    if (e) e.preventDefault()
+    if (!fansConfig.defaultPasscode.trim()) {
+      showToast('error', '通用验证码不能为空')
+      return
+    }
+    setSavingFans(true)
+    try {
+      const res = await fetch('/api/admin/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_fans_config',
+          defaultPasscode: fansConfig.defaultPasscode.trim(),
+          unlockTips: fansConfig.unlockTips.trim()
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        showToast('success', '✨ 粉丝专区通用验证码与引导语保存成功，即刻生效！')
+      } else {
+        showToast('error', data.message || '保存失败')
+      }
+    } catch (err) {
+      showToast('error', '保存发生异常')
+    } finally {
+      setSavingFans(false)
+    }
+  }
 
   // 复制邀请码
   const copyToClipboard = (text) => {
@@ -258,7 +300,7 @@ export default function AdminMembers() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                onClick={fetchData}
+                onClick={() => { void fetchData() }}
                 className="text-xs font-bold text-gray-600 hover:text-blue-600 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-blue-300 transition flex items-center gap-1 cursor-pointer">
                 <span>🔄 刷新数据</span>
               </button>
@@ -304,17 +346,21 @@ export default function AdminMembers() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xs p-5 border border-gray-100 flex items-center justify-between">
+          <div
+            onClick={() => setActiveTab('fans')}
+            className="bg-white rounded-2xl shadow-xs p-5 border border-gray-100 hover:border-emerald-300 hover:shadow-sm transition flex items-center justify-between cursor-pointer group">
             <div>
-              <div className="text-xs font-bold text-gray-400 mb-1">数据直连状态</div>
-              <div className="text-lg font-black text-emerald-600 flex items-center gap-1.5 mt-0.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                Notion 同步正常
+              <div className="text-xs font-bold text-gray-400 mb-1 flex items-center gap-1.5">
+                <span>粉丝专区通用暗号</span>
+                <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-bold">免登录</span>
               </div>
-              <div className="text-[11px] text-gray-400 mt-1">云端即时双向读写</div>
+              <div className="text-2xl font-mono font-black text-emerald-700 tracking-wider group-hover:text-emerald-600 transition">
+                {fansConfig.defaultPasscode || '888888'}
+              </div>
+              <div className="text-[11px] text-emerald-600/90 font-medium mt-1">👑 会员享有全站免码直读特权</div>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold">
-              ⚡
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+              🎁
             </div>
           </div>
         </div>
@@ -322,7 +368,7 @@ export default function AdminMembers() {
         {/* Tab 导航与操作栏 */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           {/* Tab 切换 */}
-          <div className="flex items-center gap-2 bg-gray-200/80 p-1.5 rounded-xl w-fit">
+          <div className="flex items-center gap-2 bg-gray-200/80 p-1.5 rounded-xl w-fit flex-wrap">
             <button
               onClick={() => setActiveTab('invites')}
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 ${
@@ -347,11 +393,23 @@ export default function AdminMembers() {
                 {members.length}
               </span>
             </button>
+            <button
+              onClick={() => setActiveTab('fans')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                activeTab === 'fans'
+                  ? 'bg-white text-emerald-800 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}>
+              <span>🎁 粉丝专区访问码与等级指南</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono font-bold">
+                {fansConfig.defaultPasscode || '888888'}
+              </span>
+            </button>
           </div>
 
           {/* 右侧快捷按钮 */}
           <div className="flex items-center gap-2.5 flex-wrap">
-            {activeTab === 'invites' ? (
+            {activeTab === 'invites' && (
               <>
                 <button
                   onClick={() => setShowBatchModal(true)}
@@ -364,12 +422,22 @@ export default function AdminMembers() {
                   <span>+ 新建邀请码</span>
                 </button>
               </>
-            ) : (
+            )}
+            {activeTab === 'members' && (
               <button
                 onClick={() => setShowMemberModal(true)}
                 className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer">
                 <span>+ 管理员手动建账号</span>
               </button>
+            )}
+            {activeTab === 'fans' && (
+              <a
+                href="/fans"
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                <span>🔗 预览粉丝专区前台 →</span>
+              </a>
             )}
           </div>
         </div>
@@ -487,7 +555,7 @@ export default function AdminMembers() {
                         {/* 操作 */}
                         <td className="py-3 px-4 text-right">
                           <button
-                            onClick={() => handleToggleInviteStatus(item)}
+                            onClick={() => { void handleToggleInviteStatus(item) }}
                             className="text-xs text-gray-500 hover:text-red-600 transition underline cursor-pointer">
                             {item.status === 'Active' ? '设为作废' : '恢复启用'}
                           </button>
@@ -571,6 +639,208 @@ export default function AdminMembers() {
             )}
           </div>
         )}
+
+        {/* ======================= Tab 3: 粉丝专区访问码与等级指南 ======================= */}
+        {activeTab === 'fans' && (
+          <div className="space-y-6">
+            {/* 顶部声明：会员直通特权 */}
+            <div className="p-5 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-amber-500/10 border border-emerald-300/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center text-2xl font-bold shadow-sm shrink-0">
+                  🎁
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-gray-900 text-base">粉丝专区限制访问码管理中心</span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                      免登录极速阅读
+                    </span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                      👑 会员全站免码直通
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                    粉丝专区专为微信公众号与社群引流设计，读者无需注册账号，输入暗号即可秒开阅读。同时，已登录的网站会员自动享有最高特权，完全免输暗号直接畅读！
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* 卡片 1: 全站通用粉丝暗号与引导语配置 */}
+              <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-6 space-y-5">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xl">🔑</span>
+                    <div>
+                      <h4 className="font-bold text-gray-900 text-sm">全站默认通用暗号与引导文案</h4>
+                      <p className="text-xs text-gray-400">文章未单独填写专属码时，全站通用此验证码</p>
+                    </div>
+                  </div>
+                </div>
+
+                <form onSubmit={(e) => { void handleSaveFansConfig(e) }} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 mb-1">
+                      全站默认通用暗号 / 验证码
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={fansConfig.defaultPasscode}
+                        onChange={(e) => setFansConfig({ ...fansConfig, defaultPasscode: e.target.value })}
+                        placeholder="888888"
+                        className="w-full px-4 py-2.5 rounded-xl border border-gray-300 font-mono font-bold text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 text-base tracking-widest"
+                      />
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      当 Notion 文章中勾选了 <code className="text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-bold">fans</code> 但未填写独立验证码时，输入该暗号即可一键解锁。
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 mb-1">
+                      粉丝解锁引导提示语
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={fansConfig.unlockTips}
+                      onChange={(e) => setFansConfig({ ...fansConfig, unlockTips: e.target.value })}
+                      placeholder="关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码"
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-xs text-gray-800 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 leading-relaxed"
+                    />
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      展示在文章未解锁卡片及专区横幅中的引导说明，指引读者前往公众号或社群获取。
+                    </p>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between">
+                    <button
+                      type="submit"
+                      disabled={savingFans}
+                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer flex items-center gap-1.5">
+                      <span>{savingFans ? '⏳ 正在保存...' : '💾 保存通用暗号与引导语'}</span>
+                    </button>
+                    <Link
+                      href="/admin/settings/theme"
+                      className="text-xs text-emerald-700 hover:underline font-bold">
+                      调整专区图标与颜色样式 →
+                    </Link>
+                  </div>
+                </form>
+              </div>
+
+              {/* 卡片 2: 业务机制与登录持久性核心解答 */}
+              <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-6 space-y-4">
+                <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
+                  <span className="text-xl">💡</span>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">核心特权机制与登录免密说明</h4>
+                    <p className="text-xs text-gray-400">保障最佳用户体验与引流转化</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3.5 text-xs text-gray-600 leading-relaxed">
+                  <div className="p-3.5 bg-amber-50/70 border border-amber-200/80 rounded-xl space-y-1.5">
+                    <div className="font-black text-amber-900 flex items-center gap-1.5 text-xs">
+                      <span>👑</span>
+                      <span>会员不需要输入访问码，登录直接畅读！</span>
+                    </div>
+                    <p className="text-amber-800 text-[11px] leading-relaxed">
+                      已在系统中全面实现：<strong>会员权限涵盖粉丝专区</strong>。只要读者登录了会员账号（VIP 或 SVIP），阅读任何粉丝福利文章，系统都会自动识别会员身份并直接放行，无需读者去公众号查暗号或输入验证码！
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 bg-blue-50/70 border border-blue-200/80 rounded-xl space-y-1.5">
+                    <div className="font-black text-blue-900 flex items-center gap-1.5 text-xs">
+                      <span>🔄</span>
+                      <span>登录后全站免密，阅读每篇文章无需重复登录！</span>
+                    </div>
+                    <p className="text-blue-800 text-[11px] leading-relaxed">
+                      会员登录成功后，系统会安全签发 <strong>30 天持久有效凭证 (Token)</strong> 并保存在浏览器中。无论是阅读 VIP 专栏、SVIP 深度文章还是粉丝专区，均<strong>全自动免密放行</strong>，无需每看一篇都重复登录！
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 bg-emerald-50/70 border border-emerald-200/80 rounded-xl space-y-1.5">
+                    <div className="font-black text-emerald-900 flex items-center gap-1.5 text-xs">
+                      <span>⚡</span>
+                      <span>一文双轨策略：既是粉丝内容也是会员内容</span>
+                    </div>
+                    <p className="text-emerald-800 text-[11px] leading-relaxed">
+                      同一篇文章可同时勾选 <code className="font-bold text-emerald-900">fans</code> 和 <code className="font-bold text-amber-900">vip</code>：普通访客可凭暗号极速解锁；已有会员一键登录直接解锁，形成完美的免费引流到付费会员的闭环！
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 卡片 3: Notion 文章数据库字段设置全景指南 */}
+            <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xl">📝</span>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">Notion 博客文章库字段设置指南（已为您自动添加）</h4>
+                    <p className="text-xs text-gray-400">我们已通过官方 API 自动为您的 Notion 数据库创建了对应字段，写文章时按需选择即可生效</p>
+                  </div>
+                </div>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                  ✅ 数据库属性已全部就绪
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold uppercase">
+                      <th className="py-3 px-3">Notion 属性名称</th>
+                      <th className="py-3 px-3">属性类型</th>
+                      <th className="py-3 px-3">可填选项 / 格式</th>
+                      <th className="py-3 px-3">业务规则与权限效果</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 text-gray-700 font-medium">
+                    <tr className="hover:bg-gray-50/80">
+                      <td className="py-3 px-3 font-mono font-bold text-emerald-700">fans</td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">复选框 (Checkbox)</span></td>
+                      <td className="py-3 px-3 font-bold text-gray-800">勾选 ☑️</td>
+                      <td className="py-3 px-3 leading-relaxed">
+                        标记为<strong>粉丝福利专区文章</strong>。未登录访客需输入访问码解锁；会员登录后直接放行免输码。
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50/80">
+                      <td className="py-3 px-3 font-mono font-bold text-emerald-700">fans_code</td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">文本 (Text)</span></td>
+                      <td className="py-3 px-3 font-mono text-blue-600">如 AI2026 / 留空</td>
+                      <td className="py-3 px-3 leading-relaxed">
+                        <strong>单篇专属独立验证码</strong>。若填写，读者必须输入该专属码才能阅读；若留空，则自动使用全站默认通用暗号（当前为 <code className="text-emerald-700 font-bold">{fansConfig.defaultPasscode}</code>）。
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50/80">
+                      <td className="py-3 px-3 font-mono font-bold text-amber-700">vip</td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">复选框 (Checkbox)</span></td>
+                      <td className="py-3 px-3 font-bold text-gray-800">勾选 ☑️</td>
+                      <td className="py-3 px-3 leading-relaxed">
+                        标记为<strong>会员专享文章</strong>。未登录访客被拦截并提示登录/注册。
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50/80">
+                      <td className="py-3 px-3 font-mono font-bold text-purple-700">vip_level</td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">单选 (Select)</span></td>
+                      <td className="py-3 px-3">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold mr-1.5">VIP</span>
+                        <span className="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold">SVIP</span>
+                      </td>
+                      <td className="py-3 px-3 leading-relaxed">
+                        <strong>会员等级要求</strong>。选择 <code className="text-amber-800 font-bold">VIP</code>：普通会员与高级会员皆可畅读；选择 <code className="text-purple-800 font-bold">SVIP</code>：仅高级会员可读，普通会员进入会弹出升级至 SVIP 的尊享提示。
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* ===================== 弹窗 1: 单个创建邀请码 ===================== */}
@@ -582,7 +852,7 @@ export default function AdminMembers() {
             </h3>
             <p className="text-xs text-gray-500 mb-4">可选择创建「一人一码」或「全站固定通用码」</p>
 
-            <form onSubmit={handleCreateSingle} className="space-y-4">
+            <form onSubmit={(e) => { void handleCreateSingle(e) }} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">模式类型选择</label>
                 <div className="grid grid-cols-2 gap-2">
@@ -685,7 +955,7 @@ export default function AdminMembers() {
             </h3>
             <p className="text-xs text-gray-500 mb-4">系统将自动生成不重复的一次性核销码，适合私发邀请</p>
 
-            <form onSubmit={handleBatchCreate} className="space-y-4">
+            <form onSubmit={(e) => { void handleBatchCreate(e) }} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">生成数量 (1-20)</label>
@@ -773,7 +1043,7 @@ export default function AdminMembers() {
             </h3>
             <p className="text-xs text-gray-500 mb-4">直接为用户创建账号密码，创建后用户可立即登录</p>
 
-            <form onSubmit={handleCreateMember} className="space-y-4">
+            <form onSubmit={(e) => { void handleCreateMember(e) }} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">用户名 / 账号</label>
                 <input

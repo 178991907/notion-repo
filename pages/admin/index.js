@@ -111,10 +111,10 @@ export default function AdminDashboard() {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
               </div>
               <div className="flex items-center justify-between w-full">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">🔑 会员与邀请码管理</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">🔑 会员、邀请码与粉丝专区</h3>
                 <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">核心功能</span>
               </div>
-              <p className="text-sm text-gray-500 mt-1">管理会员账号、生成一人一码（一次性）与全站固定通用码，一键批量生成与复制。</p>
+              <p className="text-sm text-gray-500 mt-1">管理会员体系、生成注册邀请码（一人一码/固定码），管理粉丝专区限制访问码与免登录特权。</p>
             </div>
           </Link>
 

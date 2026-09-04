@@ -32,4 +32,31 @@ describe('粉丝专区免登录验证码逻辑', () => {
     const key = getFansStorageKey('my-slug-123')
     expect(key).toBe('fans_unlocked_post_my-slug-123')
   })
+
+  it('会员免码直通特权逻辑：已登录合格会员直接视为已解锁粉丝文章', () => {
+    // 模拟 heo/index.js 中的权限判定公式
+    const checkAccess = ({ isFansPost, fansUnlocked, isLoggedIn, userLevel, requiredLevel }) => {
+      const isMemberQualified = Boolean(isLoggedIn && (!requiredLevel || (userLevel === 'SVIP' || userLevel === requiredLevel)))
+      const isFansSatisfied = Boolean(fansUnlocked || isMemberQualified)
+      const isFansLocked = Boolean(isFansPost && !isFansSatisfied)
+      const isVipLocked = Boolean(requiredLevel && !isMemberQualified && !fansUnlocked)
+      return { canRead: !isFansLocked && !isVipLocked }
+    }
+
+    // 1. 纯粉丝文章，访客未登录且未输码 -> 锁定
+    expect(checkAccess({ isFansPost: true, fansUnlocked: false, isLoggedIn: false }).canRead).toBe(false)
+
+    // 2. 纯粉丝文章，访客输入暗号 -> 放行
+    expect(checkAccess({ isFansPost: true, fansUnlocked: true, isLoggedIn: false }).canRead).toBe(true)
+
+    // 3. 纯粉丝文章，VIP 会员登录 -> 免输暗号直接放行
+    expect(checkAccess({ isFansPost: true, fansUnlocked: false, isLoggedIn: true, userLevel: 'VIP' }).canRead).toBe(true)
+
+    // 4. 双轨文章（既是粉丝也是 VIP），未登录用户输入暗号 -> 放行
+    expect(checkAccess({ isFansPost: true, fansUnlocked: true, isLoggedIn: false, requiredLevel: 'VIP' }).canRead).toBe(true)
+
+    // 5. 双轨文章（既是粉丝也是 VIP），VIP 会员登录未输码 -> 免暗号直接放行
+    expect(checkAccess({ isFansPost: true, fansUnlocked: false, isLoggedIn: true, userLevel: 'VIP', requiredLevel: 'VIP' }).canRead).toBe(true)
+  })
 })
+

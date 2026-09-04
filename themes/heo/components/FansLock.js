@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { siteConfig } from '@/lib/config'
 import CONFIG from '../config'
 import { verifyFansPasscode, saveFansUnlockRecord } from '@/lib/fans/auth'
+import { useMember } from '@/hooks/useMember'
 
 /**
  * 粉丝专享福利内容拦截与验证码解锁卡片
  * 免登录免注册，输入暗号即可秒看
  */
 export const FansLock = ({ post, onUnlocked }) => {
+  const { openAuthModal } = useMember()
   const [passcode, setPasscode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -135,6 +137,16 @@ export const FansLock = ({ post, onUnlocked }) => {
             </a>
           </div>
         )}
+
+        <div className='pt-3 mt-1 border-t border-emerald-100/70 dark:border-emerald-900/30 flex items-center justify-center gap-1.5 text-xs text-gray-500 dark:text-gray-400'>
+          <span>👑 网站会员可免暗号畅读</span>
+          <button
+            type='button'
+            onClick={() => openAuthModal('login')}
+            className='font-bold text-amber-600 dark:text-amber-400 hover:underline cursor-pointer transition'>
+            点击登录会员 →
+          </button>
+        </div>
       </form>
     </div>
   )

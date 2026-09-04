@@ -261,10 +261,10 @@ const LayoutSlug = props => {
   // 1. 会员专享判定（支持普通 VIP 与高级 SVIP 多等级判断）
   const userLevel = member?.level || 'VIP'
   const requiredLevel = post?.vip_level || (post?.vip ? 'VIP' : null)
-  const isVipLocked = Boolean(requiredLevel && (!isLoggedIn || !hasAccessLevel(userLevel, requiredLevel)))
-  const vipLockReason = !isLoggedIn ? 'not_logged_in' : 'level_required'
+  // 会员身份是否满足此文章的会员等级要求（或无更高要求）
+  const isMemberQualified = Boolean(isLoggedIn && (!requiredLevel || hasAccessLevel(userLevel, requiredLevel)))
 
-  // 2. 粉丝专区判定（免注册免登录暗号解锁）
+  // 2. 粉丝专区判定（免注册免登录暗号解锁，会员登录直接享有免码阅读特权）
   const isFansPost = Boolean(post?.fans || post?.fans_code)
   const [fansUnlocked, setFansUnlocked] = useState(false)
   useEffect(() => {
@@ -272,7 +272,14 @@ const LayoutSlug = props => {
       setFansUnlocked(isFansPostUnlocked(post.id || post.slug))
     }
   }, [isFansPost, post])
-  const isFansLocked = Boolean(isFansPost && !fansUnlocked)
+
+  // 粉丝特权放行条件：已输入正确暗号，或当前已登录符合等级要求的会员账号
+  const isFansSatisfied = Boolean(fansUnlocked || isMemberQualified)
+  const isFansLocked = Boolean(isFansPost && !isFansSatisfied)
+
+  // 会员锁定条件：文章设定了会员等级要求，且会员不达标，且未通过粉丝暗号解锁
+  const isVipLocked = Boolean(requiredLevel && !isMemberQualified && !fansUnlocked)
+  const vipLockReason = !isLoggedIn ? 'not_logged_in' : 'level_required'
 
   const [hasCode, setHasCode] = useState(false)
 
