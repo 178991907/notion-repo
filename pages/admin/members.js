@@ -17,6 +17,8 @@ export default function AdminMembers() {
     unlockTips: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
   })
   const [savingFans, setSavingFans] = useState(false)
+  const [syncingArticles, setSyncingArticles] = useState(false)
+  const [syncSummary, setSyncSummary] = useState(null)
   const [toast, setToast] = useState(null)
 
   // 弹窗状态
@@ -120,6 +122,32 @@ export default function AdminMembers() {
       showToast('error', '保存发生异常')
     } finally {
       setSavingFans(false)
+    }
+  }
+
+  // 一键扫描 Notion 博客文章数据库并自动补齐空白访问码与 VIP 等级
+  const handleSyncNotionArticles = async () => {
+    setSyncingArticles(true)
+    setSyncSummary(null)
+    try {
+      const res = await fetch('/api/admin/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sync_notion_articles'
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSyncSummary(data)
+        showToast('success', `🎉 同步完成！共扫描 ${data.totalScanned} 篇，自动补齐 ${data.updatedFansCount} 篇访问码，${data.updatedVipCount} 篇 VIP 等级！`)
+      } else {
+        showToast('error', data.message || '同步失败')
+      }
+    } catch (err) {
+      showToast('error', '扫描同步异常: ' + err.message)
+    } finally {
+      setSyncingArticles(false)
     }
   }
 
@@ -666,7 +694,45 @@ export default function AdminMembers() {
                   </p>
                 </div>
               </div>
+
+              {/* 快捷动作：一键扫描 Notion 并自动补齐 */}
+              <div className="shrink-0 flex flex-col sm:items-end gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleSyncNotionArticles}
+                  disabled={syncingArticles}
+                  className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer flex items-center gap-2">
+                  <span>{syncingArticles ? '⏳ 正在扫描并回写 Notion...' : '⚡ 一键扫描 Notion 补齐访问码与 VIP'}</span>
+                </button>
+                <span className="text-[10px] text-gray-500">
+                  Notion 中勾选后未填写的文章，一键自动填好
+                </span>
+              </div>
             </div>
+
+            {/* 同步结果反馈条 */}
+            {syncSummary && (
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-900 shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🎉</span>
+                  <div>
+                    <strong>扫描完成：</strong>共检查了 {syncSummary.totalScanned} 篇文章，
+                    已成功为 <strong className="text-emerald-700 font-mono">{syncSummary.updatedFansCount}</strong> 篇补齐默认访问码，
+                    为 <strong className="text-purple-700 font-mono">{syncSummary.updatedVipCount}</strong> 篇补齐 VIP 等级！
+                    {syncSummary.updatedTitles?.length > 0 && (
+                      <span className="text-gray-600 ml-1">
+                        (涉及: {syncSummary.updatedTitles.slice(0, 3).join(', ')}{syncSummary.updatedTitles.length > 3 ? ' 等' : ''})
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setSyncSummary(null)} 
+                  className="text-gray-400 hover:text-gray-600 font-bold px-2 py-1 text-xs">
+                  ✕
+                </button>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* 卡片 1: 全站通用粉丝暗号与引导语配置 */}

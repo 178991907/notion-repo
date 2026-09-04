@@ -1,4 +1,4 @@
-import { listMembers, listInviteCodes, createInviteCode, updateInviteCodeStatus, createMember } from '@/lib/member/notion'
+import { listMembers, listInviteCodes, createInviteCode, updateInviteCodeStatus, createMember, syncNotionArticleProperties } from '@/lib/member/notion'
 
 /**
  * 校验管理员登录凭证
@@ -147,6 +147,16 @@ export default async function handler(req, res) {
             defaultPasscode: global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE,
             unlockTips: global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS
           }
+        })
+      }
+
+      // 6. 扫描 Notion 博客数据库并自动补齐空白访问码与 VIP 等级
+      if (action === 'sync_notion_articles') {
+        const defaultPasscode = global.__adminConfigOverrides?.HEO_FANS_DEFAULT_PASSCODE || process.env.HEO_FANS_DEFAULT_PASSCODE || '888888'
+        const result = await syncNotionArticleProperties(defaultPasscode)
+        return res.status(200).json({
+          success: true,
+          ...result
         })
       }
 
