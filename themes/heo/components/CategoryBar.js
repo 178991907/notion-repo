@@ -93,24 +93,19 @@ export default function CategoryBar(props) {
           <MenuItem
             href='/vip'
             isVip
-            name={
-              <span className='inline-flex items-center gap-1 font-extrabold' style={{ color: siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG) }}>
-                <span>{siteConfig('HEO_VIP_ICON', '👑', CONFIG)}</span>
-                <span>{siteConfig('HEO_CATEGORY_BAR_VIP_TITLE', '会员专区', CONFIG)}</span>
-              </span>
-            }
+            customColor={siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG)}
+            customIcon={siteConfig('HEO_VIP_ICON', '👑', CONFIG)}
+            name={siteConfig('HEO_CATEGORY_BAR_VIP_TITLE', '会员专区', CONFIG)}
           />
         )}
         {/* 粉丝福利专属 Tab 快捷入口 */}
         {Boolean(siteConfig('HEO_CATEGORY_BAR_FANS', true, CONFIG)) && (
           <MenuItem
             href='/fans'
-            name={
-              <span className='inline-flex items-center gap-1 font-extrabold' style={{ color: siteConfig('HEO_FANS_COLOR', '#10b981', CONFIG) }}>
-                <span>{siteConfig('HEO_FANS_ICON', '🎁', CONFIG)}</span>
-                <span>{siteConfig('HEO_CATEGORY_BAR_FANS_TITLE', '粉丝福利', CONFIG)}</span>
-              </span>
-            }
+            isFans
+            customColor={siteConfig('HEO_FANS_COLOR', '#10b981', CONFIG)}
+            customIcon={siteConfig('HEO_FANS_ICON', '🎁', CONFIG)}
+            name={siteConfig('HEO_CATEGORY_BAR_FANS_TITLE', '粉丝福利', CONFIG)}
           />
         )}
         {categoryOptions?.map((c, index) => (
@@ -146,17 +141,51 @@ export default function CategoryBar(props) {
 }
 
 /**
- * 按钮
+ * 分类条按钮组件（自适应悬停反白与选中高亮）
  * @param {*} param0
  * @returns
  */
-const MenuItem = ({ href, name, isVip }) => {
+const MenuItem = ({ href, name, isVip, isFans, customColor, customIcon }) => {
   const router = useRouter()
   const { category } = router.query
-  const selected = (category && category === name) || (href === '/vip' && router.asPath?.startsWith('/vip'))
+  const isSelected =
+    (category && category === name) ||
+    (href === '/vip' && router.asPath?.startsWith('/vip')) ||
+    (href === '/fans' && router.asPath?.startsWith('/fans'))
+
+  const [isHovered, setIsHovered] = useState(false)
+
+  // 会员专区与粉丝福利定制 Tab
+  if (isVip || isFans) {
+    const color = customColor || (isVip ? '#f59e0b' : '#10b981')
+    const showActive = isSelected || isHovered
+
+    return (
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          backgroundColor: showActive ? color : `${color}18`,
+          borderColor: showActive ? color : `${color}40`,
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          color: showActive ? '#ffffff' : color
+        }}
+        className='whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2.5 py-0.5 rounded-lg cursor-pointer shadow-xs'>
+        <SmartLink href={href} className='flex items-center gap-1.5'>
+          <span className='text-xs' style={{ color: showActive ? '#ffffff' : color }}>{customIcon}</span>
+          <span style={{ color: showActive ? '#ffffff' : color }}>{name}</span>
+        </SmartLink>
+      </div>
+    )
+  }
+
+  // 普通分类 Tab
   return (
     <div
-      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2.5 py-0.5 rounded-lg text-gray-900 dark:text-white hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] ${selected ? 'text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)]' : ''} ${isVip && !selected ? 'border border-amber-300/70 dark:border-amber-700/50 bg-amber-500/10 dark:bg-amber-400/15 hover:border-transparent' : ''}`}>
+      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2.5 py-0.5 rounded-lg text-gray-900 dark:text-white hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] ${
+        isSelected ? 'text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)]' : ''
+      }`}>
       <SmartLink href={href}>{name}</SmartLink>
     </div>
   )

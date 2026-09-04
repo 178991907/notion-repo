@@ -23,27 +23,27 @@ export default function VipCard() {
     <div className='relative h-28 text-white flex flex-col select-none'>
       <FlipCard
         style={{ background: `linear-gradient(135deg, ${vipColor}, ${vipColorEnd})` }}
-        className='cursor-pointer lg:p-6 p-4 border rounded-xl shadow-md border-white/20'
+        className='cursor-pointer lg:p-6 p-4 border rounded-xl shadow-md border-white/20 bg-gradient-to-br from-amber-500 to-yellow-600'
         frontContent={
-          <div className='h-full flex flex-col justify-center'>
+          <div className='h-full flex flex-col justify-center relative z-10'>
             <div className='flex items-center gap-2'>
-              <span className='px-2 py-0.5 rounded text-[10px] font-black bg-white/20 uppercase tracking-widest text-amber-100'>VIP CLUB</span>
+              <span className='px-2 py-0.5 rounded text-[10px] font-black bg-white/25 uppercase tracking-widest text-white shadow-xs'>VIP CLUB</span>
             </div>
-            <h2 className='font-[1000] text-2xl mt-1 text-white tracking-tight drop-shadow-xs'>
+            <h2 className='font-[1000] text-2xl mt-1 text-white tracking-tight drop-shadow-md flex items-center gap-1.5'>
               {title1}
             </h2>
-            <h3 className='text-xs text-amber-100/90 pt-1 truncate'>
+            <h3 className='text-xs text-white/95 pt-1 truncate font-medium drop-shadow-xs'>
               {title2}
             </h3>
             <div
-              className='absolute right-2 bottom-1 opacity-15 pointer-events-none text-6xl'>
+              className='absolute right-2 bottom-1 opacity-20 pointer-events-none text-6xl text-white'>
               <i className='fas fa-crown' />
             </div>
           </div>
         }
         backContent={
-          <SmartLink href={url}>
-            <div className='font-extrabold text-lg h-full flex items-center justify-center gap-2 text-white hover:scale-105 transition-transform'>
+          <SmartLink href={url} className='h-full w-full block'>
+            <div className='font-extrabold text-base lg:text-lg h-full flex items-center justify-center gap-2 text-white bg-black/25 backdrop-blur-xs rounded-xl hover:scale-105 transition-transform px-4 text-center shadow-inner'>
               <span>{title3}</span>
             </div>
           </SmartLink>

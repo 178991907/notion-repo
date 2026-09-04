@@ -6,13 +6,18 @@ import React from 'react'
  * @returns
  */
 export default function FlipCard(props) {
+  const cardStyle = props.style || {}
   return (
-    <div className='flip-card'>
+    <div className='flip-card' style={cardStyle}>
       <div className='flip-card-inner'>
-        <div className={`flip-card-front ${props.className || ''}`}>
+        <div
+          className={`flip-card-front ${props.className || ''}`}
+          style={props.frontStyle || cardStyle}>
           {props.frontContent}
         </div>
-        <div className={`flip-card-back ${props.className || ''}`}>
+        <div
+          className={`flip-card-back ${props.className || ''}`}
+          style={props.backStyle || cardStyle}>
           {props.backContent}
         </div>
       </div>
