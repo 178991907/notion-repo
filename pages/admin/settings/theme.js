@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 // ==================== 8套专业预设配色方案 ====================
 const COLOR_PRESETS = [
