@@ -18,6 +18,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "watch:notion": "node scripts/notion-sync-daemon.js",
     "build": "cross-env BUILD_MODE=true next build",
     "start": "next start",
     "post-build": "next-sitemap --config next-sitemap.config.js",
