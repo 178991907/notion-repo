@@ -8,15 +8,15 @@ import React from 'react'
 export default function FlipCard(props) {
   const cardStyle = props.style || {}
   return (
-    <div className='flip-card' style={cardStyle}>
-      <div className='flip-card-inner'>
+    <div className='flip-card rounded-xl overflow-hidden'>
+      <div className='flip-card-inner rounded-xl'>
         <div
-          className={`flip-card-front ${props.className || ''}`}
+          className={`flip-card-front rounded-xl overflow-hidden ${props.className || ''}`}
           style={props.frontStyle || cardStyle}>
           {props.frontContent}
         </div>
         <div
-          className={`flip-card-back ${props.className || ''}`}
+          className={`flip-card-back rounded-xl overflow-hidden ${props.className || ''}`}
           style={props.backStyle || cardStyle}>
           {props.backContent}
         </div>
