@@ -56,40 +56,35 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                 (POST_TWO_COLS ? ' 2xl:w-full' : '') +
                 ' relative w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
               }>
-              {/* 角标展示优先级：粉丝专享 > SVIP尊享 > VIP专享 */}
+              {/* 角标展示优先级：粉丝专享 > SVIP尊享 > VIP专享（提升层级至 z-30，确保绝不被图片遮挡） */}
               {post?.fans ? (
                 <div
                   style={{ background: `linear-gradient(135deg, ${fansColor}, ${fansColorEnd})` }}
-                  className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  className='absolute top-2.5 left-2.5 z-30 pointer-events-none flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
                   <span>{fansIcon}</span>
                   <span>粉丝专享</span>
                 </div>
               ) : post?.vip_level === 'SVIP' ? (
                 <div
                   style={{ background: `linear-gradient(135deg, ${svipColor}, ${svipColorEnd})` }}
-                  className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  className='absolute top-2.5 left-2.5 z-30 pointer-events-none flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
                   <span>{svipIcon}</span>
                   <span>SVIP 尊享</span>
                 </div>
               ) : post?.vip ? (
                 <div
                   style={{ background: `linear-gradient(135deg, ${vipColor}, ${vipColorEnd})` }}
-                  className='absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
+                  className='absolute top-2.5 left-2.5 z-30 pointer-events-none flex items-center gap-1 px-2.5 py-0.5 rounded-md text-white text-[11px] font-bold shadow-md backdrop-blur-xs'>
                   <span>{vipIcon}</span>
                   <span>VIP 专享</span>
                 </div>
               ) : null}
-              {/* 底层柔光微光背景，消除边缘死板留白 */}
-              <div
-                className='absolute inset-0 bg-cover bg-center filter blur-md opacity-30 scale-125 transition-transform duration-500 ease-in-out group-hover:scale-135'
-                style={{ backgroundImage: `url(${post?.pageCoverThumbnail})` }}
-              />
-              {/* 顶层居中 100% 完整展示，杜绝裁切帽子与文字 */}
+              {/* 卡片封面图整齐居中饱满呈现 */}
               <LazyImage
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}
                 alt={post?.title}
-                className='relative z-10 h-full w-full object-contain drop-shadow-sm group-hover:scale-105 group-hover:brightness-95 transition-all duration-500 ease-in-out'
+                className='h-full w-full object-cover object-center group-hover:scale-105 group-hover:brightness-95 transition-all duration-500 ease-in-out'
               />
             </div>
           </SmartLink>
