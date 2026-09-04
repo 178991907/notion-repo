@@ -1628,9 +1628,28 @@ export default function HeoThemeEditor() {
 
         {/* ==================== 会员专区设置 ==================== */}
         {activeTab === 'member' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 位置 1：文章列表上方分类横条 (CategoryBar) */}
-            <SectionCard>
+          <div className="space-y-6">
+            {/* 顶部长条引导卡片 */}
+            <div className="p-5 bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-blue-500/10 border border-amber-300/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl font-bold shadow-sm shrink-0">
+                  🔑
+                </div>
+                <div>
+                  <div className="font-bold text-gray-900 text-sm">想管理会员账号或生成邀请码？</div>
+                  <div className="text-xs text-gray-500 mt-0.5">支持一键生成「一人一码（一次性）」与「固定通用码（多人可用）」，查看全部会员列表与核销记录。</div>
+                </div>
+              </div>
+              <Link
+                href="/admin/members"
+                className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-sm transition whitespace-nowrap text-center cursor-pointer">
+                👉 进入【会员与邀请码管理控制台】
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* 位置 1：文章列表上方分类横条 (CategoryBar) */}
+              <SectionCard>
               <SectionTitle icon="🧭" title="位置一：文章分类横条入口" desc="位于首页文章列表上方横条，紧邻「首页」分类" />
               <ToggleField
                 label="在文章分类条显示「会员专区」Tab"
@@ -1954,7 +1973,8 @@ export default function HeoThemeEditor() {
               </div>
             </SectionCard>
           </div>
-        )}
+        </div>
+      )}
 
         {/* ==================== 粉丝专区设置 ==================== */}
         {activeTab === 'fans' && (
