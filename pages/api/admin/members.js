@@ -33,10 +33,19 @@ export default async function handler(req, res) {
         listMembers(),
         listInviteCodes()
       ])
+
+      // 读取粉丝专区通用暗号与引导文案
+      const defaultPasscode = global.__adminConfigOverrides?.HEO_FANS_DEFAULT_PASSCODE || process.env.HEO_FANS_DEFAULT_PASSCODE || '888888'
+      const unlockTips = global.__adminConfigOverrides?.HEO_FANS_UNLOCK_TIPS || process.env.HEO_FANS_UNLOCK_TIPS || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+
       return res.status(200).json({
         success: true,
         members,
-        inviteCodes
+        inviteCodes,
+        fansConfig: {
+          defaultPasscode,
+          unlockTips
+        }
       })
     } catch (error) {
       console.error('[AdminMembersAPI] 获取数据失败:', error)
@@ -110,6 +119,35 @@ export default async function handler(req, res) {
           remark: remark || '管理员后台手动创建'
         })
         return res.status(200).json({ success: true, member: newMember })
+      }
+
+      // 5. 更新粉丝专区全局通用暗号与引导文案
+      if (action === 'update_fans_config') {
+        const { defaultPasscode, unlockTips } = req.body
+        if (!global.__adminConfigOverrides) {
+          global.__adminConfigOverrides = {}
+        }
+        if (defaultPasscode !== undefined) {
+          global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE = String(defaultPasscode).trim()
+        }
+        if (unlockTips !== undefined) {
+          global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS = String(unlockTips).trim()
+        }
+        // 持久化到本地配置文件
+        try {
+          const fs = require('fs')
+          const path = require('path')
+          const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
+          fs.writeFileSync(configPath, JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+        } catch (e) {}
+
+        return res.status(200).json({
+          success: true,
+          fansConfig: {
+            defaultPasscode: global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE,
+            unlockTips: global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS
+          }
+        })
       }
 
       return res.status(400).json({ success: false, message: '未知的操作类型' })
