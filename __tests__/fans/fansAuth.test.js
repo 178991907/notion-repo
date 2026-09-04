@@ -58,5 +58,20 @@ describe('粉丝专区免登录验证码逻辑', () => {
     // 5. 双轨文章（既是粉丝也是 VIP），VIP 会员登录未输码 -> 免暗号直接放行
     expect(checkAccess({ isFansPost: true, fansUnlocked: false, isLoggedIn: true, userLevel: 'VIP', requiredLevel: 'VIP' }).canRead).toBe(true)
   })
+
+  it('多选暗号模式测试：支持数组及逗号/分号分隔的多个验证码，匹配任一均可通过', () => {
+    // 数组形式多选标签
+    const multiArrayCodes = ['AI2026', 'VIP888', 'TERRY666']
+    expect(verifyFansPasscode('AI2026', multiArrayCodes).valid).toBe(true)
+    expect(verifyFansPasscode('vip888', multiArrayCodes).valid).toBe(true)
+    expect(verifyFansPasscode('terry666', multiArrayCodes).valid).toBe(true)
+    expect(verifyFansPasscode('wrongcode', multiArrayCodes).valid).toBe(false)
+
+    // 字符串逗号/空格分隔多选
+    const multiStringCodes = 'AI2026, VIP888; TERRY666'
+    expect(verifyFansPasscode('ai2026', multiStringCodes).valid).toBe(true)
+    expect(verifyFansPasscode('VIP888', multiStringCodes).valid).toBe(true)
+    expect(verifyFansPasscode('wrongcode', multiStringCodes).valid).toBe(false)
+  })
 })
 

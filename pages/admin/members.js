@@ -810,10 +810,10 @@ export default function AdminMembers() {
                     </tr>
                     <tr className="hover:bg-gray-50/80">
                       <td className="py-3 px-3 font-mono font-bold text-emerald-700">fans_code</td>
-                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">文本 (Text)</span></td>
-                      <td className="py-3 px-3 font-mono text-blue-600">如 AI2026 / 留空</td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold text-[11px]">多选标签 (Multi-select)</span></td>
+                      <td className="py-3 px-3 font-mono text-blue-600">可贴多个暗号标签（如 AI2026, 888888）</td>
                       <td className="py-3 px-3 leading-relaxed">
-                        <strong>单篇专属独立验证码</strong>。若填写，读者必须输入该专属码才能阅读；若留空，则自动使用全站默认通用暗号（当前为 <code className="text-emerald-700 font-bold">{fansConfig.defaultPasscode}</code>）。
+                        <strong>文章专属独立验证码（支持多选）</strong>。可为文章添加一个或多个暗号标签（例如不同渠道推文设置不同暗号）；读者<strong>输入其中任意一个暗号均可解锁</strong>。若留空，则自动使用全站默认通用暗号（当前为 <code className="text-emerald-700 font-bold">{fansConfig.defaultPasscode}</code>）。
                       </td>
                     </tr>
                     <tr className="hover:bg-gray-50/80">
@@ -826,13 +826,13 @@ export default function AdminMembers() {
                     </tr>
                     <tr className="hover:bg-gray-50/80">
                       <td className="py-3 px-3 font-mono font-bold text-purple-700">vip_level</td>
-                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[11px]">单选 (Select)</span></td>
+                      <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-bold text-[11px]">多选标签 (Multi-select)</span></td>
                       <td className="py-3 px-3">
                         <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold mr-1.5">VIP</span>
                         <span className="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold">SVIP</span>
                       </td>
                       <td className="py-3 px-3 leading-relaxed">
-                        <strong>会员等级要求</strong>。选择 <code className="text-amber-800 font-bold">VIP</code>：普通会员与高级会员皆可畅读；选择 <code className="text-purple-800 font-bold">SVIP</code>：仅高级会员可读，普通会员进入会弹出升级至 SVIP 的尊享提示。
+                        <strong>会员等级筛选（支持多选）</strong>。若勾选 <code className="text-amber-800 font-bold">VIP</code>（或同时包含 VIP 与 SVIP）：普通会员与高级会员皆可畅读；若仅勾选 <code className="text-purple-800 font-bold">SVIP</code>：仅高级会员可读，普通会员进入会弹出升级至 SVIP 的尊享提示。
                       </td>
                     </tr>
                   </tbody>
