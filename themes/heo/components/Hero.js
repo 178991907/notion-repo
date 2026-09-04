@@ -248,16 +248,11 @@ function TopGroup(props) {
           return (
             <SmartLink href={`${siteConfig('SUB_PATH', '')}/${p?.slug}`} key={index}>
               <div className='cursor-pointer h-[164px] group relative flex flex-col w-52 xl:w-full overflow-hidden shadow-xs hover:shadow-md bg-white dark:bg-black dark:text-white rounded-xl transition-all duration-300'>
-                <div className='h-24 w-full overflow-hidden relative flex items-center justify-center bg-gray-50/90 dark:bg-gray-900/60'>
-                  {/* 背景柔光：当图片较扁时自然填补边框，消除黑边或生硬白边 */}
-                  <div
-                    style={{ backgroundImage: `url(${p?.pageCoverThumbnail || siteInfo?.pageCover})` }}
-                    className='absolute inset-0 bg-cover bg-center blur-md opacity-30 scale-125 pointer-events-none'
-                  />
-                  {/* 清晰原图：object-contain 确保无论何种长宽比均 100% 完整显示，Logo 与文字绝不被截断 */}
+                <div className='h-24 w-full overflow-hidden relative'>
+                  {/* 饱满居中铺满卡片顶部，彻底消除左右大面积空白 */}
                   <LazyImage
                     priority={index === 0}
-                    className='h-full w-full object-contain relative z-10 p-1 group-hover:scale-105 transition-transform duration-300'
+                    className='h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-in-out'
                     alt={p?.title}
                     src={p?.pageCoverThumbnail || siteInfo?.pageCover}
                   />
