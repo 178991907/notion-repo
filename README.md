@@ -19,10 +19,11 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.14.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.15.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
+  <img src="https://img.shields.io/badge/Membership_System-Active-gold?style=for-the-badge" alt="Membership System" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
 </p>
 
@@ -30,11 +31,40 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.14.0)
+## 🌟 核心特性与架构亮点 (v4.15.0 重磅发布)
 
-本项目深度研发并集成了 **全功能可视化管理后台**、**分类/标签深度双向管理系统** 与 **高自由度主题定制体系**：
+本项目深度研发并集成了 **全功能可视化管理后台**、**双轨制会员多等级系统**、**粉丝免登录暗号专区**、**分类/标签深度双向管理系统** 与 **高自适应排版视觉体系**：
 
-### 1. 🖼️ 英雄区右侧推荐大卡封面可视化与双驱动引擎
+### 1. 👑 会员分级鉴权与邀请码后台管理中心 (`/admin/members`)
+- **双轨制会员权限控制（VIP / SVIP）**：全面打通普通会员（VIP）与尊享高级会员（SVIP）的分级内容访问控制，高级会员向下兼容阅读全部 VIP 内容。
+- **高可用邀请码核销与分发引擎**：
+  - **一人一码模式**：单码核销即作废，具备防重放并发锁保护；
+  - **全站固定通用码模式**：多人通用，实时记录核销次数；
+  - 支持后台批量创建、一键停用/启用、复制直链、账号手动延期与开通。
+- **30天持久免密登录**：基于安全 HMAC-SHA256 Token 与安全 HttpOnly Cookie，用户登录后全站免密畅读 30 天，绝无需每篇重复验证。
+- **会员免码直通特权**：已登录合格会员直接视为自动解锁全站粉丝专区文章，尊享免码直读特权。
+
+---
+
+### 2. 🎁 粉丝专区免登录访问码与双轨互通机制 (`/fans`)
+- **多暗号灵活绑定（Multi-select）**：文章支持绑定多个暗号标签（如 `8888, 6666`），读者输入其中任意一个正确暗号即可瞬间解锁。
+- **暗号与会员双轨放行**：文章同时标记粉丝专享与 VIP 时，未登录读者输入暗号即可阅读，已登录会员免码一键直达，互通引导友好无阻。
+- **访问码本地安全缓存**：读者验证成功后自动在本地浏览器加密记录，有效期内无需反复输入。
+
+---
+
+### 3. 🎨 封面自适应防裁切排版与 16:9 超清标准 Logo 资产
+- **角标层级防护置顶（`z-30`）**：彻底解决封面图层覆盖角标问题，粉丝专享与 VIP 专享角标无论在何种终端均清爽置顶悬浮。
+- **推荐卡片与缩略图饱满充满（`object-cover`）**：彻底消除英雄区推荐卡片（TopGroup）与侧边栏推荐阅读缩略图左右多余的尴尬空白，恢复饱满大气的现代视觉质感。
+- **重构 16:9 超清黄金比例封面（`1200 × 675 px`）**：
+  - 精准消除实心纯白底板，无损保留主体原本自带的白色立体发光描边与平滑抗锯齿边缘；
+  - 主体内容等比微缩至 83.3%（宽 1000px），视觉面积提升 30%，四周各预留 100~133px 充裕安全边距；
+  - 左上角空出 160×157px 避让区，与角标实现 **0 像素重叠完美错落**，杜绝削顶切星。
+- **Notion 模板全量自动同步**：现有文章及 Notion“Article Template”文章模板已全部通过官方 API 自动同步绑定最新版标准封面直链。
+
+---
+
+### 4. 🖼️ 英雄区右侧推荐大卡封面可视化与双驱动引擎
 - **后台一键自定义封面 URL (`HEO_HERO_RECOMMEND_COVER`)**：在 `/admin/settings/theme` ->「英雄区」直接粘贴任意图床海报链接，并支持**实时缩略图即时预览**。
 - **智能双驱动与自动回退机制**：当后台配置了图片 URL 时优先渲染自定义海报；留空时自动无缝回退至 Notion 根主页面顶部的封面大图（`siteInfo.pageCover`），兼具极高自由度与原生便捷度。
 - **高清自适应海报排版**：支持 **2:1 (1200×600 px)** 与 **16:9 (1920×1080 px)** 宽幅高清海报，智能居中裁切并叠加渐变暗光，完美烘托推荐文章标题。
@@ -205,20 +235,24 @@ npm run dev
 ├── conf/                        # 分类功能配置文件 (comment, widget, code 等)
 ├── lib/
 │   ├── admin/                   # 管理后台鉴权与配置字典
-│   ├── adminConfigOverrides.json# 后台可视化配置物理固化备份
+│   ├── fans/                    # 粉丝专区验证码鉴权引擎
+│   ├── member/                  # 会员系统认证、Token 与 Notion 数据库驱动
 │   ├── config.js                # 全栈配置解析引擎 (支持后台与 Notion 动态覆盖)
 │   └── db/notion/               # Notion 数据库通信与 CONFIG-TABLE 解析
 ├── pages/
-│   ├── admin/                   # 管理后台页面 (仪表盘、基础设置、主题可视化)
+│   ├── admin/                   # 管理后台页面 (仪表盘、会员管理、主题可视化)
+│   │   ├── members.js           # 👑 网站会员与邀请码管理中心
 │   │   └── settings/theme.js    # 主题全维度可视化编辑器
-│   ├── api/admin/               # 后台管理 API (auth, config 读写持久化)
-│   ├── api/twikoo.js            # Twikoo 评论服务端 API 引擎
+│   ├── api/admin/               # 后台管理 API (auth, members, config 读写持久化)
+│   ├── api/member/              # 会员登录、注册、状态校验 API
+│   ├── fans/                    # 🎁 粉丝专区免登录前台入口
+│   ├── vip/                     # 👑 会员专区前台入口
 │   └── ...                      # 前台路由与文章渲染
-├── scripts/
-│   └── mongodb-keepalive.js     # MongoDB Atlas 自动化心跳与清理脚本
+├── public/
+│   └── images/                  # 🎨 高清标准封面图与静态媒体资源
 └── themes/
     └── heo/                     # Heo 主题源码
-        ├── components/          # 主题组件 (Logo, Header, MenuList, NoticeBar, InfoCard 等)
+        ├── components/          # 主题组件 (Hero, BlogPostCard, NoticeBar, InfoCard 等)
         └── config.js            # Heo 主题专属配置项
 ```
 
