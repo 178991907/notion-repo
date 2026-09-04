@@ -14,6 +14,21 @@ export const FansLock = ({ post, onUnlocked }) => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [failedCount, setFailedCount] = useState(0)
+  const [cooldownSeconds, setCooldownSeconds] = useState(0)
+
+  // 处理锁定倒计时
+  React.useEffect(() => {
+    let timer = null
+    if (cooldownSeconds > 0) {
+      timer = setInterval(() => {
+        setCooldownSeconds(prev => (prev <= 1 ? 0 : prev - 1))
+      }, 1000)
+    }
+    return () => {
+      if (timer) clearInterval(timer)
+    }
+  }, [cooldownSeconds])
 
   // 读取配置项
   const defaultPasscode = siteConfig('HEO_FANS_DEFAULT_PASSCODE', '888888', CONFIG)
@@ -30,6 +45,10 @@ export const FansLock = ({ post, onUnlocked }) => {
   // 处理解锁校验
   const handleUnlock = e => {
     if (e) e.preventDefault()
+    if (cooldownSeconds > 0) {
+      setError(`连续输错次数过多，请等待 ${cooldownSeconds} 秒后再试`)
+      return
+    }
     if (!passcode.trim()) {
       setError('请输入验证码或暗号')
       return
@@ -42,12 +61,20 @@ export const FansLock = ({ post, onUnlocked }) => {
       const result = verifyFansPasscode(passcode, post?.fans_code, defaultPasscode)
       if (result.valid) {
         setSuccess(true)
+        setFailedCount(0)
         saveFansUnlockRecord(post?.id || post?.slug, result.isGlobal)
         setTimeout(() => {
           if (onUnlocked) onUnlocked()
         }, 500)
       } else {
-        setError(result.message || '验证码或暗号不正确')
+        const nextFailed = failedCount + 1
+        setFailedCount(nextFailed)
+        if (nextFailed >= 5) {
+          setCooldownSeconds(60)
+          setError('⚠️ 连续输入错误达到 5 次，已开启安全保护，请 60 秒后再试')
+        } else {
+          setError(`${result.message || '验证码或暗号不正确'}${nextFailed >= 3 ? ` (已连续输错 ${nextFailed} 次)` : ''}`)
+        }
       }
       setLoading(false)
     }, 200)
@@ -119,10 +146,10 @@ export const FansLock = ({ post, onUnlocked }) => {
 
         <button
           type='submit'
-          disabled={loading || success}
+          disabled={loading || success || cooldownSeconds > 0}
           style={{ background: `linear-gradient(135deg, ${fansColor}, ${fansColorEnd})` }}
           className='w-full py-3 px-5 rounded-xl text-sm font-semibold text-white shadow-md transition-all duration-200 cursor-pointer disabled:opacity-50 hover:brightness-105 active:scale-98'>
-          {loading ? '正在验证暗号...' : success ? '解锁成功' : '✨ 立即解锁阅读'}
+          {loading ? '正在验证暗号...' : success ? '解锁成功' : cooldownSeconds > 0 ? `安全冷却中 (${cooldownSeconds}s)` : '✨ 立即解锁阅读'}
         </button>
 
         {contactUrl && (
