@@ -454,39 +454,39 @@ export default function AdminMembers() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-sm">
+                <table className="w-full min-w-[920px] text-left border-collapse text-sm">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold text-xs uppercase tracking-wider">
-                      <th className="py-3.5 px-4">邀请码 (Code)</th>
-                      <th className="py-3.5 px-4">类型模式</th>
-                      <th className="py-3.5 px-4">解锁等级</th>
-                      <th className="py-3.5 px-4">使用进度</th>
-                      <th className="py-3.5 px-4">有效期限</th>
-                      <th className="py-3.5 px-4">状态</th>
-                      <th className="py-3.5 px-4">备注说明</th>
-                      <th className="py-3.5 px-4 text-right">操作</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">邀请码 (Code)</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">类型模式</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">解锁等级</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">使用进度</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">有效期限</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">状态</th>
+                      <th className="py-3.5 px-4 min-w-[220px]">备注说明</th>
+                      <th className="py-3.5 px-4 text-right whitespace-nowrap">操作</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 font-medium text-gray-700">
                     {inviteCodes.map((item) => (
                       <tr key={item.id} className="hover:bg-gray-50/80 transition">
-                        {/* 邀请码内容 + 一键复制 */}
-                        <td className="py-3 px-4 font-mono font-bold text-gray-900">
-                          <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 bg-gray-100 rounded border border-gray-200">
+                        {/* 邀请码内容 + 一键复制（整行平铺，绝不折行） */}
+                        <td className="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap">
+                          <div className="inline-flex items-center gap-2">
+                            <span className="px-2.5 py-1 bg-gray-100/90 rounded-md border border-gray-200 tracking-wider text-xs whitespace-nowrap select-all">
                               {item.code}
                             </span>
                             <button
                               onClick={() => copyToClipboard(item.code)}
                               title="点击复制邀请码"
-                              className="text-xs text-blue-600 hover:text-blue-800 p-1 hover:bg-blue-50 rounded transition cursor-pointer">
+                              className="text-xs text-blue-600 hover:text-blue-800 px-2 py-0.5 hover:bg-blue-50 rounded transition cursor-pointer whitespace-nowrap flex items-center gap-1 border border-blue-100">
                               {copiedCode === item.code ? '✅ 已复制' : '📋 复制'}
                             </button>
                           </div>
                         </td>
 
                         {/* 类型模式：一人一码 vs 固定通用码 */}
-                        <td className="py-3 px-4">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           {item.isSingleUse ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
                               <span>👤 一人一码</span>
@@ -501,7 +501,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 等级 */}
-                        <td className="py-3 px-4">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           {item.level === 'SVIP' ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-md bg-gradient-to-r from-purple-500 to-amber-500 text-white shadow-xs">
                               💎 SVIP
@@ -514,7 +514,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 使用进度 */}
-                        <td className="py-3 px-4 text-xs font-mono">
+                        <td className="py-3 px-4 text-xs font-mono whitespace-nowrap">
                           {item.isUnlimited ? (
                             <span className="text-gray-600">已用 {item.usedCount} 次 (不限)</span>
                           ) : (
@@ -525,7 +525,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 有效期限 */}
-                        <td className="py-3 px-4 text-xs">
+                        <td className="py-3 px-4 text-xs whitespace-nowrap">
                           {item.days > 0 ? (
                             <span className="text-indigo-600 font-semibold">{item.days} 天有效期</span>
                           ) : (
@@ -534,7 +534,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 状态 */}
-                        <td className="py-3 px-4">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           {item.status === 'Active' && (!item.isSingleUse || item.usedCount < item.maxUses) ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -547,13 +547,15 @@ export default function AdminMembers() {
                           )}
                         </td>
 
-                        {/* 备注 */}
-                        <td className="py-3 px-4 text-xs text-gray-500 max-w-xs truncate">
-                          {item.remark || '-'}
+                        {/* 备注：清晰展示完整文本，去除过窄截断 */}
+                        <td 
+                          className="py-3 px-4 text-xs text-gray-600 min-w-[220px] max-w-md break-words leading-relaxed"
+                          title={item.remark || ''}>
+                          {item.remark || <span className="text-gray-300">-</span>}
                         </td>
 
                         {/* 操作 */}
-                        <td className="py-3 px-4 text-right">
+                        <td className="py-3 px-4 text-right whitespace-nowrap">
                           <button
                             onClick={() => { void handleToggleInviteStatus(item) }}
                             className="text-xs text-gray-500 hover:text-red-600 transition underline cursor-pointer">
@@ -837,6 +839,63 @@ export default function AdminMembers() {
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            {/* 卡片 4: 常见联动疑问与效率技巧：Notion 勾选自动生成码与默认等级 */}
+            <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xl">⚡</span>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">Notion 勾选自动生成访问码与默认 VIP 等级指南</h4>
+                    <p className="text-xs text-gray-400">解答：勾选 fans 能否自动生成访问码（可手动改）？勾选 vip 能否默认 VIP 等级（需要时手动调）？</p>
+                  </div>
+                </div>
+                <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                  💡 效率技巧与底层机制
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs text-gray-700">
+                {/* 左列：系统内置的智能兜底机制（零配置，立即生效） */}
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
+                  <div className="font-black text-slate-900 flex items-center gap-2 text-xs">
+                    <span className="w-5 h-5 rounded-md bg-emerald-500 text-white flex items-center justify-center font-mono text-[10px]">1</span>
+                    <span>系统已内置「智能自动兜底」（零配置，立即生效）</span>
+                  </div>
+                  <div className="space-y-2.5 text-[11px] leading-relaxed text-slate-600">
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/60 shadow-2xs">
+                      <div className="font-bold text-emerald-800 mb-1">🎁 关于 fans 访问码：</div>
+                      <p>
+                        在 Notion 里只要勾选了 <code className="font-mono font-bold text-emerald-700">fans</code>，即使 <code className="font-mono text-gray-600">fans_code</code> 留空不写，系统也<strong>自动默认使用全站通用暗号</strong>（当前为 <code className="font-mono font-bold text-emerald-700">{fansConfig.defaultPasscode}</code>）解锁放行！若需该文章独占特定访问码，随时在 Notion 手动输入专属码，系统会自动优先识别专属码，无需繁琐配置。
+                      </p>
+                    </div>
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/60 shadow-2xs">
+                      <div className="font-bold text-purple-800 mb-1">👑 关于 VIP 等级默认值：</div>
+                      <p>
+                        在 Notion 里只要勾选了 <code className="font-mono font-bold text-amber-700">vip</code>，即使 <code className="font-mono text-gray-600">vip_level</code> 留空不选，系统也<strong>自动默认按普通 VIP 级别放行</strong>（普通 VIP 与 SVIP 会员均可畅读）！只有当文章专属于高级会员时，才需要手动在下拉列表里选择 <code className="font-mono font-bold text-purple-700">SVIP</code>。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 右列：Notion 官方 ⚡ 自动化（即勾即填，界面直接展示） */}
+                <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 space-y-3">
+                  <div className="font-black text-blue-950 flex items-center gap-2 text-xs">
+                    <span className="w-5 h-5 rounded-md bg-blue-600 text-white flex items-center justify-center font-mono text-[10px]">2</span>
+                    <span>在 Notion 界面勾选时「自动填入单元格」（Notion 官方自动化）</span>
+                  </div>
+                  <p className="text-[11px] text-blue-900 leading-relaxed">
+                    若希望在 Notion 网页/客户端中一打勾，对应的单元格就<strong>自动弹出并填好默认值</strong>，可以使用 Notion 官方数据库自动化（⚡ Automations）：
+                  </p>
+                  <ol className="space-y-1.5 text-[11px] text-blue-800 list-decimal list-inside leading-relaxed bg-white/80 p-2.5 rounded-lg border border-blue-200/60">
+                    <li>打开 Notion 博客文章数据库，点击右上角闪电图标 <strong className="text-blue-900 font-mono">⚡ (Automations)</strong>；</li>
+                    <li>点击 <strong>+ New automation</strong>，触发器（Trigger）设置：当 <code className="font-mono font-bold">fans</code> 变为 <code className="font-mono font-bold">Checked</code> ➔ 执行动作（Action）：Edit property ➔ 将 <code className="font-mono font-bold">fans_code</code> 设为默认码（如 888888）；</li>
+                    <li>同理新建一条自动化：当 <code className="font-mono font-bold">vip</code> 变为 <code className="font-mono font-bold">Checked</code> ➔ 执行动作：将 <code className="font-mono font-bold">vip_level</code> 设为 <code className="font-mono font-bold">VIP</code>；</li>
+                    <li><strong>效果</strong>：只要一勾选，Notion 自动秒填默认值，且你随时可以直接点击单元格<strong>手动修改或增添其他暗号/SVIP等级</strong>！</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
