@@ -150,10 +150,14 @@ export default async function handler(req, res) {
         })
       }
 
-      // 6. 扫描 Notion 博客数据库并自动补齐空白访问码与 VIP 等级
+      // 6. 扫描 Notion 博客数据库并自动补齐空白访问码与 VIP 等级（为每篇文章生成互不相同的专属随机码）
       if (action === 'sync_notion_articles') {
+        const { codeFormat = 'alphanumeric' } = req.body
         const defaultPasscode = global.__adminConfigOverrides?.HEO_FANS_DEFAULT_PASSCODE || process.env.HEO_FANS_DEFAULT_PASSCODE || '888888'
-        const result = await syncNotionArticleProperties(defaultPasscode)
+        const result = await syncNotionArticleProperties({
+          codeFormat,
+          fallbackCode: defaultPasscode
+        })
         return res.status(200).json({
           success: true,
           ...result

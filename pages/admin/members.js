@@ -19,6 +19,7 @@ export default function AdminMembers() {
   const [savingFans, setSavingFans] = useState(false)
   const [syncingArticles, setSyncingArticles] = useState(false)
   const [syncSummary, setSyncSummary] = useState(null)
+  const [codeFormat, setCodeFormat] = useState('alphanumeric') // 'alphanumeric' | 'number'
   const [toast, setToast] = useState(null)
 
   // 弹窗状态
@@ -125,7 +126,7 @@ export default function AdminMembers() {
     }
   }
 
-  // 一键扫描 Notion 博客文章数据库并自动补齐空白访问码与 VIP 等级
+  // 一键扫描 Notion 博客文章数据库并自动生成互不相同的随机专属码与 VIP 等级
   const handleSyncNotionArticles = async () => {
     setSyncingArticles(true)
     setSyncSummary(null)
@@ -134,13 +135,14 @@ export default function AdminMembers() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'sync_notion_articles'
+          action: 'sync_notion_articles',
+          codeFormat
         })
       })
       const data = await res.json()
       if (data.success) {
         setSyncSummary(data)
-        showToast('success', `🎉 同步完成！共扫描 ${data.totalScanned} 篇，自动补齐 ${data.updatedFansCount} 篇访问码，${data.updatedVipCount} 篇 VIP 等级！`)
+        showToast('success', `🎉 同步完成！共扫描 ${data.totalScanned} 篇，已为 ${data.updatedFansCount} 篇文章独立生成随机专属码，补齐 ${data.updatedVipCount} 篇 VIP 等级！`)
       } else {
         showToast('error', data.message || '同步失败')
       }
@@ -695,42 +697,73 @@ export default function AdminMembers() {
                 </div>
               </div>
 
-              {/* 快捷动作：一键扫描 Notion 并自动补齐 */}
-              <div className="shrink-0 flex flex-col sm:items-end gap-1.5">
-                <button
-                  type="button"
-                  onClick={handleSyncNotionArticles}
-                  disabled={syncingArticles}
-                  className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer flex items-center gap-2">
-                  <span>{syncingArticles ? '⏳ 正在扫描并回写 Notion...' : '⚡ 一键扫描 Notion 补齐访问码与 VIP'}</span>
-                </button>
+              {/* 快捷动作：一键扫描 Notion 并生成互不相同的专属随机码 */}
+              <div className="shrink-0 flex flex-col sm:items-end gap-2">
+                <div className="flex items-center gap-2">
+                  <select
+                    value={codeFormat}
+                    onChange={(e) => setCodeFormat(e.target.value)}
+                    className="text-xs bg-white border border-gray-300 rounded-xl px-2.5 py-2 font-medium text-gray-700 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 cursor-pointer shadow-2xs">
+                    <option value="alphanumeric">🔠 6位防猜字母数字码 (推荐，高防破)</option>
+                    <option value="number">🔢 6位纯数字随机码 (九宫格秒输)</option>
+                  </select>
+                  <button
+                    type="button"
+                    onClick={handleSyncNotionArticles}
+                    disabled={syncingArticles}
+                    className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer flex items-center gap-1.5 whitespace-nowrap">
+                    <span>{syncingArticles ? '⏳ 正在生成并写回...' : '⚡ 一键生成每篇随机码与VIP'}</span>
+                  </button>
+                </div>
                 <span className="text-[10px] text-gray-500">
-                  Notion 中勾选后未填写的文章，一键自动填好
+                  为未设码的粉丝文章逐篇生成互不相同的随机码并写回 Notion，防重复猜解
                 </span>
               </div>
             </div>
 
-            {/* 同步结果反馈条 */}
+            {/* 同步结果反馈卡片：清晰列出生成的每篇随机码 */}
             {syncSummary && (
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-900 shadow-2xs">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🎉</span>
-                  <div>
-                    <strong>扫描完成：</strong>共检查了 {syncSummary.totalScanned} 篇文章，
-                    已成功为 <strong className="text-emerald-700 font-mono">{syncSummary.updatedFansCount}</strong> 篇补齐默认访问码，
-                    为 <strong className="text-purple-700 font-mono">{syncSummary.updatedVipCount}</strong> 篇补齐 VIP 等级！
-                    {syncSummary.updatedTitles?.length > 0 && (
-                      <span className="text-gray-600 ml-1">
-                        (涉及: {syncSummary.updatedTitles.slice(0, 3).join(', ')}{syncSummary.updatedTitles.length > 3 ? ' 等' : ''})
-                      </span>
-                    )}
+              <div className="p-4 bg-emerald-50/90 border border-emerald-200 rounded-2xl space-y-3 text-xs text-emerald-950 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-bold text-sm text-emerald-900">
+                    <span>🎉</span>
+                    <span>Notion 智能扫描与回写完成！</span>
                   </div>
+                  <button 
+                    onClick={() => setSyncSummary(null)} 
+                    className="text-gray-400 hover:text-gray-600 font-bold px-2 py-0.5 text-xs rounded hover:bg-emerald-100/60 transition cursor-pointer">
+                    ✕ 关闭
+                  </button>
                 </div>
-                <button 
-                  onClick={() => setSyncSummary(null)} 
-                  className="text-gray-400 hover:text-gray-600 font-bold px-2 py-1 text-xs">
-                  ✕
-                </button>
+                <div className="text-gray-700 leading-relaxed">
+                  本次共扫描了 <strong>{syncSummary.totalScanned}</strong> 篇文章，
+                  成功为 <strong className="text-emerald-700 font-mono font-bold">{syncSummary.updatedFansCount}</strong> 篇生成了互不相同的独立随机访问码，
+                  为 <strong className="text-purple-700 font-mono font-bold">{syncSummary.updatedVipCount}</strong> 篇补齐了 VIP 默认等级。
+                </div>
+                {syncSummary.updatedItems && syncSummary.updatedItems.length > 0 && (
+                  <div className="bg-white/90 border border-emerald-200/70 rounded-xl p-3 max-h-48 overflow-y-auto space-y-2">
+                    <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">本次自动生成的专属独立码明细：</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {syncSummary.updatedItems.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-gray-50 border border-gray-200 text-xs">
+                          <span className="font-medium text-gray-800 truncate max-w-[180px]" title={item.title}>📄 {item.title}</span>
+                          <div className="flex items-center gap-2">
+                            {item.fansCode && (
+                              <span className="font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] select-all">
+                                🔑 {item.fansCode}
+                              </span>
+                            )}
+                            {item.vipLevel && (
+                              <span className="font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px]">
+                                👑 {item.vipLevel}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
