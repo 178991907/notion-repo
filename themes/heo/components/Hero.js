@@ -192,6 +192,8 @@ function GroupMenu() {
     { bg: 'bg-gradient-to-r from-emerald-400 to-green-500 text-white', icon: 'fa-leaf' },
   ]
 
+  const count = categories.length
+
   return (
     <div className='select-none grid grid-cols-2 md:grid-cols-3 xl:flex xl:flex-row xl:flex-nowrap gap-3 xl:w-full'>
       {categories.map((c, index) => {
@@ -200,13 +202,17 @@ function GroupMenu() {
           <SmartLink
             key={index}
             href={c.url}
-            className={`group relative overflow-hidden flex h-20 w-full justify-start items-center rounded-xl xl:hover:w-1/2 transition-all duration-500 ease-in ${style.bg}`}>
-            <div className='font-bold lg:text-lg pl-5 relative -mt-2'>
-              {c.title}
-              <span className='absolute -bottom-0.5 left-5 w-5 h-0.5 bg-white rounded-full'></span>
+            className={`group relative overflow-hidden flex h-20 w-full justify-start items-center rounded-xl transition-all duration-300 ease-out ${style.bg} ${
+              count <= 3
+                ? 'xl:flex-1 xl:hover:flex-[1.5]'
+                : 'xl:flex-1 xl:hover:flex-[1.35] xl:min-w-[110px]'
+            }`}>
+            <div className='font-bold text-sm sm:text-base lg:text-base xl:text-lg px-3.5 relative -mt-1 whitespace-nowrap overflow-hidden text-ellipsis z-10 max-w-full'>
+              <span className='truncate block'>{c.title}</span>
+              <span className='absolute -bottom-1 left-3.5 w-5 h-0.5 bg-white rounded-full'></span>
             </div>
-            <div className='hidden lg:block absolute right-6 duration-700 ease-in-out transition-all scale-[2] translate-y-6 rotate-12 opacity-20 group-hover:opacity-80 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0'>
-              <i className={`fa-solid ${style.icon} text-4xl`}></i>
+            <div className='hidden lg:block absolute right-2.5 duration-500 ease-out transition-all scale-[1.5] translate-y-4 rotate-12 opacity-20 group-hover:opacity-60 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0 pointer-events-none'>
+              <i className={`fa-solid ${style.icon} text-3xl`}></i>
             </div>
           </SmartLink>
         )
