@@ -484,39 +484,39 @@ export default function AdminMembers() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[920px] text-left border-collapse text-sm">
+                <table className="w-full min-w-[1020px] text-left border-collapse text-sm">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold text-xs uppercase tracking-wider">
-                      <th className="py-3.5 px-4 whitespace-nowrap">邀请码 (Code)</th>
-                      <th className="py-3.5 px-4 whitespace-nowrap">类型模式</th>
-                      <th className="py-3.5 px-4 whitespace-nowrap">解锁等级</th>
-                      <th className="py-3.5 px-4 whitespace-nowrap">使用进度</th>
-                      <th className="py-3.5 px-4 whitespace-nowrap">有效期限</th>
-                      <th className="py-3.5 px-4 whitespace-nowrap">状态</th>
-                      <th className="py-3.5 px-4 min-w-[220px]">备注说明</th>
-                      <th className="py-3.5 px-4 text-right whitespace-nowrap">操作</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[210px] w-[220px]">邀请码 (Code)</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[140px]">类型模式</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[90px]">解锁等级</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[110px]">使用进度</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[100px]">有效期限</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[90px]">状态</th>
+                      <th className="py-3.5 px-4 min-w-[200px]">备注说明</th>
+                      <th className="py-3.5 px-4 text-right whitespace-nowrap min-w-[80px]">操作</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 font-medium text-gray-700">
                     {inviteCodes.map((item) => (
                       <tr key={item.id} className="hover:bg-gray-50/80 transition">
-                        {/* 邀请码内容 + 一键复制（整行平铺，绝不折行） */}
-                        <td className="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap">
+                        {/* 邀请码内容 + 一键复制（整行平铺，绝不折行，充裕空间杜绝遮挡） */}
+                        <td className="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap min-w-[210px] w-[220px]">
                           <div className="inline-flex items-center gap-2">
-                            <span className="px-2.5 py-1 bg-gray-100/90 rounded-md border border-gray-200 tracking-wider text-xs whitespace-nowrap select-all">
+                            <span className="px-2.5 py-1 bg-gray-100/90 rounded-md border border-gray-200 tracking-wider text-xs whitespace-nowrap select-all font-mono">
                               {item.code}
                             </span>
                             <button
                               onClick={() => copyToClipboard(item.code)}
                               title="点击复制邀请码"
-                              className="text-xs text-blue-600 hover:text-blue-800 px-2 py-0.5 hover:bg-blue-50 rounded transition cursor-pointer whitespace-nowrap flex items-center gap-1 border border-blue-100">
+                              className="text-xs text-blue-600 hover:text-blue-800 px-2.5 py-1 hover:bg-blue-50 rounded-md transition cursor-pointer whitespace-nowrap inline-flex items-center gap-1 border border-blue-200 bg-blue-50/40 shadow-2xs shrink-0">
                               {copiedCode === item.code ? '✅ 已复制' : '📋 复制'}
                             </button>
                           </div>
                         </td>
 
                         {/* 类型模式：一人一码 vs 固定通用码 */}
-                        <td className="py-3 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap min-w-[140px]">
                           {item.isSingleUse ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
                               <span>👤 一人一码</span>
@@ -531,7 +531,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 等级 */}
-                        <td className="py-3 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap min-w-[90px]">
                           {item.level === 'SVIP' ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-md bg-gradient-to-r from-purple-500 to-amber-500 text-white shadow-xs">
                               💎 SVIP
@@ -544,7 +544,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 使用进度 */}
-                        <td className="py-3 px-4 text-xs font-mono whitespace-nowrap">
+                        <td className="py-3 px-4 text-xs font-mono whitespace-nowrap min-w-[110px]">
                           {item.isUnlimited ? (
                             <span className="text-gray-600">已用 {item.usedCount} 次 (不限)</span>
                           ) : (
@@ -555,7 +555,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 有效期限 */}
-                        <td className="py-3 px-4 text-xs whitespace-nowrap">
+                        <td className="py-3 px-4 text-xs whitespace-nowrap min-w-[100px]">
                           {item.days > 0 ? (
                             <span className="text-indigo-600 font-semibold">{item.days} 天有效期</span>
                           ) : (
@@ -564,7 +564,7 @@ export default function AdminMembers() {
                         </td>
 
                         {/* 状态 */}
-                        <td className="py-3 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap min-w-[90px]">
                           {item.status === 'Active' && (!item.isSingleUse || item.usedCount < item.maxUses) ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -579,13 +579,13 @@ export default function AdminMembers() {
 
                         {/* 备注：清晰展示完整文本，去除过窄截断 */}
                         <td 
-                          className="py-3 px-4 text-xs text-gray-600 min-w-[220px] max-w-md break-words leading-relaxed"
+                          className="py-3 px-4 text-xs text-gray-600 min-w-[200px] max-w-md break-words leading-relaxed"
                           title={item.remark || ''}>
                           {item.remark || <span className="text-gray-300">-</span>}
                         </td>
 
                         {/* 操作 */}
-                        <td className="py-3 px-4 text-right whitespace-nowrap">
+                        <td className="py-3 px-4 text-right whitespace-nowrap min-w-[80px]">
                           <button
                             onClick={() => { void handleToggleInviteStatus(item) }}
                             className="text-xs text-gray-500 hover:text-red-600 transition underline cursor-pointer">
@@ -613,15 +613,15 @@ export default function AdminMembers() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-sm">
+                <table className="w-full min-w-[780px] text-left border-collapse text-sm">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold text-xs uppercase tracking-wider">
-                      <th className="py-3.5 px-4">账号用户名</th>
-                      <th className="py-3.5 px-4">会员等级</th>
-                      <th className="py-3.5 px-4">账号状态</th>
-                      <th className="py-3.5 px-4">到期时间</th>
-                      <th className="py-3.5 px-4">注册邀请码</th>
-                      <th className="py-3.5 px-4">注册加入时间</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[150px]">账号用户名</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[110px]">会员等级</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[100px]">账号状态</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[110px]">到期时间</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[130px]">注册邀请码</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap min-w-[110px]">注册加入时间</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 font-medium text-gray-700">
