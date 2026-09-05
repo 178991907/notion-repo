@@ -2185,9 +2185,17 @@ export default function HeoThemeEditor() {
                 <button
                   type="button"
                   onClick={() => {
-                    const exists = categories.some(c => c.url === '/fans' || c.title?.includes('粉丝'))
-                    if (exists) {
-                      setToast({ type: 'success', msg: '英雄区推荐卡片中已存在粉丝专区！' })
+                    const fansIndex = categories.findIndex(c => c.url === '/fans' || c.title?.includes('粉丝'))
+                    if (fansIndex !== -1) {
+                      if (categories[fansIndex]?.title !== '🎁 粉丝福利') {
+                        const updated = [...categories]
+                        updated[fansIndex] = { ...updated[fansIndex], title: '🎁 粉丝福利', url: '/fans' }
+                        setCategories(updated)
+                        setToast({ type: 'success', msg: '已自动将标题更新为【🎁 粉丝福利】！请点击底部保存生效' })
+                        setTimeout(() => setToast(null), 3000)
+                        return
+                      }
+                      setToast({ type: 'success', msg: '英雄区推荐卡片中已存在【🎁 粉丝福利】！' })
                       setTimeout(() => setToast(null), 3000)
                       return
                     }
@@ -2196,8 +2204,8 @@ export default function HeoThemeEditor() {
                       setTimeout(() => setToast(null), 3000)
                       return
                     }
-                    setCategories([...categories, { title: '🎁 粉丝专区', url: '/fans' }])
-                    setToast({ type: 'success', msg: '已成功添加【🎁 粉丝专区】胶囊！请记得点击保存' })
+                    setCategories([...categories, { title: '🎁 粉丝福利', url: '/fans' }])
+                    setToast({ type: 'success', msg: '已成功添加【🎁 粉丝福利】胶囊！请点击底部保存生效' })
                     setTimeout(() => setToast(null), 3000)
                   }}
                   className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-bold text-xs shadow-sm transition whitespace-nowrap cursor-pointer"

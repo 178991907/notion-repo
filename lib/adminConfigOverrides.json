@@ -394,7 +394,10 @@
   "NOTION_PAGE_ID": "d699622a6d1882f09e68814c63554113",
   "HEO_HERO_CATEGORY_6": null,
   "HEO_HERO_CATEGORY_5": null,
-  "HEO_HERO_CATEGORY_4": null,
+  "HEO_HERO_CATEGORY_4": {
+    "title": "🎁 粉丝福利",
+    "url": "/fans"
+  },
   "POSTS_SHARE_SERVICES": "link,wechat,qq,weibo,email,facebook,twitter,telegram,messenger,line,reddit,whatsapp,linkedin,csdn,juejin",
   "POST_SHARE_BAR_ENABLE": true,
   "DESCRIPTION": "用AI解锁英语启蒙与教育",

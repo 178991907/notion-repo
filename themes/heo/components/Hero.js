@@ -25,12 +25,12 @@ const Hero = props => {
         id='hero'
         style={{ zIndex: 1 }}
         className={`${HEO_HERO_REVERSE ? 'xl:flex-row-reverse' : ''}
-           recent-post-top rounded-[12px] 2xl:px-5 recent-top-post-group max-w-[86rem] overflow-x-scroll w-full mx-auto flex-row flex-nowrap flex relative`}>
+           recent-post-top rounded-[12px] 2xl:px-5 recent-top-post-group max-w-[86rem] w-full mx-auto flex flex-col xl:flex-row xl:flex-nowrap relative gap-3 xl:gap-0`}>
         {/* 左侧banner组 */}
         <BannerGroup {...props} />
 
-        {/* 中间留白 */}
-        <div className='px-1.5 h-full'></div>
+        {/* 中间留白 (大屏保留微距) */}
+        <div className='hidden xl:block px-1.5 h-full'></div>
 
         {/* 右侧置顶文章组 */}
         <TopGroup {...props} />
@@ -48,8 +48,8 @@ function BannerGroup(props) {
     // 左侧英雄区
     <div
       id='bannerGroup'
-      className='flex flex-col justify-between flex-1 mr-2 max-w-[42rem]'>
-      {/* 动图 */}
+      className='flex flex-col justify-between w-full xl:w-auto xl:flex-1 xl:mr-2 xl:max-w-[42rem]'>
+      {/* 动图 (xl及以上屏幕可见) */}
       <Banner {...props} />
       {/* 导航分类 */}
       <GroupMenu />
@@ -174,7 +174,14 @@ function GroupMenu() {
   // 动态读取配置中的分类卡片
   const categories = []
   for (let i = 1; i <= 6; i++) {
-    const cat = siteConfig(`HEO_HERO_CATEGORY_${i}`, null, CONFIG)
+    let cat = siteConfig(`HEO_HERO_CATEGORY_${i}`, null, CONFIG)
+    if (cat && typeof cat === 'string') {
+      try {
+        cat = JSON.parse(cat)
+      } catch (e) {
+        // 静默忽略无法解析的字符串
+      }
+    }
     if (cat && cat.title && cat.url) {
       categories.push(cat)
     }
@@ -183,7 +190,7 @@ function GroupMenu() {
   if (categories.length === 0) return null
 
   // 预设的颜色和图标样式组
-  const styles = [
+  const defaultStyles = [
     { bg: 'bg-[var(--heo-color-primary)] text-[var(--heo-color-primary-text)]', icon: 'fa-star' },
     { bg: 'bg-gradient-to-r from-red-500 to-yellow-500 text-white', icon: 'fa-fire-flame-curved' },
     { bg: 'bg-gradient-to-r from-teal-300 to-cyan-300 text-white', icon: 'fa-book-bookmark' },
@@ -195,24 +202,39 @@ function GroupMenu() {
   const count = categories.length
 
   return (
-    <div className='select-none grid grid-cols-2 md:grid-cols-3 xl:flex xl:flex-row xl:flex-nowrap gap-3 xl:w-full'>
+    <div className={`select-none grid ${count <= 2 ? 'grid-cols-2' : count === 3 ? 'grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'} xl:flex xl:flex-row xl:flex-nowrap gap-3 w-full`}>
       {categories.map((c, index) => {
-        const style = styles[index % styles.length]
+        // 智能匹配专属胶囊样式：粉丝福利翡翠绿、VIP会员琥珀金、其余遵循预设色彩
+        let style = defaultStyles[index % defaultStyles.length]
+        const isFans = c.url === '/fans' || c.title?.includes('粉丝')
+        const isVip = c.url === '/vip' || c.title?.includes('会员')
+        if (isFans) {
+          style = {
+            bg: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-emerald-500/20',
+            icon: 'fa-gift'
+          }
+        } else if (isVip) {
+          style = {
+            bg: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-amber-500/20',
+            icon: 'fa-crown'
+          }
+        }
+
         return (
           <SmartLink
             key={index}
             href={c.url}
-            className={`group relative overflow-hidden flex h-20 w-full justify-start items-center rounded-xl transition-all duration-300 ease-out ${style.bg} ${
+            className={`group relative overflow-hidden flex h-16 sm:h-20 w-full justify-start items-center rounded-xl transition-all duration-300 ease-out shadow-xs hover:shadow-md ${style.bg} ${
               count <= 3
                 ? 'xl:flex-1 xl:hover:flex-[1.5]'
-                : 'xl:flex-1 xl:hover:flex-[1.35] xl:min-w-[110px]'
+                : 'xl:flex-1 xl:hover:flex-[1.35] xl:min-w-[100px]'
             }`}>
-            <div className='font-bold text-sm sm:text-base lg:text-base xl:text-lg px-3.5 relative -mt-1 whitespace-nowrap overflow-hidden text-ellipsis z-10 max-w-full'>
+            <div className='font-bold text-sm sm:text-base lg:text-base xl:text-lg px-3.5 relative -mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis z-10 max-w-full'>
               <span className='truncate block'>{c.title}</span>
-              <span className='absolute -bottom-1 left-3.5 w-5 h-0.5 bg-white rounded-full'></span>
+              <span className='absolute -bottom-1 left-3.5 w-5 h-0.5 bg-white/80 rounded-full'></span>
             </div>
-            <div className='hidden lg:block absolute right-2.5 duration-500 ease-out transition-all scale-[1.5] translate-y-4 rotate-12 opacity-20 group-hover:opacity-60 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0 pointer-events-none'>
-              <i className={`fa-solid ${style.icon} text-3xl`}></i>
+            <div className='hidden sm:block absolute right-2.5 duration-500 ease-out transition-all scale-[1.35] translate-y-3 rotate-12 opacity-25 group-hover:opacity-65 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0 pointer-events-none'>
+              <i className={`fa-solid ${style.icon} text-2xl lg:text-3xl`}></i>
             </div>
           </SmartLink>
         )
@@ -239,11 +261,11 @@ function TopGroup(props) {
     <div
       id='hero-right-wrapper'
       onMouseLeave={handleMouseLeave}
-      className='flex-1 relative w-full'>
+      className='flex-1 relative w-full overflow-hidden'>
       {/* 置顶推荐文章 */}
       <div
         id='top-group'
-        className='w-full flex space-x-3 xl:space-x-0 xl:grid xl:grid-cols-3 xl:gap-3 xl:h-[342px]'>
+        className='w-full flex space-x-3 overflow-x-auto xl:space-x-0 xl:grid xl:grid-cols-3 xl:gap-3 xl:h-[342px] scrollbar-none pb-2 xl:pb-0'>
         {topPosts?.map((p, index) => {
           return (
             <SmartLink href={`${siteConfig('SUB_PATH', '')}/${p?.slug}`} key={index}>
