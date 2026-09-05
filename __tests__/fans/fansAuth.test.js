@@ -13,13 +13,19 @@ describe('粉丝专区免登录验证码逻辑', () => {
     expect(res.isGlobal).toBe(false)
   })
 
-  it('单篇专属验证码模式：文章配置了独立验证码，必须匹配该专属码', () => {
+  it('单篇专属验证码模式：文章配置了独立验证码，专属码与全站默认主暗号均可双轨解锁', () => {
+    // 1. 输入专属码成功解锁
     const resSuccess = verifyFansPasscode('AI2026', 'AI2026', '888888')
     expect(resSuccess.valid).toBe(true)
     expect(resSuccess.isGlobal).toBe(false)
 
-    // 输入通用暗号不应解锁单篇专属文章
-    const resFail = verifyFansPasscode('888888', 'AI2026', '888888')
+    // 2. 输入全站默认主暗号同样可双轨兜底解锁
+    const resGlobal = verifyFansPasscode('888888', 'AI2026', '888888')
+    expect(resGlobal.valid).toBe(true)
+    expect(resGlobal.isGlobal).toBe(true)
+
+    // 3. 输入错误暗号予以拦截
+    const resFail = verifyFansPasscode('WRONG_CODE', 'AI2026', '888888')
     expect(resFail.valid).toBe(false)
   })
 
