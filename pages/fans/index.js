@@ -20,6 +20,7 @@ const FansIndex = props => {
   const fansIcon = siteConfig('HEO_FANS_ICON', '🎁', props.NOTION_CONFIG)
   const fansColor = siteConfig('HEO_FANS_COLOR', '#10b981', props.NOTION_CONFIG)
   const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', props.NOTION_CONFIG)
+  const POST_TWO_COLS = siteConfig('HEO_HOME_POST_TWO_COLS', true, props.NOTION_CONFIG)
 
   return (
     <div className='w-full min-h-screen px-4 md:px-6 py-6 max-w-7xl mx-auto'>
@@ -94,9 +95,9 @@ const FansIndex = props => {
         </div>
 
         {posts && posts.length > 0 ? (
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          <div className={`${POST_TWO_COLS ? 'grid grid-cols-1 md:grid-cols-2 gap-5' : 'flex flex-col gap-5'} w-full`}>
             {posts.map((post, index) => (
-              <BlogPostCard key={post.id || index} post={post} siteInfo={siteInfo} index={index} />
+              <BlogPostCard key={post.id || index} post={post} siteInfo={siteInfo} index={index} twoCols={POST_TWO_COLS} />
             ))}
           </div>
         ) : (

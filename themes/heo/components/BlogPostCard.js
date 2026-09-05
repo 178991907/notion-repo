@@ -5,7 +5,7 @@ import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
 import TagItemMini from './TagItemMini'
 
-const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
+const BlogPostCard = ({ index, post, showSummary, siteInfo, twoCols }) => {
   const showPreview =
     siteConfig('HEO_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
   if (
@@ -20,7 +20,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
     post?.pageCoverThumbnail &&
     !showPreview
 
-  const POST_TWO_COLS = siteConfig('HEO_HOME_POST_TWO_COLS', true, CONFIG)
+  const POST_TWO_COLS = twoCols !== undefined ? twoCols : siteConfig('HEO_HOME_POST_TWO_COLS', true, CONFIG)
   const COVER_HOVER_ENLARGE = siteConfig(
     'HEO_POST_LIST_COVER_HOVER_ENLARGE',
     true,
@@ -45,16 +45,18 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
       <div
         data-wow-delay='.2s'
         className={
-          (POST_TWO_COLS ? '2xl:h-96 2xl:flex-col' : '') +
-          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
+          (POST_TWO_COLS
+            ? 'md:flex-col md:h-auto'
+            : 'md:flex-row md:h-52') +
+          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
         }>
         {/* 图片封面 */}
         {showPageCover && (
           <SmartLink href={post?.href} passHref legacyBehavior>
             <div
               className={
-                (POST_TWO_COLS ? ' 2xl:w-full' : '') +
-                ' relative w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
+                (POST_TWO_COLS ? 'md:w-full md:h-52' : 'md:w-5/12 md:h-full') +
+                ' relative w-full h-48 overflow-hidden cursor-pointer select-none shrink-0 bg-gray-50 dark:bg-gray-900'
               }>
               {/* 角标展示优先级：粉丝专享 > SVIP尊享 > VIP专享（提升层级至 z-30，确保绝不被图片遮挡） */}
               {post?.fans ? (
@@ -93,8 +95,8 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
         {/* 文字区块 */}
         <div
           className={
-            (POST_TWO_COLS ? '2xl:p-4 2xl:h-48 2xl:w-full' : '') +
-            ' flex p-6  flex-col justify-between h-48 md:h-full w-full md:w-7/12'
+            (POST_TWO_COLS ? 'md:w-full md:p-5' : 'md:w-7/12 md:h-full md:p-6') +
+            ' flex p-5 flex-col justify-between w-full flex-grow'
           }>
           <header>
             {/* 分类与会员/粉丝专享标记 */}
