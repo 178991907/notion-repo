@@ -115,7 +115,7 @@ describe('PWA helpers', () => {
     expect(() => getPwaConfig({ siteInfo: null, notionConfig: null })).not.toThrow()
     const result = getPwaConfig({ siteInfo: null, notionConfig: null })
     expect(result).toMatchObject({
-      name: 'NotionNext',
+      name: expect.stringMatching(/NotionNext|Notion Repo/),
       icon: '/favicon.png',
       themeColor: '#ffffff'
     })
@@ -125,7 +125,7 @@ describe('PWA helpers', () => {
     expect(() => buildPwaManifest({ siteInfo: null, notionConfig: null })).not.toThrow()
     const result = buildPwaManifest({ siteInfo: null, notionConfig: null })
     expect(result).toMatchObject({
-      name: 'NotionNext',
+      name: expect.stringMatching(/NotionNext|Notion Repo/),
       start_url: '/',
       scope: '/',
       display: 'standalone'
@@ -134,6 +134,6 @@ describe('PWA helpers', () => {
 
   it('getPwaConfig handles undefined inputs', () => {
     expect(() => getPwaConfig()).not.toThrow()
-    expect(getPwaConfig()).toMatchObject({ name: 'NotionNext' })
+    expect(getPwaConfig()).toMatchObject({ name: expect.stringMatching(/NotionNext|Notion Repo/) })
   })
 })

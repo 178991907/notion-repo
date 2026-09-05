@@ -2,13 +2,24 @@
  * @jest-environment node
  */
 import BLOG from '@/blog.config'
+import adminOverrides from '@/lib/adminConfigOverrides.json'
 import { siteConfig } from '@/lib/config'
 
 describe('siteConfig', () => {
   const originalPostListStyle = BLOG.POST_LIST_STYLE
+  const originalAdminPostListStyle = adminOverrides?.POST_LIST_STYLE
+
+  beforeEach(() => {
+    if (adminOverrides && 'POST_LIST_STYLE' in adminOverrides) {
+      delete adminOverrides.POST_LIST_STYLE
+    }
+  })
 
   afterEach(() => {
     BLOG.POST_LIST_STYLE = originalPostListStyle
+    if (originalAdminPostListStyle !== undefined) {
+      adminOverrides.POST_LIST_STYLE = originalAdminPostListStyle
+    }
   })
 
   it('uses BLOG/env config before caller default for server-only keys', () => {

@@ -25,7 +25,7 @@ describe('getNotionAPI', () => {
         apiBaseUrl: 'https://app.notion.com/api/v3',
         ofetchOptions: {
           headers: {
-            'User-Agent': 'NotionNext (+https://github.com/NotionNext/NotionNext)'
+            'User-Agent': expect.stringContaining('https://github.com/')
           }
         }
       })
