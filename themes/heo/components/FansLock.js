@@ -141,7 +141,7 @@ export const FansLock = ({ post, onUnlocked }) => {
           🔑 输入暗号秒开
         </span>
         <span className='inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900 shadow-xs'>
-          ✨ 30 天自动免密
+          ✨ 24 小时自动免密
         </span>
       </div>
 

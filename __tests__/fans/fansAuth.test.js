@@ -79,5 +79,37 @@ describe('粉丝专区免登录验证码逻辑', () => {
     expect(verifyFansPasscode('VIP888', multiStringCodes).valid).toBe(true)
     expect(verifyFansPasscode('wrongcode', multiStringCodes).valid).toBe(false)
   })
+
+  it('全站粉丝凭证有效期测试：应为 24 小时（1 天），超过 24 小时应自动失效', () => {
+    const { saveFansUnlockRecord, isFansPostUnlocked } = require('@/lib/fans/auth')
+    const postSlug = 'test-post-expire'
+
+    // 1. 模拟未解锁状态
+    localStorage.clear()
+    expect(isFansPostUnlocked(postSlug)).toBe(false)
+
+    // 2. 写入全站通用解锁凭证
+    saveFansUnlockRecord(postSlug, true)
+
+    // 验证全站凭证已写入且当前有效
+    const rawGlobal = localStorage.getItem('fans_unlocked_global_flag')
+    expect(rawGlobal).toBeTruthy()
+    const parsedGlobal = JSON.parse(rawGlobal)
+    const duration = parsedGlobal.expireAt - parsedGlobal.unlockedAt
+    // 验证有效期严格等于 24 小时 (86400000 毫秒)
+    expect(duration).toBe(24 * 60 * 60 * 1000)
+    expect(isFansPostUnlocked(postSlug)).toBe(true)
+    expect(isFansPostUnlocked('another-random-post')).toBe(true)
+
+    // 3. 模拟时间流逝超过 24 小时后，应判定失效
+    const originalNow = Date.now
+    try {
+      Date.now = () => parsedGlobal.expireAt + 1000
+      expect(isFansPostUnlocked(postSlug)).toBe(false)
+      expect(isFansPostUnlocked('another-random-post')).toBe(false)
+    } finally {
+      Date.now = originalNow
+    }
+  })
 })
 
