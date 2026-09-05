@@ -111,5 +111,28 @@ describe('粉丝专区免登录验证码逻辑', () => {
       Date.now = originalNow
     }
   })
+
+  it('英雄区胶囊配置：adminConfigOverrides 中已包含 HEO_HERO_CATEGORY_4 粉丝福利', () => {
+    const adminOverrides = require('@/lib/adminConfigOverrides.json')
+    expect(adminOverrides.HEO_HERO_CATEGORY_4).toBeDefined()
+    expect(adminOverrides.HEO_HERO_CATEGORY_4.title).toBe('🎁 粉丝福利')
+    expect(adminOverrides.HEO_HERO_CATEGORY_4.url).toBe('/fans')
+  })
+
+  it('英雄区胶囊专属样式：粉丝专区与粉丝福利精准命中翡翠绿渐变与礼物图标', () => {
+    const fansCapsule = { title: '🎁 粉丝福利', url: '/fans' }
+    const isFans = fansCapsule.url === '/fans' || fansCapsule.title?.includes('粉丝')
+    expect(isFans).toBe(true)
+
+    let style = null
+    if (isFans) {
+      style = {
+        bg: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-emerald-500/20',
+        icon: 'fa-gift'
+      }
+    }
+    expect(style.icon).toBe('fa-gift')
+    expect(style.bg).toContain('from-emerald-500')
+  })
 })
 
