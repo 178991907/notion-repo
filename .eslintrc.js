@@ -48,7 +48,7 @@ module.exports = {
       parser: null // 避免对 `.eslintrc.js` 文件使用 TypeScript 解析器
     },
     {
-      files: ['**/*.js'], // Match all .js files 对js的代码规范检查不那么严格
+      files: ['**/*.js', '**/*.jsx'], // Match all .js/.jsx files 对js的代码规范检查不那么严格
       rules: {
         '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/no-unsafe-argument': 'off',
@@ -59,7 +59,10 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
-        '@typescript-eslint/no-unsafe-return': 'off'
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/no-misused-promises': 'off',
+        '@typescript-eslint/restrict-plus-operands': 'off',
+        '@typescript-eslint/require-await': 'off'
       }
     }
   ],
