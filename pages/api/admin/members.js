@@ -1,4 +1,13 @@
-import { listMembers, listInviteCodes, createInviteCode, updateInviteCodeStatus, createMember, syncNotionArticleProperties } from '@/lib/member/notion'
+import {
+  listMembers,
+  listInviteCodes,
+  createInviteCode,
+  updateInviteCodeStatus,
+  createMember,
+  syncNotionArticleProperties,
+  getFansConfigFromNotion,
+  saveFansConfigToNotion
+} from '@/lib/member/notion'
 
 /**
  * 校验管理员登录凭证
@@ -29,23 +38,20 @@ export default async function handler(req, res) {
   // GET: 获取会员与邀请码全量数据
   if (req.method === 'GET') {
     try {
-      const [members, inviteCodes] = await Promise.all([
+      const [members, inviteCodes, fansConfig] = await Promise.all([
         listMembers(),
-        listInviteCodes()
+        listInviteCodes(),
+        getFansConfigFromNotion().catch(() => ({
+          defaultPasscode: '888888',
+          unlockTips: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+        }))
       ])
-
-      // 读取粉丝专区通用暗号与引导文案
-      const defaultPasscode = global.__adminConfigOverrides?.HEO_FANS_DEFAULT_PASSCODE || process.env.HEO_FANS_DEFAULT_PASSCODE || '888888'
-      const unlockTips = global.__adminConfigOverrides?.HEO_FANS_UNLOCK_TIPS || process.env.HEO_FANS_UNLOCK_TIPS || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
 
       return res.status(200).json({
         success: true,
         members,
         inviteCodes,
-        fansConfig: {
-          defaultPasscode,
-          unlockTips
-        }
+        fansConfig
       })
     } catch (error) {
       console.error('[AdminMembersAPI] 获取数据失败:', error)
@@ -121,19 +127,24 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, member: newMember })
       }
 
-      // 5. 更新粉丝专区全局通用暗号与引导文案
+      // 5. 更新粉丝专区全局通用暗号与引导文案（写入 Notion 配置中心并清理缓存）
       if (action === 'update_fans_config') {
         const { defaultPasscode, unlockTips } = req.body
+        const cleanedPasscode = defaultPasscode !== undefined ? String(defaultPasscode).trim() : '888888'
+        const cleanedUnlockTips = unlockTips !== undefined ? String(unlockTips).trim() : ''
+
+        // 持久化写入 Notion 配置中心数据库并清除前台缓存
+        await saveFansConfigToNotion({
+          defaultPasscode: cleanedPasscode,
+          unlockTips: cleanedUnlockTips
+        })
+
         if (!global.__adminConfigOverrides) {
           global.__adminConfigOverrides = {}
         }
-        if (defaultPasscode !== undefined) {
-          global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE = String(defaultPasscode).trim()
-        }
-        if (unlockTips !== undefined) {
-          global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS = String(unlockTips).trim()
-        }
-        // 持久化到本地配置文件
+        global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE = cleanedPasscode
+        global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS = cleanedUnlockTips
+
         try {
           const fs = require('fs')
           const path = require('path')
@@ -144,8 +155,8 @@ export default async function handler(req, res) {
         return res.status(200).json({
           success: true,
           fansConfig: {
-            defaultPasscode: global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE,
-            unlockTips: global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS
+            defaultPasscode: cleanedPasscode,
+            unlockTips: cleanedUnlockTips
           }
         })
       }

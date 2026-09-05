@@ -43,13 +43,14 @@ export const FansLock = ({ post, onUnlocked }) => {
   const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', CONFIG)
 
   // 处理解锁校验
-  const handleUnlock = e => {
+  const handleUnlock = async e => {
     if (e) e.preventDefault()
     if (cooldownSeconds > 0) {
       setError(`连续输错次数过多，请等待 ${cooldownSeconds} 秒后再试`)
       return
     }
-    if (!passcode.trim()) {
+    const cleanPasscode = passcode.trim()
+    if (!cleanPasscode) {
       setError('请输入验证码或暗号')
       return
     }
@@ -57,27 +58,54 @@ export const FansLock = ({ post, onUnlocked }) => {
     setLoading(true)
     setError('')
 
-    setTimeout(() => {
-      const result = verifyFansPasscode(passcode, post?.fans_code, defaultPasscode)
-      if (result.valid) {
+    // 1. 本地快速双轨校验（专属码与当前页面通用暗号）
+    const localResult = verifyFansPasscode(cleanPasscode, post?.fans_code, defaultPasscode)
+    if (localResult.valid) {
+      setSuccess(true)
+      setFailedCount(0)
+      saveFansUnlockRecord(post?.id || post?.slug, localResult.isGlobal)
+      setTimeout(() => {
+        if (onUnlocked) onUnlocked()
+      }, 500)
+      setLoading(false)
+      return
+    }
+
+    // 2. 本地未命中时，发起云端最新配置实时校验（解决静态缓存暗号延迟问题）
+    try {
+      const res = await fetch('/api/fans/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          passcode: cleanPasscode,
+          fansCode: post?.fans_code
+        })
+      })
+      const data = await res.json()
+      if (data?.valid) {
         setSuccess(true)
         setFailedCount(0)
-        saveFansUnlockRecord(post?.id || post?.slug, result.isGlobal)
+        saveFansUnlockRecord(post?.id || post?.slug, data.isGlobal)
         setTimeout(() => {
           if (onUnlocked) onUnlocked()
         }, 500)
-      } else {
-        const nextFailed = failedCount + 1
-        setFailedCount(nextFailed)
-        if (nextFailed >= 5) {
-          setCooldownSeconds(60)
-          setError('⚠️ 连续输入错误达到 5 次，已开启安全保护，请 60 秒后再试')
-        } else {
-          setError(`${result.message || '验证码或暗号不正确'}${nextFailed >= 3 ? ` (已连续输错 ${nextFailed} 次)` : ''}`)
-        }
+        setLoading(false)
+        return
       }
-      setLoading(false)
-    }, 200)
+    } catch (err) {
+      console.warn('[FansLock] 在线校验异常:', err)
+    }
+
+    // 3. 校验不通过，计算连续错误次数
+    const nextFailed = failedCount + 1
+    setFailedCount(nextFailed)
+    if (nextFailed >= 5) {
+      setCooldownSeconds(60)
+      setError('⚠️ 连续输入错误达到 5 次，已开启安全保护，请 60 秒后再试')
+    } else {
+      setError(`${localResult.message || '验证码或暗号不正确'}${nextFailed >= 3 ? ` (已连续输错 ${nextFailed} 次)` : ''}`)
+    }
+    setLoading(false)
   }
 
   return (
