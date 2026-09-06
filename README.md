@@ -251,22 +251,53 @@ npm run dev
 
 ---
 
-## 📦 生产部署指南 (Vercel)
+## 📦 生产部署指南 (Vercel 极速建站)
 
-> 💡 **小白零基础保姆级图文教程**：请查阅 👉 [**《Vercel 部署 Notion Repo 保姆级极速建站教程》**](./docs/user-guide/deploy-vercel.md)
+> 💡 **小白零基础保姆级部署教程已正式上线**！  
+> 👉 [**📖 点击查阅完整图文教程：《Vercel 部署 Notion Repo 保姆级极速建站教程》**](./docs/user-guide/deploy-vercel.md)  
+> *(在 GitHub 上直接点击上述链接，即可无缝在线阅读完整的图文保姆级教程、全套环境变量清单与故障排查手册)*
+
+### 🧭 极速部署三步走 (3 分钟上线)
+
+```mermaid
+graph LR
+    A["1. 准备 Notion 页面\n(复制模板并开启分享)"] --> B["2. Fork 源代码\n(一键复刻到个人 GitHub)"]
+    B --> C["3. Vercel 导入与部署\n(设置 Node 24 与环境变量)"]
+    C --> D["🎉 站点上线！\n(登录 /admin 可视化定制)"]
+```
 
 1. **一键 Fork 本仓库**：点击 [一键 Fork Notion Repo](https://github.com/178991907/notion-repo/fork) 将源码复制到个人 GitHub 账号；
-2. **复制 Notion 数据源模板**：访问并复制 [官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)，开启 **Publish to web** 并复制提取 32 位页面 ID；
+2. **复制 Notion 数据源模板**：访问并复制 [官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)，开启 **Publish to web (发布到网络)** 并复制提取 32 位页面 ID；
 3. **导入 Vercel 部署**：
-   - 打开 **[Vercel](https://vercel.com)** 点击 **Add New Project** 导入刚 Fork 的 `notion-repo` 仓库；
-   - **⚠️ 核心重点（必选）**：确保将 Node.js Version 设置为 **`24.x`**（或 Node 22+）；
+   - 打开 **[Vercel 控制台](https://vercel.com)** 点击 **Add New Project** 导入刚 Fork 的 `notion-repo` 仓库；
+   - **⚠️ 核心重点（必做避坑）**：确保将 Node.js Version 设置为 **`24.x`**（Next.js 15+ 强制要求 Node 22+）；
    - 在 **Environment Variables (环境变量)** 面板添加核心变量：
      - `NOTION_PAGE_ID`：你的 32 位 Notion 页面 ID（必填）
      - `ADMIN_PASSWORD`：你的管理后台登录密码（必填，如 `admin888`）
      - `NEXT_PUBLIC_THEME`：推荐设为 `heo`
      - `NOTION_ACCESS_TOKEN`：你的 Notion 官方集成 Token（选填，推荐）
 4. 点击 **Deploy**，静候 1~2 分钟即可完成全自动部署并上线！
-5. 部署完成后，访问 `https://你的域名/admin` 即可直接进入全新可视化控制台自由配置全站！完整参数与进阶手册请参考 [docs/DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md)。
+5. 部署完成后，访问 `https://你的域名/admin` 即可直接进入全新可视化控制台自由配置全站！
+
+---
+
+### ❓ 新手常见部署疑问与避坑指南
+
+> **Q1：部署项目是不是必须先配置环境变量？不配置部署时会报错吗？**  
+> **A1：不会报错！** 即使一个环境变量都不填，直接点击 **Deploy** 也能顺利构建成功！因为项目内置了官方示例 ID 兜底。如果不填，网站会展示官方演示文章，且无法登录 `/admin`。  
+> **补救方法**：您可以先部署预览，随后随时在 Vercel 的 `Settings -> Environment Variables` 补齐变量。**注意**：添加变量后，必须去 **Deployments** 列表点击最新记录右侧的 **`...` -> Redeploy (重新部署)**，新变量才会生效！
+
+> **Q2：部署报错退出的真正元凶是什么？**  
+> **A2：只有 Node.js 运行版本不匹配！** 如果 Vercel 默认使用了 Node 18/20，构建会直接报错。请务必在项目设置中确认选择 **`24.x`**。
+
+---
+
+### 📚 完整部署文档专区
+
+- 📘 [**《Vercel 部署 Notion Repo 保姆级极速建站教程（图文详解）》**](./docs/user-guide/deploy-vercel.md)  
+  *(GitHub 在线直达：[deploy-vercel.md](https://github.com/178991907/notion-repo/blob/main/docs/user-guide/deploy-vercel.md))*
+- 📑 [**《Notion Repo 生产级环境高级部署手册 (进阶与全变量配置)》**](./docs/DEPLOYMENT_GUIDE.md)  
+  *(GitHub 在线直达：[DEPLOYMENT_GUIDE.md](https://github.com/178991907/notion-repo/blob/main/docs/DEPLOYMENT_GUIDE.md))*
 
 ---
 
