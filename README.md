@@ -15,6 +15,8 @@
   ·
   <a href="https://terry.yyqm.de5.net/admin/settings/theme">🎨 主题可视化配置</a>
   ·
+  <a href="./docs/user-guide/deploy-vercel.md">📖 Vercel 部署教程</a>
+  ·
   <a href="https://github.com/178991907/notion-repo">💻 GitHub 仓库</a>
 </p>
 
@@ -251,16 +253,20 @@ npm run dev
 
 ## 📦 生产部署指南 (Vercel)
 
-1. **Fork 本仓库** 到你的 GitHub 账号（或直接使用当前仓库 `178991907/notion-repo`）；
-2. 在 **[Vercel](https://vercel.com)** 中点击 **Add New Project** 导入该仓库；
-3. **设置 Node.js 版本**：在 Project Settings 中将 Node.js Version 设为 **`24.x`**（或 Node 22+）；
-4. 在 **Environment Variables (环境变量)** 中配置核心变量：
-   - `NOTION_PAGE_ID`：你的 Notion 根页面 ID
-   - `NOTION_ACCESS_TOKEN`：你的 Notion 集成 Token
-   - `ADMIN_PASSWORD`：你的后台管理密码（例如 `123456`）
-   - `NEXT_PUBLIC_THEME`：默认主题（推荐 `heo`）
-5. 点击 **Deploy** 部署上线；
-6. 部署成功后，直接访问 `https://你的域名/admin` 即可随时在线可视化修改博客全部外观与功能！
+> 💡 **小白零基础保姆级图文教程**：请查阅 👉 [**《Vercel 部署 Notion Repo 保姆级极速建站教程》**](./docs/user-guide/deploy-vercel.md)
+
+1. **一键 Fork 本仓库**：点击 [一键 Fork Notion Repo](https://github.com/178991907/notion-repo/fork) 将源码复制到个人 GitHub 账号；
+2. **复制 Notion 数据源模板**：访问并复制 [官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)，开启 **Publish to web** 并复制提取 32 位页面 ID；
+3. **导入 Vercel 部署**：
+   - 打开 **[Vercel](https://vercel.com)** 点击 **Add New Project** 导入刚 Fork 的 `notion-repo` 仓库；
+   - **⚠️ 核心重点（必选）**：确保将 Node.js Version 设置为 **`24.x`**（或 Node 22+）；
+   - 在 **Environment Variables (环境变量)** 面板添加核心变量：
+     - `NOTION_PAGE_ID`：你的 32 位 Notion 页面 ID（必填）
+     - `ADMIN_PASSWORD`：你的管理后台登录密码（必填，如 `admin888`）
+     - `NEXT_PUBLIC_THEME`：推荐设为 `heo`
+     - `NOTION_ACCESS_TOKEN`：你的 Notion 官方集成 Token（选填，推荐）
+4. 点击 **Deploy**，静候 1~2 分钟即可完成全自动部署并上线！
+5. 部署完成后，访问 `https://你的域名/admin` 即可直接进入全新可视化控制台自由配置全站！完整参数与进阶手册请参考 [docs/DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md)。
 
 ---
 
