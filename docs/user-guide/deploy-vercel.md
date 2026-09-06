@@ -1,225 +1,193 @@
-# Vercel 部署 Notion Repo
-> 迁移自：[Vercel部署Notion Repo](https://docs.tangly1024.com/article/vercel-deploy-notion-next)
-> 发布日期：2023-2-10
-> 最后编辑：2026-5-2
-> 原栏目：🚀 安装部署
-> 标签：Notion Repo、部署方案
-> 摘要：Vercel是一款国外的Serverless托管平台，对个人用户使用几乎免费，而且方便快捷，用Vercel托管你的Notion站点，无需再操心服务器的维护与资费问题。
+# Vercel 部署 Notion Repo 保姆级极速建站教程
 
-## 前言
+> 本教程专为 **Notion Repo** 新手量身打造，带您从零开始、免费、极速搭建属于您自己的顶尖独立博客与知识库系统！  
+> 源码仓库：[178991907/notion-repo](https://github.com/178991907/notion-repo)  
+> 线上演示站：[https://terry.yyqm.de5.net/](https://terry.yyqm.de5.net/)  
+> 在线管理后台演示：[https://terry.yyqm.de5.net/admin](https://terry.yyqm.de5.net/admin)
 
-遵循此教程您将在[Vercel](https://tangly1024.com/article/vercel)上免费搭建一个[Notion Repo](/user-guide/intro)博客。
+---
 
-::: info 问题
-[Notion Repo](/user-guide/intro)是一个开源站点系统，可以把你的 Notion 内容发布为博客、作品集、知识库、导航站或产品官网。
+## 💡 为什么选择 Notion Repo + Vercel？
 
-Vercel是一个来自国外的在线脚本托管平台，对于个人使用，其免费版已经完全足够，因此您无需购买服务器即可搭建自己的网站。
-:::
+- **无需购买服务器，终身完全免费**：利用国外领先的 Serverless 托管平台 [Vercel](https://vercel.com/)，个人免费版额度充沛，无需承担任何服务器与带宽费用；
+- **沉浸写作在 Notion**：所有的文章、随笔、专栏编写全部在 Notion 原生编辑器中完成，即写即发布，图文并茂、多端自动云同步；
+- **全网独家可视化管理后台**：彻底告别传统静态博客改配置必须修改代码的痛点！内置专属后台控制台（`/admin`），网页端在线修改标题、头像、导航、英雄区胶囊与配色，秒级全站生效；
+- **全端极速自适应与丰富生态**：搭载 Next.js 15+ 与 Tailwind CSS，集成 27 套现代旗舰主题（默认推荐 `heo`），全端完美自适应（桌面/平板/手机），更独家搭载了双轨制会员系统与 24 小时粉丝免密通行证体系。
 
-站点效果预览→：[https://preview.tangly1024.com/](https://preview.tangly1024.com/) , 站点左下角图标点击可以体验主题切换：
+---
 
-![image.png](/legacy/a83043dbc31d736e.png)
+## 🧭 部署前极速路线图 (只需 3 步)
 
-想查看更多网站搭建效果，欢迎访问友情链接：[https://blog.tangly1024.com/links](https://blog.tangly1024.com/links)
+```mermaid
+graph LR
+    A["1. 准备 Notion 页面\n(复制模板并开启分享)"] --> B["2. Fork 源代码\n(一键复刻到个人 GitHub)"]
+    B --> C["3. Vercel 导入与部署\n(设置 Node 24 与环境变量)"]
+    C --> D["🎉 站点上线！\n(登录 /admin 可视化定制)"]
+```
 
+---
 
-### 部署步骤
+## 第一步：准备您的 Notion 数据源
 
-部署站点只需三步，分别是：
+### 1. 复制官方模板 (Duplicate)
+1. 打开并登录您的 [Notion 账号](https://www.notion.so/)（若无账号可免费注册）；
+2. 访问官方推荐的 Notion 数据源模板：
+   👉 **[Notion Repo 官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)**
+3. 在打开的 Notion 模板页面右上角，点击 **Duplicate (复制)** 按钮，将模板完整复刻到您自己的个人 Notion 工作区中。
 
-1. 复制官方 Notion 模板
+### 2. 开启公开网页分享 (Publish to web)
+> [!IMPORTANT]
+> **必须开启网络发布**，否则 Vercel 无法读取您的笔记数据！
 
-1. Fork 官方 GitHub 仓库
+1. 在复制到您工作区后的根页面中，点击右上角的 **Share (分享)** 按钮；
+2. 切换到 **Publish (发布)** 选项卡；
+3. 点击开启 **Publish to web (发布到网络)** 开关；
+4. 确认开启后，点击 **Copy link (复制链接)**。
 
-1. 在 Vercel 中一键部署
+### 3. 获取并准确提取 32 位页面 ID (`NOTION_PAGE_ID`)
+请仔细观察您刚才复制出的公开分享链接：
 
-部署文档已经过大量站长实践验证。若无法完成独立部署，先查看 [获取帮助](/user-guide/help/) 中的社区支持和付费协助说明。
+- **格式一（经典格式）**：
+  ```text
+  https://yourname.notion.site/02ab3b8678004aa69e9e415905ef32a5?v=b7eb2157...
+  ```
+  此时位于链接中间由纯数字与小写字母组成的 **连续 32 位字符** 即为页面 ID：
+  👉 `02ab3b8678004aa69e9e415905ef32a5`
 
+- **格式二（新版带标题格式）**：
+  ```text
+  https://yourname.notion.site/My-Blog-02ab3b8678004aa69e9e415905ef32a5?pvs=4
+  ```
+  此时位于标题短横线后面、问号前面的 **连续 32 位字符** 即为页面 ID：
+  👉 `02ab3b8678004aa69e9e415905ef32a5`
+
+> [!WARNING]
+> **避坑提醒**：只复制这 32 位的纯字符串！**切勿包含 `?v=`、`?pvs=4` 及其后面的任何多余字符**。请将这串 32 位 ID 妥善暂存，下一步将用到。
 
-### 视频帮助
+---
 
-**我录了一个1分38秒的简略视频**，演示了整个部署过程，最终以文档为主。
+## 第二步：一键 Fork GitHub 源代码
 
-<div class="legacy-video-embed">
-  <iframe
-    src="https://player.bilibili.com/player.html?aid=913088616&bvid=BV1fM4y1L7Qi&cid=1203316294&page=1"
-    title="Notion Repo Vercel 部署演示视频"
-    loading="lazy"
-    allowfullscreen
-  ></iframe>
-</div>
+> [!TIP]
+> **账号注册避坑建议**：注册 GitHub 账号时，建议使用 **Gmail、Outlook 等国际主流邮箱**，避免使用部分国内邮箱导致后续注册 Vercel 时触发封控。
 
-- 另外有 YouTube 网友也分享了部署过程，可以参考：
+1. 登录您的 [GitHub 账号](https://github.com/)；
+2. 访问 **Notion Repo** 官方仓库并点击 Fork：
+   👉 **[一键 Fork Notion Repo 仓库](https://github.com/178991907/notion-repo/fork)**
+3. 在 Fork 页面中保持默认设置，点击绿色的 **Create fork** 按钮；
+4. 代码将自动完整复制到您的个人 GitHub 账号下。
 
-<div class="legacy-bookmark-list">
-  <a class="legacy-bookmark-card" href="https://www.youtube.com/watch?v=zWlPyDQCkrk" target="_blank" rel="noreferrer">
-    <span class="legacy-bookmark-content">
-      <strong>将您的 Notion 笔记变为博客站，所有文章的编写发布都只在您的 Notion 笔记中完成</strong>
-      <span>Maple Tech 分享的 Notion Repo 建站与 Vercel 部署过程。</span>
-      <small>youtube.com/watch?v=zWlPyDQCkrk</small>
-    </span>
-    <img src="https://i.ytimg.com/vi/zWlPyDQCkrk/maxresdefault.jpg" alt="Notion Repo YouTube 部署教程封面" loading="lazy" />
-  </a>
+---
 
-  <a class="legacy-bookmark-card" href="https://www.youtube.com/watch?v=AbI70b9KfXE" target="_blank" rel="noreferrer">
-    <span class="legacy-bookmark-content">
-      <strong>零基础入门 Notion Repo 网站搭建、个人博客、网站快速搭建部署教程</strong>
-      <span>404 实验室分享的零基础 Notion Repo 网站搭建教程。</span>
-      <small>youtube.com/watch?v=AbI70b9KfXE</small>
-    </span>
-    <img src="https://i.ytimg.com/vi/AbI70b9KfXE/maxresdefault.jpg" alt="零基础 Notion Repo YouTube 教程封面" loading="lazy" />
-  </a>
-</div>
+## 第三步：Vercel 导入与部署上线 (核心关键步骤)
 
-## 一、创建您的Notion页面
+### 1. 登录 Vercel
+1. 访问 **[Vercel 官网](https://vercel.com/)**；
+2. 推荐直接选择 **Continue with GitHub** 授权登录，即可直接读取到您刚刚 Fork 的代码仓库。
 
+### 2. 导入项目 (Import Project)
+1. 登录后进入控制台，点击右上角的 **Add New...** ➔ 选择 **Project**（或直接访问 [https://vercel.com/new](https://vercel.com/new)）；
+2. 在代码仓库列表中找到您刚才 Fork 的 `notion-repo`，点击右侧的 **Import (导入)** 按钮。
 
-### 复制模板
+### 3. ⚠️ 核心设置：选择 Node.js 24 版本 (小白必做避坑点！)
+> [!CAUTION]
+> **重要必做步骤**：Notion Repo 最新版基于 Next.js 15+ 深度优化，要求运行环境必须为 **Node.js 22 或 24**。
+> 若未设置，Vercel 默认可能会使用较旧的 Node 版本导致构建报错退出！
 
-1. 请先注册登陆您的[Notion](https://www.notion.so/)账号。
+在导入页面暂不点击 Deploy，请展开或者在项目设置中确认：
+- **Framework Preset**：保持默认 `Next.js`；
+- **Root Directory**：保持默认 `./`；
+- **Node.js Version**：若当前界面支持选择，请选择 **`24.x`**（如未出现，可部署后进入 Project -> Settings -> General 确认选择 24.x）。
 
-1. 点击下方链接，打开模板
-[Notion Blog](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)
+### 4. 配置环境变量 (Environment Variables)
+在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下核心变量：
 
-一个Notion Repo搭建的博客
+| 环境变量名称 (Key) | 推荐填写值 (Value) | 是否必填 | 功能与说明 |
+| :--- | :--- | :---: | :--- |
+| **`NOTION_PAGE_ID`** | 您在第一步获取的 32 位 ID | **必填** | 站点文章与数据来源的根页面 ID |
+| **`ADMIN_PASSWORD`** | 您的自定义后台密码（如 `admin888`） | **必填** | 用于登录可视化后台 `/admin` 的超级管理密码 |
+| **`NEXT_PUBLIC_THEME`** | `heo` | **强烈推荐** | 博客默认主题，推荐旗舰级现代科技主题 `heo` |
+| **`NOTION_ACCESS_TOKEN`** | 您的 Notion Integration Token | 选填 | 官方 API Token，大幅提升高并发同步稳定性与私密数据写入能力 |
 
-1. 在右上角点击**Duplicate**复制模板，如图所示。点击后会将这个博客数据模板复制到您的笔记空间中。
-![点击右上角的Duplicate，将模板复制到您的笔记中](/legacy/b6b81e01d512a122.png)
+> [!NOTE]
+> 每填写完一行 Key 和 Value 后，请务必点击右侧的 **Add** 按钮将其添加到列表中！
 
+### 5. 点击一键部署
+确认环境变量添加完毕后，点击醒目的 **Deploy** 按钮！  
+Vercel 将全自动为您拉取依赖、编译前端、打包生产镜像。大约静候 **1 ~ 2 分钟**，界面将会撒花并提示：**Congratulations!** 部署成功！🎉
 
-### 获取页面ID
+点击页面上的 **Continue to Dashboard** 或右侧预览窗口的 **Visit** 按钮，您即可正式访问您崭新的独立博客！
 
-1. 在Notion笔记中：在页面右上角的菜单栏中，依次点击**Share**→**Published**→**Share To Web，**开启页面分享，获取**共享链接**
-  - 如下图所示，点击右上角 **Share ，**在弹出窗口中点击 **Publish **→ **Share to web**  (点击展开截图)
-![Untitled](/legacy/529223fa2a1ffd16.png)
+---
 
-1. 复制**页面ID**
-页面ID在您的共享链接中、域名中间的一串**32位字母与数字**。
-  - 如下图所示：
-![Untitled](/legacy/3be621dcdd736f88.png)
-  - 页面ID注意
+## 第四步：进入可视化后台，自由定制您的站点
 
-> **如何识别页面ID**
->
-> 页面 ID 是 Notion 共享链接中那段**连续 32 位的字母和数字**。只复制这 32 位字符串即可，不要复制 `?v=`、`?pvs=` 以及它们后面的参数。
->
-> 示例一：
->
-> `https://www.notion.so/tanghh/02ab3b8678004aa69e9e415905ef32a5?v=b7eb215720224ca5827bfaa5ef82cf2d`
->
-> 这里的页面 ID 是：
->
-> `02ab3b8678004aa69e9e415905ef32a5`
->
-> 示例二：新版 Notion 可能会把页面标题放进链接里，例如：
->
-> `https://www.notion.so/tanghh/Today-261c36d269a74acd97682af86d7bc9a0?pvs=4`
->
-> 这里的页面 ID 是：
->
-> `261c36d269a74acd97682af86d7bc9a0`
+Notion Repo 为您配备了业界领先的**全功能在线管理后台**：
 
-请将您的**页面ID**记录下来，步骤三配置环境变量时会用到。
+1. **登录后台**：在您的博客域名后面加上 `/admin`（例如 `https://your-domain.vercel.app/admin`）；
+2. 输入您在部署时设置的 `ADMIN_PASSWORD` 密码，点击登录；
+3. **随心所欲可视化定制**：
+   - **🎨 主题全维度设置 (`/admin/settings/theme`)**：
+     - 在线修改网站大标题、副标题、建站年份、博主头像、个人简介；
+     - 在线配置社交联系方式（GitHub、微信公众号、邮箱等）；
+     - **一键添加英雄区胶囊**：点击【🎁 粉丝专区】Tab 中的“⚡ 一键添加至英雄区胶囊”，秒级在首页英雄区添加高亮翡翠绿【🎁 粉丝福利】胶囊；
+     - 自由切换首页双列/单列排版、深色/浅色模式、代码高亮风格；
+   - **👑 会员专区与邀请码管理 (`/admin/members`)**：
+     - 一键生成 VIP / SVIP 分级激活码，支持单人单码核销与全站通用码；
+     - 享受已登录会员免输码畅读专属内容的超级特权；
+   - **🎁 粉丝专区与 24 小时通行证**：
+     - 专属粉丝文章暗号解锁，输入一次暗号 24 小时全站免输畅读；
+   - **📁 分类与标签批量管理 (`/admin/categories`, `/admin/tags`)**：
+     - 一键批量重命名、智能分类合并、空标签清理。
 
+所有的修改只需在后台底部点击 **“💾 保存全部配置”**，系统将实时写回 Notion 并自动刷新 CDN 缓存，无需重新构建即可生效！
 
-## 二、复制源代码
+---
 
-::: tip 提示
-注意，请不要使用qq邮箱等国内邮箱，**尽量使用hotmail或gmail等国际邮箱**，否则下一步登陆vercel后会提示账号被封禁。
-:::
+## 第五步：绑定您自己的个性独立域名 (进阶可选)
 
-1. 请先注册并登陆[Github账号](https://github.com/)，
+Vercel 默认提供的 `*.vercel.app` 域名在部分国内网络环境下可能受到限制。如果您拥有自己的独立域名（如 `yourname.com` 或 `blog.yourname.com`），建议一键绑定：
 
-1. 仅需点击下方链接，即可一键 **Fork（复刻）** 官方项目。
-[Fork Notion Repo](https://github.com/notionnext-org/Notion Repo/fork)
+1. 在 Vercel 项目管理面板中，点击上方导航栏的 **Settings** ➔ 进入 **Domains**；
+2. 在输入框中填写您的域名（如 `blog.yourname.com`），点击 **Add**；
+3. 按照页面提示，前往您的域名购买商（如阿里云、腾讯云、Cloudflare、NameSilo 等）添加 DNS 解析记录：
+   - **如果是二级域名（推荐）**：
+     - 记录类型：`CNAME`
+     - 主机记录：`blog`（或您自定义的前缀）
+     - 记录值：`cname.vercel-dns.com`
+   - **如果是顶级根域名**：
+     - 记录类型：`A`
+     - 主机记录：`@`
+     - 记录值：`76.76.21.21`
+4. 添加后等待数分钟 DNS 生效，Vercel 会全自动为您申请并定期续签免费的 **HTTPS SSL 证书**。
 
+---
 
-## 三、Vercel部署
+## 常见排坑与故障排除 (FAQ)
 
+### Q1: Vercel 部署报错 `Error: Node.js version is not supported` 或依赖安装失败？
+- **根因**：使用了旧版 Node 运行环境。
+- **解决方案**：进入 Vercel 项目控制台 ➔ **Settings** ➔ **General** ➔ 找到 **Node.js Version** ➔ 切换为 **`24.x`**（或 22.x）➔ 返回 Deployments 页面点击 **Redeploy** 重新部署即可。
 
-### 准备账号
+### Q2: 部署完成后打开网站提示错误，或者页面一片空白？
+- **排查项 1**：检查 Notion 根页面是否真正开启了 **Publish to web**（请使用无痕浏览器窗口打开分享链接，确认游客可以正常浏览）；
+- **排查项 2**：检查环境变量中的 `NOTION_PAGE_ID` 是否严格为 32 位字符串，是否不小心复制了问号及其后面的参数（如 `?pvs=4`）；
+- **排查项 3**：修改环境变量后，必须触发一次 **Redeploy** 才能让新变量生效。
 
-注册登陆[Vercel](https://vercel.com/) ，这里推荐选择Github账号登录。
+### Q3: 在 Notion 中修改或发布了新文章，博客什么时候会同步？
+- Notion Repo 采用现代增量静态再生（ISR）技术，具有极速访问性能。
+- 默认情况下，访客访问页面时会在后台静默抓取最新 Notion 内容，通常**等待几十秒到一分钟**再次刷新页面即可看到最新文章；
+- 若您希望立即刷新，可登录 `/admin` 管理后台，点击任意保存配置，系统会自动触发全站缓存清空与即时更新。
 
-![Untitled](/legacy/13e02f9b76e15fe6.png)
+### Q4: 注册 Vercel 时提示 `This user account is blocked`？
+- 这是由于 Vercel 对部分国内邮箱域名存在自动化反欺诈限制；
+- 建议使用国际主流邮箱（如 Gmail 或 Outlook）注册 GitHub，并在 GitHub 的 Settings -> Emails 中将其设为 Primary 邮箱，随后重新通过 GitHub 登录 Vercel 即可畅通无阻。
 
-<details>
-<summary>注册vercel账号可能遇到的问题</summary>
+---
 
-若注册时提示 `Error:This user account is blocked.Contact support@vercel.com for more information.`
-这是由于 `Vercel` 不支持大部分国内邮箱。可以将 `github` 账号主邮箱改为 `Gmail` 邮箱。
-**但是**根据群友反应，将 `github` 账号主邮箱切换为 `Gmail` 以后，`Vercel` 又会提示需要使用手机号码验证。然而 `github` 并没有提供手机号码绑定的内容。
-综上，建议一开始注册 `github` 账号时就使用 `Gmail` 等国外邮箱进行注册。
-  1. 国内访问`Gmail`的方案：
-  - 直接使用 QQ 邮箱手机版，它提供 `Gmail` 的访问路线，可以直接注册并使用。使用 `Ghelper` 等浏览器插件访问。详情可以参考这篇文章：[玩转 Microsoft-Edge](https://github.com/Zfour/python_github_calendar_api/blob/master/posts/8c8df126)
-  1. 若是执着于当前`Github`账号，可以参考以下方案进行尝试:
-  - 完成了 `Gmail` 等国外邮箱的注册，打开 [github-&gt; 头像 -&gt;settings-&gt;Emails](https://github.com/settings/emails)&gt;Add email address, 并完成邮箱验证。在Add email address 下方的Primary email address 选项中将 `Gmail` 设置为主邮箱。
+## 结语
 
-</details>
+祝贺您成功拥有了属于自己的高端个人独立站！无论是沉淀学术笔记、分享 AI 实操经验、还是打造专属粉丝与会员社群，**Notion Repo** 都将是您最坚实优雅的数字家园。
 
-
-### 导入代码
-
-1. 点击下方创建新项目
-[New Project - Vercel](https://vercel.com/new)
-
-To deploy a new Project, import an existing Git Repository or get started with one of our Templates.
-
-1. 在代码仓库列表中选择导入**Notion Repo**
-![2.点击导入您的Notion Repo项目](/legacy/fe71592782250a93.png)
-::: tip 提示
-注意：这里步骤放慢些，**不要急着**点击页面上的**Deploy**按钮，先看下方教程。
-:::
-
-
-### 配置页面ID并部署
-
-1. 点击**Environment Variables**（环境变量），并添加一个属性名称为`**NOTION_PAGE_ID**`**，**值为步骤一获取的**页面ID**。
-例如，我的页面ID是：`02ab3b8678004aa69e9e415905ef32a5`，则配置如下：
-![左侧填写 NOTION_PAGE_ID ， 右侧填写 页面ID的值](/legacy/1b6bad1ad0dee297.png)
-填写后要**点击右边的****`Add`****按钮**确认添加
-
-1. 点击`Deploy`按钮，静候两分钟等待部署。
-![1.点击Deploy进行自动部署](/legacy/9a881298d4a9b142.png)
-
-
-## 四、完成🎉🎉🎉
-
-1. 在部署完成页面，点击`Go to Dashboard`访问控制台
-![Untitled](/legacy/78f86a1a1c05b5c3.png)
-
-1. 在控制台右上角的`Visit`按钮访问您的站点。或在DOMAINS中获取您的网站地址
-![2.在Vercel控制台中找到访问地址](/legacy/0cde1f7486038757.png)
-
-
-## 注意事项
-
-::: tip 提示
-Notion Repo会实时抓取Notion笔记内容
-(由于缓存和网络延迟，最多刷新两次页面即可看到同步结果)。
-:::
-
-::: warning 注意
-**若您的站点始终无法同步笔记的数据**，请再次检查上面的步骤，或者干脆重来一遍：
-1. 在Notion中检查您的`NOTION_PAGE_ID` 格式是否正确、并已开起页面分享。
-2. Vercel后台环境变量中`NOTION_PAGE_ID`是否配置，并重新配置后尝试`Redeploy`。
-如何检查Vercel后台环境变量配置：
-![Untitled](/legacy/27a7df016686481d.png)
-如何重新部署
-![Untitled](/legacy/1f4cae5794779d16.png)
-:::
-
-
-## 自定义您的站点
-
-到这里，您已拥有了自己的独立博客，站点的一切内容：标题、描述、头像、菜单栏等所有配置都可随心所欲地定制。
-
-接下来，请访问下方的《**Notion Repo 操作手册**》获取更多站点配置的帮助！
-
-[Notion Repo-快速免费搭建网站 | Notion Repo文档](/user-guide/intro)
-
-无需服务器、即使是小白也能几分钟搭建自己的独立博客站～如果你在使用Notion这款神级笔记本的话，不妨来试试顺手建个网站🤣🤣🤣，这是一款基于NotionAPI的博客系统。
-
-## 原文链接
-
-https://docs.tangly1024.com/article/vercel-deploy-notion-next
+- 💬 **交流反馈与技术支持**：欢迎在 [GitHub Issues](https://github.com/178991907/notion-repo/issues) 提交反馈或参与讨论。
+- 🌟 **如果觉得本项目对您有所帮助，欢迎前往 GitHub 为我们点亮一颗 Star ⭐️！**
