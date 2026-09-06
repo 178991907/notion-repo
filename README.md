@@ -21,7 +21,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.17.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.18.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
@@ -33,11 +33,21 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.17.0 重磅发布)
+## 🌟 核心特性与架构亮点 (v4.18.0 重磅发布)
 
-本项目深度研发并集成了 **全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统**、**分类/标签深度双向管理系统** 与 **高自适应排版视觉体系**：
+本项目深度研发并集成了 **新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统**、**分类/标签深度双向管理系统** 与 **高自适应排版视觉体系**：
 
-### 1. 🎁 英雄区专属高亮翡翠绿【🎁 粉丝福利】胶囊与多端响应式重构
+### 1. 📖 新用户 Vercel 保姆级极速建站部署生态与核心避坑体系
+- **小白零基础图文保姆级指南**：专为 Notion Repo 新用户量身定制 [《Vercel 部署 Notion Repo 保姆级极速建站教程》](./docs/user-guide/deploy-vercel.md)，覆盖 Notion 模板一键复刻、公开网页分享、32 位 ID 精准提取、Vercel 自动化导入与生产上线全流程。
+- **构建兜底机制与环境变量深度解密**：
+  - 阐明项目内部对 `NOTION_PAGE_ID` 的内置演示库兜底保护，**零环境变量配置也能 100% 成功构建并上线**；
+  - 详细指导部署后在 Vercel 随时补配环境变量，并通过 **Deployments -> Redeploy** 重新构建生效的无缝流转机制。
+- **Node.js 24 关键避坑指引**：明确 Next.js 15+ 现代架构对 Node 22/24 的严格要求，手把手引导用户在 Vercel 中切换为 **`24.x`**，彻底消除 99% 新用户的部署构建报错。
+- **README 部署专区与双层文档枢纽**：在主文档中新增直观的 Mermaid 部署流程图、高颜值快速卡片、新手常见疑问答疑与 GitHub 在线直达链接，构建从小白入门到生产级进阶的高可用文档网络。
+
+---
+
+### 2. 🎁 英雄区专属高亮翡翠绿【🎁 粉丝福利】胶囊与多端响应式重构
 - **后台一键直达与标题智能对齐**：
   - 在 `/admin/settings/theme`「粉丝专区」中提供“✨ 一键将【🎁 粉丝福利】添加到英雄区胶囊栏”快捷入口，无需手动录入与配置；
   - 智能查重与重命名支持：自动检测重复并自动将旧版标题平滑对齐为规范的【🎁 粉丝福利】。
