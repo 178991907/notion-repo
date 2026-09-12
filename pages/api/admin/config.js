@@ -38,11 +38,54 @@ export default async function handler(req, res) {
  * 读取当前配置
  * 合并 blog.config.js 默认值与运行时覆写
  */
-function handleGet(req, res) {
+async function handleGet(req, res) {
   // 验证登录状态
   const auth = verifyRequestToken(req)
   if (!auth) {
     return res.status(401).json({ error: '未登录或登录已过期' })
+  }
+
+  // 重新从物理配置文件加载基准配置，防止暖机实例内存残留脏数据
+  try {
+    const fs = require('fs')
+    const path = require('path')
+    const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
+    if (fs.existsSync(configPath)) {
+      global.__adminConfigOverrides = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
+    }
+  } catch (e) {}
+
+  // 如果配置了 Notion 凭据，从 Notion 数据库配置中心拉取并合并最新真实配置
+  if (NOTION_TOKEN && NOTION_CONFIG_DB_ID) {
+    try {
+      const { Client } = require('@notionhq/client')
+      const notion = new Client({ auth: NOTION_TOKEN })
+      let cursor = undefined
+      do {
+        const resp = await notion.databases.query({
+          database_id: NOTION_CONFIG_DB_ID,
+          page_size: 100,
+          start_cursor: cursor
+        })
+        resp.results.forEach(r => {
+          const name = r.properties['配置名']?.title?.[0]?.plain_text
+          const val = r.properties['配置值']?.rich_text?.[0]?.plain_text
+          const enable = r.properties['启用']?.checkbox
+          if (name && enable && val !== undefined && val !== '') {
+            let parsedVal = val
+            if (val === 'true') parsedVal = true
+            else if (val === 'false') parsedVal = false
+            else if (val.startsWith('{') || val.startsWith('[')) {
+              try { parsedVal = JSON.parse(val) } catch (e) {}
+            }
+            global.__adminConfigOverrides[name] = parsedVal
+          }
+        })
+        cursor = resp.has_more ? resp.next_cursor : undefined
+      } while (cursor)
+    } catch (err) {
+      console.warn('[handleGet] 从 Notion 同步配置中心失败:', err.message)
+    }
   }
 
   // 返回全量配置：BLOG 对象本身就承载了所有的配置常量，我们合并用户的 override
