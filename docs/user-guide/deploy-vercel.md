@@ -2,8 +2,8 @@
 
 > 本教程专为 **Notion Repo** 新手量身打造，带您从零开始、免费、极速搭建属于您自己的顶尖独立博客与知识库系统！  
 > 源码仓库：[178991907/notion-repo](https://github.com/178991907/notion-repo)  
-> 线上演示站：[https://terry.yyqm.de5.net/](https://terry.yyqm.de5.net/)  
-> 在线管理后台演示：[https://terry.yyqm.de5.net/admin](https://terry.yyqm.de5.net/admin)
+> 部署后访问：`https://你的自定义域名/` 或 `https://你的项目.vercel.app/`  
+> 在线管理后台：`https://你的自定义域名/admin`
 
 ---
 

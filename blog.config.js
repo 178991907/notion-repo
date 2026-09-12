@@ -19,7 +19,7 @@ const BLOG = {
 
   AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Terry 校长', // 您的昵称 例如 tangly1024
   BIO: process.env.NEXT_PUBLIC_BIO || '前沿 AI 解锁高效启蒙与教育', // 作者简介
-  LINK: process.env.NEXT_PUBLIC_LINK || 'https://terry.yyqm.de5.net/', // 网站地址
+  LINK: process.env.NEXT_PUBLIC_LINK || 'https://your-domain.com/', // 网站地址
   KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || 'Notion, 博客', // 网站关键词 英文逗号隔开
   BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', // blog favicon 配置, 默认使用用户专属 Logo，支持在线图片或本地 /favicon.ico
   PWA_ENABLE: process.env.NEXT_PUBLIC_PWA_ENABLE || false, // 是否启用 PWA 安装入口；也可在 Notion_Config 中配置 PWA_ENABLE=true

@@ -9,13 +9,9 @@
 继续在 Notion 沉浸写作，一键发布为顶尖独立博客、作品集、知识库或产品官网。
 
 <p>
-  <a href="https://terry.yyqm.de5.net/">🌐 正式线上站点</a>
-  ·
-  <a href="https://terry.yyqm.de5.net/admin">🎛️ 在线管理后台</a>
-  ·
-  <a href="https://terry.yyqm.de5.net/admin/settings/theme">🎨 主题可视化配置</a>
-  ·
   <a href="./docs/user-guide/deploy-vercel.md">📖 Vercel 部署教程</a>
+  ·
+  <a href="./docs/DEPLOYMENT_GUIDE.md">🚀 快速上手文档</a>
   ·
   <a href="https://github.com/178991907/notion-repo">💻 GitHub 仓库</a>
 </p>

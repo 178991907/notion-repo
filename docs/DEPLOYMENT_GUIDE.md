@@ -4,8 +4,8 @@
 
 > 📖 **面向小白用户的保姆级图文教程**：请参阅 [docs/user-guide/deploy-vercel.md](./user-guide/deploy-vercel.md)  
 > 💻 **源码仓库**：[https://github.com/178991907/notion-repo](https://github.com/178991907/notion-repo)  
-> 🌐 **线上演示站点**：[https://terry.yyqm.de5.net/](https://terry.yyqm.de5.net/)  
-> 🎛️ **在线管理后台演示**：[https://terry.yyqm.de5.net/admin](https://terry.yyqm.de5.net/admin)
+> 🌐 **部署后访问**：`https://你的自定义域名/` 或 `https://你的项目.vercel.app/`  
+> 🎛️ **在线管理后台**：`https://你的自定义域名/admin`
 
 ---
 

@@ -223,7 +223,7 @@ export default function GeneralSettings() {
                     value={formData.LINK || ''}
                     onChange={handleChange}
                     className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
-                    placeholder="https://terry.yyqm.de5.net/"
+                    placeholder="https://your-domain.com/"
                   />
                 </div>
                 <p className="mt-1 text-xs text-gray-400">用于站点 SEO、RSS 订阅源以及全站绝对路径跳转的根域名。</p>
