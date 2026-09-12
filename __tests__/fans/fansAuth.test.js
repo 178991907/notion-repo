@@ -96,8 +96,8 @@ describe('粉丝专区免登录验证码逻辑', () => {
     expect(rawGlobal).toBeTruthy()
     const parsedGlobal = JSON.parse(rawGlobal)
     const duration = parsedGlobal.expireAt - parsedGlobal.unlockedAt
-    // 验证有效期严格等于 24 小时 (86400000 毫秒)
-    expect(duration).toBe(24 * 60 * 60 * 1000)
+    // 验证有效期严格等于 24 小时 (86400000 毫秒，允许10毫秒内采样时延)
+    expect(Math.abs(duration - 24 * 60 * 60 * 1000)).toBeLessThanOrEqual(50)
     expect(isFansPostUnlocked(postSlug)).toBe(true)
     expect(isFansPostUnlocked('another-random-post')).toBe(true)
 

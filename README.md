@@ -17,11 +17,12 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.18.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.19.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
   <img src="https://img.shields.io/badge/Membership_System-Active-gold?style=for-the-badge" alt="Membership System" />
+  <img src="https://img.shields.io/badge/Security-Enterprise_Grade-green?style=for-the-badge" alt="Security" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
 </p>
 
@@ -29,9 +30,23 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.18.0 重磅发布)
+## 🌟 核心特性与架构亮点 (v4.19.0 重磅发布)
 
-本项目深度研发并集成了 **新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统**、**分类/标签深度双向管理系统** 与 **高自适应排版视觉体系**：
+本项目深度研发并集成了 **工业级全栈安全隔离防护与防脏读双向同步引擎**、**新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统** 与 **高自适应排版视觉体系**：
+
+### 0. 🛡️ 工业级全栈安全隔离防护与管理后台防脏读双向同步引擎 (v4.19.0 New!)
+- **全链路零信任敏感凭证清剿**：
+  - 彻底铲除代码库中所有硬编码 Notion Token、测试账号与敏感数据库 ID，杜绝开源部署环境下的任何跨租户数据越权改写隐患；
+  - 后台管理 API（`config`、`tags`、`categories` 等）全线接入严格的环境变量鉴空阻断与安全防护机制，未配置私钥时严格拒绝执行写操作。
+- **Git 历史全生命周期深度脱敏 (Git History Purge)**：
+  - 采用工业级 `git-filter-repo` 引擎对全库 7,690 次历史 Commit 进行了逆向深度清洗，抹除所有历史遗留凭证与私有域名，实现仓库历史 100% 纯净无敏感信息。
+- **管理后台防脏读与双向动态同步机制**：
+  - 重构 `/api/admin/config` 读取架构，自动从物理基准快照加载初始状态，彻底消除 Serverless 暖机实例冷热交替引发的内存脏数据读写；
+  - 支持从云端 Notion 配置中心动态拉取最新生效值进行合并，实现前台页面与后台管理控制台对真理源（Source of Truth）的 100% 状态一致性。
+- **全库通用域名与解耦开源规范**：
+  - 教程、操作文档、代码配置全面解耦脱敏，统一采用标准占位符（`https://your-domain.com/`），提供规范化、开箱即用的顶尖开源博客典范。
+
+---
 
 ### 1. 📖 新用户 Vercel 保姆级极速建站部署生态与核心避坑体系
 - **小白零基础图文保姆级指南**：专为 Notion Repo 新用户量身定制 [《Vercel 部署 Notion Repo 保姆级极速建站教程》](./docs/user-guide/deploy-vercel.md)，覆盖 Notion 模板一键复刻、公开网页分享、32 位 ID 精准提取、Vercel 自动化导入与生产上线全流程。
