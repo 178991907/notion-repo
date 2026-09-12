@@ -144,15 +144,17 @@ async function handlePost(req, res) {
   })
 }
 
-const DEFAULT_TOKEN_ENCODED = ''
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, 'base64').toString('utf-8')
+const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ''
 const NOTION_CONFIG_DB_ID = process.env.NOTION_CONFIG_DB_ID || ''
 
 /**
  * 高并发将配置更新写入 Notion 数据库的 CONFIG-TABLE
  */
 async function syncConfigsToNotion(configs) {
-  if (!NOTION_TOKEN || !NOTION_CONFIG_DB_ID || !Array.isArray(configs) || configs.length === 0) return
+  if (!NOTION_TOKEN || !NOTION_CONFIG_DB_ID || !Array.isArray(configs) || configs.length === 0) {
+    console.warn('[syncConfigsToNotion] 未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_CONFIG_DB_ID，跳过同步到 Notion')
+    return
+  }
   const { Client } = require('@notionhq/client')
   const notion = new Client({ auth: NOTION_TOKEN })
 

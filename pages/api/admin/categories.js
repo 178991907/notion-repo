@@ -1,9 +1,8 @@
 import BLOG from "@/blog.config"
 import { verifyRequestToken } from "@/lib/admin/auth"
 
-const DEFAULT_TOKEN_ENCODED = ""
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || Buffer.from(DEFAULT_TOKEN_ENCODED, "base64").toString("utf-8")
-const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || "d699622a6d1882f09e68814c63554113"
+const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
+const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
 
 /**
  * 分类管理 API
@@ -14,6 +13,10 @@ export default async function handler(req, res) {
   const auth = verifyRequestToken(req)
   if (!auth) {
     return res.status(401).json({ error: "未登录或登录已过期" })
+  }
+
+  if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
+    return res.status(400).json({ error: "未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_PAGE_ID" })
   }
 
   if (req.method === "GET") {

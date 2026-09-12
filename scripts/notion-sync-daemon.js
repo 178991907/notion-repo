@@ -27,10 +27,10 @@ function loadEnv() {
 
 const env = loadEnv()
 const token = env.NOTION_API_TOKEN || process.env.NOTION_API_TOKEN || process.env.NOTION_TOKEN
-const blogDbId = env.NOTION_PAGE_ID || process.env.NOTION_PAGE_ID || 'd699622a6d1882f09e68814c63554113'
+const blogDbId = env.NOTION_PAGE_ID || process.env.NOTION_PAGE_ID || ''
 
-if (!token) {
-  console.error('[NotionDaemon] 缺少 NOTION_API_TOKEN，退出')
+if (!token || !blogDbId) {
+  console.error('[NotionDaemon] 缺少 NOTION_API_TOKEN 或 NOTION_PAGE_ID，退出')
   process.exit(1)
 }
 
