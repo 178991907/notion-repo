@@ -48,7 +48,21 @@
 
 ---
 
-### 1. 📖 新用户 Vercel 保姆级极速建站部署生态与核心避坑体系
+### 1. 🚀 Notion 粉丝码与 VIP 属性云端全自动生成与自动填充引擎 (三重立体自动化体系)
+- **彻底摆脱本地脚本常驻**：无需在本地电脑开机常驻 Node/Python 守护脚本，随项目部署至 Vercel 后，**100% 在云端纯自动执行**！
+- **即勾即填，永不漏填**：
+  - 在 **Notion 电脑端 APP** 中勾选 `fans` 时，云端自动秒级生成 6 位互不相同的高强度随机专属防猜解访问码（如 `GPJCB7`），直接回写并填充至 Notion 单元格；
+  - 勾选 `vip` 时，云端自动匹配会员标签，将 `VIP` 属性秒级填充至 Notion 单元格；
+- **三重立体云端自动化架构（互为兜底）**：
+  1. **⚡ 实时 Webhook 触发 (`/api/notion/webhook`)**：适配 Notion 官方 ⚡ 数据库自动化（Action: Send webhook），打勾瞬间触发云端 API 秒级回写；
+  2. **🌐 服务端静默自动补偿机制**：无论是否配置 Webhook，只要博客发生数据拉取（读者访问、后台刷新或增量静态重新生成），服务端后台非阻塞协程自动巡检，发现缺码文章秒级生成并回写；
+  3. **🕒 Vercel Cron 定时巡检 (`/api/notion/sync`)**：全天候自动化兜底保障，确保数据永久完整。
+- **🔐 工业级环境变量密钥防刷鉴权**：
+  - 支持通过环境变量 `NOTION_SYNC_SECRET` 为 API 加上专属密钥，拦截未经授权的外部恶意扫描与刷量，内部静默自动执行 100% 安全不受影响。
+
+---
+
+### 2. 📖 新用户 Vercel 保姆级极速建站部署生态与核心避坑体系
 - **小白零基础图文保姆级指南**：专为 Notion Repo 新用户量身定制 [《Vercel 部署 Notion Repo 保姆级极速建站教程》](./docs/user-guide/deploy-vercel.md)，覆盖 Notion 模板一键复刻、公开网页分享、32 位 ID 精准提取、Vercel 自动化导入与生产上线全流程。
 - **构建兜底机制与环境变量深度解密**：
   - 阐明项目内部对 `NOTION_PAGE_ID` 的内置演示库兜底保护，**零环境变量配置也能 100% 成功构建并上线**；
@@ -296,7 +310,8 @@ graph LR
      - `NOTION_PAGE_ID`：你的 32 位 Notion 页面 ID（必填）
      - `ADMIN_PASSWORD`：你的管理后台登录密码（必填，如 `admin888`）
      - `NEXT_PUBLIC_THEME`：推荐设为 `heo`
-     - `NOTION_ACCESS_TOKEN`：你的 Notion 官方集成 Token（选填，推荐）
+     - `NOTION_ACCESS_TOKEN` / `NOTION_API_TOKEN`：你的 Notion 官方集成 Token（选填，用于粉丝码/VIP等全自动回写，强烈推荐）
+     - `NOTION_SYNC_SECRET`：云端自动同步与 Webhook 专属安全密钥（选填，防刷鉴权，如 `my_secret_key`）
 4. 点击 **Deploy**，静候 1~2 分钟即可完成全自动部署并上线！
 5. 部署完成后，访问 `https://你的域名/admin` 即可直接进入全新可视化控制台自由配置全站！
 

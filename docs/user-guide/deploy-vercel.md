@@ -107,7 +107,8 @@ graph LR
 | **`NOTION_PAGE_ID`** | 您在第一步获取的 32 位 ID | **必填** | 站点文章与数据来源的根页面 ID |
 | **`ADMIN_PASSWORD`** | 您的自定义后台密码（如 `admin888`） | **必填** | 用于登录可视化后台 `/admin` 的超级管理密码 |
 | **`NEXT_PUBLIC_THEME`** | `heo` | **强烈推荐** | 博客默认主题，推荐旗舰级现代科技主题 `heo` |
-| **`NOTION_ACCESS_TOKEN`** | 您的 Notion Integration Token | 选填 | 官方 API Token，大幅提升高并发同步稳定性与私密数据写入能力 |
+| **`NOTION_ACCESS_TOKEN`** | 您的 Notion Integration Token | 选填 | 官方 API Token（或 `NOTION_API_TOKEN`），用于粉丝码生成与 VIP 属性全自动写回 Notion |
+| **`NOTION_SYNC_SECRET`** | 您的自定义安全密钥（如 `sec_888`） | 选填 | 专属安全防护密钥，防范公网未授权恶意请求，保护云端自动同步与 Webhook 路由 |
 
 > [!NOTE]
 > 每填写完一行 Key 和 Value 后，请务必点击右侧的 **Add** 按钮将其添加到列表中！
