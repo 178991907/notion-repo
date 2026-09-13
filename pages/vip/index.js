@@ -129,7 +129,7 @@ const VipIndex = props => {
 
       {/* 文章列表网格 */}
       {posts && posts.length > 0 ? (
-        <div className={`${POST_TWO_COLS ? 'grid grid-cols-1 md:grid-cols-2 gap-5' : 'flex flex-col gap-5'} w-full`}>
+        <div className={`${POST_TWO_COLS ? 'grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch' : 'flex flex-col gap-5'} w-full`}>
           {posts.map((post, index) => (
             <BlogPostCard
               key={post.id || index}

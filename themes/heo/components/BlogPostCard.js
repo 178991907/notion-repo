@@ -41,22 +41,24 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo, twoCols }) => {
 
   return (
     <article
-      className={`${COVER_HOVER_ENLARGE ? 'hover:transition-all duration-150' : ''}`}>
+      className={`h-full w-full ${COVER_HOVER_ENLARGE ? 'hover:transition-all duration-150' : ''}`}>
       <div
         data-wow-delay='.2s'
         className={
           (POST_TWO_COLS
-            ? 'md:flex-col md:h-auto'
-            : 'md:flex-row md:h-52') +
-          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
+            ? 'flex-col h-[23rem] md:h-96'
+            : 'flex-col h-[23rem] md:flex-row md:h-52') +
+          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex group w-full h-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
         }>
         {/* 图片封面 */}
         {showPageCover && (
           <SmartLink href={post?.href} passHref legacyBehavior>
             <div
               className={
-                (POST_TWO_COLS ? 'md:w-full md:h-52' : 'md:w-5/12 md:h-full') +
-                ' relative w-full h-48 overflow-hidden cursor-pointer select-none shrink-0 bg-gray-50 dark:bg-gray-900'
+                (POST_TWO_COLS
+                  ? 'w-full h-48 md:h-48'
+                  : 'w-full h-48 md:w-5/12 md:h-full') +
+                ' relative overflow-hidden cursor-pointer select-none shrink-0 bg-gray-50 dark:bg-gray-900'
               }>
               {/* 角标展示优先级：粉丝专享 > SVIP尊享 > VIP专享（提升层级至 z-30，确保绝不被图片遮挡） */}
               {post?.fans ? (
@@ -95,8 +97,12 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo, twoCols }) => {
         {/* 文字区块 */}
         <div
           className={
-            (POST_TWO_COLS ? 'md:w-full md:p-5' : 'md:w-7/12 md:h-full md:p-6') +
-            ' flex p-5 flex-col justify-between w-full flex-grow'
+            (POST_TWO_COLS
+              ? 'w-full h-48 md:h-48 p-4 sm:p-5'
+              : showPageCover
+                ? 'w-full h-48 md:w-7/12 md:h-full p-4 sm:p-5 md:p-6'
+                : 'w-full h-full p-4 sm:p-5 md:p-6') +
+            ' flex flex-col justify-between overflow-hidden'
           }>
           <header>
             {/* 分类与会员/粉丝专享标记 */}
@@ -160,8 +166,8 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo, twoCols }) => {
             </main>
           )}
 
-          <div className='flex items-center justify-between mt-2 text-xs text-gray-400 dark:text-gray-500'>
-            <div className='md:flex-nowrap flex-wrap md:justify-start inline-flex items-center gap-1'>
+          <div className='flex items-center justify-between mt-2 text-xs text-gray-400 dark:text-gray-500 gap-2'>
+            <div className='flex-nowrap overflow-hidden truncate md:justify-start inline-flex items-center gap-1 max-w-[65%]'>
               {post.tagItems?.map(tag => (
                 <TagItemMini key={tag.name} tag={tag} />
               ))}
@@ -169,7 +175,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo, twoCols }) => {
 
             {/* 发布时间 */}
             {(post?.publishDay || post?.date?.start_date) && (
-              <span className='whitespace-nowrap flex items-center font-light text-xs text-gray-400 dark:text-gray-500'>
+              <span className='whitespace-nowrap shrink-0 flex items-center font-light text-xs text-gray-400 dark:text-gray-500'>
                 <i className='far fa-calendar-alt mr-1'></i>
                 {post?.publishDay || post?.date?.start_date}
               </span>
