@@ -2,5 +2,11 @@
   "cleanUrls": false,
   "trailingSlash": false,
   "ignoreCommand": "exit 0",
-  "headers": []
+  "headers": [],
+  "crons": [
+    {
+      "path": "/api/notion/sync",
+      "schedule": "0 */2 * * *"
+    }
+  ]
 }
