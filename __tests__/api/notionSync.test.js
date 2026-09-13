@@ -110,6 +110,19 @@ describe('Notion 自动化同步 API 测试', () => {
       expect(mockRes.jsonData.success).toBe(false)
     })
 
+    test('当设置了 NOTION_SYNC_SECRET 时，未携带或密钥不匹配应返回 401', async () => {
+      process.env.NOTION_SYNC_SECRET = 'webhook-safe-secret'
+      const req = {
+        method: 'POST',
+        headers: { authorization: 'Bearer bad-secret' },
+        query: {},
+        body: {}
+      }
+      await webhookHandler(req, mockRes)
+      expect(mockRes.statusCode).toBe(401)
+      expect(mockRes.jsonData.success).toBe(false)
+    })
+
     test('智能提取 Notion Webhook payload 中的 pageId 并触发单篇回写', async () => {
       syncSingleNotionArticle.mockResolvedValue({
         updated: true,

@@ -11,6 +11,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' })
   }
 
+  // 安全校验：支持通过环境变量 NOTION_SYNC_SECRET 或 CRON_SECRET 进行防刷鉴权
+  const authHeader = req.headers.authorization
+  const querySecret = req.query?.secret || req.body?.secret
+  const expectedSecret = process.env.NOTION_SYNC_SECRET || process.env.CRON_SECRET
+
+  if (expectedSecret && authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
+    return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
+  }
+
   try {
     const payload = req.body || {}
     // 智能提取 payload 中的 pageId（兼容 Notion Webhook 各种 payload 规范）
