@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.19.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.20.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
@@ -30,11 +30,31 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.19.0 重磅发布)
+## 🌟 核心特性与架构亮点 (v4.20.0 重磅发布)
 
-本项目深度研发并集成了 **工业级全栈安全隔离防护与防脏读双向同步引擎**、**新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统** 与 **高自适应排版视觉体系**：
+本项目深度研发并集成了 **Notion 原生秒级公式生态与 VIP/SVIP 双打勾权限联动体系**、**工业级全栈安全隔离防护与防脏读双向同步引擎**、**新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统** 与 **高自适应排版视觉体系**：
 
-### 0. 🛡️ 工业级全栈安全隔离防护与管理后台防脏读双向同步引擎 (v4.19.0 New!)
+### 0. 🔮 Notion 原生秒级公式生态与 VIP/SVIP 双打勾权限联动体系 (v4.20.0 New!)
+- **`fans_code` 原生无序真随机公式（0 毫秒秒显，他人复制 100% 自动继承）**：
+  - 彻底告别对脆弱外部脚本和异步回写的依赖，升级为 Notion 原生公式：`prop("fans") ? upper(substring(replace(id(), "-", ""), 26, 32)) : ""`；
+  - 在 Notion 电脑端中打勾 `fans` 瞬间，**0 毫秒原地秒出独一无二的 6 位大写无序随机码**（如 `EC4CC3`、`DAE052`、`B0A87E`），每篇文章绝对互不相同，永不撞车；
+  - 任何人点击 Duplicate 复制该 Notion 模板库时，公式 **100% 原生自动继承**，新用户 0 步骤额外配置，开箱即用！
+- **核心算法 100% 深度对齐与防服务端缓存滞后**：
+  - 在博客核心解析层（`getPageProperties.js` 与 `getNotionPost.js`）直接内嵌与 Notion 公式完全一致的算法，无论 Notion 私有 API 服务端缓存如何滞后，博客系统自己计算出的暗号永远与用户在 Notion 客户端屏幕看到的暗号 **100% 绝对一致**；
+  - 云端验证接口（`/api/fans/verify`）全面支持 `postId` 动态逆推放行，具备大小写不敏感与全站公众号主暗号双轨兜底能力。
+- **VIP / SVIP 双打勾智能权限联动体系**：
+  - 在数据库中新增原生复选框 `svip`，并将 `vip_level` 升级为原生智能联动公式；
+  - 彻底告别必须手动翻找下拉多选标签的繁琐流程，日常写文章直接点「+ 新页面」打勾即可：
+    - 勾选 `vip` ➔ 0 毫秒秒显 **`VIP`**；
+    - 勾选 `svip` ➔ 0 毫秒秒显 **`SVIP`**；
+    - 勾选 `vip` + `svip` ➔ 0 毫秒秒显 **`VIP, SVIP`**（全自动多选）；
+  - 同样 100% 随模板 Duplicate 复制带走，新用户无需任何培训即可直观使用。
+- **文章卡片高度一致性与视觉网格极致对齐**：
+  - 全面排查并修复了文章卡片由于标题字数差异、标签有无导致的卡片高低不平缺陷，无论文章内容长短，列表网格均如同设计规范般平整美观。
+
+---
+
+### 1. 🛡️ 工业级全栈安全隔离防护与管理后台防脏读双向同步引擎 (v4.19.0)
 - **全链路零信任敏感凭证清剿**：
   - 彻底铲除代码库中所有硬编码 Notion Token、测试账号与敏感数据库 ID，杜绝开源部署环境下的任何跨租户数据越权改写隐患；
   - 后台管理 API（`config`、`tags`、`categories` 等）全线接入严格的环境变量鉴空阻断与安全防护机制，未配置私钥时严格拒绝执行写操作。
