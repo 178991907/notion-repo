@@ -11,11 +11,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { passcode, fansCode } = req.body || {}
+    const { passcode, fansCode, postId } = req.body || {}
 
     if (!passcode || typeof passcode !== 'string' || !passcode.trim()) {
       return res.status(400).json({ success: false, valid: false, message: '请输入验证码或暗号' })
     }
+
+    // 整合允许的专属验证码：客户端传入的 fansCode 以及根据 postId 算出的标准公式专属码
+    const candidateCodes = []
+    if (fansCode) {
+      candidateCodes.push(fansCode)
+    }
+    if (postId && typeof postId === 'string') {
+      const cleanId = postId.replace(/-/g, '').toLowerCase()
+      if (cleanId.length >= 32) {
+        candidateCodes.push(cleanId.substring(26, 32).toUpperCase())
+      }
+    }
+    const combinedFansCode = candidateCodes.join(',')
 
     // 1. 获取全站最新的通用暗号（优先内存覆盖，其次 Notion 数据库，最后默认兜底）
     let defaultPasscode = global.__adminConfigOverrides?.HEO_FANS_DEFAULT_PASSCODE
@@ -35,7 +48,7 @@ export default async function handler(req, res) {
     }
 
     // 2. 双轨放行校验（专属码与通用暗号均可验证）
-    const result = verifyFansPasscode(passcode, fansCode, defaultPasscode)
+    const result = verifyFansPasscode(passcode, combinedFansCode, defaultPasscode)
 
     return res.status(200).json({
       success: true,

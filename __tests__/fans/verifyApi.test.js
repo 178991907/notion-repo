@@ -59,4 +59,20 @@ describe('粉丝暗号在线验证接口 /api/fans/verify', () => {
     expect(res3.statusCode).toBe(200)
     expect(res3.jsonPayload.valid).toBe(false)
   })
+
+  it('当未显式传递 fansCode 但传递了 postId 时，应根据 postId 自动推导末尾 6 位公式专属码并放行', async () => {
+    // 文章 ID 3d99622a-6d18-8091-b788-ce0f81ec4cc3 末尾 6 位为 EC4CC3
+    const req = {
+      method: 'POST',
+      body: {
+        passcode: 'ec4cc3', // 支持大小写不敏感
+        postId: '3d99622a-6d18-8091-b788-ce0f81ec4cc3'
+      }
+    }
+    const res = createMockRes()
+    await handler(req, res)
+    expect(res.statusCode).toBe(200)
+    expect(res.jsonPayload.valid).toBe(true)
+    expect(res.jsonPayload.isGlobal).toBe(false)
+  })
 })

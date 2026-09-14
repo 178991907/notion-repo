@@ -78,7 +78,8 @@ export const FansLock = ({ post, onUnlocked }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           passcode: cleanPasscode,
-          fansCode: post?.fans_code
+          fansCode: post?.fans_code,
+          postId: post?.id || post?.slug
         })
       })
       const data = await res.json()
