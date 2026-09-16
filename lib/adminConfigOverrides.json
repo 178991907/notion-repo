@@ -391,9 +391,12 @@
   "NEXT_REVALIDATE_SECOND": 60,
   "REVALIDATION_TOKEN": "",
   "API_BASE_URL": "https://app.notion.com/api/v3",
-  "NOTION_PAGE_ID": "d699622a6d1882f09e68814c63554113",
+  "NOTION_PAGE_ID": "3dce78c0e8d4812598f8e90892c4c95e",
   "HEO_HERO_CATEGORY_6": null,
-  "HEO_HERO_CATEGORY_5": null,
+  "HEO_HERO_CATEGORY_5": {
+    "title": "👑 会员专区",
+    "url": "/vip"
+  },
   "HEO_HERO_CATEGORY_4": {
     "title": "🎁 粉丝福利",
     "url": "/fans"
@@ -401,9 +404,9 @@
   "POSTS_SHARE_SERVICES": "link,wechat,qq,weibo,email,facebook,twitter,telegram,messenger,line,reddit,whatsapp,linkedin,csdn,juejin",
   "POST_SHARE_BAR_ENABLE": true,
   "DESCRIPTION": "用AI解锁英语启蒙与教育",
-  "TITLE": "Terry Blog",
+  "TITLE": "Notion Next 知识库",
   "WIDGET_PET_LINK": "https://cdn.jsdelivr.net/npm/live2d-widget-model-z16@1.0.5/assets/z16.model.json",
-  "HEO_HERO_TITLE_1": "分享 AI 实操",
+  "HEO_HERO_TITLE_1": "分享 AI",
   "HEO_LOGO_IMAGE": "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png",
   "WIDGET_PET_CUSTOM_URL": "",
   "WIDGET_PET": true,
@@ -411,7 +414,7 @@
   "BEI_AN_GONGAN": "",
   "BEI_AN": "",
   "SINCE": 2025,
-  "BIO": "前沿 AI 解锁高效启蒙与教育",
+  "BIO": "全栈架构师的个人知识库",
   "AUTHOR": "Terry 校长",
   "HEO_INFO_CARD_ANNOUNCEMENT_URL": "",
   "HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT": "🎉Notion Repo正式上线🎉\n   -- 感谢您的支持 ---\n      👏欢迎体验👏\n\n[联系作者](https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png)",
@@ -444,16 +447,8 @@
   ],
   "HEO_NOTICE_BAR": [
     {
-      "title": "欢迎来 terry 校长个人博客",
-      "url": ""
-    },
-    {
-      "title": "前沿 AI 解锁高效启蒙与教育",
-      "url": ""
-    },
-    {
-      "title": "英语全科启蒙",
-      "url": ""
+      "title": "测试通知",
+      "url": "/"
     }
   ],
   "HEO_HERO_CATEGORY_3": {
@@ -479,8 +474,8 @@
   "HEO_MENU_FANS": true,
   "HEO_CATEGORY_BAR_FANS": true,
   "HEO_CATEGORY_BAR_FANS_TITLE": "粉丝福利",
-  "HEO_FANS_DEFAULT_PASSCODE": "888888",
-  "HEO_FANS_UNLOCK_TIPS": "关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码",
+  "HEO_FANS_DEFAULT_PASSCODE": "999888",
+  "HEO_FANS_UNLOCK_TIPS": "微信搜索【Terry校长】发送【暗号】",
   "HEO_VIP_ICON": "👑",
   "HEO_VIP_COLOR": "#f59e0b",
   "HEO_VIP_COLOR_END": "#eab308",
@@ -542,8 +537,8 @@
   "HEO_INFO_CARD_ICON1": "fas fa-user",
   "HEO_INFO_CARD_URL1": "/about",
   "HEO_HOME_BANNER_ENABLE": true,
-  "HEO_HERO_BODY_REVERSE": false,
-  "HEO_HERO_REVERSE": false,
+  "HEO_HERO_BODY_REVERSE": true,
+  "HEO_HERO_REVERSE": true,
   "HEO_HERO_RECOMMEND_COVER_ENABLE": false,
   "HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME": false,
   "HEO_HERO_RECOMMEND_POST_TAG": "推荐",
@@ -556,7 +551,7 @@
   "APPEARANCE": "light",
   "HEO_RECOMMEND_POSTS_TITLE": "推荐阅读",
   "POSTS_SORT_BY": "date",
-  "HOME_BANNER_IMAGE": "https://source.unsplash.com/random",
+  "HOME_BANNER_IMAGE": "https://pic1.imgdb.cn/i/034J0pqvIcjWSoNXbFMAsW.png",
   "BLOG_FAVICON": "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png",
   "PREVIEW_TAG_COUNT": 5,
   "PREVIEW_CATEGORY_COUNT": 2,

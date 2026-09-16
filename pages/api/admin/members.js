@@ -8,13 +8,13 @@ import {
   getFansConfigFromNotion,
   saveFansConfigToNotion
 } from '@/lib/member/notion'
+import { verifyRequestToken } from '@/lib/admin/auth'
 
 /**
- * 校验管理员登录凭证
+ * 校验管理员登录凭证（严格校验 HMAC-SHA256 签名与有效期）
  */
 function checkAdminAuth(req) {
-  const token = req.cookies.admin_token
-  return Boolean(token)
+  return Boolean(verifyRequestToken(req))
 }
 
 /**

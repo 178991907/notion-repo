@@ -1,7 +1,7 @@
 import BLOG from "@/blog.config"
 import { verifyRequestToken } from "@/lib/admin/auth"
 
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
+const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
 const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
 
 /**

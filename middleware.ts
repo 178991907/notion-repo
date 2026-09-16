@@ -1,44 +1,42 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { checkStrIsNotionId, getLastPartOfUrl } from '@/lib/utils'
-import { idToUuid } from 'notion-utils'
-import BLOG from './blog.config'
+
+// 截取 URL 中最后一个 / 后面的内容
+function getLastPartOfUrl(url: string) {
+  if (!url) return ''
+  const lastSlashIndex = url.lastIndexOf('/')
+  return lastSlashIndex === -1 ? url : url.substring(lastSlashIndex + 1)
+}
+
+// 检查字符串是否为 32 位 Notion ID
+function checkStrIsNotionId(str: string) {
+  return /^[a-zA-Z0-9]{32}$/.test(str)
+}
+
+// 将 32 位 ID 转换为标准 UUID
+function idToUuid(id: string) {
+  return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(16, 20)}-${id.slice(20)}`
+}
 
 /**
- * Clerk 身份验证中间件
+ * 中间件路由匹配规则（排除静态资源）
  */
 export const config = {
-  // 这里设置白名单，防止静态资源被拦截
   matcher: ['/((?!.*\\..*|_next|/sign-in|/auth).*)', '/', '/(api|trpc)(.*)']
 }
 
-// 限制登录访问的路由
-const isTenantRoute = createRouteMatcher([
-  '/user/organization-selector(.*)',
-  '/user/orgid/(.*)',
-  '/dashboard',
-  '/dashboard/(.*)'
-])
-
-// 限制权限访问的路由
-const isTenantAdminRoute = createRouteMatcher([
-  '/admin/(.*)/memberships',
-  '/admin/(.*)/domain'
-])
-
 /**
- * 没有配置权限相关功能的返回
- * @param req
- * @param ev
- * @returns
+ * 极简高效纯 Edge 运行时中间件
+ * 避免 CommonJS 与 ESM 混用导致的 Node.js 运行时 SyntaxError: Cannot use import statement outside a module 崩溃
  */
-// eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-const noAuthMiddleware = async (req: NextRequest, ev: any) => {
-  // --- Admin 后台路由简单鉴权拦截 ---
-  // 注意：因为 Next.js Middleware 运行在 Edge 环境，不完全支持 Node.js crypto，
-  // 所以我们只做极简的 cookie 存在性检查，深度校验由 API 和客户端请求完成。
+export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login') && !pathname.startsWith('/api/admin/auth')) {
+
+  // --- Admin 后台路由鉴权拦截 ---
+  if (
+    pathname.startsWith('/admin') &&
+    !pathname.startsWith('/admin/login') &&
+    !pathname.startsWith('/api/admin/auth')
+  ) {
     const hasAdminToken = req.cookies.has('admin_token')
     if (!hasAdminToken) {
       const loginUrl = new URL('/admin/login', req.url)
@@ -46,8 +44,8 @@ const noAuthMiddleware = async (req: NextRequest, ev: any) => {
     }
   }
 
-  // --- 原有的 uuid 重定向逻辑 ---
-  if (BLOG['UUID_REDIRECT']) {
+  // --- UUID 重定向逻辑 ---
+  if (process.env.UUID_REDIRECT === 'true') {
     let redirectJson: Record<string, string> = {}
     try {
       const response = await fetch(`${req.nextUrl.origin}/redirect.json`)
@@ -57,50 +55,16 @@ const noAuthMiddleware = async (req: NextRequest, ev: any) => {
     } catch (err) {
       console.error('Error fetching static file:', err)
     }
-    let lastPart = getLastPartOfUrl(req.nextUrl.pathname) as string
+    let lastPart = getLastPartOfUrl(pathname)
     if (checkStrIsNotionId(lastPart)) {
       lastPart = idToUuid(lastPart)
     }
     if (lastPart && redirectJson[lastPart]) {
       const redirectToUrl = req.nextUrl.clone()
       redirectToUrl.pathname = '/' + redirectJson[lastPart]
-      console.log(
-        `redirect from ${req.nextUrl.pathname} to ${redirectToUrl.pathname}`
-      )
       return NextResponse.redirect(redirectToUrl, 308)
     }
   }
+
   return NextResponse.next()
 }
-/**
- * 鉴权中间件
- */
-const authMiddleware = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  ? clerkMiddleware((auth, req) => {
-      const { userId } = auth()
-      // 处理 /dashboard 路由的登录保护
-      if (isTenantRoute(req)) {
-        if (!userId) {
-          // 用户未登录，重定向到 /sign-in
-          const url = new URL('/sign-in', req.url)
-          url.searchParams.set('redirectTo', req.url) // 保存重定向目标
-          return NextResponse.redirect(url)
-        }
-      }
-
-      // 处理管理员相关权限保护
-      if (isTenantAdminRoute(req)) {
-        auth().protect(has => {
-          return (
-            has({ permission: 'org:sys_memberships:manage' }) ||
-            has({ permission: 'org:sys_domains_manage' })
-          )
-        })
-      }
-
-      // 默认继续处理请求
-      return NextResponse.next()
-    })
-  : noAuthMiddleware
-
-export default authMiddleware

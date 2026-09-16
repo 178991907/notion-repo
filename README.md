@@ -306,45 +306,141 @@ npm run dev
 
 ---
 
-## 📦 生产部署指南 (Vercel 极速建站)
+## 📦 生产部署保姆级实操教程 (Vercel 极速建站)
 
-> 💡 **小白零基础保姆级部署教程已正式上线**！  
-> 👉 [**📖 点击查阅完整图文教程：《Vercel 部署 Notion Repo 保姆级极速建站教程》**](./docs/user-guide/deploy-vercel.md)  
-> *(在 GitHub 上直接点击上述链接，即可无缝在线阅读完整的图文保姆级教程、全套环境变量清单与故障排查手册)*
+> 💡 **零成本 · 零服务器 · 终身免费 · 100% 部署成功保障**  
+> 本教程基于我们在真实 Vercel 生产环境从 0 到 1 部署纯净项目（`notion-repo-clean-test`）的完整实操经验提炼，包含精准步骤、参数清单与故障排查手册，新手跟着一步一步操作即可 3 分钟顺利上线。
 
-### 🧭 极速部署三步走 (3 分钟上线)
+### 🧭 极速部署全景图 (4 步搞定)
 
 ```mermaid
 graph LR
-    A["1. 准备 Notion 页面\n(复制模板并开启分享)"] --> B["2. Fork 源代码\n(一键复刻到个人 GitHub)"]
-    B --> C["3. Vercel 导入与部署\n(设置 Node 24 与环境变量)"]
-    C --> D["🎉 站点上线！\n(登录 /admin 可视化定制)"]
+    A["1. 复刻纯净母版\n(开启 Share to web 并取 ID)"] --> B["2. 一键 Fork 源码\n(同步到个人 GitHub)"]
+    B --> C["3. Vercel 导入配置\n(选 Next.js + Node 24 + 配变量)"]
+    C --> D["4. 极速构建上线\n(访问域名与登录 /admin 定制)"]
 ```
-
-1. **一键 Fork 本仓库**：点击 [一键 Fork Notion Repo](https://github.com/178991907/notion-repo/fork) 将源码复制到个人 GitHub 账号；
-2. **复制 Notion 数据源模板**：访问并复制 [官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)，开启 **Publish to web (发布到网络)** 并复制提取 32 位页面 ID；
-3. **导入 Vercel 部署**：
-   - 打开 **[Vercel 控制台](https://vercel.com)** 点击 **Add New Project** 导入刚 Fork 的 `notion-repo` 仓库；
-   - **⚠️ 核心重点（必做避坑）**：确保将 Node.js Version 设置为 **`24.x`**（Next.js 15+ 强制要求 Node 22+）；
-   - 在 **Environment Variables (环境变量)** 面板添加核心变量：
-     - `NOTION_PAGE_ID`：你的 32 位 Notion 页面 ID（必填）
-     - `ADMIN_PASSWORD`：你的管理后台登录密码（必填，如 `admin888`）
-     - `NEXT_PUBLIC_THEME`：推荐设为 `heo`
-     - `NOTION_ACCESS_TOKEN` / `NOTION_API_TOKEN`：你的 Notion 官方集成 Token（选填，用于粉丝码/VIP等全自动回写，强烈推荐）
-     - `NOTION_SYNC_SECRET`：云端自动同步与 Webhook 专属安全密钥（选填，防刷鉴权，如 `my_secret_key`）
-4. 点击 **Deploy**，静候 1~2 分钟即可完成全自动部署并上线！
-5. 部署完成后，访问 `https://你的域名/admin` 即可直接进入全新可视化控制台自由配置全站！
 
 ---
 
-### ❓ 新手常见部署疑问与避坑指南
+### 第一步：准备专属 Notion 数据源（一键复刻母版）
 
-> **Q1：部署项目是不是必须先配置环境变量？不配置部署时会报错吗？**  
-> **A1：不会报错！** 即使一个环境变量都不填，直接点击 **Deploy** 也能顺利构建成功！因为项目内置了官方示例 ID 兜底。如果不填，网站会展示官方演示文章，且无法登录 `/admin`。  
-> **补救方法**：您可以先部署预览，随后随时在 Vercel 的 `Settings -> Environment Variables` 补齐变量。**注意**：添加变量后，必须去 **Deployments** 列表点击最新记录右侧的 **`...` -> Redeploy (重新部署)**，新变量才会生效！
+1. **访问专属增强母版页面**：
+   - 打开官方专属纯净博客母版：👉 **[Notion-Repo 官方博客专属增强母版](https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd)**；
+   - 该母版内置了置顶使用指引与核心数据库「**Notion-Repo 官方模板（Fork）**」，已预装原生 16 个核心增强属性、`fans_code` 原生无序真随机公式与 VIP/SVIP 智能权限体系。
+2. **点击复刻 (Duplicate)**：
+   - 在打开的 Notion 页面右上角，直接点击 **`Duplicate (复制)`** 按钮，将母版完整复刻至您自己的 Notion 个人工作区。
+3. **开启公开网络分享 (至关重要！)**：
+   > [!IMPORTANT]
+   > **未开启公开分享将导致 Vercel 无法读取文章数据！**
+   - 进入您工作区中刚刚复制好的页面，点击右上角 **Share (分享)** 按钮；
+   - 切换到 **Publish (发布)** 标签页；
+   - 点击开启 **`Publish to web (发布到网络)`** 开关；
+   - 保持开启 **`Allow duplicate as template`**（允许他人复刻）。
+4. **提取核心数据库 32 位 ID (`NOTION_PAGE_ID`)**：
+   - 在母版页面中，点击进入内部的「**Notion-Repo 官方模板（Fork）**」数据库页面（或在右上角点击 **Copy link**）；
+   - 从链接中提取连续 32 位字符（不含横杠与参数）。例如链接形式为：
+     `https://www.notion.so/3dce78c0e8d4812598f8e90892c4c95e?v=...`
+     其中 `3dce78c0e8d4812598f8e90892c4c95e` 即为您的核心数据库 ID（`NOTION_PAGE_ID`），请妥善复制备用。
 
-> **Q2：部署报错退出的真正元凶是什么？**  
-> **A2：只有 Node.js 运行版本不匹配！** 如果 Vercel 默认使用了 Node 18/20，构建会直接报错。请务必在项目设置中确认选择 **`24.x`**。
+---
+
+### 第二步：一键 Fork GitHub 源代码
+
+1. 登录您的 [GitHub 账号](https://github.com/)；
+2. 访问本开源仓库：👉 **[https://github.com/178991907/notion-repo](https://github.com/178991907/notion-repo)**；
+3. 点击页面右上角的 **`Fork`** 按钮（或直接访问 [一键 Fork 链接](https://github.com/178991907/notion-repo/fork)）；
+4. 仓库名称保持默认 `notion-repo`，点击绿色的 **`Create fork`** 按钮，源码即自动克隆到您的个人账号下。
+
+---
+
+### 第三步：在 Vercel 中导入并配置项目（实操核心）
+
+1. **登录 Vercel**：
+   - 访问 **[Vercel 官网](https://vercel.com/)**，推荐直接选择 **Continue with GitHub** 一键授权登录；
+2. **导入项目 (Import Project)**：
+   - 在 Vercel 控制台右上角点击 **`Add New...`** ➔ 选择 **`Project`**；
+   - 在仓库列表中找到刚 Fork 的 `notion-repo`，点击右侧的 **`Import`**；
+3. **核对核心构建环境（🚨 核心避坑要点）**：
+   - **Framework Preset**：确保选中 **`Next.js`**（⚠️ 必须为 Next.js，切勿选 Other，否则 Edge 运行时中间件会发生 ESM 导入冲突导致全站 500）；
+   - **Node.js Version**：进入 Settings 确认设置为 **`24.x`**（Next.js 15+ 强制要求 Node 22+）；
+   - **Root Directory**：保持默认 `./` 即可；
+4. **配置环境变量 (Environment Variables)**：
+   展开 **Environment Variables** 面板，添加以下变量：
+
+   | 环境变量名 (Name) | 是否必填 | 示例与推荐值 | 作用与说明 |
+   | :--- | :---: | :--- | :--- |
+   | **`NOTION_PAGE_ID`** | **必填** | `3dce78c0e8d4812598f8e90892c4c95e` | 第一步提取的 32 位 Notion 数据库 ID |
+   | **`ADMIN_PASSWORD`** | **必填** | 自定义如 `admin888` | 可视化管理控制台（`/admin`）的登录密码 |
+   | **`NEXT_PUBLIC_THEME`** | 选填 | `heo`（默认推荐） | 当前激活的博客主题（支持 heo, hexo, next, simple 等） |
+   | **`NOTION_API_TOKEN`** | 选填 | `ntn_...` | Notion 官方 Integration Token（用于云端自动化回写） |
+   | **`NOTION_SYNC_SECRET`** | 选填 | 自定义随机密钥 | 云端自动同步 API 鉴权防刷密钥 |
+
+5. **点击部署**：
+   - 点击最下方的蓝色 **`Deploy`** 按钮，系统将全自动拉取依赖、解析 Notion 数据并编译全站静态页面！
+
+---
+
+### 第四步：极速构建与端到端访问验证
+
+1. **静候 1~2 分钟**：构建成功后，屏幕会出现彩带撒花，提示 **`Congratulations!`**；
+2. **前台访问验证**：
+   - 点击访问系统分配的生产域名（例如 `https://your-blog.vercel.app`）；
+   - **首页检查**：网站标题显示为您的 Notion 数据库名称，3 篇初始化示例文章整齐排列；
+   - **文章页检查**：点击任意文章（例如《📖 Notion-Repo 用户使用指引与建站操作指南》），确认正文排版、Notion 各种块组件均完美渲染；
+3. **登录可视化管理后台**：
+   - 访问 `https://你的域名/admin`，输入刚才设置的 `ADMIN_PASSWORD`；
+   - 即可直接在线修改站长昵称、作者头像、社交链接、导航菜单、公告栏、Hero 翡翠胶囊与主题配色！
+
+---
+
+### 第五步：实操避坑与常见故障排查手册 (根据真实排查提炼)
+
+> [!TIP]
+> 以下均为我们在真实部署排查中攻克的关键经验，若遇到异常请对照核对：
+
+#### 1. 访问报错 `500 MIDDLEWARE_INVOCATION_FAILED`
+- **原因**：Vercel 导入时 **Framework Preset 误选为了 Other**，或者中间件运行环境混用了 CommonJS 与 ESM。
+- **解决方案**：在 Vercel 项目进入 **Settings ➔ General ➔ Framework Preset**，确保选择为 **`Next.js`**，然后点击 Save 并重新部署。
+
+#### 2. Vercel 构建状态为 Canceled（显示 `Exit 0`）
+- **原因**：历史版本中的 `vercel.json` 曾硬编码了 `ignoreCommand: "exit 0"`，导致 Vercel 判定无变更并取消构建。
+- **解决方案**：本项目最新主分支已彻底移除该配置。确保您的 Fork 仓库同步了最新的主分支代码即可正常构建。
+
+#### 3. 部署后文章数据为空白或报错 `is not a database`
+- **原因**：
+  1. Notion 页面**未开启 Public Share to web**；
+  2. `NOTION_PAGE_ID` 填写错误（例如复制了带 `?v=` 的多余参数，或者只复制了父级目录而非核心数据库）。
+- **解决方案**：在 Notion 中打开「Notion-Repo 官方模板（Fork）」数据库，确认右上角 Share 已开启网络发布，复制纯粹的 32 位字符重新填入 Vercel 环境变量。
+
+#### 4. 在 Vercel 修改了 `NOTION_PAGE_ID` 环境变量，为什么网站内容没有变？
+- **原因**：Vercel 的环境变量修改仅对**下一次构建生效**，不会自动触发已有静态缓存的重新编译。
+- **解决方案**：在 Vercel 项目控制台进入 **Deployments** 页面，找到最顶部最近的一次部署，点击右侧的三个点 `...` ➔ 选择 **Redeploy**（保持勾选 Use existing Build Cache 或重新构建），静候 1 分钟即可拉取全新数据！
+
+#### 5. 本地使用 Vercel CLI 部署时为什么不应该上传 `.env` 文件？
+- **原因**：本地 `.env.production` 或 `.env.local` 常常含有本地测试的旧 ID，若被 CLI 上传到云端，Next.js 会优先读取该文件，从而覆盖掉 Vercel 后台配置的环境变量。
+- **解决方案**：本项目已内置 `.vercelignore` 规约自动忽略本地环境变量文件，同时在 `blog.config.js` 中确立了 `process.env.NOTION_PAGE_ID` 的最高裁决权，确保环境变量绝对优先。
+
+---
+
+### 第六步：如何设置与修改文章的封面 LOGO 图（实操手册）
+
+本项目内置了**智能三级封面继承机制**（文章专属封面 ➔ 站点全局封面 ➔ 系统默认保底 LOGO）。
+新建文章若未上传封面，系统将全自动使用模板内置的专属品牌 LOGO（`public/default_cover.png`），绝不会出现系统风景图。
+
+#### 1. 为单篇文章设置独立的专属封面（最常用）
+1. 在 Notion 数据库中，点击打开您想自定义配图的文章；
+2. 鼠标移动到文章主标题的正上方，会浮现 **`Add cover`（添加封面）** 按钮，点击它；
+3. 点击封面右下角的 **`Change cover`（更改封面）** ➔ 选择 **`Upload`（上传本地图片）** 或 **`Link`（粘贴在线图床链接）**；
+4. **生效效果**：该文章在首页卡片列表、侧栏推荐阅读以及详情页顶部横幅将即刻显示您上传的独立精美封面！
+
+#### 2. 修改全站所有文章的默认统一封面 LOGO
+如果您希望所有未设封面或新建的文章统一展示另一张全新横幅，有以下三种便捷途径：
+- **途径 A（Notion 在线秒级生效，最推荐）**：
+  打开您的 Notion 母版页面（`Notion-Repo 官方博客模板`），在页面主标题上方点击 **`Add cover`** 并上传您的新图片。全站所有未设置独立封面的文章将全自动继承此主封面。
+- **途径 B（管理后台可视化配置）**：
+  登录 `https://你的域名/admin`，进入 **高级配置字典**，搜索 `HOME_BANNER_IMAGE`，将其值修改为您的专属新图片 URL，点击保存即刻生效。
+- **途径 C（项目本地文件覆盖）**：
+  直接将您制作好的高清 1200x630 横幅图片覆盖项目中的 `public/default_cover.png` 与 `public/bg_image.jpg`，提交推送即可完成永久替换。
 
 ---
 

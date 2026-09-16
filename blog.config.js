@@ -2,10 +2,10 @@
 
 const BLOG = {
   API_BASE_URL: process.env.API_BASE_URL || 'https://app.notion.com/api/v3', // API默认请求地址,可以配置成自己的地址例如：https://[xxxxx].notion.site/api/v3
-  // Important page_id！！！Duplicate Template from  https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5
+  // Important page_id！！！专属增强版模板复制链接：https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd
   NOTION_PAGE_ID:
     process.env.NOTION_PAGE_ID ||
-    'd699622a6d1882f09e68814c63554113',
+    '3dce78c0e8d4812598f8e90892c4c95e',
   REDIRECT_LANG: process.env.NEXT_PUBLIC_REDIRECT_LANG || false, // 是否根据浏览器语言自动重定向到 /en（默认关闭，保持停留在中文首页）
   THEME: process.env.NEXT_PUBLIC_THEME || 'heo', // 当前主题，在themes文件夹下可找到所有支持的主题；主题名称就是文件夹名，例如 claude,endspace,example,fukasawa,fuwari,gitbook,heo,hexo,landing,matery,medium,next,nobelium,plog,simple
   LANG: process.env.NEXT_PUBLIC_LANG || 'zh-CN', // e.g 'zh-CN','en-US'  see /lib/lang.js for more.
@@ -22,6 +22,8 @@ const BLOG = {
   LINK: process.env.NEXT_PUBLIC_LINK || 'https://your-domain.com/', // 网站地址
   KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || 'Notion, 博客', // 网站关键词 英文逗号隔开
   BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', // blog favicon 配置, 默认使用用户专属 Logo，支持在线图片或本地 /favicon.ico
+  HOME_BANNER_IMAGE:
+    process.env.NEXT_PUBLIC_HOME_BANNER_IMAGE || 'https://pic1.imgdb.cn/i/034J0pqvIcjWSoNXbFMAsW.png', // 默认站点与文章封面图，新建文章或未配封面时默认使用高清专属 Logo 横幅展示
   PWA_ENABLE: process.env.NEXT_PUBLIC_PWA_ENABLE || false, // 是否启用 PWA 安装入口；也可在 Notion_Config 中配置 PWA_ENABLE=true
   PWA_NAME: process.env.NEXT_PUBLIC_PWA_NAME || '', // PWA 安装名称；默认读取站点标题，通常无需单独配置
   PWA_SHORT_NAME: process.env.NEXT_PUBLIC_PWA_SHORT_NAME || '', // PWA 短名称；默认读取站点标题，通常无需单独配置
@@ -107,7 +109,12 @@ try {
   const overrides = require('./lib/adminConfigOverrides.json')
   // 仅在 overrides 为有效对象时进行深度合并
   if (overrides && typeof overrides === 'object' && Object.keys(overrides).length > 0) {
+    const envPageId = process.env.NOTION_PAGE_ID
     Object.assign(BLOG, overrides)
+    // 环境变量优先级高于文件覆盖，避免 Fork 用户配置被历史文件锁定
+    if (envPageId) {
+      BLOG.NOTION_PAGE_ID = envPageId
+    }
   }
 } catch (e) {
   // 首次运行或未生成 adminConfigOverrides 时静默忽略

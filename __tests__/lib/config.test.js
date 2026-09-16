@@ -43,4 +43,14 @@ describe('siteConfig', () => {
       })
     ).toBe(true)
   })
+
+  it('管理员后台主题覆盖配置优先于主题硬编码默认配置生效', () => {
+    // 模拟主题默认文件写入 false，后台保存为 true
+    const themeDefaultConfig = { HEO_HERO_REVERSE: false, HEO_HERO_TITLE_1: '默认标题' }
+    adminOverrides.HEO_HERO_REVERSE = true
+    adminOverrides.HEO_HERO_TITLE_1 = '分享 AI'
+
+    expect(siteConfig('HEO_HERO_REVERSE', false, themeDefaultConfig)).toBe(true)
+    expect(siteConfig('HEO_HERO_TITLE_1', null, themeDefaultConfig)).toBe('分享 AI')
+  })
 })

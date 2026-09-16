@@ -1,5 +1,21 @@
 import { verifyFansPasscode, getFansStorageKey } from '@/lib/fans/auth'
 
+jest.mock('notion-utils', () => ({
+  getTextContent: jest.fn(value => {
+    if (!Array.isArray(value)) return ''
+    return value.map(item => item?.[0] || '').join('')
+  }),
+  getDateValue: jest.fn(() => null)
+}))
+
+jest.mock('@/lib/db/notion/getNotionAPI', () => ({
+  __esModule: true,
+  default: {
+    getPage: jest.fn(),
+    getBlocks: jest.fn()
+  }
+}))
+
 describe('粉丝专区免登录验证码逻辑', () => {
   it('通用暗号模式：文章未设专属码时，输入全站默认暗号校验通过', () => {
     const res = verifyFansPasscode('888888', '', '888888')
@@ -134,5 +150,34 @@ describe('粉丝专区免登录验证码逻辑', () => {
     expect(style.icon).toBe('fa-gift')
     expect(style.bg).toContain('from-emerald-500')
   })
+
+  it('属性解析器精确定位：未勾选 fans 的文章绝对不得标记为粉丝文章，仅勾选后才具备专属暗号', () => {
+    const { adjustPageProperties } = require('@/lib/db/notion/getPageProperties')
+
+    // 1. 普通文章：未勾选 fans
+    const normalProps = {
+      id: '3dce78c0-e8d4-81aa-8b79-ff48c23e3c12',
+      type: 'Post',
+      title: '普通公开文章',
+      fans: undefined,
+      fans_code: ''
+    }
+    adjustPageProperties(normalProps)
+    expect(normalProps.fans).toBe(false)
+    expect(normalProps.fans_code).toBe('')
+
+    // 2. 粉丝文章：勾选了 fans (Yes)
+    const fansProps = {
+      id: '3dce78c0-e8d4-819d-bde0-c0215c852cfd',
+      type: 'Post',
+      title: 'VIP 与粉丝专属文章',
+      fans: 'Yes',
+      fans_code: ''
+    }
+    adjustPageProperties(fansProps)
+    expect(fansProps.fans).toBe(true)
+    expect(fansProps.fans_code).toBe('852CFD') // 3dce78c0-e8d4-819d-bde0-c0215c852cfd 后 6 位
+  })
 })
+
 

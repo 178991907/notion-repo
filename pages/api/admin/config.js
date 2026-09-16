@@ -130,6 +130,11 @@ async function handlePost(req, res) {
 
   for (const { key, value } of configs) {
     if (!key) continue
+
+    // 安全防护：NOTION_PAGE_ID 属于核心数据源基础设施，优先由环境变量裁决，防止后台保存时误锁死
+    if (key === 'NOTION_PAGE_ID' && process.env.NOTION_PAGE_ID) {
+      continue
+    }
     
     // 如果值为 null 或 undefined，代表删除覆写，恢复默认值
     if (value === null || value === undefined || value === '') {
@@ -187,7 +192,7 @@ async function handlePost(req, res) {
   })
 }
 
-const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ''
+const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ''
 const NOTION_CONFIG_DB_ID = process.env.NOTION_CONFIG_DB_ID || ''
 
 /**

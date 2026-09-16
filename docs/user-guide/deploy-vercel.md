@@ -29,11 +29,11 @@ graph LR
 
 ## 第一步：准备您的 Notion 数据源
 
-### 1. 复制官方模板 (Duplicate)
+### 1. 复制官方专属纯净增强母版 (Duplicate)
 1. 打开并登录您的 [Notion 账号](https://www.notion.so/)（若无账号可免费注册）；
-2. 访问官方推荐的 Notion 数据源模板：
-   👉 **[Notion Repo 官方博客数据源模板](https://tanghh.notion.site/02ab3b8678004aa69e9e415905ef32a5)**
-3. 在打开的 Notion 模板页面右上角，点击 **Duplicate (复制)** 按钮，将模板完整复刻到您自己的个人 Notion 工作区中。
+2. 访问官方推荐的专属纯净增强母版：
+   👉 **[Notion-Repo 官方博客专属增强母版](https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd)**
+3. 在打开的 Notion 页面右上角，点击 **Duplicate (复制)** 按钮，将母版（含全套建站指引与核心数据库「Notion-Repo 官方模板（Fork）」）完整复刻到您自己的个人 Notion 工作区中。
 
 ### 2. 开启公开网页分享 (Publish to web)
 > [!IMPORTANT]
@@ -42,24 +42,18 @@ graph LR
 1. 在复制到您工作区后的根页面中，点击右上角的 **Share (分享)** 按钮；
 2. 切换到 **Publish (发布)** 选项卡；
 3. 点击开启 **Publish to web (发布到网络)** 开关；
-4. 确认开启后，点击 **Copy link (复制链接)**。
+4. 勾选保持开启 **Allow duplicate as template**；
+5. 点击进入内部的「**Notion-Repo 官方模板（Fork）**」数据库页面，点击右上角 **Copy link (复制链接)**。
 
 ### 3. 获取并准确提取 32 位页面 ID (`NOTION_PAGE_ID`)
 请仔细观察您刚才复制出的公开分享链接：
 
-- **格式一（经典格式）**：
+- **链接格式示例**：
   ```text
-  https://yourname.notion.site/02ab3b8678004aa69e9e415905ef32a5?v=b7eb2157...
+  https://www.notion.so/3dce78c0e8d4812598f8e90892c4c95e?v=...
   ```
-  此时位于链接中间由纯数字与小写字母组成的 **连续 32 位字符** 即为页面 ID：
-  👉 `02ab3b8678004aa69e9e415905ef32a5`
-
-- **格式二（新版带标题格式）**：
-  ```text
-  https://yourname.notion.site/My-Blog-02ab3b8678004aa69e9e415905ef32a5?pvs=4
-  ```
-  此时位于标题短横线后面、问号前面的 **连续 32 位字符** 即为页面 ID：
-  👉 `02ab3b8678004aa69e9e415905ef32a5`
+  此时位于链接中间由纯数字与小写字母组成的 **连续 32 位字符** 即为核心数据库 ID：
+  👉 `3dce78c0e8d4812598f8e90892c4c95e`
 
 > [!WARNING]
 > **避坑提醒**：只复制这 32 位的纯字符串！**切勿包含 `?v=`、`?pvs=4` 及其后面的任何多余字符**。请将这串 32 位 ID 妥善暂存，下一步将用到。
@@ -194,6 +188,20 @@ Vercel 默认提供的 `*.vercel.app` 域名在部分国内网络环境下可能
   若先点击了 Deploy，您可以随时进入 Vercel 项目的 **Settings -> Environment Variables** 补充添加变量。**但请务必注意**：添加变量后必须前往 **Deployments** 列表，在最新一条记录右侧点击 **`...` -> Redeploy** 重新触发一次构建打包，新环境变量才会正式生效！
 - **真正导致部署报错的元凶**：
   只有 **Node.js 运行版本不匹配**！请务必在项目设置中确认选择 **`24.x`**（Next.js 15+ 强制要求 Node 22+）。
+
+---
+
+## 常见操作进阶：如何设置与修改文章的封面 LOGO 图
+
+系统内置了**智能三级封面继承机制**（文章专属封面 ➔ 站点全局封面 ➔ 系统默认保底 LOGO）：
+- **默认机制**：新建文章若未在 Notion 中上传封面，系统将全自动使用模板内置的专属品牌 LOGO（`public/default_cover.png`），告别毫无辨识度的风景图。
+- **自定义单篇封面**：
+  1. 在 Notion 数据库中打开具体文章；
+  2. 鼠标悬浮在文章大标题上方，点击 **`Add cover`（添加封面）**；
+  3. 点击右下角 **`Change cover`** ➔ **`Upload`** 上传本地图片即可；
+  4. 该文章在前台首页卡片、侧边推荐阅读及详情页顶部将即刻显示专属新封面。
+- **修改全站默认底图**：
+  在 Notion 母版根页面（`Notion-Repo 官方博客模板`）顶部大标题上方点击 **`Add cover`** 上传您的全站横幅，所有未配封面的文章都会自动同步继承。
 
 ---
 
