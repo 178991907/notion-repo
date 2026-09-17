@@ -79,11 +79,20 @@ async function handleGet(req, res) {
             const val = r.properties['配置值']?.rich_text?.[0]?.plain_text || r.properties['Value']?.rich_text?.[0]?.plain_text
             const enable = r.properties['启用']?.checkbox ?? r.properties['Enable']?.checkbox ?? true
             if (name && enable && val !== undefined && val !== '') {
+              // 过滤历史脏数据：若数据库中记录为字符串 "null" 或 "undefined"，视为已清空配置，不注入内存
+              if (val === 'null' || val === 'undefined') {
+                return
+              }
               let parsedVal = val
               if (val === 'true') parsedVal = true
               else if (val === 'false') parsedVal = false
               else if (val.startsWith('{') || val.startsWith('[')) {
-                try { parsedVal = JSON.parse(val) } catch (e) {}
+                try {
+                  const parsed = JSON.parse(val)
+                  if (parsed !== null && parsed !== undefined) {
+                    parsedVal = parsed
+                  }
+                } catch (e) {}
               }
               global.__adminConfigOverrides[name] = parsedVal
             }
@@ -223,7 +232,7 @@ async function handlePost(req, res) {
   // 整理供复制到 Notion CONFIG 配置表的数据
   const configsForNotion = configs.map(({ key, value }) => ({
     key,
-    value: typeof value === 'object' ? JSON.stringify(value) : String(value ?? '')
+    value: (value !== null && typeof value === 'object') ? JSON.stringify(value) : (value === null || value === undefined ? '' : String(value))
   }))
 
   const isVercel = Boolean(process.env.VERCEL)
@@ -397,11 +406,15 @@ async function syncConfigsToNotion(configs) {
   const tasks = []
   for (const { key, value } of configs) {
     if (!key) continue
-    const strVal = typeof value === 'object' ? JSON.stringify(value) : String(value ?? '')
+    const isNullOrUndefined = value === null || value === undefined
+    const strVal = (value !== null && typeof value === 'object')
+      ? JSON.stringify(value)
+      : (isNullOrUndefined ? '' : String(value))
+    const targetEnable = !isNullOrUndefined
     const current = existingMap.get(key)
 
     // 如果 Notion 里已经存在且值和启用状态均一致，跳过无需重复写入
-    if (current && current.val === strVal && current.enable === true) {
+    if (current && current.val === strVal && current.enable === targetEnable) {
       continue
     }
 
@@ -412,12 +425,12 @@ async function syncConfigsToNotion(configs) {
           page_id: current.id,
           properties: {
             [current.valProp]: { rich_text: [{ text: { content: strVal } }] },
-            [current.enableProp]: { checkbox: true }
+            [current.enableProp]: { checkbox: targetEnable }
           }
         })
       })
-    } else {
-      // 需要新建
+    } else if (!isNullOrUndefined) {
+      // 仅当非空时需要新建
       tasks.push(async () => {
         return notion.pages.create({
           parent: { database_id: configDbId },

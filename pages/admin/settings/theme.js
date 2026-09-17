@@ -465,24 +465,36 @@ export default function HeoThemeEditor() {
         const cats = []
         for (let i = 1; i <= 6; i++) {
           const key = 'HEO_HERO_CATEGORY_' + i
-          if (merged[key] && typeof merged[key] === 'object' && merged[key].title) cats.push({ ...merged[key] })
-          else if (typeof merged[key] === 'string') { try { cats.push(JSON.parse(merged[key])) } catch(e) {} }
+          const val = merged[key]
+          if (val && typeof val === 'object' && val.title) {
+            cats.push({ ...val })
+          } else if (typeof val === 'string' && val.trim() && val !== 'null' && val !== 'undefined') {
+            try {
+              const parsed = JSON.parse(val)
+              if (parsed && typeof parsed === 'object' && parsed.title) {
+                cats.push(parsed)
+              }
+            } catch (e) {}
+          }
         }
         if (cats.length === 0) cats.push({ title: '必看精选', url: '/tag/必看精选' }, { title: '热门文章', url: '/tag/热门文章' }, { title: '实用教程', url: '/tag/实用教程' })
         setCategories(cats)
+
         let nb = merged.HEO_NOTICE_BAR
-        if (typeof nb === 'string') { try { nb = JSON.parse(nb) } catch(e) { nb = [] } }
-        setNotices(Array.isArray(nb) ? nb : [])
+        if (typeof nb === 'string' && nb.trim() && nb !== 'null') { try { nb = JSON.parse(nb) } catch (e) { nb = [] } }
+        setNotices(Array.isArray(nb) ? nb.filter(n => n && typeof n === 'object' && n.title) : [])
+
         let gr = merged.HEO_INFOCARD_GREETINGS
-        if (typeof gr === 'string') { try { gr = JSON.parse(gr.replace(/'/g, '"')) } catch(e) { gr = gr.split(',').map(s => s.trim()) } }
-        setGreetings(Array.isArray(gr) ? gr : [])
+        if (typeof gr === 'string' && gr.trim() && gr !== 'null') { try { gr = JSON.parse(gr.replace(/'/g, '"')) } catch (e) { gr = gr.split(',').map(s => s.trim()) } }
+        setGreetings(Array.isArray(gr) ? gr.filter(Boolean) : [])
+
         let navs = merged.HEO_MENU_CUSTOM_ITEMS
-        if (typeof navs === 'string') { try { navs = JSON.parse(navs) } catch(e) { navs = [] } }
-        setCustomNavItems(Array.isArray(navs) ? navs : [])
+        if (typeof navs === 'string' && navs.trim() && navs !== 'null') { try { navs = JSON.parse(navs) } catch (e) { navs = [] } }
+        setCustomNavItems(Array.isArray(navs) ? navs.filter(item => item && typeof item === 'object') : [])
 
         let gi = merged.HEO_GROUP_ICONS
-        if (typeof gi === 'string') { try { gi = JSON.parse(gi) } catch(e) { gi = [] } }
-        setGroupIcons(Array.isArray(gi) && gi.length > 0 ? gi : [
+        if (typeof gi === 'string' && gi.trim() && gi !== 'null') { try { gi = JSON.parse(gi) } catch (e) { gi = [] } }
+        setGroupIcons(Array.isArray(gi) && gi.length > 0 ? gi.filter(item => item && typeof item === 'object') : [
           { title_1: 'AfterEffect', img_1: '/images/heo/20239df3f66615b532ce571eac6d14ff21cf072602.webp', color_1: '#989bf8', title_2: 'Sketch', img_2: '/images/heo/2023e0ded7b724a39f12d59c3dc8fbdc7cbe074202.webp', color_2: '#ffffff' },
           { title_1: 'Docker', img_1: '/images/heo/20231108a540b2862d26f8850172e4ea58ed075102.webp', color_1: '#57b6e6', title_2: 'Photoshop', img_2: '/images/heo/2023e4058a91608ea41751c4f102b131f267075902.webp', color_2: '#4082c3' },
           { title_1: 'FinalCutPro', img_1: '/images/heo/20233e777652412247dd57fd9b48cf997c01070702.webp', color_1: '#ffffff', title_2: 'Python', img_2: '/images/heo/20235c0731cd4c0c95fc136a8db961fdf963071502.webp', color_2: '#ffffff' },
@@ -667,12 +679,12 @@ export default function HeoThemeEditor() {
                     暂无自定义菜单项，点击下方按钮即可添加菜单链接
                   </div>
                 )}
-                {customNavItems.map((item, i) => (
+                {customNavItems.filter(Boolean).map((item, i) => (
                   <DraggableItem key={i} index={i} onMoveUp={customNavOps.moveUp} onMoveDown={customNavOps.moveDown} onDelete={customNavOps.remove} isFirst={i === 0} isLast={i === customNavItems.length - 1}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <input value={item.title || ''} onChange={e => customNavOps.update(i, 'title', e.target.value)} placeholder="菜单名称 (如: 友情链接)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
-                      <input value={item.url || ''} onChange={e => customNavOps.update(i, 'url', e.target.value)} placeholder="跳转链接 (如: /links 或 https://...)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
-                      <input value={item.icon || ''} onChange={e => customNavOps.update(i, 'icon', e.target.value)} placeholder="图标 class (如: fas fa-link)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                      <input value={item?.title || ''} onChange={e => customNavOps.update(i, 'title', e.target.value)} placeholder="菜单名称 (如: 友情链接)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                      <input value={item?.url || ''} onChange={e => customNavOps.update(i, 'url', e.target.value)} placeholder="跳转链接 (如: /links 或 https://...)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                      <input value={item?.icon || ''} onChange={e => customNavOps.update(i, 'icon', e.target.value)} placeholder="图标 class (如: fas fa-link)" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
                     </div>
                   </DraggableItem>
                 ))}
@@ -728,8 +740,8 @@ export default function HeoThemeEditor() {
                   {formData.HEO_MENU_TAG !== false && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🏷️ 标签</span>}
                   {formData.HEO_MENU_ARCHIVE && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🗃️ 归档</span>}
                   {formData.HEO_MENU_SEARCH && <span className="hover:text-blue-600 cursor-pointer flex items-center gap-1">🔍 搜索</span>}
-                  {customNavItems.map((item, idx) => (
-                    item.title && <span key={idx} className="hover:text-blue-600 cursor-pointer flex items-center gap-1 font-bold text-blue-600">🔗 {item.title}</span>
+                  {customNavItems.filter(Boolean).map((item, idx) => (
+                    item?.title && <span key={idx} className="hover:text-blue-600 cursor-pointer flex items-center gap-1 font-bold text-blue-600">🔗 {item.title}</span>
                   ))}
                   {formData.HEO_MENU_SHOW_NOTION_PAGES !== false && (
                     <>
@@ -806,16 +818,16 @@ export default function HeoThemeEditor() {
             <SectionCard className="lg:col-span-2">
               <SectionTitle icon="🏷️" title="分类快捷入口卡片" desc="英雄区下方的彩色标签卡片，1~6 个，可排序增删" />
               <div className="flex gap-3 mb-4 flex-wrap">
-                {categories.map((cat, i) => {
+                {categories.filter(Boolean).map((cat, i) => {
                   const colors = ['bg-blue-600 text-white','bg-gradient-to-r from-red-500 to-yellow-500 text-white','bg-gradient-to-r from-teal-300 to-cyan-300 text-white','bg-gradient-to-r from-blue-500 to-indigo-500 text-white','bg-gradient-to-r from-pink-500 to-rose-500 text-white','bg-gradient-to-r from-emerald-400 to-green-500 text-white']
-                  return <div key={i} className={`${colors[i % colors.length]} px-5 py-3 rounded-xl font-bold text-sm`}>{cat.title || '未命名'}</div>
+                  return <div key={i} className={`${colors[i % colors.length]} px-5 py-3 rounded-xl font-bold text-sm`}>{cat?.title || '未命名'}</div>
                 })}
               </div>
-              {categories.map((cat, i) => (
+              {categories.filter(Boolean).map((cat, i) => (
                 <DraggableItem key={i} index={i} onMoveUp={catOps.moveUp} onMoveDown={catOps.moveDown} onDelete={catOps.remove} isFirst={i === 0} isLast={i === categories.length - 1}>
                   <div className="grid grid-cols-2 gap-3">
-                    <input value={cat.title || ''} onChange={e => catOps.update(i, 'title', e.target.value)} placeholder="卡片名称" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
-                    <input value={cat.url || ''} onChange={e => catOps.update(i, 'url', e.target.value)} placeholder="跳转链接 /tag/xxx" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={cat?.title || ''} onChange={e => catOps.update(i, 'title', e.target.value)} placeholder="卡片名称" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={cat?.url || ''} onChange={e => catOps.update(i, 'url', e.target.value)} placeholder="跳转链接 /tag/xxx" className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
                   </div>
                 </DraggableItem>
               ))}
@@ -827,7 +839,7 @@ export default function HeoThemeEditor() {
                 <button
                   type="button"
                   onClick={() => {
-                    const exists = categories.some(c => c.url === '/vip' || c.title?.includes('会员'))
+                    const exists = categories.some(c => c && (c.url === '/vip' || c.title?.includes('会员')))
                     if (exists) {
                       setToast({ type: 'success', msg: '推荐卡片中已存在会员专区！' })
                       setTimeout(() => setToast(null), 3000)
@@ -908,16 +920,16 @@ export default function HeoThemeEditor() {
                   <h4 className="text-sm font-bold text-gray-700">📋 轮播通知内容列表 (每 3 秒自动切换)</h4>
                   <span className="text-xs text-gray-400">共 {notices.length} 条</span>
                 </div>
-                {notices.map((n, i) => (
+                {notices.filter(Boolean).map((n, i) => (
                   <DraggableItem key={i} index={i} onMoveUp={noticeOps.moveUp} onMoveDown={noticeOps.moveDown} onDelete={noticeOps.remove} isFirst={i === 0} isLast={i === notices.length - 1}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[11px] font-medium text-gray-500 mb-0.5">公告文案</label>
-                        <input value={n.title || ''} onChange={e => noticeOps.update(i, 'title', e.target.value)} placeholder="例如：欢迎来到 Terry 校长的博客" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                        <input value={n?.title || ''} onChange={e => noticeOps.update(i, 'title', e.target.value)} placeholder="例如：欢迎来到 Terry 校长的博客" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
                       </div>
                       <div>
                         <label className="block text-[11px] font-medium text-gray-500 mb-0.5">点击跳转链接 (可选)</label>
-                        <input value={n.url || ''} onChange={e => noticeOps.update(i, 'url', e.target.value)} placeholder="例如：https://... 或 /about" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                        <input value={n?.url || ''} onChange={e => noticeOps.update(i, 'url', e.target.value)} placeholder="例如：https://... 或 /about" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
                       </div>
                     </div>
                   </DraggableItem>
@@ -971,39 +983,39 @@ export default function HeoThemeEditor() {
 
               {/* 图标对列表 */}
               <div className="space-y-3">
-                {groupIcons.map((item, i) => (
+                {groupIcons.filter(Boolean).map((item, i) => (
                   <DraggableItem key={i} index={i} onMoveUp={groupIconOps.moveUp} onMoveDown={groupIconOps.moveDown} onDelete={groupIconOps.remove} isFirst={i === 0} isLast={i === groupIcons.length - 1}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-3 rounded-lg border border-gray-100">
                       {/* 上方图标 */}
                       <div className="space-y-2 border-b md:border-b-0 md:border-r border-gray-100 pb-2 md:pb-0 md:pr-3">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-gray-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color_1 || '#4f46e5' }} />
+                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item?.color_1 || '#4f46e5' }} />
                             上方图标 1
                           </span>
-                          <input type="color" value={item.color_1 || '#4f46e5'} onChange={e => groupIconOps.update(i, 'color_1', e.target.value)} className="w-6 h-6 rounded cursor-pointer border-0" title="选择底色" />
+                          <input type="color" value={item?.color_1 || '#4f46e5'} onChange={e => groupIconOps.update(i, 'color_1', e.target.value)} className="w-6 h-6 rounded cursor-pointer border-0" title="选择底色" />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <input value={item.title_1 || ''} onChange={e => groupIconOps.update(i, 'title_1', e.target.value)} placeholder="图标名称 (如 Python)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
-                          <input value={item.color_1 || ''} onChange={e => groupIconOps.update(i, 'color_1', e.target.value)} placeholder="底色代码 (如 #3776ab)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono" />
+                          <input value={item?.title_1 || ''} onChange={e => groupIconOps.update(i, 'title_1', e.target.value)} placeholder="图标名称 (如 Python)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
+                          <input value={item?.color_1 || ''} onChange={e => groupIconOps.update(i, 'color_1', e.target.value)} placeholder="底色代码 (如 #3776ab)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono" />
                         </div>
-                        <input value={item.img_1 || ''} onChange={e => groupIconOps.update(i, 'img_1', e.target.value)} placeholder="图片 URL (支持外链 https://... 或 /images/heo/...)" className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
+                        <input value={item?.img_1 || ''} onChange={e => groupIconOps.update(i, 'img_1', e.target.value)} placeholder="图片 URL (支持外链 https://... 或 /images/heo/...)" className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
                       </div>
 
                       {/* 下方图标 */}
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-gray-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color_2 || '#4082c3' }} />
+                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item?.color_2 || '#4082c3' }} />
                             下方图标 2
                           </span>
-                          <input type="color" value={item.color_2 || '#4082c3'} onChange={e => groupIconOps.update(i, 'color_2', e.target.value)} className="w-6 h-6 rounded cursor-pointer border-0" title="选择底色" />
+                          <input type="color" value={item?.color_2 || '#4082c3'} onChange={e => groupIconOps.update(i, 'color_2', e.target.value)} className="w-6 h-6 rounded cursor-pointer border-0" title="选择底色" />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <input value={item.title_2 || ''} onChange={e => groupIconOps.update(i, 'title_2', e.target.value)} placeholder="图标名称 (如 Docker)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
-                          <input value={item.color_2 || ''} onChange={e => groupIconOps.update(i, 'color_2', e.target.value)} placeholder="底色代码 (如 #2496ed)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono" />
+                          <input value={item?.title_2 || ''} onChange={e => groupIconOps.update(i, 'title_2', e.target.value)} placeholder="图标名称 (如 Docker)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
+                          <input value={item?.color_2 || ''} onChange={e => groupIconOps.update(i, 'color_2', e.target.value)} placeholder="底色代码 (如 #2496ed)" className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono" />
                         </div>
-                        <input value={item.img_2 || ''} onChange={e => groupIconOps.update(i, 'img_2', e.target.value)} placeholder="图片 URL (支持外链 https://... 或 /images/heo/...)" className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
+                        <input value={item?.img_2 || ''} onChange={e => groupIconOps.update(i, 'img_2', e.target.value)} placeholder="图片 URL (支持外链 https://... 或 /images/heo/...)" className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs" />
                       </div>
                     </div>
                   </DraggableItem>
@@ -1947,7 +1959,7 @@ export default function HeoThemeEditor() {
                 <button
                   type="button"
                   onClick={() => {
-                    const exists = categories.some(c => c.url === '/vip' || c.title?.includes('会员'))
+                    const exists = categories.some(c => c && (c.url === '/vip' || c.title?.includes('会员')))
                     if (exists) {
                       setToast({ type: 'success', msg: '英雄区推荐卡片中已存在会员专区！' })
                       setTimeout(() => setToast(null), 3000)
@@ -2180,7 +2192,7 @@ export default function HeoThemeEditor() {
                 <button
                   type="button"
                   onClick={() => {
-                    const fansIndex = categories.findIndex(c => c.url === '/fans' || c.title?.includes('粉丝'))
+                    const fansIndex = categories.findIndex(c => c && (c.url === '/fans' || c.title?.includes('粉丝')))
                     if (fansIndex !== -1) {
                       if (categories[fansIndex]?.title !== '🎁 粉丝福利') {
                         const updated = [...categories]
