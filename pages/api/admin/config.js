@@ -298,6 +298,10 @@ export async function resolveConfigDatabaseId(notionClient) {
     if (target && target.id) {
       console.log(`[Auto-Discovery] ✅ 成功自动探测并关联 Notion 配置中心: ${target.id} (${target.title?.[0]?.plain_text || ''})`)
       global.__notionConfigDatabaseId = target.id
+      global.__notionConfigDatabaseMeta = {
+        id: target.id,
+        titleProp: (target.properties && target.properties['配置名']) ? '配置名' : 'Name'
+      }
       return target.id
     }
   } catch (err) {
@@ -323,31 +327,71 @@ async function syncConfigsToNotion(configs) {
     return false
   }
 
-  // 分页获取当前已有配置项
   const existingMap = new Map()
-  let cursor = undefined
-  do {
-    const resp = await notion.databases.query({
-      database_id: configDbId,
-      page_size: 100,
-      start_cursor: cursor
-    })
-    resp.results.forEach(r => {
-      const name = r.properties['配置名']?.title?.[0]?.plain_text || r.properties['Name']?.title?.[0]?.plain_text
-      const val = r.properties['配置值']?.rich_text?.[0]?.plain_text || r.properties['Value']?.rich_text?.[0]?.plain_text || ''
-      const enable = r.properties['启用']?.checkbox ?? r.properties['Enable']?.checkbox ?? true
-      if (name && !existingMap.has(name)) {
-        existingMap.set(name, {
-          id: r.id,
-          val,
-          enable,
-          valProp: r.properties['配置值'] ? '配置值' : 'Value',
-          enableProp: r.properties['启用'] ? '启用' : 'Enable'
-        })
+  const validConfigs = configs.filter(c => c && c.key)
+
+  // 🚀 性能飞跃优化：当变更项数量 <= 50 时，采用精准 Filter 查询，避免扫描数百条历史记录
+  let queriedAccurately = false
+  if (validConfigs.length <= 50) {
+    try {
+      const titleProp = global.__notionConfigDatabaseMeta?.titleProp || '配置名'
+      const filter = {
+        or: validConfigs.map(c => ({
+          property: titleProp,
+          title: { equals: c.key }
+        }))
       }
-    })
-    cursor = resp.has_more ? resp.next_cursor : undefined
-  } while (cursor)
+      const resp = await notion.databases.query({
+        database_id: configDbId,
+        filter,
+        page_size: 100
+      })
+      resp.results.forEach(r => {
+        const name = r.properties['配置名']?.title?.[0]?.plain_text || r.properties['Name']?.title?.[0]?.plain_text
+        const val = r.properties['配置值']?.rich_text?.[0]?.plain_text || r.properties['Value']?.rich_text?.[0]?.plain_text || ''
+        const enable = r.properties['启用']?.checkbox ?? r.properties['Enable']?.checkbox ?? true
+        if (name && !existingMap.has(name)) {
+          existingMap.set(name, {
+            id: r.id,
+            val,
+            enable,
+            valProp: r.properties['配置值'] ? '配置值' : 'Value',
+            enableProp: r.properties['启用'] ? '启用' : 'Enable'
+          })
+        }
+      })
+      queriedAccurately = true
+    } catch (e) {
+      console.warn('[syncConfigsToNotion] 精准 Filter 查询失败，回退至全量分页查询:', e.message)
+    }
+  }
+
+  // 若精准查询未执行或失败，回退至全量分页扫描
+  if (!queriedAccurately) {
+    let cursor = undefined
+    do {
+      const resp = await notion.databases.query({
+        database_id: configDbId,
+        page_size: 100,
+        start_cursor: cursor
+      })
+      resp.results.forEach(r => {
+        const name = r.properties['配置名']?.title?.[0]?.plain_text || r.properties['Name']?.title?.[0]?.plain_text
+        const val = r.properties['配置值']?.rich_text?.[0]?.plain_text || r.properties['Value']?.rich_text?.[0]?.plain_text || ''
+        const enable = r.properties['启用']?.checkbox ?? r.properties['Enable']?.checkbox ?? true
+        if (name && !existingMap.has(name)) {
+          existingMap.set(name, {
+            id: r.id,
+            val,
+            enable,
+            valProp: r.properties['配置值'] ? '配置值' : 'Value',
+            enableProp: r.properties['启用'] ? '启用' : 'Enable'
+          })
+        }
+      })
+      cursor = resp.has_more ? resp.next_cursor : undefined
+    } while (cursor)
+  }
 
   // 过滤出真正需要写入或更新的项（减少不必要的 API 请求）
   const tasks = []

@@ -128,11 +128,11 @@ describe('粉丝专区免登录验证码逻辑', () => {
     }
   })
 
-  it('英雄区胶囊配置：adminConfigOverrides 中已包含 HEO_HERO_CATEGORY_4 粉丝福利', () => {
-    const adminOverrides = require('@/lib/adminConfigOverrides.json')
-    expect(adminOverrides.HEO_HERO_CATEGORY_4).toBeDefined()
-    expect(adminOverrides.HEO_HERO_CATEGORY_4.title).toBe('🎁 粉丝福利')
-    expect(adminOverrides.HEO_HERO_CATEGORY_4.url).toBe('/fans')
+  it('英雄区胶囊配置：HEO 主题配置中已包含 HEO_HERO_CATEGORY_4 粉丝福利', () => {
+    const heoConfig = require('@/themes/heo/config').default || require('@/themes/heo/config')
+    expect(heoConfig.HEO_HERO_CATEGORY_4).toBeDefined()
+    expect(heoConfig.HEO_HERO_CATEGORY_4.title).toBe('🎁 粉丝福利')
+    expect(heoConfig.HEO_HERO_CATEGORY_4.url).toBe('/fans')
   })
 
   it('英雄区胶囊专属样式：粉丝专区与粉丝福利精准命中翡翠绿渐变与礼物图标', () => {

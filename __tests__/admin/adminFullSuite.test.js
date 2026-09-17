@@ -305,4 +305,34 @@ describe('管理后台全功能深度排查与双向数据流测试套件', () =
       expect(mockResTags.jsonData.error).toContain('未配置环境变量')
     })
   })
+
+  describe('6. 客户端与服务端 siteConfig 优先级穿透测试', () => {
+    const { siteConfig } = require('@/lib/config')
+    const { setGlobalSnapshot } = require('@/lib/global')
+
+    test('云端 NOTION_CONFIG 动态配置绝对优先于任何静态配置', () => {
+      setGlobalSnapshot({
+        NOTION_CONFIG: {
+          HEO_HERO_TITLE_1: '云端动态标题AI',
+          HEO_HERO_REVERSE: true
+        }
+      })
+      expect(siteConfig('HEO_HERO_TITLE_1')).toBe('云端动态标题AI')
+      expect(siteConfig('HEO_HERO_REVERSE')).toBe(true)
+    })
+
+    test('服务端进程内存覆盖 globalThis.__adminConfigOverrides 优先于旧云端快照', () => {
+      setGlobalSnapshot({
+        NOTION_CONFIG: {
+          HEO_HERO_TITLE_1: '旧云端标题'
+        }
+      })
+      globalThis.__adminConfigOverrides = {
+        HEO_HERO_TITLE_1: '最新保存的内存标题'
+      }
+      expect(siteConfig('HEO_HERO_TITLE_1')).toBe('最新保存的内存标题')
+      delete globalThis.__adminConfigOverrides
+    })
+  })
 })
+
