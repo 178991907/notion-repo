@@ -17,40 +17,20 @@
 :::
 
 
-## 站长微信群
-
-::: tip 提示
-群里汇聚了各领域的大神们，感谢你们的经验分享！以下是部分群消息截图：
-
-![Untitled](/legacy/3c3360edc775b344.jpg)
-![Untitled](/legacy/9135b9a3e0c754ab.jpg)
-![Untitled](/legacy/d1f7e22eae20ad60.jpg)
-![Untitled](/legacy/3c6a7b2a6cfd686e.jpg)
-:::
-
-#### 入群方式(点击展开)
-::: tip 提示
-为维护良好的交流环境，微信群需要您支付**￥29.9**的入群费（请小助理喝一杯咖啡）。
-:::
-
-对Notion Repo代码做出[贡献](https://github.com/notionnext-org/Notion Repo/graphs/contributors)，或对《Notion Repo帮助手册》有特别贡献的成员，可以免费入群。
-请添加小助理微信，并在申请原因中备注：`**付费入群-您的称呼**`** ， **助理会给您发一个收款码，支付成功后，助理会拉您进群❤
-![image.png](/legacy/ada2c3f35445f279.png)
-#### 助理微信 （点击展开）
-::: tip 提示
-小助理负责群维护与付费咨询的对接，小助理无法提供技术答疑。
-:::
-
-若有BUG或需求，请提交[Github](/user-guide/help/feedback#3c5237a1e3a4438ea6dcb519b543b985)，以便我能更全面了解你的问题，并在后续版本中跟踪任务进度。
-::: tip 提示
-微信加好友过频繁、拉人入群次数过频繁都可能被限制聊天功能，如果遇到小助理微信异常的情况，请通过[邮件联系](/user-guide/help/feedback#9e3419df5992499d965c278eb8b9fd02)我。
-:::
-
-      - **扫下方二维码(**或搜索账号`crush_auv`**)**添加小助理微信
-![扫码添加好友](/legacy/0e9b5ac41f49feba.jpg)
-::: tip 提示
-感谢您对 Notion 站长交流群的关注和支持，期待您的加入，共同打造一个积极、有益的交流平台！
-:::
+## 💬 开源交流社群与讨论区
+ 
+ ::: tip 提示
+ 欢迎加入 Notion Repo 开发者与站长交流社区，分享您的建站心得与前沿技巧！
+ :::
+ 
+ #### 交流与反馈渠道
+ - **GitHub Discussions**：推荐在项目的 [GitHub Discussions](https://github.com/178991907/notion-repo/discussions) 中发起提问、分享主题配置与定制经验；
+ - **GitHub Issues**：若遇到系统 BUG 或有新功能需求，请提交 [GitHub Issue](https://github.com/178991907/notion-repo/issues)，以便开发团队统一跟踪与修复；
+ - **社区共建**：欢迎提交 Pull Request 为项目贡献力量！
+ 
+ ::: tip 提示
+ 感谢您对 Notion Repo 的关注和支持，期待与大家共同打造一个更加高效、优雅的开源知识库系统！
+ :::
 
 
 ## Telegram群

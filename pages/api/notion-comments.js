@@ -113,7 +113,10 @@ export default async function handler(req, res) {
       return res.status(200).json(await fetchComments(postId))
     } catch (error) {
       console.error('Failed to fetch Notion comments:', error)
-      return res.status(500).json({ error: 'Failed to fetch comments' })
+      if (String(error?.message || '').includes('database') || String(error?.message || '').includes('object_not_found')) {
+        global.__notionCommentDatabaseId = null
+      }
+      return res.status(200).json([])
     }
   }
 
@@ -196,6 +199,9 @@ export default async function handler(req, res) {
     })
   } catch (error) {
     console.error('Failed to create Notion comment:', error)
-    return res.status(500).json({ error: 'Failed to create comment' })
+    if (String(error?.message || '').includes('database') || String(error?.message || '').includes('object_not_found')) {
+      global.__notionCommentDatabaseId = null
+    }
+    return res.status(500).json({ error: '发表评论失败，请检查数据库权限或稍后重试' })
   }
 }

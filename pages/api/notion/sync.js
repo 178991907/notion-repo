@@ -1,5 +1,6 @@
 import BLOG from '@/blog.config'
 import { syncNotionArticleProperties, syncSingleNotionArticle } from '@/lib/member/notion'
+import { verifyRequestToken } from '@/lib/admin/auth'
 
 /**
  * 云端 Notion 自动化属性补齐 API
@@ -14,13 +15,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' })
   }
 
-  // 安全检查：如果配置了 CRON_SECRET 或 NOTION_SYNC_SECRET 则严格校验
+  // 安全检查：支持管理员免密调用，或通过 CRON_SECRET / NOTION_SYNC_SECRET 严格校验
   const authHeader = req.headers.authorization
   const querySecret = req.query?.secret || req.body?.secret
   const expectedSecret = process.env.CRON_SECRET || process.env.NOTION_SYNC_SECRET
   const isVercelCron = req.headers['x-vercel-cron-signature'] || req.headers['user-agent']?.includes('vercel-cron')
+  const isAdmin = Boolean(verifyRequestToken(req))
 
-  if (expectedSecret) {
+  if (isAdmin) {
+    // 已登录管理员放行
+  } else if (expectedSecret) {
     if (authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
       return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
     }

@@ -1,3 +1,4 @@
+import { siteConfig } from '@/lib/config'
 import Image from 'next/image'
 
 /**
@@ -6,11 +7,17 @@ import Image from 'next/image'
  * @constructor
  */
 const RewardButton = () => {
+  const alipayImg = siteConfig('REWARD_CODE_ALIPAY', '/reward_code_alipay.png')
+  const wechatImg = siteConfig('REWARD_CODE_WECHAT', '/reward_code_wechat.png')
+  const enableReward = siteConfig('REWARD_ENABLE', false)
+
+  if (!enableReward) return null
+
   const openPopover = () => {
-    document.getElementById('reward-qrcode').classList.remove('hidden')
+    document.getElementById('reward-qrcode')?.classList.remove('hidden')
   }
   const closePopover = () => {
-    document.getElementById('reward-qrcode').classList.add('hidden')
+    document.getElementById('reward-qrcode')?.classList.add('hidden')
   }
   return (
     <div className='justify-center'>
@@ -21,8 +28,8 @@ const RewardButton = () => {
       </div>
 
       <div onMouseEnter={openPopover} onMouseLeave={closePopover} id='reward-qrcode' className='hidden flex space-x-10 animate__animated animate__fadeIn duration-200 my-5 px-5 mx-auto py-6 justify-center bg-white dark:bg-black dark:text-gray-200'>
-           <div className='w-80'><Image width='auto' height='auto' layout='responsive' objectFit='fill' src='/reward_code_alipay.png' /></div>
-           <div className='w-80'><Image width='auto' height='auto' layout='responsive' objectFit='fill' src='/reward_code_wechat.png' /></div>
+           {alipayImg && <div className='w-80'><Image width='auto' height='auto' layout='responsive' objectFit='fill' src={alipayImg} alt='支付宝打赏' /></div>}
+           {wechatImg && <div className='w-80'><Image width='auto' height='auto' layout='responsive' objectFit='fill' src={wechatImg} alt='微信打赏' /></div>}
       </div>
     </div>
   )

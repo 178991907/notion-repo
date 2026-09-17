@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./public/favicon.png" width="96" height="96" alt="Notion Repo Logo" style="border-radius: 50%;" />
+  <img src="public/favicon.png" width="96" height="96" alt="Notion Repo Logo" style="border-radius: 50%;" />
 
 
 
