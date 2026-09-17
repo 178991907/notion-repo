@@ -16,9 +16,15 @@ export default async function handler(req, res) {
   const querySecret = req.query?.secret || req.body?.secret
   const expectedSecret = process.env.NOTION_SYNC_SECRET || process.env.CRON_SECRET
 
-  if (expectedSecret && authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
-    return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
+  if (expectedSecret) {
+    if (authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
+      return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
+    }
+  } else if (process.env.NODE_ENV === 'production') {
+    // 生产环境中若未设置密钥，禁止外部未受保护的直接调用
+    return res.status(403).json({ success: false, message: 'Forbidden: 生产环境必须配置 NOTION_SYNC_SECRET 以保护 Webhook 安全' })
   }
+
 
   try {
     const payload = req.body || {}

@@ -146,10 +146,12 @@ export default async function handler(req, res) {
         global.__adminConfigOverrides.HEO_FANS_UNLOCK_TIPS = cleanedUnlockTips
 
         try {
-          const fs = require('fs')
-          const path = require('path')
-          const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
-          fs.writeFileSync(configPath, JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+          if (process.env.NODE_ENV !== 'test' && !process.env.JEST_WORKER_ID) {
+            const fs = require('fs')
+            const path = require('path')
+            const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
+            fs.writeFileSync(configPath, JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+          }
         } catch (e) {}
 
         return res.status(200).json({

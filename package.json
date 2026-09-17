@@ -5,7 +5,7 @@
   "homepage": "https://github.com/178991907/notion-repo",
   "license": "MIT",
   "engines": {
-    "node": ">=22 <25"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "watch:notion": "node scripts/notion-sync-daemon.js",
     "build": "cross-env BUILD_MODE=true next build",
     "start": "next start",
-    "post-build": "next-sitemap --config next-sitemap.config.js",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "export": "cross-env BUILD_MODE=true EXPORT=true next build && next-sitemap --config next-sitemap.config.js",
     "bundle-report": "cross-env ANALYZE=true next build",
     "build-all-in-dev": "cross-env VERCEL_ENV=production next build",

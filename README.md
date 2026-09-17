@@ -1,6 +1,7 @@
 <div align="center">
+  <img src="./public/favicon.png" width="96" height="96" alt="Notion Repo Logo" style="border-radius: 50%;" />
 
-<img src="https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png" width="96" height="96" alt="Notion Repo Logo" style="border-radius: 50%;" />
+
 
 # Notion Repo
 
@@ -85,8 +86,9 @@
 ### 2. 📖 新用户 Vercel 保姆级极速建站部署生态与核心避坑体系
 - **小白零基础图文保姆级指南**：专为 Notion Repo 新用户量身定制 [《Vercel 部署 Notion Repo 保姆级极速建站教程》](./docs/user-guide/deploy-vercel.md)，覆盖 Notion 模板一键复刻、公开网页分享、32 位 ID 精准提取、Vercel 自动化导入与生产上线全流程。
 - **构建兜底机制与环境变量深度解密**：
-  - 阐明项目内部对 `NOTION_PAGE_ID` 的内置演示库兜底保护，**零环境变量配置也能 100% 成功构建并上线**；
+  - 阐明项目内部对 `NOTION_PAGE_ID` 的优雅降级保护，首次部署未配置环境变量亦可平稳编译并显示安全引导页，不会因缺少配置导致构建崩溃；
   - 详细指导部署后在 Vercel 随时补配环境变量，并通过 **Deployments -> Redeploy** 重新构建生效的无缝流转机制。
+
 - **Node.js 24 关键避坑指引**：明确 Next.js 15+ 现代架构对 Node 22/24 的严格要求，手把手引导用户在 Vercel 中切换为 **`24.x`**，彻底消除 99% 新用户的部署构建报错。
 - **README 部署专区与双层文档枢纽**：在主文档中新增直观的 Mermaid 部署流程图、高颜值快速卡片、新手常见疑问答疑与 GitHub 在线直达链接，构建从小白入门到生产级进阶的高可用文档网络。
 
@@ -492,5 +494,6 @@ graph LR
 ---
 
 <div align="center">
-  <b>Designed with ❤️ by Terry 校长</b>
+  <b>Designed with ❤️ by Notion Repo Team</b>
 </div>
+

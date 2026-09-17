@@ -57,6 +57,8 @@ const hashEmail = email =>
   createHash('sha256').update(email).digest('hex').slice(0, 32)
 
 const fetchComments = async postId => {
+  const token = getToken()
+  if (!token) return []
   const notion = getClient()
   const dbId = await resolveCommentDatabaseId(notion)
   if (!dbId) return []
@@ -125,6 +127,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    const token = getToken()
+    if (!token) {
+      return res.status(400).json({ error: '站长暂未配置 NOTION_TOKEN 环境变量，无法保存评论' })
+    }
     const notion = getClient()
     const dbId = await resolveCommentDatabaseId(notion)
     if (!dbId) {

@@ -14,14 +14,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' })
   }
 
-  // 安全检查：如果配置了 CRON_SECRET 或 NOTION_SYNC_SECRET 则校验
+  // 安全检查：如果配置了 CRON_SECRET 或 NOTION_SYNC_SECRET 则严格校验
   const authHeader = req.headers.authorization
   const querySecret = req.query?.secret || req.body?.secret
   const expectedSecret = process.env.CRON_SECRET || process.env.NOTION_SYNC_SECRET
+  const isVercelCron = req.headers['x-vercel-cron-signature'] || req.headers['user-agent']?.includes('vercel-cron')
 
-  if (expectedSecret && authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
-    return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
+  if (expectedSecret) {
+    if (authHeader !== `Bearer ${expectedSecret}` && querySecret !== expectedSecret) {
+      return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
+    }
+  } else if (process.env.NODE_ENV === 'production' && !isVercelCron) {
+    // 生产环境中若未设置密钥，禁止外部未受保护的直接调用
+    return res.status(403).json({ success: false, message: 'Forbidden: 生产环境必须配置 CRON_SECRET 或 NOTION_SYNC_SECRET 以保护 API 安全' })
   }
+
 
   try {
     const pageId = req.query?.pageId || req.body?.pageId

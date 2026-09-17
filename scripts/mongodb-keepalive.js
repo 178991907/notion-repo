@@ -6,12 +6,18 @@
  * 2. 写入临时心跳记录后，自动清理历史旧记录，确保数据库零垃圾残留、永远保持极致轻量。
  */
 
-const { MongoClient } = require('mongodb');
-
 // 从环境变量 MONGODB_URI 传入
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   console.log('未配置 MONGODB_URI 环境变量，跳过 MongoDB 保活任务。');
+  process.exit(0);
+}
+
+let MongoClient;
+try {
+  MongoClient = require('mongodb').MongoClient;
+} catch (err) {
+  console.log('未检测到 mongodb 驱动模块，跳过保活。如需启用请执行 npm install mongodb');
   process.exit(0);
 }
 

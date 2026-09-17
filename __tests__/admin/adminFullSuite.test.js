@@ -237,15 +237,15 @@ describe('管理后台全功能深度排查与双向数据流测试套件', () =
         },
         body: {
           action: 'update_fans_config',
-          defaultPasscode: '999888',
-          unlockTips: '微信搜索【Terry校长】发送【暗号】'
+          defaultPasscode: '666888',
+          unlockTips: '关注公众号获取专属解锁口令'
         }
       }
       await membersHandler(req, mockRes)
       expect(mockRes.statusCode).toBe(200)
       expect(mockRes.jsonData.success).toBe(true)
-      expect(mockRes.jsonData.fansConfig.defaultPasscode).toBe('999888')
-      expect(global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE).toBe('999888')
+      expect(mockRes.jsonData.fansConfig.defaultPasscode).toBe('666888')
+      expect(global.__adminConfigOverrides.HEO_FANS_DEFAULT_PASSCODE).toBe('666888')
     })
 
     test('POST batch_create_invites 批量生成一人一码', async () => {

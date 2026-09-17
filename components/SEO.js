@@ -456,6 +456,22 @@ const getSEOMeta = (props, router, locale) => {
         slug: 'category',
         type: 'website'
       }
+    case '/fans':
+      return {
+        title: `粉丝专属特权 | ${siteInfo?.title}`,
+        description: `粉丝专属福利与精选文章专区`,
+        image: `${siteInfo?.pageCover}`,
+        slug: 'fans',
+        type: 'website'
+      }
+    case '/vip':
+      return {
+        title: `VIP会员专区 | ${siteInfo?.title}`,
+        description: `会员专属深度知识与精选专区`,
+        image: `${siteInfo?.pageCover}`,
+        slug: 'vip',
+        type: 'website'
+      }
     default:
       const category = Array.isArray(post?.category)
         ? post?.category?.[0]

@@ -99,44 +99,44 @@ const CONFIG = {
   // 用户技能图标
   HEO_GROUP_ICONS: [
     {
-      title_1: 'ChatGPT',
-      img_1: 'https://pic1.imgdb.cn/i/034BhcStGcIGk6M1O6L7yX.png',
-      color_1: '#10a37f',
-      title_2: 'deepseek',
-      img_2: 'https://pic1.imgdb.cn/i/034BhmOPeUrkZCJ4mcIqeb.png',
-      color_2: '#d97706'
+      title_1: 'AfterEffect',
+      img_1: '/images/heo/20239df3f66615b532ce571eac6d14ff21cf072602.webp',
+      color_1: '#989bf8',
+      title_2: 'Sketch',
+      img_2: '/images/heo/2023e0ded7b724a39f12d59c3dc8fbdc7cbe074202.webp',
+      color_2: '#ffffff'
     },
     {
-      title_1: 'gemini',
-      img_1: 'https://pic1.imgdb.cn/i/034BhcSz14OodSBNkLEFVu.png',
-      color_1: '#d7eaf9',
-      title_2: 'gork',
-      img_2: 'https://pic1.imgdb.cn/i/034BhcShlQ7PrJbPT3m0PI.png',
-      color_2: '#2496ed'
+      title_1: 'Docker',
+      img_1: '/images/heo/20231108a540b2862d26f8850172e4ea58ed075102.webp',
+      color_1: '#57b6e6',
+      title_2: 'Photoshop',
+      img_2: '/images/heo/2023e4058a91608ea41751c4f102b131f267075902.webp',
+      color_2: '#4082c3'
     },
     {
-      title_1: 'Notion',
-      img_1: 'https://pic1.imgdb.cn/i/034BhcTM1WMd1O4qFxIzQq.png',
+      title_1: 'FinalCutPro',
+      img_1: '/images/heo/20233e777652412247dd57fd9b48cf997c01070702.webp',
       color_1: '#ffffff',
-      title_2: 'nanobanana',
-      img_2: 'https://pic1.imgdb.cn/i/034BhcShxUfeBf7JydJtzh.png',
-      color_2: '#4f46e5'
+      title_2: 'Python',
+      img_2: '/images/heo/20235c0731cd4c0c95fc136a8db961fdf963071502.webp',
+      color_2: '#ffffff'
     },
     {
-      title_1: 'KIMI',
-      img_1: 'https://pic1.imgdb.cn/i/034BhmOBQAj6sk3OBPqXFX.png',
-      color_1: '#4f46e5',
-      title_2: 'Claude',
-      img_2: 'https://pic1.imgdb.cn/i/034BhcT1SARXzm7QldxcXd.png',
-      color_2: '#3b82f6'
+      title_1: 'Swift',
+      img_1: '/images/heo/202328bbee0b314297917b327df4a704db5c072402.webp',
+      color_1: '#eb6840',
+      title_2: 'Principle',
+      img_2: '/images/heo/2023f76570d2770c8e84801f7e107cd911b5073202.webp',
+      color_2: '#8f55ba'
     },
     {
-      title_1: 'doubao',
-      img_1: 'https://pic1.imgdb.cn/i/034BhmOHGxghuyEkMBCaPK.png',
-      color_1: '#4f46e5',
-      title_2: 'hermes',
-      img_2: 'https://pic1.imgdb.cn/i/034BhmOB8BXWSCZAHrRCOo.png',
-      color_2: '#3b82f6'
+      title_1: 'Illustrator',
+      img_1: '/images/heo/20237359d71b45ab77829cee5972e36f8c30073902.webp',
+      color_1: '#f29e39',
+      title_2: 'CSS3',
+      img_2: '/images/heo/20237c548846044a20dad68a13c0f0e1502f074602.webp',
+      color_2: '#2c51db'
     }
   ],
 

@@ -11,9 +11,10 @@ export default function handler(req, res) {
   }
 
   const token = process.env.CACHE_REVALIDATION_TOKEN
-  if (token && req.headers.authorization !== `Bearer ${token}`) {
-    return res.status(401).json({ status: 'error', message: 'Unauthorized' })
+  if (!token || req.headers.authorization !== `Bearer ${token}`) {
+    return res.status(401).json({ status: 'error', message: '未授权：请配置 CACHE_REVALIDATION_TOKEN 环境变量并在请求头中携带有效的 Bearer Token' })
   }
+
 
   try {
     cleanCache()

@@ -73,7 +73,7 @@ const fetchToken = async code => {
 
   try {
     console.log(
-      `请求Code换取Token ${clientId}:${clientSecret} -- ${redirectUri}`
+      `请求Code换取Token ${clientId} -- ${redirectUri}`
     )
     const response = await axios.post(
       'https://api.notion.com/v1/oauth/token',
