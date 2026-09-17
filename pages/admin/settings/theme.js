@@ -534,7 +534,7 @@ export default function HeoThemeEditor() {
       })
       const result = await res.json().catch(() => ({}))
       if (res.ok && (result.success !== false)) {
-        setToast({ type: 'success', msg: '✅ 所有配置已保存！刷新前台页面即可生效。' })
+        setToast({ type: 'success', msg: result.message || '✅ 所有配置已保存！刷新前台页面即可生效。' })
       } else {
         setToast({ type: 'error', msg: '❌ 保存失败：' + (result.error || '请检查登录状态') })
       }

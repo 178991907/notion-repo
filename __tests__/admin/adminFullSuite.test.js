@@ -187,7 +187,7 @@ describe('管理后台全功能深度排查与双向数据流测试套件', () =
         body: {
           configs: [
             { key: 'NOTION_PAGE_ID', value: 'malicious_overwrite_page_id' },
-            { key: 'TITLE', value: 'Notion Next 知识库' }
+            { key: 'TITLE_TEST_SAFE', value: '测试配置' }
           ]
         }
       }
@@ -195,7 +195,7 @@ describe('管理后台全功能深度排查与双向数据流测试套件', () =
       expect(mockRes.statusCode).toBe(200)
       // NOTION_PAGE_ID 应被安全过滤，不出现在 applied 列表中
       expect(mockRes.jsonData.applied).not.toContain('NOTION_PAGE_ID')
-      expect(mockRes.jsonData.applied).toContain('TITLE')
+      expect(mockRes.jsonData.applied).toContain('TITLE_TEST_SAFE')
       // 环境变量维持原样
       expect(process.env.NOTION_PAGE_ID).toBe('3dce78c0e8d4812598f8e90892c4c95e')
     })

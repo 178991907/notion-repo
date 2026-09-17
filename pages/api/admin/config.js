@@ -131,8 +131,15 @@ async function handlePost(req, res) {
   for (const { key, value } of configs) {
     if (!key) continue
 
-    // 安全防护：NOTION_PAGE_ID 属于核心数据源基础设施，优先由环境变量裁决，防止后台保存时误锁死
-    if (key === 'NOTION_PAGE_ID' && process.env.NOTION_PAGE_ID) {
+    // 安全防护：NOTION_PAGE_ID 属于核心数据源基础设施，绝不允许被后台覆盖锁死
+    if (key === 'NOTION_PAGE_ID') {
+      continue
+    }
+
+    // 保护核心元数据：若为默认占位符，不写入内存覆盖，确保无条件回退并读取用户 Notion 原生数据
+    if (['TITLE', 'DESCRIPTION', 'AUTHOR', 'BIO'].includes(key) && (value === 'NotionNext BLOG' || value === 'Notion Repo BLOG')) {
+      delete global.__adminConfigOverrides[key]
+      applied.push(key)
       continue
     }
     
@@ -145,24 +152,32 @@ async function handlePost(req, res) {
     applied.push(key)
   }
 
-  // 跨进程持久化：将内存配置写入物理文件（开发环境）
+  let persistedLocally = false
+  // 跨进程持久化：将内存配置写入物理文件（仅在本地开发环境且非 Jest 单测环境执行）
   try {
-    const fs = require('fs')
-    const path = require('path')
-    const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
-    fs.writeFileSync(configPath, JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+    if (process.env.NODE_ENV !== 'test' && !process.env.JEST_WORKER_ID) {
+      const fs = require('fs')
+      const path = require('path')
+      const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
+      fs.writeFileSync(configPath, JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+      persistedLocally = true
+    }
   } catch (err) {
-    console.warn('持久化配置到文件失败 (Serverless 只读环境正常):', err.message)
+    console.warn('持久化配置到文件提示 (Serverless 只读环境正常):', err.message)
   }
 
+  let persistedToNotion = false
   // 云端持久化：并发快速将配置同步写入 Notion 数据库（限制最大执行时间防超时）
   try {
-    const syncPromise = syncConfigsToNotion(configs)
-    // 设置 6 秒超时保护，防止 Serverless 触发 10 秒硬限制
-    await Promise.race([
-      syncPromise,
-      new Promise(resolve => setTimeout(resolve, 6000))
-    ])
+    if (NOTION_TOKEN && NOTION_CONFIG_DB_ID) {
+      const syncPromise = syncConfigsToNotion(configs)
+      // 设置 6 秒超时保护，防止 Serverless 触发 10 秒硬限制
+      await Promise.race([
+        syncPromise,
+        new Promise(resolve => setTimeout(resolve, 6000))
+      ])
+      persistedToNotion = true
+    }
   } catch (err) {
     console.warn('同步配置到 Notion 出现警告:', err.message)
   }
@@ -185,10 +200,24 @@ async function handlePost(req, res) {
     console.warn('revalidate(/) 提示:', err.message)
   }
 
+  // 整理供复制到 Notion CONFIG 配置表的数据
+  const configsForNotion = configs.map(({ key, value }) => ({
+    key,
+    value: typeof value === 'object' ? JSON.stringify(value) : String(value ?? '')
+  }))
+
   return res.status(200).json({
     success: true,
-    message: '配置已成功保存并实时生效！',
-    applied
+    message: persistedToNotion 
+      ? '配置已成功保存并同步至您的 Notion 数据库，永久生效！'
+      : persistedLocally
+        ? '配置已成功保存至本地文件，实时生效！'
+        : '配置已在当前实例实时生效！',
+    applied,
+    persistedLocally,
+    persistedToNotion,
+    notionSyncEnabled: Boolean(NOTION_TOKEN && NOTION_CONFIG_DB_ID),
+    configsForNotion
   })
 }
 

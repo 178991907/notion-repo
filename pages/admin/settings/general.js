@@ -98,7 +98,7 @@ export default function GeneralSettings() {
       
       const data = await res.json()
       if (res.ok && data.success) {
-        showToast('配置已保存，站点将在几秒内更新。重新刷新首页即可看到变化。')
+        showToast(data.message || '配置已保存，站点将在几秒内更新。重新刷新首页即可看到变化。')
       } else {
         showToast(data.error || '保存失败', 'error')
       }

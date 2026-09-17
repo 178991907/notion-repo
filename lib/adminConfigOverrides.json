@@ -391,7 +391,6 @@
   "NEXT_REVALIDATE_SECOND": 60,
   "REVALIDATION_TOKEN": "",
   "API_BASE_URL": "https://app.notion.com/api/v3",
-  "NOTION_PAGE_ID": "3dce78c0e8d4812598f8e90892c4c95e",
   "HEO_HERO_CATEGORY_6": null,
   "HEO_HERO_CATEGORY_5": {
     "title": "👑 会员专区",
@@ -403,8 +402,6 @@
   },
   "POSTS_SHARE_SERVICES": "link,wechat,qq,weibo,email,facebook,twitter,telegram,messenger,line,reddit,whatsapp,linkedin,csdn,juejin",
   "POST_SHARE_BAR_ENABLE": true,
-  "DESCRIPTION": "用AI解锁英语启蒙与教育",
-  "TITLE": "Notion Next 知识库",
   "WIDGET_PET_LINK": "https://cdn.jsdelivr.net/npm/live2d-widget-model-z16@1.0.5/assets/z16.model.json",
   "HEO_HERO_TITLE_1": "分享 AI",
   "HEO_LOGO_IMAGE": "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png",
@@ -414,8 +411,6 @@
   "BEI_AN_GONGAN": "",
   "BEI_AN": "",
   "SINCE": 2025,
-  "BIO": "全栈架构师的个人知识库",
-  "AUTHOR": "Terry 校长",
   "HEO_INFO_CARD_ANNOUNCEMENT_URL": "",
   "HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT": "🎉Notion Repo正式上线🎉\n   -- 感谢您的支持 ---\n      👏欢迎体验👏\n\n[联系作者](https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png)",
   "HEO_INFO_CARD_AVATAR": "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png",
@@ -552,7 +547,6 @@
   "HEO_RECOMMEND_POSTS_TITLE": "推荐阅读",
   "POSTS_SORT_BY": "date",
   "HOME_BANNER_IMAGE": "https://pic1.imgdb.cn/i/034J0pqvIcjWSoNXbFMAsW.png",
-  "BLOG_FAVICON": "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png",
   "PREVIEW_TAG_COUNT": 5,
   "PREVIEW_CATEGORY_COUNT": 2,
   "CONTACT_TELEGRAM": "",
@@ -571,7 +565,6 @@
     "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
     "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&display=swap"
   ],
-  "KEYWORDS": "Notion, 博客",
   "INLINE_CONFIG": "{ \"TEST\"",
   "STARTER_HERO_BUTTON_1_URL": "https://notionnext.tangly1024.com/",
   "POST_URL_PREFIX_MAPPING_CATEGORY": {
@@ -581,7 +574,8 @@
   },
   "CUSTOM_MENU": true,
   "POST_DISABLE_DATABASE_CLICK": true,
-  "LINK": "https://your-domain.com/",
   "THEME_SWITCH": false,
-  "THEME": "heo"
+  "THEME": "heo",
+  "BIO": "全栈架构师的个人知识库",
+  "TITLE_TEST_SAFE": "测试配置"
 }

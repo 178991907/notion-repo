@@ -53,4 +53,18 @@ describe('siteConfig', () => {
     expect(siteConfig('HEO_HERO_REVERSE', false, themeDefaultConfig)).toBe(true)
     expect(siteConfig('HEO_HERO_TITLE_1', null, themeDefaultConfig)).toBe('分享 AI')
   })
+
+  it('网站标题与描述绝对优先读取Notion页面的真实siteInfo，严防硬编码劫持', () => {
+    const { setGlobalSnapshot } = require('@/lib/global')
+    setGlobalSnapshot({
+      siteInfo: {
+        title: 'Notion-Repo 官方模板（Fork）',
+        description: '这是用户的真实描述'
+      },
+      NOTION_CONFIG: {}
+    })
+
+    expect(siteConfig('TITLE')).toBe('Notion-Repo 官方模板（Fork）')
+    expect(siteConfig('DESCRIPTION')).toBe('这是用户的真实描述')
+  })
 })
