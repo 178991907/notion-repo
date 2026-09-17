@@ -1,5 +1,6 @@
 import BLOG from "@/blog.config"
 import { verifyRequestToken } from "@/lib/admin/auth"
+import { resolvePostDatabaseId } from "@/lib/db/notion/postDatabaseResolver"
 
 const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
 const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
@@ -36,7 +37,12 @@ async function handleGet(req, res) {
     const { Client } = require("@notionhq/client")
     const notion = new Client({ auth: NOTION_TOKEN })
 
-    const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+    const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+    if (!targetDatabaseId) {
+      return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+    }
+
+    const db = await notion.databases.retrieve({ database_id: targetDatabaseId })
     const catProp = db.properties.category || db.properties.Category || {}
     const schemaOptions = catProp.select?.options || []
     const optionColorMap = {}
@@ -45,7 +51,7 @@ async function handleGet(req, res) {
     })
 
     const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
+      database_id: targetDatabaseId,
       page_size: 100
     })
 
@@ -125,6 +131,11 @@ async function handlePost(req, res) {
   const { Client } = require("@notionhq/client")
   const notion = new Client({ auth: NOTION_TOKEN })
 
+  const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+  if (!targetDatabaseId) {
+    return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+  }
+
   try {
     let affectedCount = 0
 
@@ -135,7 +146,7 @@ async function handlePost(req, res) {
       }
       const trimNew = newName.trim()
 
-      const pagesToUpdate = await queryPagesByProp(notion, "category", oldName)
+      const pagesToUpdate = await queryPagesByProp(notion, targetDatabaseId, "category", oldName)
       for (const page of pagesToUpdate) {
         await notion.pages.update({
           page_id: page.id,
@@ -146,7 +157,7 @@ async function handlePost(req, res) {
         affectedCount++
       }
 
-      await safeUpdateCategorySchemaOptions(notion, "rename", { oldName, newName: trimNew, color })
+      await safeUpdateCategorySchemaOptions(notion, targetDatabaseId, "rename", { oldName, newName: trimNew, color })
     }
 
     // 2. 合并分类 (Merge)
@@ -155,7 +166,7 @@ async function handlePost(req, res) {
         return res.status(400).json({ error: "请提供有效的源分类与目标分类" })
       }
 
-      const pagesToUpdate = await queryPagesByProp(notion, "category", sourceName)
+      const pagesToUpdate = await queryPagesByProp(notion, targetDatabaseId, "category", sourceName)
       for (const page of pagesToUpdate) {
         await notion.pages.update({
           page_id: page.id,
@@ -166,7 +177,7 @@ async function handlePost(req, res) {
         affectedCount++
       }
 
-      await safeUpdateCategorySchemaOptions(notion, "merge", { sourceName })
+      await safeUpdateCategorySchemaOptions(notion, targetDatabaseId, "merge", { sourceName })
     }
 
     // 3. 删除分类 (Delete)
@@ -175,7 +186,7 @@ async function handlePost(req, res) {
         return res.status(400).json({ error: "请提供要删除的分类名称" })
       }
 
-      const pagesToUpdate = await queryPagesByProp(notion, "category", name)
+      const pagesToUpdate = await queryPagesByProp(notion, targetDatabaseId, "category", name)
       for (const page of pagesToUpdate) {
         await notion.pages.update({
           page_id: page.id,
@@ -186,7 +197,7 @@ async function handlePost(req, res) {
         affectedCount++
       }
 
-      await safeUpdateCategorySchemaOptions(notion, "delete", { name })
+      await safeUpdateCategorySchemaOptions(notion, targetDatabaseId, "delete", { name })
     }
 
     // 4. 创建新分类 (Create)
@@ -196,7 +207,7 @@ async function handlePost(req, res) {
       }
       const newCatName = name.trim()
 
-      await safeUpdateCategorySchemaOptions(notion, "create", { name: newCatName, color })
+      await safeUpdateCategorySchemaOptions(notion, targetDatabaseId, "create", { name: newCatName, color })
 
       if (pageId) {
         await notion.pages.update({
@@ -212,7 +223,7 @@ async function handlePost(req, res) {
     // 5. 一键清理空分类 (Cleanup Empty)
     else if (action === "cleanup_empty") {
       const response = await notion.databases.query({
-        database_id: NOTION_DATABASE_ID,
+        database_id: targetDatabaseId,
         page_size: 100
       })
       const usedCategories = new Set()
@@ -221,7 +232,7 @@ async function handlePost(req, res) {
         if (cat) usedCategories.add(cat)
       }
 
-      await safeUpdateCategorySchemaOptions(notion, "cleanup_empty", { usedCategories })
+      await safeUpdateCategorySchemaOptions(notion, targetDatabaseId, "cleanup_empty", { usedCategories })
     }
 
     // 6. 修改单篇文章分类
@@ -256,9 +267,9 @@ async function handlePost(req, res) {
 /**
  * 健壮更新 Notion 数据库 Schema 中的 category options (防 color 冲突报错)
  */
-async function safeUpdateCategorySchemaOptions(notion, action, params = {}) {
+async function safeUpdateCategorySchemaOptions(notion, targetDbId, action, params = {}) {
   try {
-    const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+    const db = await notion.databases.retrieve({ database_id: targetDbId })
     const catPropName = db.properties.category ? "category" : "Category"
     const currentOptions = db.properties[catPropName]?.select?.options || []
     
@@ -290,7 +301,7 @@ async function safeUpdateCategorySchemaOptions(notion, action, params = {}) {
     }
 
     await notion.databases.update({
-      database_id: NOTION_DATABASE_ID,
+      database_id: targetDbId,
       properties: {
         [catPropName]: {
           select: {
@@ -304,9 +315,9 @@ async function safeUpdateCategorySchemaOptions(notion, action, params = {}) {
   }
 }
 
-async function queryPagesByProp(notion, propName, value) {
+async function queryPagesByProp(notion, targetDbId, propName, value) {
   const resp = await notion.databases.query({
-    database_id: NOTION_DATABASE_ID,
+    database_id: targetDbId,
     filter: {
       property: propName,
       select: { equals: value }

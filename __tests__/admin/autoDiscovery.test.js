@@ -80,3 +80,79 @@ describe('Notion 配置中心自动探测机制 (Auto-Discovery)', () => {
     expect(id).toBe('')
   })
 })
+
+import { resolvePostDatabaseId } from '@/lib/db/notion/postDatabaseResolver'
+import { resolveMembersDatabaseId, resolveInvitesDatabaseId } from '@/lib/member/notion'
+
+describe('文章、会员与邀请码数据库全链路自动探测测试', () => {
+  beforeEach(() => {
+    delete process.env.NOTION_POSTS_DATABASE_ID
+    delete process.env.NOTION_MEMBERS_DATABASE_ID
+    delete process.env.NOTION_INVITES_DATABASE_ID
+    delete global.__notionPostDatabaseId
+    delete global.__notionMembersDatabaseId
+    delete global.__notionInvitesDatabaseId
+  })
+
+  it('1. 文章数据库探测：当传入 Page ID 时自动探测文章主库 (含 category 与 tags)', async () => {
+    const mockClient = {
+      databases: {
+        retrieve: jest.fn().mockRejectedValue(new Error('Could not find database with ID: 3dce78c0-e8d4-8125-98f8-e90892c4c95e'))
+      },
+      search: jest.fn().mockResolvedValue({
+        results: [
+          { id: 'random-db-1', title: [{ plain_text: '待办任务' }], properties: { title: {} } },
+          { id: 'posts-db-real-id', title: [{ plain_text: 'Terry 校长博客' }], properties: { title: {}, category: {}, tags: {} } }
+        ]
+      })
+    }
+
+    const id = await resolvePostDatabaseId(mockClient, '3dce78c0e8d4812598f8e90892c4c95e')
+    expect(id).toBe('posts-db-real-id')
+    expect(global.__notionPostDatabaseId).toBe('posts-db-real-id')
+  })
+
+  it('2. 会员数据库探测：自动识别包含会员属性的数据库', async () => {
+    const mockClient = {
+      search: jest.fn().mockResolvedValue({
+        results: [
+          { id: 'random-db-2', title: [{ plain_text: '一些杂项' }], properties: {} },
+          { id: 'members-db-real-id', title: [{ plain_text: '网站会员列表 (Members)' }], properties: { Username: {}, Password: {}, Status: {} } }
+        ]
+      })
+    }
+
+    const id = await resolveMembersDatabaseId(mockClient)
+    expect(id).toBe('members-db-real-id')
+    expect(global.__notionMembersDatabaseId).toBe('members-db-real-id')
+  })
+
+  it('3. 邀请码数据库探测：自动识别包含邀请码与使用次数的数据库', async () => {
+    const mockClient = {
+      search: jest.fn().mockResolvedValue({
+        results: [
+          { id: 'invites-db-real-id', title: [{ plain_text: '会员邀请码管理 (InviteCodes)' }], properties: { Code: {}, MaxUses: {}, UsedCount: {} } }
+        ]
+      })
+    }
+
+    const id = await resolveInvitesDatabaseId(mockClient)
+    expect(id).toBe('invites-db-real-id')
+    expect(global.__notionInvitesDatabaseId).toBe('invites-db-real-id')
+  })
+
+  it('4. 环境变量优先：配置环境变量时直接读取且不触发 search', async () => {
+    process.env.NOTION_MEMBERS_DATABASE_ID = 'env-member-123'
+    process.env.NOTION_INVITES_DATABASE_ID = 'env-invite-456'
+    process.env.NOTION_POSTS_DATABASE_ID = 'env-post-789'
+
+    const mockClient = {
+      search: jest.fn()
+    }
+
+    expect(await resolveMembersDatabaseId(mockClient)).toBe('env-member-123')
+    expect(await resolveInvitesDatabaseId(mockClient)).toBe('env-invite-456')
+    expect(await resolvePostDatabaseId(mockClient)).toBe('env-post-789')
+    expect(mockClient.search).not.toHaveBeenCalled()
+  })
+})

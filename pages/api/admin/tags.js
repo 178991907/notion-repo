@@ -1,5 +1,6 @@
 import BLOG from "@/blog.config"
 import { verifyRequestToken } from "@/lib/admin/auth"
+import { resolvePostDatabaseId } from "@/lib/db/notion/postDatabaseResolver"
 
 const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
 const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
@@ -36,7 +37,12 @@ async function handleGet(req, res) {
     const { Client } = require("@notionhq/client")
     const notion = new Client({ auth: NOTION_TOKEN })
 
-    const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+    const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+    if (!targetDatabaseId) {
+      return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+    }
+
+    const db = await notion.databases.retrieve({ database_id: targetDatabaseId })
     const tagProp = db.properties.tags || db.properties.Tags || {}
     const schemaOptions = tagProp.multi_select?.options || []
     const optionColorMap = {}
@@ -45,7 +51,7 @@ async function handleGet(req, res) {
     })
 
     const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
+      database_id: targetDatabaseId,
       page_size: 100
     })
 
@@ -124,11 +130,16 @@ async function handlePost(req, res) {
   const { Client } = require("@notionhq/client")
   const notion = new Client({ auth: NOTION_TOKEN })
 
+  const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+  if (!targetDatabaseId) {
+    return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+  }
+
   try {
     let affectedCount = 0
 
     const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
+      database_id: targetDatabaseId,
       page_size: 100
     })
 
@@ -139,7 +150,7 @@ async function handlePost(req, res) {
       }
       const newTagName = name.trim()
 
-      await safeUpdateTagSchemaOptions(notion, "create", { name: newTagName, color })
+      await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "create", { name: newTagName, color })
       affectedCount = 1
     }
 
@@ -172,7 +183,7 @@ async function handlePost(req, res) {
       }
 
       // 安全同步更新 Schema options
-      await safeUpdateTagSchemaOptions(notion, "rename", { oldName, newName: targetNameTrim, color })
+      await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "rename", { oldName, newName: targetNameTrim, color })
     }
 
     // 3. 合并标签 (Merge)
@@ -205,7 +216,7 @@ async function handlePost(req, res) {
         }
       }
 
-      await safeUpdateTagSchemaOptions(notion, "merge", { sourceNames: sources, targetName: targetTrim })
+      await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "merge", { sourceNames: sources, targetName: targetTrim })
     }
 
     // 4. 删除标签 (Delete)
@@ -233,7 +244,7 @@ async function handlePost(req, res) {
         }
       }
 
-      await safeUpdateTagSchemaOptions(notion, "delete", { name })
+      await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "delete", { name })
     }
 
     // 5. 一键清理空标签 (Cleanup Empty)
@@ -246,7 +257,7 @@ async function handlePost(req, res) {
         pageTags.forEach(t => usedTags.add(t))
       }
 
-      await safeUpdateTagSchemaOptions(notion, "cleanup_empty", { usedTags })
+      await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "cleanup_empty", { usedTags })
     }
 
     // 6. 批量文章打标
@@ -281,7 +292,7 @@ async function handlePost(req, res) {
 
       if (toAdd.length > 0) {
         for (const t of toAdd) {
-          await safeUpdateTagSchemaOptions(notion, "create", { name: t })
+          await safeUpdateTagSchemaOptions(notion, targetDatabaseId, "create", { name: t })
         }
       }
     } else {
@@ -304,9 +315,9 @@ async function handlePost(req, res) {
 /**
  * 健壮更新 Notion 数据库 Schema 中的 tags options (防 color 冲突报错)
  */
-async function safeUpdateTagSchemaOptions(notion, action, params = {}) {
+async function safeUpdateTagSchemaOptions(notion, targetDbId, action, params = {}) {
   try {
-    const db = await notion.databases.retrieve({ database_id: NOTION_DATABASE_ID })
+    const db = await notion.databases.retrieve({ database_id: targetDbId })
     const tagPropName = db.properties.tags ? "tags" : "Tags"
     const currentOptions = db.properties[tagPropName]?.multi_select?.options || []
     
@@ -339,7 +350,7 @@ async function safeUpdateTagSchemaOptions(notion, action, params = {}) {
     }
 
     await notion.databases.update({
-      database_id: NOTION_DATABASE_ID,
+      database_id: targetDbId,
       properties: {
         [tagPropName]: {
           multi_select: {
