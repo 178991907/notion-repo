@@ -19,7 +19,9 @@ const Comment = ({ frontMatter, className }) => {
   const commentRef = useRef(null)
 
   const COMMENT_ARTALK_SERVER = siteConfig('COMMENT_ARTALK_SERVER')
-  const COMMENT_TWIKOO_ENV_ID = siteConfig('COMMENT_TWIKOO_ENV_ID')
+  const rawTwikooEnvId = siteConfig('COMMENT_TWIKOO_ENV_ID')
+  // 外部独立 Twikoo 地址优先；若为内置 /api/twikoo 但未配置独立后端则安全回退至 Notion 原生评论
+  const COMMENT_TWIKOO_ENV_ID = rawTwikooEnvId && rawTwikooEnvId !== '/api/twikoo' ? rawTwikooEnvId : ''
   const COMMENT_WALINE_SERVER_URL = siteConfig('COMMENT_WALINE_SERVER_URL')
   const COMMENT_VALINE_APP_ID = siteConfig('COMMENT_VALINE_APP_ID')
   const COMMENT_GISCUS_REPO = siteConfig('COMMENT_GISCUS_REPO')
@@ -28,8 +30,8 @@ const Comment = ({ frontMatter, className }) => {
   const COMMENT_GITALK_CLIENT_ID = siteConfig('COMMENT_GITALK_CLIENT_ID')
   const COMMENT_WEBMENTION_ENABLE = siteConfig('COMMENT_WEBMENTION_ENABLE')
   const COMMENT_NOTION_ENABLE =
-    siteConfig('COMMENT_NOTION_ENABLE') === true ||
-    siteConfig('COMMENT_NOTION_ENABLE') === 'true'
+    siteConfig('COMMENT_NOTION_ENABLE') !== false &&
+    siteConfig('COMMENT_NOTION_ENABLE') !== 'false'
 
   useEffect(() => {
     // Check if the component is visible in the viewport
