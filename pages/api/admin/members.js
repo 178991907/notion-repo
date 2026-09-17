@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         listInviteCodes(),
         getFansConfigFromNotion().catch(() => ({
           defaultPasscode: '888888',
-          unlockTips: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+          unlockTips: '关注公众号或联系博主获取解锁验证码'
         }))
       ])
 

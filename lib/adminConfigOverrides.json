@@ -1,1 +1,12 @@
-{}
+{
+  "BIO": "全栈架构师的个人知识库",
+  "HEO_NOTICE_BAR": [
+    {
+      "title": "测试通知",
+      "url": "/"
+    }
+  ],
+  "TITLE_TEST_SAFE": "测试配置",
+  "HEO_FANS_DEFAULT_PASSCODE": "999888",
+  "HEO_FANS_UNLOCK_TIPS": "微信搜索【Terry校长】发送【暗号】"
+}

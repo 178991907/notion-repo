@@ -8,8 +8,12 @@
 
 const { MongoClient } = require('mongodb');
 
-// 默认使用你的已验证 MongoDB 连接串，也可通过环境变量 MONGODB_URI 传入
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://terrylaoshi:zou92324@cluster0.zbikr5y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// 从环境变量 MONGODB_URI 传入
+const MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+  console.log('未配置 MONGODB_URI 环境变量，跳过 MongoDB 保活任务。');
+  process.exit(0);
+}
 
 async function runKeepAlive() {
   console.log('⏰ [MongoDB 保活] 开始执行心跳任务...', new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }));

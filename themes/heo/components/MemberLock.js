@@ -12,7 +12,7 @@ export const MemberLock = ({ requiredLevel = 'VIP', lockReason = 'not_logged_in'
   const isLevelUpgrade = lockReason === 'level_required'
   const isSVIP = requiredLevel === 'SVIP'
 
-  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', CONFIG)
+  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', '', CONFIG)
   const vipIcon = siteConfig('HEO_VIP_ICON', '👑', CONFIG)
   const vipColor = siteConfig('HEO_VIP_COLOR', '#f59e0b', CONFIG)
   const vipColorEnd = siteConfig('HEO_VIP_COLOR_END', '#eab308', CONFIG)

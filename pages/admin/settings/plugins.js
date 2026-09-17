@@ -90,11 +90,9 @@ export default function PluginSettings() {
             <h3 className="text-lg font-medium text-gray-900">评论系统 (Twikoo / Giscus)</h3>
           </div>
           <div className="p-6 space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Twikoo 环境 ID (支持填写内置 API)</label>
-              <input type="text" name="COMMENT_TWIKOO_ENV_ID" value={formData.COMMENT_TWIKOO_ENV_ID} onChange={handleChange} placeholder="例如：https://您的域名/api/twikoo" className="w-full border-gray-300 rounded-md py-2 px-3 border text-sm" />
-              <p className="text-xs text-gray-500 mt-2">提示：由于我们已经集成了内置 Twikoo 引擎，您只需填入您的主站域名即可，如 <code>https://blog.xxx.com/api/twikoo</code></p>
-            </div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Twikoo 环境 ID (可选第三方)</label>
+              <input type="text" name="COMMENT_TWIKOO_ENV_ID" value={formData.COMMENT_TWIKOO_ENV_ID} onChange={handleChange} placeholder="留空则默认使用 Notion 原生评论；或填入独立 Twikoo 地址" className="w-full border-gray-300 rounded-md py-2 px-3 border text-sm" />
+              <p className="text-xs text-gray-500 mt-2">提示：系统默认内置开箱即用的 Notion 原生评论（零第三方依赖）。若使用 Twikoo，请在 Vercel 中配置您自己的 <code>MONGODB_URI</code> 独立数据库。</p>
             <hr className="my-4" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

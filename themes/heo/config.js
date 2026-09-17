@@ -2,8 +2,7 @@ const CONFIG = {
   HEO_HOME_POST_TWO_COLS: true, // 首页博客两列显示，若为false则只显示一列
   HEO_LOADING_COVER: true, // 页面加载的遮罩动画
 
-  HEO_HOME_BANNER_ENABLE: true,
-  HEO_LOGO_IMAGE: "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png", // 自定义顶栏 Logo 图标图片 URL，留空则默认使用 Notion Icon / AVATAR
+  HEO_LOGO_IMAGE: "", // 自定义顶栏 Logo 图标图片 URL，留空则默认使用 Notion Icon / 文字 Logo
   HEO_LOGO_SHOW_ICON: true, // 是否在顶栏左侧显示 Logo 图标图片
   HEO_LOGO_SIZE: 38, // 顶栏 Logo 图标像素大小（默认 38px）
 
@@ -29,9 +28,8 @@ const CONFIG = {
   HEO_NOTICE_BAR_ENABLE: true, // 是否开启首页顶部「此刻」横向滚动通知条
   HEO_NOTICE_BAR_BADGE: 'NEWS', // 左侧徽标文案（默认：此刻，可自定义为：公告、广播、NEWS 等）
   HEO_NOTICE_BAR: [
-    { title: '欢迎来 terry 校长个人博客', url: '' },
-    { title: '前沿 AI 解锁高效启蒙与教育', url: '' },
-    { title: '英语全科启蒙', url: '' }
+    { title: '欢迎来到我的个人知识库博客', url: '' },
+    { title: '基于 Notion 构建的高性能全栈博客系统', url: '' }
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -40,12 +38,12 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // 英雄区(首页顶部大卡)
-  HEO_HERO_TITLE_1: "分享 AI 实操",
-  HEO_HERO_TITLE_2: "英语全科启蒙",
-  HEO_HERO_TITLE_3: "用前沿 AI 解锁高效启蒙与教育",
+  HEO_HERO_TITLE_1: "精选实战",
+  HEO_HERO_TITLE_2: "深度思考",
+  HEO_HERO_TITLE_3: "探索前沿技术与知识沉淀",
   HEO_HERO_TITLE_4: "新版上线",
   HEO_HERO_TITLE_5: "Notion Repo 轻松定制主题",
-  HEO_HERO_TITLE_LINK: "https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png",
+  HEO_HERO_TITLE_LINK: "",
   // 英雄区遮罩文字
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
@@ -76,9 +74,9 @@ const CONFIG = {
   // 右侧个人资料卡牌欢迎语，点击可自动切换
   HEO_INFOCARD_GREETINGS: [
     '你好！我是',
-    '🔍 分享 AI 实操',
-    '✨英语全科启蒙',
-    '✨AI 教育教学'
+    '🔍 探索前沿技术',
+    '✨ 分享实操心得',
+    '📚 记录生活感悟'
   ],
 
   // 个人资料底部按钮
@@ -87,15 +85,15 @@ const CONFIG = {
   HEO_INFO_CARD_URL2: "https://github.com/178991907/notion-repo",
   HEO_INFO_CARD_ICON2: 'fab fa-github',
   HEO_INFO_CARD_ICON_ORCID: 'fab fa-orcid',
-  HEO_INFO_CARD_URL3: "https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png",
+  HEO_INFO_CARD_URL3: "",
   HEO_INFO_CARD_TEXT3: '了解更多',
 
   // 个人资料头像与公告自定义
-  HEO_INFO_CARD_AVATAR: "https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png", // 自定义头像图片URL，留空则使用 Notion 头像
+  HEO_INFO_CARD_AVATAR: "", // 自定义头像图片URL，留空则默认使用 Notion 根页面头像
   HEO_INFO_CARD_AVATAR_URL: '/about', // 点击头像跳转链接
-  HEO_INFO_CARD_AVATAR_SIZE: 80, // 首页名片卡头像像素大小（默认 80px，醒目大头像）
+  HEO_INFO_CARD_AVATAR_SIZE: 80, // 首页名片卡头像像素大小（默认 80px）
   HEO_INFO_CARD_SHOW_ANNOUNCEMENT: true, // 是否显示名片公告
-  HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT: "🎉Notion Repo正式上线🎉\n   -- 感谢您的支持 ---\n      👏欢迎体验👏\n\n[联系作者](https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png)", // 自定义名片公告内容，留空则读取 Notion Notice 数据库文章
+  HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT: "🎉欢迎访问我的个人知识库博客！\n可在后台可视化编辑器中自定义此处公告内容。", // 自定义名片公告内容
   HEO_INFO_CARD_ANNOUNCEMENT_URL: '', // 点击名片公告跳转链接，留空则纯文本展示
 
   // 用户技能图标
@@ -146,7 +144,7 @@ const CONFIG = {
   HEO_SOCIAL_CARD_TITLE_1: '交流频道',
   HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
   HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
-  HEO_SOCIAL_CARD_URL: "https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png",
+  HEO_SOCIAL_CARD_URL: "",
 
   // 底部统计面板文案
   HEO_POST_COUNT_TITLE: '文章数:',
@@ -172,7 +170,7 @@ const CONFIG = {
   HEO_CATEGORY_BAR_FANS: true, // 分类横条是否显示「粉丝福利」Tab
   HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利', // 分类横条中粉丝专区的显示文案
   HEO_FANS_DEFAULT_PASSCODE: '888888', // 全站默认通用粉丝暗号 / 验证码
-  HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码', // 粉丝解锁引导提示语
+  HEO_FANS_UNLOCK_TIPS: '关注公众号或联系博主获取解锁验证码', // 粉丝解锁引导提示语
   // 会员专区图标与个性化配色
   HEO_VIP_ICON: '👑', // 普通 VIP 图标
   HEO_VIP_COLOR: '#f59e0b', // 普通 VIP 渐变起始色

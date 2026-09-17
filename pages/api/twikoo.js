@@ -20,9 +20,12 @@ export default async function handler(req, res) {
     return
   }
 
-  // 确保 MONGODB_URI 正确注入
-  if (!process.env.MONGODB_URI || process.env.MONGODB_URI.includes('vsh9c')) {
-    process.env.MONGODB_URI = 'mongodb+srv://terrylaoshi:zou92324@cluster0.zbikr5y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+  // 安全校验：必须由站长在环境变量中配置独立的 MONGODB_URI，杜绝跨项目混淆与数据污染
+  if (!process.env.MONGODB_URI) {
+    return res.status(400).json({
+      code: 400,
+      message: '未配置环境变量 MONGODB_URI。如需使用 Twikoo 评论，请在 Vercel 环境变量中配置独立的 MongoDB 连接串；或开启零配置的 Notion 原生评论（NotionComments）。'
+    })
   }
 
   // 交由 Twikoo 引擎处理核心逻辑

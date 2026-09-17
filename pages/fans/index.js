@@ -13,10 +13,10 @@ const FansIndex = props => {
 
   const unlockTips = siteConfig(
     'HEO_FANS_UNLOCK_TIPS',
-    '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
+    '关注公众号或联系博主获取解锁验证码',
     props.NOTION_CONFIG
   )
-  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', props.NOTION_CONFIG)
+  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', '', props.NOTION_CONFIG)
   const fansIcon = siteConfig('HEO_FANS_ICON', '🎁', props.NOTION_CONFIG)
   const fansColor = siteConfig('HEO_FANS_COLOR', '#10b981', props.NOTION_CONFIG)
   const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', props.NOTION_CONFIG)
@@ -35,7 +35,7 @@ const FansIndex = props => {
           <div className='max-w-2xl'>
             <div className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold mb-3'>
               <span>{fansIcon}</span>
-              <span>TERRY 粉丝专属特权空间</span>
+              <span>{siteConfig('TITLE', '专属', props.NOTION_CONFIG)} 粉丝专属特权空间</span>
             </div>
             <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight mb-2 flex items-center gap-2'>
               <span>{fansIcon}</span>

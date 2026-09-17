@@ -200,15 +200,15 @@ const HEO_DEFAULTS = {
   AUTHOR: '',
   BIO: '',
   SINCE: '2025',
-  HEO_LOGO_IMAGE: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png',
+  HEO_LOGO_IMAGE: '',
   HEO_LOGO_SHOW_ICON: true,
   HEO_LOGO_SIZE: 38,
-  HEO_HERO_TITLE_1: '分享 AI 实操',
-  HEO_HERO_TITLE_2: '英语全科启蒙',
-  HEO_HERO_TITLE_3: '用前沿 AI 解锁高效启蒙与教育',
-  HEO_HERO_TITLE_4: '新版上线',
-  HEO_HERO_TITLE_5: 'Notion Repo 轻松定制主题',
-  HEO_HERO_TITLE_LINK: 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png',
+  HEO_HERO_TITLE_1: '分享优质内容',
+  HEO_HERO_TITLE_2: '构建知识体系',
+  HEO_HERO_TITLE_3: '基于 Notion 的个人知识库与现代化博客',
+  HEO_HERO_TITLE_4: '全新上线',
+  HEO_HERO_TITLE_5: 'Notion Repo 开箱即用博客系统',
+  HEO_HERO_TITLE_LINK: '',
   HEO_HERO_COVER_TITLE: '随便逛逛',
   HEO_HERO_RECOMMEND_POST_TAG: '推荐',
   HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME: false,
@@ -229,30 +229,29 @@ const HEO_DEFAULTS = {
   HEO_NOTICE_BAR_ENABLE: true,
   HEO_NOTICE_BAR_BADGE: '此刻',
   HEO_NOTICE_BAR: [
-    { title: '欢迎来 terry 校长个人博客', url: '' },
-    { title: '前沿 AI 解锁高效启蒙与教育', url: '' },
-    { title: '英语全科启蒙', url: '' }
+    { title: '欢迎来到我的个人知识库博客', url: '' },
+    { title: '基于 Notion 构建的高性能全栈博客系统', url: '' }
   ],
-  HEO_INFOCARD_GREETINGS: ['你好！我是', '🔍 分享 AI 实操', '✨英语全科启蒙', '✨AI 教育教学'],
+  HEO_INFOCARD_GREETINGS: ['你好！我是', '🔍 探索前沿技术', '✨ 分享实操心得', '📚 记录生活感悟'],
   HEO_INFO_CARD_URL1: '/about',
   HEO_INFO_CARD_ICON1: 'fas fa-user',
   HEO_INFO_CARD_URL2: 'https://github.com/178991907/notion-repo',
   HEO_INFO_CARD_ICON2: 'fab fa-github',
   HEO_INFO_CARD_ICON_ORCID: 'fab fa-orcid',
-  HEO_INFO_CARD_URL3: 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png',
+  HEO_INFO_CARD_URL3: '',
   HEO_INFO_CARD_TEXT3: '了解更多',
-  HEO_INFO_CARD_AVATAR: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png',
+  HEO_INFO_CARD_AVATAR: '',
   HEO_INFO_CARD_AVATAR_URL: '/about',
   HEO_INFO_CARD_AVATAR_SIZE: 80,
   HEO_INFO_CARD_SHOW_ANNOUNCEMENT: true,
-  HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT: '🎉Notion Repo正式上线🎉\n   -- 感谢您的支持 ---\n      👏欢迎体验👏\n\n[联系作者](https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png)',
+  HEO_INFO_CARD_CUSTOM_ANNOUNCEMENT: '🎉欢迎访问我的个人知识库博客！\n可在后台可视化编辑器中自定义此处公告内容。',
   HEO_INFO_CARD_ANNOUNCEMENT_URL: '',
   HEO_INFO_CARD_AVATAR_BLUR: false,
   HEO_SOCIAL_CARD: true,
   HEO_SOCIAL_CARD_TITLE_1: '交流频道',
   HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
   HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
-  HEO_SOCIAL_CARD_URL: 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png',
+  HEO_SOCIAL_CARD_URL: '',
   HEO_MENU_VIP: true,
   HEO_CATEGORY_BAR_VIP: true,
   HEO_CATEGORY_BAR_VIP_TITLE: '会员专区',
@@ -265,7 +264,7 @@ const HEO_DEFAULTS = {
   HEO_CATEGORY_BAR_FANS: true,
   HEO_CATEGORY_BAR_FANS_TITLE: '粉丝福利',
   HEO_FANS_DEFAULT_PASSCODE: '888888',
-  HEO_FANS_UNLOCK_TIPS: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
+  HEO_FANS_UNLOCK_TIPS: '关注公众号或联系博主获取解锁验证码',
   HEO_VIP_ICON: '👑',
   HEO_VIP_COLOR: '#f59e0b',
   HEO_VIP_COLOR_END: '#eab308',
@@ -647,7 +646,7 @@ export default function HeoThemeEditor() {
               <SectionCard>
                 <SectionTitle icon="🏷️" title="顶栏 Logo 与品牌信息" desc="控制顶栏左侧显示的 Logo 图标、站点主标题与描述" />
                 <div className="space-y-4">
-                  <TextField label="网站主标题 (TITLE)" configKey="TITLE" value={formData.TITLE} onChange={handleChange} placeholder="TERRY" desc="显示在顶栏最左侧的 Logo 品牌文字" />
+                  <TextField label="网站主标题 (TITLE)" configKey="TITLE" value={formData.TITLE} onChange={handleChange} placeholder="例如：我的知识库" desc="显示在顶栏最左侧的 Logo 品牌文字" />
                   
                   <div className="pt-2 border-t border-gray-100">
                     <ToggleField label="显示 Logo 图标图片" configKey="HEO_LOGO_SHOW_ICON" value={formData.HEO_LOGO_SHOW_ICON} onChange={handleChange} desc="是否在文字左侧显示 Logo 图标" />
@@ -665,7 +664,7 @@ export default function HeoThemeEditor() {
 
                   <div className="pt-2 border-t border-gray-100">
                     <TextField label="网站副标题 / 描述 (DESCRIPTION)" configKey="DESCRIPTION" value={formData.DESCRIPTION} onChange={handleChange} placeholder="基于 Notion 的个人博客" desc="网站的描述信息，用于 SEO 与副标题展示" />
-                    <TextField label="站长名称 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="Terry" desc="站长昵称，用于版权与名片卡" />
+                    <TextField label="站长名称 (AUTHOR)" configKey="AUTHOR" value={formData.AUTHOR} onChange={handleChange} placeholder="例如：站长" desc="站长昵称，用于版权与名片卡" />
                   </div>
                 </div>
               </SectionCard>
@@ -753,7 +752,7 @@ export default function HeoThemeEditor() {
                       </div>
                     )
                   )}
-                  <div className="font-extrabold text-base text-gray-900 tracking-tight">{formData.TITLE || 'TERRY'}</div>
+                  <div className="font-extrabold text-base text-gray-900 tracking-tight">{formData.TITLE || 'BLOG'}</div>
                 </div>
 
                 {/* 中间菜单项 */}
@@ -948,7 +947,7 @@ export default function HeoThemeEditor() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[11px] font-medium text-gray-500 mb-0.5">公告文案</label>
-                        <input value={n?.title || ''} onChange={e => noticeOps.update(i, 'title', e.target.value)} placeholder="例如：欢迎来到 Terry 校长的博客" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                        <input value={n?.title || ''} onChange={e => noticeOps.update(i, 'title', e.target.value)} placeholder="例如：欢迎来到我的个人博客" className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
                       </div>
                       <div>
                         <label className="block text-[11px] font-medium text-gray-500 mb-0.5">点击跳转链接 (可选)</label>
@@ -978,9 +977,9 @@ export default function HeoThemeEditor() {
                     type="button"
                     onClick={() => {
                       setGroupIcons([
-                        { title_1: 'ChatGPT', img_1: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', color_1: '#10a37f', title_2: 'Claude', img_2: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', color_2: '#d97706' },
+                        { title_1: 'ChatGPT', img_1: '/images/heo/20235c0731cd4c0c95fc136a8db961fdf963071502.webp', color_1: '#10a37f', title_2: 'Claude', img_2: '/images/heo/20231108a540b2862d26f8850172e4ea58ed075102.webp', color_2: '#d97706' },
                         { title_1: 'Python', img_1: '/images/heo/20235c0731cd4c0c95fc136a8db961fdf963071502.webp', color_1: '#3776ab', title_2: 'Docker', img_2: '/images/heo/20231108a540b2862d26f8850172e4ea58ed075102.webp', color_2: '#2496ed' },
-                        { title_1: 'Notion', img_1: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', color_1: '#000000', title_2: 'AI', img_2: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png', color_2: '#4f46e5' }
+                        { title_1: 'Notion', img_1: '/images/heo/20235c0731cd4c0c95fc136a8db961fdf963071502.webp', color_1: '#000000', title_2: 'AI', img_2: '/images/heo/20231108a540b2862d26f8850172e4ea58ed075102.webp', color_2: '#4f46e5' }
                       ])
                     }}
                     className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold transition"
@@ -1095,7 +1094,7 @@ export default function HeoThemeEditor() {
                   configKey="AUTHOR"
                   value={formData.AUTHOR}
                   onChange={handleChange}
-                  placeholder="Terry 校长"
+                  placeholder="站长昵称"
                   desc="显示在个人名片卡正中央的大字姓名/昵称"
                 />
                 <TextField
@@ -1103,7 +1102,7 @@ export default function HeoThemeEditor() {
                   configKey="BIO"
                   value={formData.BIO}
                   onChange={handleChange}
-                  placeholder="前沿 AI 解锁高效启蒙与教育"
+                  placeholder="基于 Notion 的个人知识库与博客"
                   desc="站长的一句话个性介绍"
                 />
               </div>
@@ -2026,7 +2025,7 @@ export default function HeoThemeEditor() {
                 configKey="HEO_FANS_UNLOCK_TIPS"
                 value={formData.HEO_FANS_UNLOCK_TIPS}
                 onChange={handleChange}
-                placeholder="关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码"
+                placeholder="关注公众号或联系博主获取解锁验证码"
                 desc="展示在文章未解锁卡片及专区横幅中的引导说明"
               />
               <div className="pt-3 mt-3 border-t border-gray-100">
@@ -2050,7 +2049,7 @@ export default function HeoThemeEditor() {
                   </div>
                   <div className="text-sm font-bold text-gray-800">本文为【粉丝专享福利】内容</div>
                   <div className="text-xs text-gray-500 leading-relaxed px-2">
-                    {formData.HEO_FANS_UNLOCK_TIPS || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'}
+                    {formData.HEO_FANS_UNLOCK_TIPS || '关注公众号或联系博主获取解锁验证码'}
                   </div>
                   <div
                     style={{ background: `linear-gradient(135deg, ${formData.HEO_FANS_COLOR || '#10b981'}, ${formData.HEO_FANS_COLOR_END || '#14b8a6'})` }}

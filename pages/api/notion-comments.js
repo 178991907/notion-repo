@@ -7,17 +7,19 @@ import {
   PUBLIC_COMMENT_STATUS,
   validateCommentPayload
 } from '@/lib/plugins/notionComments'
+import { resolveCommentDatabaseId } from '@/lib/plugins/notionCommentsResolver'
 
-const databaseId = process.env.NOTION_COMMENT_DATABASE_ID
-const token = process.env.NOTION_TOKEN
 const requireApproval = process.env.NOTION_COMMENT_REQUIRE_APPROVAL === 'true'
 const rateWindowMs = 60 * 1000
 const rateLimit = Number(process.env.NOTION_COMMENT_RATE_LIMIT || 5)
 const ipHits = new Map()
 
+const getToken = () => process.env.NOTION_TOKEN || process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || ''
+
 const getClient = () => {
-  if (!databaseId || !token) {
-    throw new Error('Missing NOTION_COMMENT_DATABASE_ID or NOTION_TOKEN')
+  const token = getToken()
+  if (!token) {
+    throw new Error('Missing NOTION_TOKEN (请在环境变量中配置 Notion 集成密钥)')
   }
   return new Client({ auth: token })
 }
@@ -46,8 +48,8 @@ const isRateLimited = ip => {
 const hasProperty = (properties, name, type) =>
   properties[name] && (!type || properties[name].type === type)
 
-const getDatabaseProperties = async notion => {
-  const database = await notion.databases.retrieve({ database_id: databaseId })
+const getDatabaseProperties = async (notion, dbId) => {
+  const database = await notion.databases.retrieve({ database_id: dbId })
   return database.properties || {}
 }
 
@@ -56,12 +58,15 @@ const hashEmail = email =>
 
 const fetchComments = async postId => {
   const notion = getClient()
+  const dbId = await resolveCommentDatabaseId(notion)
+  if (!dbId) return []
+
   const comments = []
   let startCursor
 
   do {
     const response = await notion.databases.query({
-      database_id: databaseId,
+      database_id: dbId,
       start_cursor: startCursor,
       page_size: 100,
       filter: {
@@ -121,6 +126,11 @@ export default async function handler(req, res) {
 
   try {
     const notion = getClient()
+    const dbId = await resolveCommentDatabaseId(notion)
+    if (!dbId) {
+      return res.status(500).json({ error: '未探测到或无法自动创建 Notion 评论数据库，请检查 NOTION_TOKEN 权限' })
+    }
+
     if (validation.spam) {
       return res.status(200).json({ ok: true })
     }
@@ -130,7 +140,7 @@ export default async function handler(req, res) {
       return res.status(429).json({ error: 'Too many comments' })
     }
 
-    const properties = await getDatabaseProperties(notion)
+    const properties = await getDatabaseProperties(notion, dbId)
     const { postId, content, author, nickname, parentId } = validation.value
     const level = (await getParentLevel(notion, parentId, postId)) + 1
     const status = requireApproval ? 'Pending' : PUBLIC_COMMENT_STATUS
@@ -170,7 +180,7 @@ export default async function handler(req, res) {
     }
 
     const response = await notion.pages.create({
-      parent: { database_id: databaseId },
+      parent: { database_id: dbId },
       properties: pageProperties
     })
 

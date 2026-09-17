@@ -6,9 +6,9 @@ module.exports = {
   COMMENT_HIDE_SINGLE_TAB:
     process.env.NEXT_PUBLIC_COMMENT_HIDE_SINGLE_TAB || false, // Whether hide the tab when there's no tabs. 只有一个评论组件时是否隐藏切换组件的标签页
 
-  // NotionComments: use a Notion database as comment storage
+  // NotionComments: use a Notion database as comment storage (开箱即用，默认开启)
   COMMENT_NOTION_ENABLE:
-    process.env.NEXT_PUBLIC_COMMENT_NOTION_ENABLE === 'true' || false,
+    process.env.NEXT_PUBLIC_COMMENT_NOTION_ENABLE !== 'false', // 默认开启 Notion 原生评论，免第三方平台注册，数据 100% 留存在站长自己的 Notion 中实现天然隔离
 
   // artalk 评论插件
   COMMENT_ARTALK_SERVER: process.env.NEXT_PUBLIC_COMMENT_ARTALK_SERVER || '', // ArtalkServert后端地址 https://artalk.js.org/guide/deploy.html

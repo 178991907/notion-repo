@@ -34,10 +34,10 @@ export const FansLock = ({ post, onUnlocked }) => {
   const defaultPasscode = siteConfig('HEO_FANS_DEFAULT_PASSCODE', '888888', CONFIG)
   const unlockTips = siteConfig(
     'HEO_FANS_UNLOCK_TIPS',
-    '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码',
+    '关注公众号或联系博主获取解锁验证码',
     CONFIG
   )
-  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', 'https://pic1.imgdb.cn/i/034BfzDhRhxZqya8uJorEM.png', CONFIG)
+  const contactUrl = siteConfig('HEO_SOCIAL_CARD_URL', '', CONFIG)
   const fansIcon = siteConfig('HEO_FANS_ICON', '🎁', CONFIG)
   const fansColor = siteConfig('HEO_FANS_COLOR', '#10b981', CONFIG)
   const fansColorEnd = siteConfig('HEO_FANS_COLOR_END', '#14b8a6', CONFIG)

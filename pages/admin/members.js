@@ -14,7 +14,7 @@ export default function AdminMembers() {
   const [inviteCodes, setInviteCodes] = useState([])
   const [fansConfig, setFansConfig] = useState({
     defaultPasscode: '888888',
-    unlockTips: '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+    unlockTips: '关注公众号或联系博主获取解锁验证码'
   })
   const [savingFans, setSavingFans] = useState(false)
   const [syncingArticles, setSyncingArticles] = useState(false)
@@ -77,7 +77,7 @@ export default function AdminMembers() {
         if (data.fansConfig) {
           setFansConfig({
             defaultPasscode: data.fansConfig.defaultPasscode || '888888',
-            unlockTips: data.fansConfig.unlockTips || '关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码'
+            unlockTips: data.fansConfig.unlockTips || '关注公众号或联系博主获取解锁验证码'
           })
         }
       } else {
@@ -807,7 +807,7 @@ export default function AdminMembers() {
                       rows={3}
                       value={fansConfig.unlockTips}
                       onChange={(e) => setFansConfig({ ...fansConfig, unlockTips: e.target.value })}
-                      placeholder="关注微信公众号【Terry校长】，后台回复【暗号】免费获取解锁验证码"
+                      placeholder="关注公众号或联系博主获取解锁验证码"
                       className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-xs text-gray-800 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 leading-relaxed"
                     />
                     <p className="text-[11px] text-gray-400 mt-1">
