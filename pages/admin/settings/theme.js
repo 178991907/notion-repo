@@ -215,10 +215,17 @@ const HEO_DEFAULTS = {
   HEO_HERO_RECOMMEND_COVER_ENABLE: false,
   HEO_HERO_REVERSE: false,
   HEO_HERO_BODY_REVERSE: false,
-  HEO_HOME_BANNER_ENABLE: true,
+  HEO_HERO_CATEGORIES: [
+    { title: '必看精选', url: '/tag/必看精选' },
+    { title: '热门文章', url: '/tag/热门文章' },
+    { title: '实用教程', url: '/tag/实用教程' }
+  ],
   HEO_HERO_CATEGORY_1: { title: '必看精选', url: '/tag/必看精选' },
   HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
   HEO_HERO_CATEGORY_3: { title: '实用教程', url: '/tag/实用教程' },
+  HEO_HERO_CATEGORY_4: null,
+  HEO_HERO_CATEGORY_5: null,
+  HEO_HERO_CATEGORY_6: null,
   HEO_NOTICE_BAR_ENABLE: true,
   HEO_NOTICE_BAR_BADGE: '此刻',
   HEO_NOTICE_BAR: [
@@ -463,18 +470,31 @@ export default function HeoThemeEditor() {
         }
         setFormData(merged)
         const cats = []
-        for (let i = 1; i <= 6; i++) {
-          const key = 'HEO_HERO_CATEGORY_' + i
-          const val = merged[key]
-          if (val && typeof val === 'object' && val.title) {
-            cats.push({ ...val })
-          } else if (typeof val === 'string' && val.trim() && val !== 'null' && val !== 'undefined') {
-            try {
-              const parsed = JSON.parse(val)
-              if (parsed && typeof parsed === 'object' && parsed.title) {
-                cats.push(parsed)
-              }
-            } catch (e) {}
+        let rawHeroCats = merged.HEO_HERO_CATEGORIES
+        if (typeof rawHeroCats === 'string' && rawHeroCats.trim() && rawHeroCats !== 'null') {
+          try { rawHeroCats = JSON.parse(rawHeroCats) } catch (e) {}
+        }
+        if (Array.isArray(rawHeroCats) && rawHeroCats.length > 0) {
+          rawHeroCats.forEach(c => {
+            if (c && typeof c === 'object' && c.title) {
+              cats.push({ ...c })
+            }
+          })
+        } else {
+          for (let i = 1; i <= 6; i++) {
+            const key = 'HEO_HERO_CATEGORY_' + i
+            const val = merged[key]
+            if (!val || val === false || val === 'false') continue
+            if (val && typeof val === 'object' && val.title) {
+              cats.push({ ...val })
+            } else if (typeof val === 'string' && val.trim() && val !== 'null' && val !== 'undefined') {
+              try {
+                const parsed = JSON.parse(val)
+                if (parsed && typeof parsed === 'object' && parsed.title) {
+                  cats.push(parsed)
+                }
+              } catch (e) {}
+            }
           }
         }
         if (cats.length === 0) cats.push({ title: '必看精选', url: '/tag/必看精选' }, { title: '热门文章', url: '/tag/热门文章' }, { title: '实用教程', url: '/tag/实用教程' })
@@ -523,12 +543,15 @@ export default function HeoThemeEditor() {
     setSaving(true)
     const configs = []
     Object.keys(formData).forEach(key => {
-      if (key.startsWith('HEO_HERO_CATEGORY_')) return
+      if (key.startsWith('HEO_HERO_CATEGORY_') || key === 'HEO_HERO_CATEGORIES') return
       if (key === 'HEO_NOTICE_BAR' || key === 'HEO_INFOCARD_GREETINGS' || key === 'HEO_MENU_CUSTOM_ITEMS' || key === 'HEO_GROUP_ICONS') return
       configs.push({ key, value: formData[key] })
     })
+    // 保存完整卡片数组，优先驱动前台渲染
+    configs.push({ key: 'HEO_HERO_CATEGORIES', value: categories })
+    // 同步单项索引，未启用位置显式写入 false 防止回退系统默认值
     categories.forEach((cat, i) => { configs.push({ key: 'HEO_HERO_CATEGORY_' + (i + 1), value: cat }) })
-    for (let i = categories.length + 1; i <= 6; i++) { configs.push({ key: 'HEO_HERO_CATEGORY_' + i, value: null }) }
+    for (let i = categories.length + 1; i <= 6; i++) { configs.push({ key: 'HEO_HERO_CATEGORY_' + i, value: false }) }
     configs.push({ key: 'HEO_NOTICE_BAR', value: notices })
     configs.push({ key: 'HEO_INFOCARD_GREETINGS', value: greetings })
     configs.push({ key: 'HEO_MENU_CUSTOM_ITEMS', value: customNavItems.filter(item => item && item.title) })

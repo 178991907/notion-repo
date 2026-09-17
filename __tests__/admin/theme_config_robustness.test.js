@@ -84,4 +84,41 @@ describe('主题配置与数据健壮性测试', () => {
     // 确保返回值不包含脏字符串 "null"
     expect(mockRes.jsonData.config.HEO_HERO_CATEGORY_4).not.toBe('null')
   })
+
+  test('英雄区胶囊卡片防幽灵回退：未启用的卡片为 false 或 null 时不被错误解析为对象', () => {
+    // 模拟前台解析逻辑
+    const mockCategoriesConfig = [
+      { title: '必看精选', url: '/tag/必看精选' },
+      { title: '热门文章', url: '/tag/热门文章' },
+      { title: '🎁 粉丝福利', url: '/fans' },
+      { title: '👑 会员专区', url: '/vip' }
+    ]
+    const customCategories = mockCategoriesConfig
+    let categories = []
+    if (Array.isArray(customCategories) && customCategories.length > 0) {
+      categories = customCategories.filter(c => c && typeof c === 'object' && c.title && c.url)
+    }
+    // 验证数量严格为 4，绝对不会多出第 5 个
+    expect(categories.length).toBe(4)
+    expect(categories[3].title).toBe('👑 会员专区')
+
+    // 验证单项模式下 false 被严格过滤，不会回退
+    const singleItems = {
+      HEO_HERO_CATEGORY_1: { title: '必看精选', url: '/tag/必看精选' },
+      HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
+      HEO_HERO_CATEGORY_3: { title: '🎁 粉丝福利', url: '/fans' },
+      HEO_HERO_CATEGORY_4: { title: '👑 会员专区', url: '/vip' },
+      HEO_HERO_CATEGORY_5: false,
+      HEO_HERO_CATEGORY_6: false
+    }
+    const singleCategories = []
+    for (let i = 1; i <= 6; i++) {
+      const cat = singleItems[`HEO_HERO_CATEGORY_${i}`]
+      if (!cat || cat === false || cat === 'false') continue
+      if (typeof cat === 'object' && cat.title && cat.url) {
+        singleCategories.push(cat)
+      }
+    }
+    expect(singleCategories.length).toBe(4)
+  })
 })

@@ -171,19 +171,32 @@ function TagsGroupBar() {
  * @returns
  */
 function GroupMenu() {
-  // 动态读取配置中的分类卡片
-  const categories = []
-  for (let i = 1; i <= 6; i++) {
-    let cat = siteConfig(`HEO_HERO_CATEGORY_${i}`, null, CONFIG)
-    if (cat && typeof cat === 'string') {
-      try {
-        cat = JSON.parse(cat)
-      } catch (e) {
-        // 静默忽略无法解析的字符串
+  // 动态读取配置中的分类卡片（优先读取完整列表 HEO_HERO_CATEGORIES）
+  let customCategories = siteConfig('HEO_HERO_CATEGORIES', null, CONFIG)
+  if (typeof customCategories === 'string') {
+    try {
+      customCategories = JSON.parse(customCategories)
+    } catch (e) {}
+  }
+
+  let categories = []
+  if (Array.isArray(customCategories) && customCategories.length > 0) {
+    categories = customCategories.filter(c => c && typeof c === 'object' && c.title && c.url)
+  } else {
+    // 兼容历史按单项索引读取
+    for (let i = 1; i <= 6; i++) {
+      let cat = siteConfig(`HEO_HERO_CATEGORY_${i}`, null, CONFIG)
+      if (!cat || cat === false || cat === 'false') continue
+      if (typeof cat === 'string') {
+        try {
+          cat = JSON.parse(cat)
+        } catch (e) {
+          // 静默忽略无法解析的字符串
+        }
       }
-    }
-    if (cat && cat.title && cat.url) {
-      categories.push(cat)
+      if (cat && typeof cat === 'object' && cat.title && cat.url) {
+        categories.push(cat)
+      }
     }
   }
 

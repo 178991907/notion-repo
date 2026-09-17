@@ -49,12 +49,20 @@ const CONFIG = {
   // 英雄区遮罩文字
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
-  // 英雄区显示指定分类卡片
+  // 英雄区指定分类卡片默认整体列表（优先于单项索引生效）
+  HEO_HERO_CATEGORIES: [
+    { title: '必看精选', url: '/tag/必看精选' },
+    { title: '热门文章', url: '/tag/热门文章' },
+    { title: '实用教程', url: '/tag/实用教程' },
+    { title: '🎁 粉丝福利', url: '/fans' }
+  ],
+
+  // 英雄区显示指定分类卡片（兼容单项索引，默认不硬编码多余卡片）
   HEO_HERO_CATEGORY_1: { title: '必看精选', url: '/tag/必看精选' },
   HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
   HEO_HERO_CATEGORY_3: { title: '实用教程', url: '/tag/实用教程' },
   HEO_HERO_CATEGORY_4: { title: '🎁 粉丝福利', url: '/fans' },
-  HEO_HERO_CATEGORY_5: { title: '👑 会员专区', url: '/vip' },
+  HEO_HERO_CATEGORY_5: null,
   HEO_HERO_CATEGORY_6: null,
 
   // 英雄区右侧推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
