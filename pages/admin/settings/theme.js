@@ -195,10 +195,10 @@ const ALL_SHARE_SERVICES = [
 
 // ==================== 默认配置 ====================
 const HEO_DEFAULTS = {
-  TITLE: 'Terry Blog',
-  DESCRIPTION: '用AI解锁英语启蒙与教育',
-  AUTHOR: 'Terry 校长',
-  BIO: '前沿 AI 解锁高效启蒙与教育',
+  TITLE: '',
+  DESCRIPTION: '',
+  AUTHOR: '',
+  BIO: '',
   SINCE: '2025',
   HEO_LOGO_IMAGE: 'https://pic1.imgdb.cn/i/37IqlxOxneBI8BGe8NiYsT.png',
   HEO_LOGO_SHOW_ICON: true,
@@ -299,11 +299,6 @@ const HEO_DEFAULTS = {
   HEO_POST_LIST_COVER: true, HEO_POST_LIST_COVER_DEFAULT: true,
   HEO_POST_LIST_COVER_HOVER_ENLARGE: false, HEO_POST_LIST_SUMMARY: true,
   HEO_POST_LIST_PREVIEW: false, HEO_POST_LIST_IMG_CROSSOVER: true,
-  TITLE: 'Notion Blog',
-  DESCRIPTION: '基于 Notion 的静态博客',
-  HEO_LOGO_IMAGE: '',
-  HEO_LOGO_SHOW_ICON: true,
-  HEO_LOGO_SIZE: 38,
   HEO_MENU_INDEX: true,
   HEO_MENU_CATEGORY: true,
   HEO_MENU_TAG: true,

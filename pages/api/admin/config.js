@@ -9,19 +9,28 @@ import { verifyRequestToken } from '@/lib/admin/auth'
 
 // 全局运行时配置存储（Serverless 环境无法写文件，使用内存缓存）
 // 注意：Serverless 冷启动后此对象会被重置，持久化需通过 Notion API 或文件系统
-if (!global.__adminConfigOverrides) {
+function loadInitialOverrides() {
+  let overrides = {}
   try {
     const fs = require('fs')
     const path = require('path')
     const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
     if (fs.existsSync(configPath)) {
-      global.__adminConfigOverrides = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
-    } else {
-      global.__adminConfigOverrides = {}
+      overrides = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
     }
-  } catch (e) {
-    global.__adminConfigOverrides = {}
-  }
+  } catch (e) {}
+  try {
+    const fs = require('fs')
+    const tmpPath = '/tmp/adminConfigOverrides.json'
+    if (fs.existsSync(tmpPath)) {
+      overrides = { ...overrides, ...JSON.parse(fs.readFileSync(tmpPath, 'utf-8')) }
+    }
+  } catch (e) {}
+  return overrides
+}
+
+if (!global.__adminConfigOverrides) {
+  global.__adminConfigOverrides = loadInitialOverrides()
 }
 
 export default async function handler(req, res) {
@@ -45,14 +54,10 @@ async function handleGet(req, res) {
     return res.status(401).json({ error: '未登录或登录已过期' })
   }
 
-  // 重新从物理配置文件加载基准配置，防止暖机实例内存残留脏数据
+  // 增量从物理配置文件更新基准底包，但保留当前实例中用户刚修改并保存在内存的覆盖配置，严防旧文件冲刷
   try {
-    const fs = require('fs')
-    const path = require('path')
-    const configPath = path.resolve(process.cwd(), 'lib/adminConfigOverrides.json')
-    if (fs.existsSync(configPath)) {
-      global.__adminConfigOverrides = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
-    }
+    const fileBase = loadInitialOverrides()
+    global.__adminConfigOverrides = { ...fileBase, ...(global.__adminConfigOverrides || {}) }
   } catch (e) {}
 
   // 如果配置了 Notion 凭据，从 Notion 数据库配置中心拉取并合并最新真实配置
@@ -137,14 +142,18 @@ async function handlePost(req, res) {
     }
 
     // 保护核心元数据：若为默认占位符，不写入内存覆盖，确保无条件回退并读取用户 Notion 原生数据
-    if (['TITLE', 'DESCRIPTION', 'AUTHOR', 'BIO'].includes(key) && (value === 'NotionNext BLOG' || value === 'Notion Repo BLOG')) {
+    const SYSTEM_PLACEHOLDERS = ['NotionNext BLOG', 'Notion Repo BLOG', 'Notion Blog', '基于 Notion 的静态博客', 'NotionNext', 'Notion Next 知识库']
+    if (['TITLE', 'DESCRIPTION', 'AUTHOR', 'BIO'].includes(key) && SYSTEM_PLACEHOLDERS.includes(value)) {
       delete global.__adminConfigOverrides[key]
       applied.push(key)
       continue
     }
     
-    // 如果值为 null 或 undefined，代表删除覆写，恢复默认值
-    if (value === null || value === undefined || value === '') {
+    // 如果值为 null 或 undefined，代表恢复默认值
+    if (value === null || value === undefined) {
+      delete global.__adminConfigOverrides[key]
+    } else if (value === '' && ['TITLE', 'DESCRIPTION', 'AUTHOR', 'BIO'].includes(key)) {
+      // 站点核心元数据留空时，删除覆盖以回退至 Notion 真实属性
       delete global.__adminConfigOverrides[key]
     } else {
       global.__adminConfigOverrides[key] = value
@@ -163,6 +172,12 @@ async function handlePost(req, res) {
       persistedLocally = true
     }
   } catch (err) {
+    // Serverless 只读文件系统回退：写入 /tmp 临时目录
+    try {
+      const fs = require('fs')
+      fs.writeFileSync('/tmp/adminConfigOverrides.json', JSON.stringify(global.__adminConfigOverrides, null, 2), 'utf-8')
+      persistedLocally = true
+    } catch (tmpErr) {}
     console.warn('持久化配置到文件提示 (Serverless 只读环境正常):', err.message)
   }
 
@@ -192,12 +207,12 @@ async function handlePost(req, res) {
     console.warn('清理站点缓存提示:', err.message)
   }
 
-  // 尝试刷新首页与核心页面缓存
+  // 尝试刷新首页与核心页面缓存 (ISR 增量静态生成)
   try {
-    await res.revalidate('/')
-    await res.revalidate('/archive').catch(() => {})
+    const revalidatePaths = ['/', '/archive', '/category', '/tag']
+    await Promise.allSettled(revalidatePaths.map(p => res.revalidate(p).catch(() => {})))
   } catch (err) {
-    console.warn('revalidate(/) 提示:', err.message)
+    console.warn('revalidate 提示:', err.message)
   }
 
   // 整理供复制到 Notion CONFIG 配置表的数据
@@ -206,13 +221,19 @@ async function handlePost(req, res) {
     value: typeof value === 'object' ? JSON.stringify(value) : String(value ?? '')
   }))
 
+  const isVercel = Boolean(process.env.VERCEL)
+  let saveMsg = '配置已在当前实例实时生效！'
+  if (persistedToNotion) {
+    saveMsg = '配置已成功保存并同步至您的 Notion 数据库，永久生效！'
+  } else if (persistedLocally && !isVercel) {
+    saveMsg = '配置已成功保存至本地文件，实时生效！'
+  } else if (isVercel) {
+    saveMsg = '配置已在当前实例生效！提示：当前在 Vercel 环境且未配置 Notion 数据库同步，实例冷启动后将使用项目默认配置。'
+  }
+
   return res.status(200).json({
     success: true,
-    message: persistedToNotion 
-      ? '配置已成功保存并同步至您的 Notion 数据库，永久生效！'
-      : persistedLocally
-        ? '配置已成功保存至本地文件，实时生效！'
-        : '配置已在当前实例实时生效！',
+    message: saveMsg,
     applied,
     persistedLocally,
     persistedToNotion,

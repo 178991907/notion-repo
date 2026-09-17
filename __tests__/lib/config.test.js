@@ -67,4 +67,14 @@ describe('siteConfig', () => {
     expect(siteConfig('TITLE')).toBe('Notion-Repo 官方模板（Fork）')
     expect(siteConfig('DESCRIPTION')).toBe('这是用户的真实描述')
   })
+
+  it('当用户在后台主动设置了有效自定义标题时允许覆盖，占位符则智能回退', () => {
+    const { setGlobalSnapshot } = require('@/lib/global')
+    // 用户自定义了标题
+    setGlobalSnapshot({
+      siteInfo: { title: 'Notion 原始标题' },
+      NOTION_CONFIG: { TITLE: 'Terry 自定义知识库' }
+    })
+    expect(siteConfig('TITLE')).toBe('Terry 自定义知识库')
+  })
 })
