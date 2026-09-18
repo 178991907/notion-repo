@@ -124,10 +124,11 @@ async function handleGet(req, res) {
  */
 async function handlePost(req, res) {
   const csrfToken = req.headers["x-admin-csrf"]
-  const cookieToken = req.cookies?.admin_token
-  if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+  const isSameOrigin = req.headers['sec-fetch-site'] === 'same-origin'
+  if (!csrfToken && !isSameOrigin) {
     return res.status(403).json({ error: "缺少 CSRF 验证头或校验失败" })
   }
+
 
   const { action, oldName, newName, sourceNames, targetName, name, color, pageIds, addTags, removeTags } = req.body || {}
   const { Client } = require("@notionhq/client")

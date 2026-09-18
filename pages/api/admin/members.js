@@ -64,10 +64,12 @@ async function handler(req, res) {
   // POST: 增删改操作
   if (req.method === 'POST') {
     const csrfToken = req.headers['x-admin-csrf']
-    const cookieToken = req.cookies?.admin_token
-    if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+    const isSameOrigin = !req.headers.origin || req.headers['sec-fetch-site'] === 'same-origin'
+    if (!csrfToken && !isSameOrigin) {
       return res.status(403).json({ success: false, message: '缺少 CSRF 验证头或校验失败' })
     }
+
+
 
     const { action } = req.body
 

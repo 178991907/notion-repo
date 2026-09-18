@@ -147,12 +147,13 @@ async function handlePost(req, res) {
     return res.status(401).json({ error: '未登录或登录已过期' })
   }
 
-  // CSRF 防护：校验自定义 header 和 Cookie 是否匹配 (Double Submit Cookie)
+  // CSRF 防护：校验自定义 header（跨站脚本无法伪造非简单请求头）或同源请求
   const csrfToken = req.headers['x-admin-csrf']
-  const cookieToken = req.cookies?.admin_token
-  if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+  const isSameOrigin = req.headers['sec-fetch-site'] === 'same-origin'
+  if (!csrfToken && !isSameOrigin) {
     return res.status(403).json({ error: '缺少 CSRF 验证头或校验失败' })
   }
+
 
   const { configs } = req.body || {}
   if (!Array.isArray(configs) || configs.length === 0) {

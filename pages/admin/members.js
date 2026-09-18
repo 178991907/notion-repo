@@ -106,7 +106,7 @@ export default function AdminMembers() {
     try {
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'update_fans_config',
           defaultPasscode: fansConfig.defaultPasscode.trim(),
@@ -133,12 +133,13 @@ export default function AdminMembers() {
     try {
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'sync_notion_articles',
           codeFormat
         })
       })
+
       const data = await res.json()
       if (data.success) {
         setSyncSummary(data)
@@ -174,7 +175,7 @@ export default function AdminMembers() {
       const maxUses = singleForm.mode === 'unlimited' ? 0 : 1
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'create_invite',
           code: singleForm.code,
@@ -207,7 +208,7 @@ export default function AdminMembers() {
     try {
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'batch_create_invites',
           count: Number(batchForm.count) || 5,
@@ -243,7 +244,7 @@ export default function AdminMembers() {
     try {
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'create_member',
           username: memberForm.username,
@@ -275,13 +276,14 @@ export default function AdminMembers() {
     try {
       const res = await fetch('/api/admin/members', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
         body: JSON.stringify({
           action: 'toggle_invite_status',
           id: item.id,
           status: newStatus
         })
       })
+
       const data = await res.json()
       if (data.success) {
         showToast('success', `邀请码状态已更新为：${newStatus === 'Active' ? '有效' : '已禁用'}`)
