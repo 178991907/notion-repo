@@ -74,10 +74,21 @@ It is useful for creators, indie hackers, designers, photographers, course autho
 2. Duplicate the official Notion Repo Notion template.
 3. Fork this repository to your GitHub account.
 4. Deploy with [Vercel](https://notionnext.tangly1024.com/user-guide/deploy-vercel).
-5. Set the 4 core environment variables: `NOTION_PAGE_ID`, `ADMIN_PASSWORD`, `NOTION_ACCESS_TOKEN`, and `NOTION_SYNC_SECRET` (default theme is already locked to `heo`, no theme variable required).
+5. Set the 4 core environment variables in Vercel:
+
+| Variable | Source / Portal | Required | Description |
+| :--- | :--- | :---: | :--- |
+| **`NOTION_PAGE_ID`** | Copied from your Notion template | **Required** | The 32-character ID of your Notion root database. |
+| **`ADMIN_PASSWORD`** | Self-defined | **Required** | Super password for the `/admin` visual dashboard. |
+| **`NOTION_ACCESS_TOKEN`** | [Notion Integration Center](https://www.notion.so/profile/integrations) | **Required** | Notion Internal Integration Secret (never expires). Drives membership registration, automated code writeback, and dashboard sync. |
+| **`NOTION_SYNC_SECRET`** | Self-defined | **Required** | Security key to protect Webhook / Cron synchronization endpoints from unauthorized requests. |
+
+*(Note: `NEXT_PUBLIC_THEME` is not required; the default theme is permanently pre-configured to `heo`!)*
+
 6. After launch, configure your theme, domain, comments, analytics, and search as needed.
 
-New users should start with the [Get Started guide](https://notionnext.tangly1024.com/user-guide/start-here).
+New users should start with the [Vercel Deployment Guide](./docs/user-guide/deploy-vercel.md).
+
 
 ## Themes
 

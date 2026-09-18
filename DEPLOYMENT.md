@@ -88,11 +88,12 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
 
 2. **配置核心环境变量（四大建站基石）**
    - 在 Vercel 项目设置（Environment Variables）中添加 4 个核心关键变量（缺一不可，否则涉及 Notion 回写与同步会报错）：
-     - `NOTION_PAGE_ID`: 你的 32 位 Notion 根页面 ID（数据源）
-     - `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码
-     - `NOTION_ACCESS_TOKEN`: 官方 Integration Token（驱动暗号自动回写、VIP 联动与会员数据持久化）
-     - `NOTION_SYNC_SECRET`: 生产环境安全密钥（保护 Webhook 与 Cron 定时巡检，防 403 阻断）
+     - `NOTION_PAGE_ID`: 你的 32 位 Notion 根页面 ID（复制自 Notion 页面分享链接，提取纯 32 位字符串）
+     - `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码（自行设定高强度密码）
+     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的内部集成 Token（以 `secret_` 或 `ntn_` 开头，**永久有效**，驱动暗号自动回写、VIP 联动与会员数据持久化。**创建后必须在 Notion 页面点击右上角 `...` -> `Connect to` 授权！**）
+     - `NOTION_SYNC_SECRET`: 生产环境安全私钥（自行设定，保护 Webhook 与 Cron 定时巡检，防 403 阻断）
    - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`)*
+
 
 3. **部署**
    - Vercel 会自动检测 Next.js 项目
@@ -155,22 +156,27 @@ vercel --prod
 ```
 
 ## Netlify 部署
-
+ 
 ### 自动部署
-
+ 
 1. **连接仓库**
-   - 访问 [Netlify](https://netlify.com)
-   - 连接你的 GitHub 仓库
-
+   - 访问 [Netlify](https://netlify.com) 并使用 GitHub 登录
+   - 导入你的 `notion-repo` 仓库
+ 
 2. **构建设置**
-   - Build command: `yarn build`
-   - Publish directory: `out`
-   - 环境变量: `EXPORT=true`
+   - 项目已内置 `netlify.toml`，自动应用以下最佳实践（无需手动修改）：
+     - Build command: `yarn run build`
+     - Publish directory: `.next`
+     - Node Version: `22`
+     - Plugin: `@netlify/plugin-nextjs`
+ 
+3. **配置四大核心环境变量**
+   - 在 Netlify 项目的 **Site configuration -> Environment variables** 中配置四大基石：
+     - `NOTION_PAGE_ID`: Notion 博客数据源页面 ID（32 位）
+     - `ADMIN_PASSWORD`: 管理员后台 `/admin` 登录密码（自行设定）
+     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的 Internal Integration Secret（**永久有效**，并在页面右上角 `...` -> `Connect to` 授权）
+     - `NOTION_SYNC_SECRET`: 云端通信安全私钥（自行设定，保护数据同步）
 
-3. **环境变量配置**
-   - 在 Netlify 设置中添加环境变量
-
-### 手动部署
 
 ```bash
 # 构建静态文件

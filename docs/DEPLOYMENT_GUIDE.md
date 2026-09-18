@@ -107,21 +107,42 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
 ## 6. 全量环境变量 (Environment Variables) 说明表
 
 ### 🌟 核心必填变量 (四大建站基石，缺一不可)
-| 环境变量名 | 类型 | 示例值 | 详细说明与报错预警 |
-| :--- | :---: | :--- | :--- |
-| **`NOTION_PAGE_ID`** | 字符串 | `02ab3b8678004aa69e...` | **必填**。Notion 根页面 ID，站点的文章数据源。不填无法读取数据。 |
-| **`ADMIN_PASSWORD`** | 字符串 | `MySecurePass_2026` | **必填**。管理后台 (`/admin`) 登录密码。不填无法管理站点。 |
-| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | 字符串 | `ntn_xxxx...` 或 `secret_...` | **核心必填**。官方 Notion 集成 Token，用于粉丝暗号自动生成回写、VIP 属性联动、会员注册激活码核销、后台设置写回 Notion。**不配置将导致涉及 Notion 写操作的所有功能直接报错崩溃！** |
-| **`NOTION_SYNC_SECRET`** | 字符串 | 自定义随机高强度密钥 | **核心必填**。云端安全通信密钥，保护 Webhook 实时触发与 Cron 定时同步。**生产环境若未配置，外部触发同步时接口直接被安全机制拦截并报 `403 Forbidden`！** |
+| 环境变量名 | 申请/获取入口 | 类型 | 示例值 | 详细说明与报错预警 |
+| :--- | :--- | :---: | :--- | :--- |
+| **`NOTION_PAGE_ID`** | [您的 Notion 页面](#-四大核心环境变量获取与申请直达指引) | 字符串 | `02ab3b8678004aa69e...` | **必填**。Notion 根页面 ID，站点的文章数据源。不填无法读取数据。 |
+| **`ADMIN_PASSWORD`** | [自行设定](#-四大核心环境变量获取与申请直达指引) | 字符串 | `MySecurePass_2026` | **必填**。管理后台 (`/admin`) 登录密码。不填无法管理站点。 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](#-四大核心环境变量获取与申请直达指引) | 字符串 | `ntn_xxxx...` 或 `secret_...` | **核心必填**。官方 Notion 内部集成 Token（永不过期），用于粉丝暗号自动生成回写、VIP 属性联动、会员注册激活码核销、后台设置写回 Notion。**不配置将导致涉及 Notion 写操作的所有功能直接报错崩溃！** |
+| **`NOTION_SYNC_SECRET`** | [自行设定](#-四大核心环境变量获取与申请直达指引) | 字符串 | 自定义随机高强度密钥 | **核心必填**。云端安全通信密钥，保护 Webhook 实时触发与 Cron 定时同步。**生产环境若未配置，外部触发同步时接口直接被安全机制拦截并报 `403 Forbidden`！** |
+
+#### 🧭 四大核心环境变量获取与申请直达指引
+
+1. **`NOTION_PAGE_ID`（数据源页面 ID）**：
+   - **获取入口**：打开复制到您个人账号下的 Notion 博客根页面；
+   - **提取方法**：在页面右上角点击 **Share** ➔ **Publish** 开启网络发布，点击 **Copy link**。链接形如 `https://www.notion.so/xxx/02ab3b8678004aa69e89...?v=...`，提取中间纯 **32 位字母数字** 字符串（不要带问号及后续参数）。
+2. **`ADMIN_PASSWORD`（后台管理密码）**：
+   - **获取入口**：无需向第三方申请，由您自行设定。
+   - **操作建议**：自定义一个高强度密码（如 `Admin_Pass2026!`），用于登录 `https://你的域名/admin` 控制台。
+3. **`NOTION_ACCESS_TOKEN`（官方内部集成 Token，永久有效）**：
+   - **申请直达链接**：👉 **[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)** *(备用：[https://www.notion.so/my-integrations](https://www.notion.so/my-integrations))*；
+   - **申请步骤**：
+     1. 点击 **「+ New integration」**（新建集成）；
+     2. Name 填 `Notion-Repo`，工作区选择您当前工作区，Type 保持 **Internal**（内部集成）；
+     3. 权限保持默认全选（Read/Update/Insert），点击 **Save**；
+     4. 复制展示的 **Internal Integration Secret**（以 `secret_` 或 `ntn_` 开头），**此 Token 永久有效、永不过期**；
+     5. **🔥 重要必须操作**：返回 Notion 博客主页面，点击右上角三个点 **`...`** ➔ **Connect to**（连接至）➔ 搜索并授权您刚建的 `Notion-Repo` 集成！
+4. **`NOTION_SYNC_SECRET`（同步安全私钥）**：
+   - **获取入口**：无需向第三方申请，由您自行定义的一串随机字符串（如 `sec_sync_notion_888`）。
+   - **核心作用**：保护 `/api/sync` 同步端点，防止未授权恶意刷爆调用配额。
 
 ### 企业级进阶安全变量 (按需选配)
-| 环境变量名 | 默认值 | 示例值 | 详细说明 |
-| :--- | :---: | :--- | :--- |
-| **`ADMIN_SECRET`** | 动态派生 | 任意高强度私钥 | 后台 Edge Runtime HMAC-SHA256 JWT 独立签发密钥，未配置将自动优雅派生。 |
-| **`MEMBER_AUTH_SECRET`** | 动态派生 | 任意高强度私钥 | 会员登录态 JWT 独立签发密钥，杜绝会员凭证伪造与越权。 |
-| **`CRON_SECRET`** | 与 SYNC_SECRET 一致 | 自定义随机密钥 | Vercel Cron 定时同步专用数字签名秘钥，可直接复用 `NOTION_SYNC_SECRET`。 |
-| **`FANS_CODE_SECRET`** | 动态派生 | 自定义随机密钥 | 粉丝专属暗号 HMAC 计算密钥，彻底杜绝专属码被逆推预测。 |
-| **`COMMENT_GITALK_CLIENT_SECRET`** | - | `ghs_xxxx...` | GitHub OAuth App 客户端私钥（纯后端代理端点使用，绝不在客户端暴露）。 |
+| 环境变量名 | 申请/获取入口 | 默认值 | 示例值 | 详细说明 |
+| :--- | :--- | :---: | :--- | :--- |
+| **`ADMIN_SECRET`** | 自行设定 | 动态派生 | 任意高强度私钥 | 后台 Edge Runtime HMAC-SHA256 JWT 独立签发密钥，未配置将自动优雅派生。 |
+| **`MEMBER_AUTH_SECRET`** | 自行设定 | 动态派生 | 任意高强度私钥 | 会员登录态 JWT 独立签发密钥，杜绝会员凭证伪造与越权。 |
+| **`CRON_SECRET`** | 自行设定 | 与 SYNC_SECRET 一致 | 自定义随机密钥 | Vercel Cron 定时同步专用数字签名秘钥，可直接复用 `NOTION_SYNC_SECRET`。 |
+| **`FANS_CODE_SECRET`** | 自行设定 | 动态派生 | 自定义随机密钥 | 粉丝专属暗号 HMAC 计算密钥，彻底杜绝专属码被逆推预测。 |
+| **`COMMENT_GITALK_CLIENT_SECRET`** | [GitHub OAuth Apps 申请入口](https://github.com/settings/applications/new) | - | `ghs_xxxx...` | GitHub OAuth App 客户端私钥（纯后端代理端点使用，绝不在客户端暴露）。申请时填写主页 URL 与 Callback 即可。 |
+
 
 ### 核心功能与外观变量
 | 环境变量名 | 默认值 | 可选值 | 详细说明 |

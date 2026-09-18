@@ -97,12 +97,65 @@ graph LR
 
 在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下 4 个核心变量：
 
-| 环境变量名称 (Key) | 推荐填写值 (Value) | 是否必填 | 功能与重要说明 |
-| :--- | :--- | :---: | :--- |
-| **`NOTION_PAGE_ID`** | 您在第一步获取的 32 位 ID | **必填** | **数据源**：站点文章与核心数据库来源的根页面 ID |
-| **`ADMIN_PASSWORD`** | 您的自定义后台密码（如 `admin888`） | **必填** | **管理权限**：用于登录可视化后台 `/admin` 的超级管理密码 |
-| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | 您的 Notion Integration Token（以 `ntn_` 或 `secret_` 开头） | **核心必填** | **双向通信引擎**：用于驱动专属粉丝码生成、VIP 属性自动打标、会员注册与激活码核销、后台设置直接写回 Notion。**若不配置，涉及数据写回与会员功能将直接报错失败！** |
-| **`NOTION_SYNC_SECRET`** | 您的自定义安全私钥（如 `sec_sync_888`） | **核心必填** | **云端安全防护**：用于保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境若未配置此项，调用接口将直接被系统安全拦截并报错 `403 Forbidden`！** |
+| 环境变量名称 (Key) | 申请/获取入口 | 填写值 (Value) 格式 | 是否必填 | 功能与重要说明 |
+| :--- | :--- | :--- | :---: | :--- |
+| **`NOTION_PAGE_ID`** | [您的 Notion 页面](#1-notion_page_id-获取方法) | 32 位纯字符串（无横杠与参数） | **必填** | **数据源**：站点文章与核心数据库来源的根页面 ID |
+| **`ADMIN_PASSWORD`** | [自行设定](#2-admin_password-设定方法) | 任意高强度自定义密码（如 `admin888`） | **必填** | **管理权限**：用于登录可视化后台 `/admin` 的超级管理密码 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](#3-notion_access_token-申请与获取方法重点永久有效) | `ntn_...` 或 `secret_...` | **核心必填** | **双向通信引擎**：用于驱动专属粉丝码生成、VIP 属性打标、会员注册与激活码核销、后台设置直接写回 Notion。**若不配置，涉及数据写回与会员功能将直接报错失败！** |
+| **`NOTION_SYNC_SECRET`** | [自行设定](#4-notion_sync_secret-设定方法) | 任意自定义随机密钥（如 `sec_sync_888`） | **核心必填** | **云端安全防护**：用于保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境若未配置此项，调用接口将直接被系统安全拦截并报错 `403 Forbidden`！** |
+
+---
+
+#### 🔍 四大核心环境变量申请与获取保姆级教程
+
+##### 1. `NOTION_PAGE_ID` 获取方法
+- **申请/获取入口**：打开您在第一步复制（Duplicate）到自己账号中的 Notion 博客模板主页。
+- **操作步骤**：
+  1. 打开主页面（或进入内部的「Notion-Repo 官方模板（Fork）」数据库页面）；
+  2. 点击右上角 **Share (分享)** ➔ 切换到 **Publish (发布)** ➔ 确保开启 **Publish to web (发布到网络)**；
+  3. 点击右上角 **Copy link (复制链接)**（或直接复制浏览器地址栏中的网址）；
+  4. 从复制的链接中提取 32 位字符串：
+     - 例如链接为：`https://www.notion.so/username/3dce78c0e8d4812598f8e90892c4c95e?v=...`
+     - 提取其中的纯 32 位字母数字部分：`3dce78c0e8d4812598f8e90892c4c95e`。
+- ⚠️ **避坑提醒**：切勿复制 `?v=` 或 `?pvs=4` 等问号及其后面的参数，仅需 32 位纯字符！
+
+##### 2. `ADMIN_PASSWORD` 设定方法
+- **申请/获取入口**：**无需向任何平台申请**，由您自行设立。
+- **操作步骤**：
+  1. 自行构思一个高强度的管理员登录密码（建议 8 位以上，包含字母与数字，如 `MyBlogAdmin_2026`）；
+  2. 牢记该密码，未来访问您的博客后台（`https://你的域名/admin`）时用于登录管理后台，修改站点标题、头像、导航、会员设置等。
+
+##### 3. `NOTION_ACCESS_TOKEN` 申请与获取方法（重点：永久有效）
+> [!IMPORTANT]
+> **切勿在 Notion 设置里创建「个人访问令牌 (PAT)」**！PAT 最长只有 1 年有效期，到期会导致网站功能失效。  
+> 必须按照以下官方标准创建 **「内部集成 (Internal Integration)」**，生成的 Secret **永久有效、永不过期**！
+
+- **申请直达链接**：👉 **[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)**  
+  *(备用链接：[https://www.notion.so/my-integrations](https://www.notion.so/my-integrations))*
+- **操作步骤**：
+  1. 浏览器打开 [Notion 集成管理页面](https://www.notion.so/profile/integrations)；
+  2. 点击页面中的 **「+ New integration」**（或「新建集成」）按钮；
+  3. 填写集成信息：
+     - **Name（名称）**：输入 `Notion-Repo`（仅用于标识）；
+     - **Associated workspace（关联工作空间）**：选择您存放博客模板的工作空间；
+     - **Type（类型）**：保持默认的 **Internal**（内部集成）；
+  4. **Capabilities（权限）**：保持默认勾选（包含 Read content 读取内容、Update content 更新内容、Insert content 插入内容）；
+  5. 点击底部的 **Save (保存)**；
+  6. **复制 Token**：保存后在页面中的 **Internal Integration Secret** 点击 **Show**，然后点击 **Copy**，得到以 `secret_` 或 `ntn_` 开头的字符串，这就是 `NOTION_ACCESS_TOKEN`！
+  7. **🔥【极关键步骤：给主页面授权连接】**：
+     - 回到您的 Notion 博客模板主页面；
+     - 点击右上角的三个点 **`...`**；
+     - 找到 **Connect to (连接至)**（或 *Add connections*）；
+     - 搜索并选择刚才创建的集成 `Notion-Repo`，点击 **Confirm (确认)** 授权！*(若漏掉这步，网站将无法读写 Notion 数据)*。
+
+##### 4. `NOTION_SYNC_SECRET` 设定方法
+- **申请/获取入口**：**无需向任何平台申请**，由您自行定义的生产安全通信私钥。
+- **操作步骤**：
+  1. 自定义一串不易被猜解的长随机字符串（例如 `sec_sync_2026_x89a`）；
+  2. 该私钥用于防御未授权的恶意调用，保护 Notion Webhook 自动触发更新与 Vercel Cron 定时同步接口；
+  3. 后续若配置 GitHub Actions 或 Notion 自动化 Webhook，在请求头或 URL 参数中携带此 Secret 即可安全同步。
+
+---
 
 > [!CAUTION]
 > ### 🚨 为什么新手建站务必完整配置这 4 个环境变量？（避坑重点）
@@ -116,13 +169,14 @@ graph LR
 
 ### 可选进阶安全变量 (按需配置)
 
-| 环境变量名称 (Key) | 推荐填写值 (Value) | 是否必填 | 功能与说明 |
-| :--- | :--- | :---: | :--- |
-| **`ADMIN_SECRET`** | 随机长字符串（如 `sec_adm_999`） | 选填（推荐） | 后台 Edge JWT 独立签名私钥，未配置时系统将自动安全派生 |
-| **`MEMBER_AUTH_SECRET`** | 随机长字符串（如 `sec_mem_888`） | 选填（推荐） | 会员系统 JWT 独立签名私钥，未配置时自动安全派生 |
-| **`FANS_CODE_SECRET`** | 随机长字符串（如 `fans_sec_666`） | 选填（推荐） | 粉丝暗号 HMAC 签名私钥，彻底阻断专属码被逆推预测 |
-| **`COMMENT_GITALK_CLIENT_SECRET`** | 您的 GitHub OAuth Client Secret | 选填 | 仅在使用 Gitalk 评论时配置，供后端安全代理调用（前端零泄露） |
-| **`NEXT_PUBLIC_THEME`** | 默认留空无需填写 | 选填 | **无需配置**！代码底层默认已锁定为您专属定制的 `heo` 旗舰主题。仅当您想切换体验原作者其他传统主题（如 simple, hexo, gitbook）时才需填入 |
+| 环境变量名称 (Key) | 申请/获取入口 | 推荐填写值 (Value) | 是否必填 | 功能与说明 |
+| :--- | :--- | :--- | :---: | :--- |
+| **`ADMIN_SECRET`** | 自行设定 | 随机长字符串（如 `sec_adm_999`） | 选填（推荐） | 后台 Edge JWT 独立签名私钥，未配置时系统将自动安全派生 |
+| **`MEMBER_AUTH_SECRET`** | 自行设定 | 随机长字符串（如 `sec_mem_888`） | 选填（推荐） | 会员系统 JWT 独立签名私钥，未配置时自动安全派生 |
+| **`FANS_CODE_SECRET`** | 自行设定 | 随机长字符串（如 `fans_sec_666`） | 选填（推荐） | 粉丝暗号 HMAC 签名私钥，彻底阻断专属码被逆推预测 |
+| **`COMMENT_GITALK_CLIENT_SECRET`** | [GitHub OAuth Apps 申请入口](https://github.com/settings/applications/new) | 您的 GitHub OAuth Client Secret | 选填 | 仅在使用 Gitalk 评论时配置，供后端安全代理调用（前端零泄露）。申请时 Homepage URL 与 Callback URL 填写您的博客域名即可 |
+| **`NEXT_PUBLIC_THEME`** | 代码已默认锁定 | 默认留空无需填写 | 选填 | **无需配置**！代码底层默认已锁定为您专属定制的 `heo` 旗舰主题。仅当您想切换体验原作者其他传统主题（如 simple, hexo, gitbook）时才需填入 |
+
 
 ### 5. 点击一键部署
 确认环境变量添加完毕后，点击醒目的 **Deploy** 按钮！  

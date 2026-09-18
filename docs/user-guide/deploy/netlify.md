@@ -33,7 +33,28 @@ Accelerate the time to deploy your websites and apps. Bring your integrations an
 
 ![Untitled](/legacy/2c01f30a32ff7cb6.png)
 
-除了部署时添加环境变量，无需其它额外配置
+### 配置核心环境变量 (四大建站基石，缺一不可)
+
+在 Netlify 导入项目的向导中（或站点部署后的 **Site configuration -> Environment variables**），逐一添加以下 4 个核心变量：
+
+| 环境变量名称 (Key) | 申请/获取入口 | 填写值格式 | 是否必填 | 功能与说明 |
+| :--- | :--- | :--- | :---: | :--- |
+| **`NOTION_PAGE_ID`** | 复制自您的 Notion 模板主页 | 32 位纯字符串（无横杠与参数） | **必填** | **数据源**：Notion 博客文章根页面 ID |
+| **`ADMIN_PASSWORD`** | 自行设定 | 自定义高强度密码（如 `admin888`） | **必填** | **管理权限**：管理后台 `/admin` 的超级登录密码 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](https://www.notion.so/profile/integrations) | `ntn_...` 或 `secret_...` | **核心必填** | **数据回写引擎**：用于粉丝暗号自动生成回写、会员系统与后台设置直接写回 Notion。**必须通过内部集成获取，永久有效！** |
+| **`NOTION_SYNC_SECRET`** | 自行设定 | 任意随机私钥（如 `sec_sync_888`） | **核心必填** | **云端安全通信**：保护 Webhook 实时触发与定时同步。不配置会报 `403 Forbidden` |
+
+> 💡 **主题免配置**：`NEXT_PUBLIC_THEME` 无需填写，项目默认已绑定为您专属定制的 `heo` 旗舰主题！
+
+#### 🔍 环境变量获取保姆级指引：
+1. **`NOTION_PAGE_ID`**：打开复制好的 Notion 博客模板主页，点击右上角 **Share** -> **Publish** 开启网络发布，点击 **Copy link**。从 URL 中提取纯 32 位数字字母 ID（切勿复制 `?v=` 及后面的参数）。
+2. **`ADMIN_PASSWORD`**：无需申请，由您自行构思并记牢，后续用于登录 `https://你的域名/admin` 控制台。
+3. **`NOTION_ACCESS_TOKEN`（官方内部集成 Token，永久有效）**：
+   - 申请直达链接：👉 **[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)**
+   - 点击 **「+ New integration」**，名称填 `Notion-Repo`，工作区选择当前空间，类型保持 **Internal**（内部），点击 **Save**。
+   - 复制 **Internal Integration Secret**（以 `secret_` 或 `ntn_` 开头）。此 Secret **永久有效、永不过期**（切勿使用只有 1 年有效期的 PAT）。
+   - **🔥 必须操作**：返回 Notion 博客主页面，点击右上角 **`...`** ➔ **Connect to (连接至)** ➔ 搜索并授权该集成！
+4. **`NOTION_SYNC_SECRET`**：无需申请，由您自行设定的随机字符串私钥（如 `sec_sync_myblog_2026`），保护同步接口。
 
 
 ### 配置域名
