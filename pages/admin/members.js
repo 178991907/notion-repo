@@ -55,10 +55,34 @@ export default function AdminMembers() {
 
   // 复制提示
   const [copiedCode, setCopiedCode] = useState(null)
+  const [initializingDb, setInitializingDb] = useState(false)
 
   const showToast = (type, message) => {
     setToast({ type, message })
     setTimeout(() => setToast(null), 3000)
+  }
+
+  // 一键在 Notion 根页面下初始化会员与邀请码数据库
+  const handleInitDatabases = async () => {
+    setInitializingDb(true)
+    try {
+      const res = await fetch('/api/admin/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-csrf': '1' },
+        body: JSON.stringify({ action: 'init_databases' })
+      })
+      const data = await res.json()
+      if (data.success) {
+        showToast('success', data.message || '🎉 成功初始化会员与邀请码数据库！')
+        await fetchData()
+      } else {
+        showToast('error', data.message || '初始化数据库失败')
+      }
+    } catch (err) {
+      showToast('error', '初始化异常: ' + err.message)
+    } finally {
+      setInitializingDb(false)
+    }
   }
 
   // 加载数据
@@ -441,6 +465,13 @@ export default function AdminMembers() {
 
           {/* 右侧快捷按钮 */}
           <div className="flex items-center gap-2.5 flex-wrap">
+            <button
+              onClick={handleInitDatabases}
+              disabled={initializingDb}
+              className="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              title="全自动在您的 Notion 根页面下创建会员数据库与邀请码数据库">
+              <span>{initializingDb ? '⏳ 正在 Notion 建库...' : '🛠️ 一键在 Notion 初始化会员库'}</span>
+            </button>
             {activeTab === 'invites' && (
               <>
                 <button
@@ -482,7 +513,16 @@ export default function AdminMembers() {
             ) : inviteCodes.length === 0 ? (
               <div className="py-20 text-center text-gray-400 space-y-3">
                 <div className="text-4xl">🔑</div>
-                <div>暂无邀请码记录，您可以点击上方按钮快速创建！</div>
+                <div className="font-semibold text-gray-600">暂无邀请码记录</div>
+                <div className="text-xs text-gray-400">若您的 Notion 页面尚未建立邀请码表，系统会在生成邀请码时全自动帮您建表，您也可以点击下方直接一键建表：</div>
+                <div className="pt-2">
+                  <button
+                    onClick={handleInitDatabases}
+                    disabled={initializingDb}
+                    className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-xs transition gap-1.5 cursor-pointer disabled:opacity-50">
+                    <span>{initializingDb ? '⏳ 正在 Notion 自动建表中...' : '⚡ 一键在 Notion 页面下自动建表'}</span>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="overflow-x-auto">

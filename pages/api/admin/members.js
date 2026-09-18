@@ -6,7 +6,8 @@ import {
   createMember,
   syncNotionArticleProperties,
   getFansConfigFromNotion,
-  saveFansConfigToNotion
+  saveFansConfigToNotion,
+  initMemberDatabases
 } from '@/lib/member/notion'
 import { verifyRequestToken } from '@/lib/admin/auth'
 
@@ -84,6 +85,16 @@ async function handler(req, res) {
     const { action } = req.body
 
     try {
+      // 0. 一键全自动在 Notion 根页面下初始化会员与邀请码数据库
+      if (action === 'init_databases') {
+        const result = await initMemberDatabases()
+        return res.status(200).json({
+          success: true,
+          message: '🎉 成功全自动在您的 Notion 页面下创建了「会员数据库」与「邀请码数据库」！',
+          ...result
+        })
+      }
+
       // 1. 创建单个邀请码
       if (action === 'create_invite') {
         const { code, level = 'VIP', maxUses = 1, days = 0, remark = '' } = req.body
