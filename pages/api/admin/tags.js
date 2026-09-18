@@ -3,8 +3,11 @@ import { verifyRequestToken } from "@/lib/admin/auth"
 import { resolvePostDatabaseId } from "@/lib/db/notion/postDatabaseResolver"
 import { withSecurity } from '@/lib/middleware/withSecurity'
 
-const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
-const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
+function getNotionCredentials() {
+  const token = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
+  const databaseId = process.env.NOTION_PAGE_ID || (typeof BLOG !== "undefined" ? BLOG?.NOTION_PAGE_ID : "") || ""
+  return { token, databaseId }
+}
 
 /**
  * 标签管理 API
@@ -17,15 +20,16 @@ async function handler(req, res) {
     return res.status(401).json({ error: "未登录或登录已过期" })
   }
 
-  if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
+  const { token, databaseId } = getNotionCredentials()
+  if (!token || !databaseId) {
     return res.status(400).json({ error: "未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_PAGE_ID" })
   }
 
   if (req.method === "GET") {
-    return handleGet(req, res)
+    return handleGet(req, res, { token, databaseId })
   }
   if (req.method === "POST") {
-    return handlePost(req, res)
+    return handlePost(req, res, { token, databaseId })
   }
   return res.status(405).json({ error: "不支持的请求方法" })
 }
@@ -33,14 +37,24 @@ async function handler(req, res) {
 /**
  * 获取全量标签列表与文章关联
  */
-async function handleGet(req, res) {
+async function handleGet(req, res, { token, databaseId } = {}) {
   try {
+    const creds = token && databaseId ? { token, databaseId } : getNotionCredentials()
     const { Client } = require("@notionhq/client")
-    const notion = new Client({ auth: NOTION_TOKEN })
+    const notion = new Client({ auth: creds.token })
 
-    const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+    const targetDatabaseId = await resolvePostDatabaseId(notion, creds.databaseId)
     if (!targetDatabaseId) {
-      return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+      return res.status(200).json({
+        success: false,
+        needSetup: true,
+        error: "未能识别或定位到有效的 Notion 文章数据库",
+        message: "未能在 Notion 中找到文章数据库。请检查：1. 是否已在 Notion 博客页面右上角通过「··· ➔ Connect to」授权您的集成；2. 环境变量 NOTION_ACCESS_TOKEN 与 NOTION_PAGE_ID 是否正确。",
+        tags: [],
+        allPosts: [],
+        totalTags: 0,
+        totalPosts: 0
+      })
     }
 
     const db = await notion.databases.retrieve({ database_id: targetDatabaseId })
@@ -115,28 +129,41 @@ async function handleGet(req, res) {
     })
   } catch (error) {
     console.error("获取标签列表异常:", error)
-    return res.status(500).json({ error: error.message || "获取标签列表失败" })
+    return res.status(200).json({
+      success: false,
+      needSetup: true,
+      error: error.message || "获取标签列表失败",
+      message: "未能连接到 Notion 数据库。请检查：1. 是否已在 Notion 页面右上角通过「··· ➔ Connect to」授权您的集成；2. 环境变量 NOTION_ACCESS_TOKEN 是否有效。",
+      tags: [],
+      allPosts: [],
+      totalTags: 0,
+      totalPosts: 0
+    })
   }
 }
 
 /**
  * 处理标签操作 (create, rename, merge, delete, cleanup_empty, batch_tag_posts)
  */
-async function handlePost(req, res) {
+async function handlePost(req, res, { token, databaseId } = {}) {
   const csrfToken = req.headers["x-admin-csrf"]
   const isSameOrigin = req.headers['sec-fetch-site'] === 'same-origin'
   if (!csrfToken && !isSameOrigin) {
     return res.status(403).json({ error: "缺少 CSRF 验证头或校验失败" })
   }
 
-
   const { action, oldName, newName, sourceNames, targetName, name, color, pageIds, addTags, removeTags } = req.body || {}
+  const creds = token && databaseId ? { token, databaseId } : getNotionCredentials()
   const { Client } = require("@notionhq/client")
-  const notion = new Client({ auth: NOTION_TOKEN })
+  const notion = new Client({ auth: creds.token })
 
-  const targetDatabaseId = await resolvePostDatabaseId(notion, NOTION_DATABASE_ID)
+  const targetDatabaseId = await resolvePostDatabaseId(notion, creds.databaseId)
   if (!targetDatabaseId) {
-    return res.status(500).json({ error: "未能识别或定位到有效的 Notion 文章数据库，请检查 NOTION_PAGE_ID 或 Integration 授权" })
+    return res.status(400).json({
+      success: false,
+      needSetup: true,
+      error: "未能识别或定位到有效的 Notion 文章数据库，请确认已在 Notion 页面右上角通过「··· ➔ Connect to」授权您的集成"
+    })
   }
 
   try {

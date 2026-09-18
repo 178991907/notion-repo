@@ -304,6 +304,30 @@ describe('管理后台全功能深度排查与双向数据流测试套件', () =
       expect(mockResTags.statusCode).toBe(400)
       expect(mockResTags.jsonData.error).toContain('未配置环境变量')
     })
+
+    test('当未能定位文章数据库时，categories 与 tags 平滑返回 200 与 needSetup 引导，杜绝 500 崩溃', async () => {
+      process.env.NOTION_ACCESS_TOKEN = 'secret_test_token'
+      process.env.NOTION_PAGE_ID = '00000000000000000000000000000000'
+      const req = {
+        method: 'GET',
+        headers: {
+          cookie: `admin_token=${validAdminToken}`
+        }
+      }
+      await categoriesHandler(req, mockRes)
+      expect(mockRes.statusCode).toBe(200)
+      expect(mockRes.jsonData.success).toBe(false)
+      expect(mockRes.jsonData.needSetup).toBe(true)
+      expect(mockRes.jsonData.categories).toEqual([])
+
+      mockRes.statusCode = 200
+      mockRes.jsonData = null
+      await tagsHandler(req, mockRes)
+      expect(mockRes.statusCode).toBe(200)
+      expect(mockRes.jsonData.success).toBe(false)
+      expect(mockRes.jsonData.needSetup).toBe(true)
+      expect(mockRes.jsonData.tags).toEqual([])
+    })
   })
 
   describe('6. 客户端与服务端 siteConfig 优先级穿透测试', () => {

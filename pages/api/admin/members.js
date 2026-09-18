@@ -57,7 +57,17 @@ async function handler(req, res) {
       })
     } catch (error) {
       console.error('[AdminMembersAPI] 获取数据失败:', error)
-      return res.status(500).json({ success: false, message: error.message })
+      return res.status(200).json({
+        success: false,
+        needSetup: true,
+        message: '未能读取会员数据 (' + (error.message || '未知错误') + ')。请确认已在 Notion 页面右上角通过「··· ➔ Connect to」授权您的集成。',
+        members: [],
+        inviteCodes: [],
+        fansConfig: {
+          defaultPasscode: '888888',
+          unlockTips: '关注公众号或联系博主获取解锁验证码'
+        }
+      })
     }
   }
 
