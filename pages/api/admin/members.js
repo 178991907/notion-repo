@@ -40,6 +40,21 @@ async function handler(req, res) {
 
   // GET: 获取会员与邀请码全量数据
   if (req.method === 'GET') {
+    const token = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN
+    if (!token && process.env.NODE_ENV !== 'test') {
+      return res.status(200).json({
+        success: false,
+        needSetup: true,
+        message: '未获取到 Notion API Token (NOTION_ACCESS_TOKEN)。请在 Vercel 环境变量中配置 NOTION_ACCESS_TOKEN，且生效环境务必勾选【Production】与【Preview】，保存后请点击 Redeploy 重新部署。',
+        members: [],
+        inviteCodes: [],
+        fansConfig: {
+          defaultPasscode: '888888',
+          unlockTips: '关注公众号或联系博主获取解锁验证码'
+        }
+      })
+    }
+
     try {
       const [members, inviteCodes, fansConfig] = await Promise.all([
         listMembers(),
@@ -80,8 +95,6 @@ async function handler(req, res) {
       return res.status(403).json({ success: false, message: '缺少 CSRF 验证头或校验失败' })
     }
 
-
-
     const { action } = req.body
 
     try {
@@ -115,8 +128,15 @@ async function handler(req, res) {
       if (action === 'batch_create_invites') {
         const { count = 5, level = 'VIP', prefix = 'VIP', days = 0, remark = '' } = req.body
         const num = Math.min(Math.max(Number(count) || 1, 1), 20) // 最多单次生成 20 个
-        const createdList = []
 
+        // 批量创建前先行自愈保障
+        try {
+          await initMemberDatabases()
+        } catch (initErr) {
+          console.warn('[AdminMembersAPI] 批量生成前自愈探测:', initErr.message)
+        }
+
+        const createdList = []
         for (let i = 0; i < num; i++) {
           const code = generateRandomCode(prefix)
           const item = await createInviteCode({
