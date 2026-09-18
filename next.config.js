@@ -206,7 +206,6 @@ const nextConfig = {
   generateEtags: true,
 
   // 构建优化
-  swcMinify: true,
   modularizeImports: {
     '@heroicons/react/24/outline': {
       transform: '@heroicons/react/24/outline/{{member}}'
@@ -464,10 +463,6 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true
-  },
-  devIndicators: {
-    buildActivity: false,
-    appIsrStatus: false
   }
 }
 
