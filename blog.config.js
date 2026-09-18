@@ -2,9 +2,9 @@
 
 const BLOG = {
   API_BASE_URL: process.env.API_BASE_URL || 'https://app.notion.com/api/v3', // API默认请求地址,可以配置成自己的地址例如：https://[xxxxx].notion.site/api/v3
-  // Important page_id！！！官方全功能母版复制链接：https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9
+  // Important page_id！！！官方全功能母版复制链接：https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd
   NOTION_PAGE_ID:
-    process.env.NOTION_PAGE_ID || '0cd01bb0e99b8291a10b0145736862b9',
+    process.env.NOTION_PAGE_ID || '3dce78c0e8d4812598f8e90892c4c95e',
   REDIRECT_LANG: process.env.NEXT_PUBLIC_REDIRECT_LANG || false, // 是否根据浏览器语言自动重定向到 /en（默认关闭，保持停留在中文首页）
   THEME: process.env.NEXT_PUBLIC_THEME || 'heo', // 当前主题，在themes文件夹下可找到所有支持的主题；主题名称就是文件夹名，例如 claude,endspace,example,fukasawa,fuwari,gitbook,heo,hexo,landing,matery,medium,next,nobelium,plog,simple
   LANG: process.env.NEXT_PUBLIC_LANG || 'zh-CN', // e.g 'zh-CN','en-US'  see /lib/lang.js for more.

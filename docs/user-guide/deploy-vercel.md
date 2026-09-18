@@ -32,7 +32,7 @@ graph LR
 ### 1. 复制官方专属纯净增强母版 (Duplicate)
 1. 打开并登录您的 [Notion 账号](https://www.notion.so/)（若无账号可免费注册）；
 2. 访问官方推荐的专属纯净增强母版：
-   👉 **[Notion-Repo 官方博客专属全功能母版](https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9)**
+   👉 **[Notion-Repo 官方博客专属全功能母版](https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd)**
 3. 在打开的 Notion 页面右上角，点击 **Duplicate (复制)** 按钮，将母版（含全套建站指引、系统数据存储与核心数据库）完整复刻到您自己的个人 Notion 工作区中。
 
 ### 2. 开启公开网页分享 (Publish to web)
