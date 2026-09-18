@@ -61,7 +61,7 @@ async function handler(req, res) {
       return res.status(200).json({
         success: false,
         needSetup: true,
-        message: '未能读取会员数据 (' + (error.message || '未知错误') + ')。请确认已在 Notion 页面右上角通过「··· ➔ Connect to」授权您的集成。',
+        message: '未能读取会员数据 (' + (error.message || '未知错误') + ')。请确认已在 Notion 博客主页面右上角通过「··· ➔ 品 集成 ➔ + 添加连接」完成授权。',
         members: [],
         inviteCodes: [],
         fansConfig: {
