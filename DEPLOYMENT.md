@@ -90,12 +90,20 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
    - 在 Vercel 项目设置（Environment Variables）中添加 4 个核心关键变量（缺一不可，否则涉及 Notion 回写与同步会报错）：
      - `NOTION_PAGE_ID`: 你的 32 位 Notion 根页面 ID（复制自 Notion 页面分享链接，提取纯 32 位字符串）
      - `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码（自行设定高强度密码）
-     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的内部集成 Token（以 `secret_` 或 `ntn_` 开头，**永久有效**，驱动暗号自动回写、VIP 联动与会员数据持久化。**创建后必须在 Notion 页面点击右上角 `...` -> `Connect to` 授权！**）
+     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的内部连接密钥（以 `secret_` 或 `ntn_` 开头，**永久有效**，用于安全读写评论与会员数据。**创建后必须在 Notion 页面点击右上角「···」->「品 集成」完成授权！**）
      - `NOTION_SYNC_SECRET`: 生产环境安全私钥（自行设定，保护 Webhook 与 Cron 定时巡检，防 403 阻断）
    - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`)*
 
+3. **在 Notion 博客主页面授权（必做关键步骤）**
+   > ⚠️ **新手必看**：这是 Notion 官方平台的底层隐私安全机制（如同给博客发放进出房间的门禁卡），如果不授权，系统将无法读取和写入评论与会员数据。
 
-3. **部署**
+   - **第 1 步**：打开您的 **Notion 博客主页面**（即 `NOTION_PAGE_ID` 对应的页面）。
+   - **第 2 步**：点击页面右上角三个点 **「···」**，在下拉菜单中找到 **「品 集成」**（英文版为 **Connect to**）。
+   - **第 3 步**：点击 **「+ 添加连接」**，在列表中选择您申请 Token 时填写的连接名称（例如 `Notion-Repo`），点击蓝色的 **「添加到页面」** 确认。
+
+   ![Notion 页面授权操作指引](/images/notion-connect-guide.png)
+
+4. **部署**
    - Vercel 会自动检测 Next.js 项目
    - 每次推送到主分支都会自动部署
 
@@ -174,8 +182,17 @@ vercel --prod
    - 在 Netlify 项目的 **Site configuration -> Environment variables** 中配置四大基石：
      - `NOTION_PAGE_ID`: Notion 博客数据源页面 ID（32 位）
      - `ADMIN_PASSWORD`: 管理员后台 `/admin` 登录密码（自行设定）
-     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的 Internal Integration Secret（**永久有效**，并在页面右上角 `...` -> `Connect to` 授权）
+     - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的内部连接密钥（以 `secret_` 或 `ntn_` 开头，**永久有效**）
      - `NOTION_SYNC_SECRET`: 云端通信安全私钥（自行设定，保护数据同步）
+
+4. **在 Notion 博客主页面授权（必做关键步骤）**
+   > ⚠️ **新手必看**：这是 Notion 官方平台的底层隐私安全机制（如同给博客发放进出房间的门禁卡），如果不授权，系统将无法读取和写入评论与会员数据。
+
+   - **第 1 步**：打开您的 **Notion 博客主页面**（即 `NOTION_PAGE_ID` 对应的页面）。
+   - **第 2 步**：点击页面右上角三个点 **「···」**，在下拉菜单中找到 **「品 集成」**（英文版为 **Connect to**）。
+   - **第 3 步**：点击 **「+ 添加连接」**，在列表中选择您申请 Token 时填写的连接名称（例如 `Notion-Repo`），点击蓝色的 **「添加到页面」** 确认。
+
+   ![Notion 页面授权操作指引](/images/notion-connect-guide.png)
 
 
 ```bash

@@ -142,11 +142,14 @@ graph LR
   4. **Capabilities（权限）**：保持默认勾选（包含 Read content 读取内容、Update content 更新内容、Insert content 插入内容）；
   5. 点击底部的 **Save (保存)**；
   6. **复制 Token**：保存后在页面中的 **Internal Integration Secret** 点击 **Show**，然后点击 **Copy**，得到以 `secret_` 或 `ntn_` 开头的字符串，这就是 `NOTION_ACCESS_TOKEN`！
-  7. **🔥【极关键步骤：给主页面授权连接】**：
+  7. **🔥【极关键步骤：给主页面授权连接（仅需 5 秒）】**：
      - 回到您的 Notion 博客模板主页面；
-     - 点击右上角的三个点 **`...`**；
-     - 找到 **Connect to (连接至)**（或 *Add connections*）；
-     - 搜索并选择刚才创建的集成 `Notion-Repo`，点击 **Confirm (确认)** 授权！*(若漏掉这步，网站将无法读写 Notion 数据)*。
+     - 点击右上角的三个点 **`···`** 展开菜单；
+     - 下滑找到 **`品 集成`**（英文版界面为 `Connect to`）；
+     - 点击 **`+ 添加连接`**，在列表中直接点击刚才创建的名称（例如 **`Notion-Repo`**）；
+     - 在弹出的窗口中点击蓝色的 **「添加到页面」** 即可！
+     
+     ![Notion 页面添加连接授权指引](/images/notion-connect-guide.png)
 
 ##### 4. `NOTION_SYNC_SECRET` 设定方法
 - **申请/获取入口**：**无需向任何平台申请**，由您自行定义的生产安全通信私钥。

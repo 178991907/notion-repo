@@ -126,10 +126,17 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
    - **申请直达链接**：👉 **[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)** *(备用：[https://www.notion.so/my-integrations](https://www.notion.so/my-integrations))*；
    - **申请步骤**：
      1. 点击 **「+ New integration」**（新建集成）；
-     2. Name 填 `Notion-Repo`，工作区选择您当前工作区，Type 保持 **Internal**（内部集成）；
+     2. Name 填 `Notion-Repo`（或任意名称，记好这个名称），工作区选择您当前工作区，Type 保持 **Internal**（内部集成）；
      3. 权限保持默认全选（Read/Update/Insert），点击 **Save**；
      4. 复制展示的 **Internal Integration Secret**（以 `secret_` 或 `ntn_` 开头），**此 Token 永久有效、永不过期**；
-     5. **🔥 重要必须操作**：返回 Notion 博客主页面，点击右上角三个点 **`...`** ➔ **Connect to**（连接至）➔ 搜索并授权您刚建的 `Notion-Repo` 集成！
+     5. **🔥 关键授权步骤（仅需 5 秒，解决评论、分类与会员库访问权限）**：
+        - 打开您的 Notion 博客主页面（即 `NOTION_PAGE_ID` 对应的页面）；
+        - 点击右上角的三个点 **`···`** 展开设置菜单；
+        - 下滑找到 **`品 集成`**（英文版界面为 `Connect to`）；
+        - 点击 **`+ 添加连接`**，直接点击您刚刚创建的名称（例如 **`Notion-Repo`**）；
+        - 在弹出的窗口中点击蓝色的 **「添加到页面」** 即可！
+        
+        ![Notion 页面添加连接授权指引](/images/notion-connect-guide.png)
 4. **`NOTION_SYNC_SECRET`（同步安全私钥）**：
    - **获取入口**：无需向第三方申请，由您自行定义的一串随机字符串（如 `sec_sync_notion_888`）。
    - **核心作用**：保护 `/api/sync` 同步端点，防止未授权恶意刷爆调用配额。

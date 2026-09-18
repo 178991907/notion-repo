@@ -151,10 +151,15 @@ export default function CategoryManagement() {
                 <p className="mt-1 text-xs text-amber-700 leading-relaxed">{notionError}</p>
                 <div className="mt-3 bg-white/70 border border-amber-200/60 rounded-lg p-3 text-xs text-amber-900 space-y-1">
                   <p className="font-semibold">💡 极速排查与自愈指引：</p>
-                  <p>1. 打开您的 Notion 博客根页面（NOTION_PAGE_ID 对应的页面）。</p>
-                  <p>2. 点击页面右上角的三个点 <strong>「···」</strong> ➔ 下拉找到 <strong>「Connect to (添加连接)」</strong>。</p>
-                  <p>3. 搜索并点击您在环境变量中使用的 <strong>Integration（集成名称）</strong> 进行授权。</p>
+                  <p>1. 打开您的 Notion 博客主页面（NOTION_PAGE_ID 对应的根页面）。</p>
+                  <p>2. 点击页面右上角三个点 <strong>「···」</strong> ➔ 下拉菜单中点击 <strong>「品 集成」</strong>（英文版为 <strong>Connect to</strong>）。</p>
+                  <p>3. 点击 <strong>「+ 添加连接」</strong>，选择您申请 Token 时填写的连接名称（例如 <code>Notion-Repo</code>），并点击蓝色的<strong>「添加到页面」</strong>确认授权。</p>
                   <p>4. 授权完成后，点击下方按钮重新检测即可立即拉取全量数据。</p>
+                  <div className="pt-1">
+                    <a href="/images/notion-connect-guide.png" target="_blank" rel="noopener noreferrer" className="underline inline-flex items-center gap-1 font-semibold text-blue-700 hover:text-blue-900">
+                      🖼️ 点击查看手把手操作指引截图
+                    </a>
+                  </div>
                 </div>
                 <div className="mt-3">
                   <button

@@ -51,9 +51,16 @@ Accelerate the time to deploy your websites and apps. Bring your integrations an
 2. **`ADMIN_PASSWORD`**：无需申请，由您自行构思并记牢，后续用于登录 `https://你的域名/admin` 控制台。
 3. **`NOTION_ACCESS_TOKEN`（官方内部集成 Token，永久有效）**：
    - 申请直达链接：👉 **[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)**
-   - 点击 **「+ New integration」**，名称填 `Notion-Repo`，工作区选择当前空间，类型保持 **Internal**（内部），点击 **Save**。
-   - 复制 **Internal Integration Secret**（以 `secret_` 或 `ntn_` 开头）。此 Secret **永久有效、永不过期**（切勿使用只有 1 年有效期的 PAT）。
-   - **🔥 必须操作**：返回 Notion 博客主页面，点击右上角 **`...`** ➔ **Connect to (连接至)** ➔ 搜索并授权该集成！
+   - 点击 **「+ New integration」**，名称填 `Notion-Repo`（或任意名字，记好），工作区选择当前空间，类型保持 **Internal**（内部），点击 **Save**。
+   - 复制 **Internal Integration Secret**（以 `secret_` 或 `ntn_` 开头）。此 Secret **永久有效、永不过期**。
+   - **🔥 关键授权步骤（仅需 5 秒，解决评论、分类与会员库访问权限）**：
+     - 打开您的 Notion 博客主页面（即 `NOTION_PAGE_ID` 对应的页面）；
+     - 点击页面右上角三个点 **`···`** 展开设置菜单；
+     - 下滑找到 **`品 集成`**（英文版为 `Connect to`）；
+     - 点击 **`+ 添加连接`**，直接点击刚才创建的名称（例如 **`Notion-Repo`**）；
+     - 在弹出的窗口中点击蓝色的 **「添加到页面」** 即可！
+     
+     ![Notion 页面添加连接授权指引](/images/notion-connect-guide.png)
 4. **`NOTION_SYNC_SECRET`**：无需申请，由您自行设定的随机字符串私钥（如 `sec_sync_myblog_2026`），保护同步接口。
 
 
