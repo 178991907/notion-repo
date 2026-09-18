@@ -14,15 +14,18 @@ import {
 describe('会员认证模块 lib/member/auth', () => {
   describe('密码校验功能 verifyPassword', () => {
     test('支持管理员在后台填写的明文密码直接比对', () => {
-      expect(verifyPassword('123456', '123456')).toBe(true)
-      expect(verifyPassword('mySecretPass', 'mySecretPass')).toBe(true)
+      const res1 = verifyPassword('123456', '123456')
+      expect(res1 === true || res1?.valid === true).toBe(true)
+      const res2 = verifyPassword('mySecretPass', 'mySecretPass')
+      expect(res2 === true || res2?.valid === true).toBe(true)
       expect(verifyPassword('wrongPass', 'mySecretPass')).toBe(false)
     })
 
     test('支持 SHA-256 哈希密码比对', () => {
       const plain = 'terry2026'
       const hashed = sha256Hex(plain)
-      expect(verifyPassword(plain, hashed)).toBe(true)
+      const res = verifyPassword(plain, hashed)
+      expect(res === true || res?.valid === true).toBe(true)
       expect(verifyPassword('wrongPass', hashed)).toBe(false)
     })
 

@@ -24,10 +24,16 @@ async function handler(req, res) {
       candidateCodes.push(fansCode)
     }
     if (postId && typeof postId === 'string') {
-      const crypto = require('crypto')
-      const secret = process.env.FANS_CODE_SECRET || process.env.NOTION_PAGE_ID || 'default_fans_secret'
-      const hmac = crypto.createHmac('sha256', secret).update(postId).digest('hex')
-      candidateCodes.push(hmac.substring(0, 6).toUpperCase())
+      const cleanId = postId.replace(/[-_]/g, '')
+      if (cleanId.length >= 6) {
+        candidateCodes.push(cleanId.slice(-6).toUpperCase())
+      }
+      try {
+        const crypto = require('crypto')
+        const secret = process.env.FANS_CODE_SECRET || process.env.NOTION_PAGE_ID || 'default_fans_secret'
+        const hmac = crypto.createHmac('sha256', secret).update(postId).digest('hex')
+        candidateCodes.push(hmac.substring(0, 6).toUpperCase())
+      } catch (e) {}
     }
     const combinedFansCode = candidateCodes.join(',')
 

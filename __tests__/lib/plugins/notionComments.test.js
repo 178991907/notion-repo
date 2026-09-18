@@ -44,6 +44,24 @@ describe('notionComments helpers', () => {
         website: 'https://spam.example'
       })
     ).toMatchObject({ ok: true, spam: true })
+
+    // 支持完全匿名评论（不填邮箱与昵称）
+    expect(
+      validateCommentPayload({
+        postId: 'post-1',
+        content: '这是完全匿名的评论',
+        author: '',
+        nickname: ''
+      })
+    ).toMatchObject({
+      ok: true,
+      value: {
+        postId: 'post-1',
+        content: '这是完全匿名的评论',
+        author: '',
+        nickname: '匿名网友'
+      }
+    })
   })
 
   test('formats Notion database pages', () => {

@@ -137,7 +137,7 @@ export default async function handler(req, res) {
     const notion = getClient()
     const dbId = await resolveCommentDatabaseId(notion)
     if (!dbId) {
-      return res.status(500).json({ error: '未探测到或无法自动创建 Notion 评论数据库，请检查 NOTION_TOKEN 权限' })
+      return res.status(400).json({ error: '未连接到 Notion 评论数据库。请确保已在 Notion 博客页面右上角通过「··· ➔ Connect to」授权您的集成。' })
     }
 
     if (validation.spam) {
@@ -151,6 +151,7 @@ export default async function handler(req, res) {
 
     const properties = await getDatabaseProperties(notion, dbId)
     const { postId, content, author, nickname, parentId } = validation.value
+    const finalNickname = nickname || '匿名网友'
     const level = (await getParentLevel(notion, parentId, postId)) + 1
     const status = requireApproval ? 'Pending' : PUBLIC_COMMENT_STATUS
     const pageProperties = {
@@ -159,19 +160,24 @@ export default async function handler(req, res) {
         rich_text: parentId ? [{ text: { content: parentId } }] : []
       },
       Content: { rich_text: [{ text: { content } }] },
-      Author: { email: author },
       Level: { number: level },
       IpAddress: {
         rich_text: [{ text: { content: ip } }]
       }
     }
 
-    if (nickname && hasProperty(properties, 'Nickname', 'rich_text')) {
-      pageProperties.Nickname = { rich_text: [{ text: { content: nickname } }] }
+    if (hasProperty(properties, 'Author', 'email')) {
+      pageProperties.Author = { email: author ? author : null }
+    } else if (hasProperty(properties, 'Author', 'rich_text')) {
+      pageProperties.Author = { rich_text: [{ text: { content: author || finalNickname } }] }
+    }
+
+    if (hasProperty(properties, 'Nickname', 'rich_text')) {
+      pageProperties.Nickname = { rich_text: [{ text: { content: finalNickname } }] }
     }
     if (hasProperty(properties, 'EmailHash', 'rich_text')) {
       pageProperties.EmailHash = {
-        rich_text: [{ text: { content: hashEmail(author) } }]
+        rich_text: author ? [{ text: { content: hashEmail(author) } }] : []
       }
     }
     if (hasProperty(properties, 'Status', 'select')) {
@@ -202,6 +208,8 @@ export default async function handler(req, res) {
     if (String(error?.message || '').includes('database') || String(error?.message || '').includes('object_not_found')) {
       global.__notionCommentDatabaseId = null
     }
-    return res.status(500).json({ error: '发表评论失败，请检查数据库权限或稍后重试' })
+    return res.status(400).json({
+      error: '发表评论失败 (' + (error.message || '未知错误') + ')。请确认已在 Notion 页面右上角通过「··· ➔ Connect to」授权您的集成。'
+    })
   }
 }

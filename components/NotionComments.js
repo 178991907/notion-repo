@@ -61,7 +61,7 @@ const NotionComments = ({ postId }) => {
 
   const submitComment = async event => {
     event.preventDefault()
-    if (!content.trim() || !author.trim() || submitting) return
+    if (!content.trim() || submitting) return
 
     setSubmitting(true)
     setError('')
@@ -73,25 +73,27 @@ const NotionComments = ({ postId }) => {
         body: JSON.stringify({
           postId,
           content,
-          author,
-          nickname,
+          author: author.trim(),
+          nickname: nickname.trim(),
           parentId: replyTo,
           website
         })
       })
-      if (!response.ok) throw new Error('Failed to submit comment')
-      const result = await response.json()
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(result.error || '评论提交失败')
+      }
       setContent('')
       setReplyTo('')
       setNotice(
-        result.pending ? '评论已提交，审核通过后显示。' : '评论已发布。'
+        result.pending ? '评论已提交，审核通过后显示。' : '评论已成功发布！'
       )
       if (replyTo) {
         setExpandedReplies(current => ({ ...current, [replyTo]: true }))
       }
       await loadComments()
     } catch (error) {
-      setError('评论提交失败，请稍后重试')
+      setError(error.message || '评论提交失败，请稍后重试')
     } finally {
       setSubmitting(false)
     }
@@ -251,21 +253,20 @@ const NotionComments = ({ postId }) => {
               className='min-w-0 rounded-md border border-gray-300 bg-transparent p-2 text-sm outline-none focus:border-blue-500 dark:border-gray-600'
               maxLength={40}
               onChange={event => setNickname(event.target.value)}
-              placeholder='昵称'
+              placeholder='昵称（选填，默认匿名网友）'
               value={nickname}
             />
             <input
               className='min-w-0 rounded-md border border-gray-300 bg-transparent p-2 text-sm outline-none focus:border-blue-500 dark:border-gray-600'
               maxLength={254}
               onChange={event => setAuthor(event.target.value)}
-              placeholder='邮箱，不会公开'
-              required
+              placeholder='邮箱（选填，用于接收回复）'
               type='email'
               value={author}
             />
             <button
               type='submit'
-              className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white disabled:opacity-60'
+              className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white disabled:opacity-60 cursor-pointer'
               disabled={submitting}
             >
               {submitting ? '提交中...' : replyTarget ? '回复' : '评论'}
