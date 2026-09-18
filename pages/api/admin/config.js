@@ -77,10 +77,11 @@ async function handleGet(req, res) {
   } catch (e) {}
 
   // 如果配置了 Notion 凭据，从 Notion 数据库配置中心拉取并合并最新真实配置（支持自动探测数据库）
-  if (NOTION_TOKEN) {
+  const token = getNotionToken()
+  if (token) {
     try {
       const { Client } = require('@notionhq/client')
-      const notion = new Client({ auth: NOTION_TOKEN })
+      const notion = new Client({ auth: token })
       const configDbId = await resolveConfigDatabaseId(notion)
       if (configDbId) {
         let cursor = undefined
@@ -517,8 +518,8 @@ async function syncConfigsToNotion(configs, token) {
     const isNullOrUndefined = value === null || value === undefined
     const strVal = (value !== null && typeof value === 'object')
       ? JSON.stringify(value)
-      : (isNullOrUndefined ? '' : String(value))
-    const targetEnable = !isNullOrUndefined
+      : (isNullOrUndefined ? '' : String(value).trim())
+    const targetEnable = !isNullOrUndefined && strVal !== ''
     const current = existingMap.get(key)
 
     // 如果 Notion 里已经存在且值和启用状态均一致，跳过无需重复写入
@@ -527,18 +528,18 @@ async function syncConfigsToNotion(configs, token) {
     }
 
     if (current) {
-      // 需要更新
+      // 需要更新：若 strVal 为空，合规传 [] 清空；若非空，传正常 text 对象，杜绝 400 Validation Error
       tasks.push(async () => {
         return notion.pages.update({
           page_id: current.id,
           properties: {
-            [current.valProp]: { rich_text: [{ text: { content: strVal } }] },
+            [current.valProp]: { rich_text: strVal ? [{ text: { content: strVal } }] : [] },
             [current.enableProp]: { checkbox: targetEnable }
           }
         })
       })
-    } else if (!isNullOrUndefined) {
-      // 仅当非空时需要新建
+    } else if (strVal) {
+      // 仅当非空时需要新建（避免将大量无用空字符串写入 Notion 导致 400 校验报错和性能下降）
       tasks.push(async () => {
         return notion.pages.create({
           parent: { database_id: configDbId },

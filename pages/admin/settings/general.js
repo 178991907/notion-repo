@@ -78,7 +78,7 @@ export default function GeneralSettings() {
 
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type })
-    setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 3000)
+    setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 4000)
   }
 
   const handleSave = async () => {
