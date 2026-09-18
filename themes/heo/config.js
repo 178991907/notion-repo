@@ -2,11 +2,13 @@ const CONFIG = {
   HEO_HOME_POST_TWO_COLS: true, // 首页博客两列显示，若为false则只显示一列
   HEO_LOADING_COVER: true, // 页面加载的遮罩动画
 
-  HEO_LOGO_IMAGE: "", // 自定义顶栏 Logo 图标图片 URL，留空则默认使用 Notion Icon / 文字 Logo
+  HEO_LOGO_IMAGE: process.env.NEXT_PUBLIC_HEO_LOGO_IMAGE || 'https://pic1.imgdb.cn/i/0IzCmnOthDxDueTFUMQ1Hm.png', // 自定义顶栏 Logo 图标图片 URL
   HEO_LOGO_SHOW_ICON: true, // 是否在顶栏左侧显示 Logo 图标图片
   HEO_LOGO_SIZE: 38, // 顶栏 Logo 图标像素大小（默认 38px）
+  HEO_INFO_CARD_AVATAR: process.env.NEXT_PUBLIC_HEO_INFO_CARD_AVATAR || 'https://pic1.imgdb.cn/i/0IzCmnOthDxDueTFUMQ1Hm.png', // 侧边栏资料卡站长头像
 
   HEO_INFO_CARD_AVATAR_BLUR: false, // 文章详情页个人资料卡头像样式。true：显示为模糊装饰头像；false：与首页头像保持一致（默认显示清晰头像）
+
 
   HEO_COLOR_PRIMARY: '#4f65f0',
   HEO_COLOR_PRIMARY_HOVER: '#4f46e5',

@@ -17,12 +17,14 @@ const BLOG = {
   APPEARANCE_DARK_TIME: process.env.NEXT_PUBLIC_APPEARANCE_DARK_TIME || [18, 6], // 夜间模式起至时间，false时关闭根据时间自动切换夜间模式
 
   AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || '站长', // 您的昵称 例如 tangly1024
+  AVATAR: process.env.NEXT_PUBLIC_AVATAR || 'https://pic1.imgdb.cn/i/0IzCmnOthDxDueTFUMQ1Hm.png', // 站长默认头像与品牌 LOGO
   BIO: process.env.NEXT_PUBLIC_BIO || '基于 Notion 的个人知识库与博客', // 作者简介
   LINK: process.env.NEXT_PUBLIC_LINK || 'https://your-domain.com/', // 网站地址
   KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || 'Notion, 博客, 知识库', // 网站关键词 英文逗号隔开
-  BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || '/favicon.ico', // blog favicon 配置，默认使用本地 /favicon.ico，支持在后台或 Notion 配置自定义图片
+  BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || 'https://pic1.imgdb.cn/i/0IzCmnOthDxDueTFUMQ1Hm.png', // blog favicon 配置
   HOME_BANNER_IMAGE:
     process.env.NEXT_PUBLIC_HOME_BANNER_IMAGE || '', // 默认站点与文章封面图，留空则使用主题默认预设背景或 Notion 页面封面
+
   PWA_ENABLE: process.env.NEXT_PUBLIC_PWA_ENABLE || false, // 是否启用 PWA 安装入口；也可在 Notion_Config 中配置 PWA_ENABLE=true
   PWA_NAME: process.env.NEXT_PUBLIC_PWA_NAME || '', // PWA 安装名称；默认读取站点标题，通常无需单独配置
   PWA_SHORT_NAME: process.env.NEXT_PUBLIC_PWA_SHORT_NAME || '', // PWA 短名称；默认读取站点标题，通常无需单独配置
