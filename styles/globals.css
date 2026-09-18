@@ -299,3 +299,17 @@ img {
   @keyframes l1 {
   0% {background-position: right}
 }
+
+/* 彻底隐藏部署平台注入的第三方浮动水印与徽章（如 Netlify Badge 等） */
+iframe[title*="Netlify"],
+iframe[src*="netlify"],
+netlify-drawer,
+#netlify-badge,
+[data-netlify-badge],
+.netlify-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
