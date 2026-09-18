@@ -9,6 +9,8 @@ module.exports = {
   // NotionComments: use a Notion database as comment storage (开箱即用，默认开启)
   COMMENT_NOTION_ENABLE:
     process.env.NEXT_PUBLIC_COMMENT_NOTION_ENABLE !== 'false', // 默认开启 Notion 原生评论，免第三方平台注册，数据 100% 留存在站长自己的 Notion 中实现天然隔离
+  NOTION_COMMENT_DATABASE_ID:
+    process.env.NOTION_COMMENT_DATABASE_ID || '3df01bb0-e99b-8141-8f7c-f245034c1ac0',
 
   // artalk 评论插件
   COMMENT_ARTALK_SERVER: process.env.NEXT_PUBLIC_COMMENT_ARTALK_SERVER || '', // ArtalkServert后端地址 https://artalk.js.org/guide/deploy.html
