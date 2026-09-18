@@ -358,7 +358,8 @@ graph LR
 ### 第一步：准备专属 Notion 数据源（一键复刻母版）
 
 1. **访问官方专属全功能母版页面**：
-   - 打开官方专属全功能博客母版：👉 **[Notion-Repo 官方全功能母版](https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9)**；
+   - 打开官方专属全功能博客母版：👉 **[Notion-Repo 官方全功能母版](https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd)**；
+   - 或直接访问核心数据库母版：👉 **[Notion-Repo 核心数据库页面](https://www.notion.so/3dce78c0e8d4812598f8e90892c4c95e)**；
    - 该母版内置了核心博客数据库、系统底层数据存储（读者评论、会员专区、邀请码核销）及 VIP/SVIP 权限体系。
 2. **点击复刻 (Duplicate)**：
    - 在打开的 Notion 页面右上角，直接点击 **`Duplicate (复制)`** 按钮，将母版完整复刻至您自己的 Notion 个人工作区。
@@ -372,8 +373,8 @@ graph LR
 4. **提取核心数据库 32 位 ID (`NOTION_PAGE_ID`)**：
    - 在您复制好的页面右上角点击 **Copy link (复制链接)**；
    - 从链接中提取连续 32 位字符（不含横杠与问号参数）。例如链接形式为：
-     `https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9?v=...`
-     其中 `0cd01bb0e99b8291a10b0145736862b9` 即为您的核心数据库 ID（`NOTION_PAGE_ID`），请妥善复制备用。
+     `https://www.notion.so/3dce78c0e8d4812598f8e90892c4c95e?v=...`
+     其中 `3dce78c0e8d4812598f8e90892c4c95e` 即为您的核心数据库 ID（`NOTION_PAGE_ID`），请妥善复制备用。
 
 ---
 
@@ -402,7 +403,7 @@ graph LR
 
    | 环境变量名 (Name) | 申请/获取入口 | 是否必填 | 示例与推荐值 | 作用与说明 |
    | :--- | :--- | :---: | :--- | :--- |
-   | **`NOTION_PAGE_ID`** | [复制自您的 Notion 页面](#-四大核心环境变量获取与申请直达) | **必填** | `0cd01bb0e99b8291a10b0145736862b9` | **数据源**：第一步提取的 32 位核心 Notion 数据库 ID |
+   | **`NOTION_PAGE_ID`** | [复制自您的 Notion 页面](#-四大核心环境变量获取与申请直达) | **必填** | `3dce78c0e8d4812598f8e90892c4c95e` | **数据源**：第一步提取的 32 位核心 Notion 数据库 ID |
    | **`ADMIN_PASSWORD`** | [自行设定](#-四大核心环境变量获取与申请直达) | **必填** | 自定义如 `admin888` | **后台权限**：可视化管理控制台（`/admin`）的超级登录密码 |
    | **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](https://www.notion.so/profile/integrations) | **核心必填** | `ntn_...` 或 `secret_...` | **双向通信核心**：Notion 官方内部集成 Token（**永久有效、永不过期**），驱动暗号自动生成、会员注册与后台数据实时写回。**不配此项将导致会员与数据回写功能完全报错失效！** |
    | **`NOTION_SYNC_SECRET`** | [自行设定](#-四大核心环境变量获取与申请直达) | **核心必填** | 自定义高强度字符串 | **云端安全防刷**：保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境未配置此项将直接被系统安全拦截并报错 `403 Forbidden`！** |

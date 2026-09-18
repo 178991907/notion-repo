@@ -32,7 +32,7 @@ graph LR
 ### 1. 复制官方专属纯净增强母版 (Duplicate)
 1. 打开并登录您的 [Notion 账号](https://www.notion.so/)（若无账号可免费注册）；
 2. 访问官方推荐的专属纯净增强母版：
-   👉 **[Notion-Repo 官方全功能母版](https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9)**
+   👉 **[Notion-Repo 官方全功能母版](https://www.notion.so/3dce78c0e8d481af9ac5eb92016756dd)**
 3. 在打开的 Notion 页面右上角，点击 **Duplicate (复制)** 按钮，将母版（含全套建站指引、系统数据存储与核心数据库）完整复刻到您自己的个人 Notion 工作区中。
 
 ### 2. 开启公开网页分享 (Publish to web)
@@ -50,10 +50,10 @@ graph LR
 
 - **链接格式示例**：
   ```text
-  https://www.notion.so/0cd01bb0e99b8291a10b0145736862b9?v=...
+  https://www.notion.so/3dce78c0e8d4812598f8e90892c4c95e?v=...
   ```
   此时位于链接中间由纯数字与小写字母组成的 **连续 32 位字符** 即为核心数据库 ID：
-  👉 `0cd01bb0e99b8291a10b0145736862b9`
+  👉 `3dce78c0e8d4812598f8e90892c4c95e`
 
 > [!WARNING]
 > **避坑提醒**：只复制这 32 位的纯字符串！**切勿包含 `?v=`、`?pvs=4` 及其后面的任何多余字符**。请将这串 32 位 ID 妥善暂存，下一步将用到。
@@ -115,8 +115,8 @@ graph LR
   2. 点击右上角 **Share (分享)** ➔ 切换到 **Publish (发布)** ➔ 确保开启 **Publish to web (发布到网络)**；
   3. 点击右上角 **Copy link (复制链接)**（或直接复制浏览器地址栏中的网址）；
   4. 从复制的链接中提取 32 位字符串：
-     - 例如链接为：`https://www.notion.so/username/0cd01bb0e99b8291a10b0145736862b9?v=...`
-     - 提取其中的纯 32 位字母数字部分：`0cd01bb0e99b8291a10b0145736862b9`。
+     - 例如链接为：`https://www.notion.so/username/3dce78c0e8d4812598f8e90892c4c95e?v=...`
+     - 提取其中的纯 32 位字母数字部分：`3dce78c0e8d4812598f8e90892c4c95e`。
 - ⚠️ **避坑提醒**：切勿复制 `?v=` 或 `?pvs=4` 等问号及其后面的参数，仅需 32 位纯字符！
 
 ##### 2. `ADMIN_PASSWORD` 设定方法
