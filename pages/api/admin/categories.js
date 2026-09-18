@@ -22,7 +22,11 @@ async function handler(req, res) {
 
   const { token, databaseId } = getNotionCredentials()
   if (!token || !databaseId) {
-    return res.status(400).json({ error: "未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_PAGE_ID" })
+    return res.status(400).json({
+      success: false,
+      error: "未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_PAGE_ID",
+      message: "未配置环境变量 NOTION_ACCESS_TOKEN 或 NOTION_PAGE_ID。请在部署平台（如 Netlify / Vercel）的环境变量中补充配置并重新部署。"
+    })
   }
 
   if (req.method === "GET") {

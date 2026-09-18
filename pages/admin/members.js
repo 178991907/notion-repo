@@ -56,6 +56,7 @@ export default function AdminMembers() {
   // 复制提示
   const [copiedCode, setCopiedCode] = useState(null)
   const [initializingDb, setInitializingDb] = useState(false)
+  const [notionError, setNotionError] = useState(null)
 
   const showToast = (type, message) => {
     setToast({ type, message })
@@ -74,9 +75,13 @@ export default function AdminMembers() {
       const data = await res.json()
       if (data.success) {
         showToast('success', data.message || '🎉 成功初始化会员与邀请码数据库！')
+        setNotionError(null)
         await fetchData()
       } else {
         showToast('error', data.message || '初始化数据库失败')
+        if (data.needSetup || data.message) {
+          setNotionError(data.message)
+        }
       }
     } catch (err) {
       showToast('error', '初始化异常: ' + err.message)
@@ -98,6 +103,7 @@ export default function AdminMembers() {
       if (data.success) {
         setMembers(data.members || [])
         setInviteCodes(data.inviteCodes || [])
+        setNotionError(null)
         if (data.fansConfig) {
           setFansConfig({
             defaultPasscode: data.fansConfig.defaultPasscode || '888888',
@@ -105,11 +111,13 @@ export default function AdminMembers() {
           })
         }
       } else {
-        showToast('error', data.message || '加载数据失败')
+        if (data.needSetup || data.message) {
+          setNotionError(data.message)
+        }
       }
     } catch (err) {
       console.error(err)
-      showToast('error', '请求发生异常')
+      setNotionError('请求发生网络异常: ' + err.message)
     } finally {
       setLoading(false)
     }
@@ -367,6 +375,41 @@ export default function AdminMembers() {
 
       {/* 主体内容 */}
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {/* Notion 未授权自愈指引卡片 */}
+        {notionError && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 text-amber-900 shadow-sm mb-6">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 mt-0.5 text-2xl mr-3">⚠️</div>
+              <div className="flex-1">
+                <h3 className="text-sm font-bold text-amber-800">Notion 数据库未完成连接授权</h3>
+                <p className="mt-1 text-xs text-amber-700 leading-relaxed">{notionError}</p>
+                <div className="mt-3 bg-white/70 border border-amber-200/60 rounded-lg p-3 text-xs text-amber-900 space-y-1">
+                  <p className="font-semibold">💡 极速排查与自愈指引：</p>
+                  <p>1. 打开您的 Notion 博客根页面（NOTION_PAGE_ID 对应的页面）。</p>
+                  <p>2. 点击页面右上角的三个点 <strong>「···」</strong> ➔ 下拉找到 <strong>「Connect to (添加连接)」</strong>。</p>
+                  <p>3. 搜索并点击您在环境变量中使用的 <strong>Integration（集成名称）</strong> 进行授权。</p>
+                  <p>4. 授权完成后，点击下方按钮一键初始化数据库或拉取全量数据。</p>
+                </div>
+                <div className="mt-3 flex gap-3">
+                  <button
+                    onClick={() => { void handleInitDatabases() }}
+                    disabled={initializingDb}
+                    className="inline-flex items-center px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-md text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                  >
+                    {initializingDb ? '⏳ 正在初始化...' : '🛠️ 一键在 Notion 初始化会员库'}
+                  </button>
+                  <button
+                    onClick={() => { void fetchData() }}
+                    className="inline-flex items-center px-3 py-1.5 bg-white hover:bg-gray-50 border border-amber-300 text-amber-900 rounded-md text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                  >
+                    🔄 重新检测授权与拉取数据
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* 数据总览卡片 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
           <div className="bg-white rounded-2xl shadow-xs p-5 border border-gray-100 flex items-center justify-between">

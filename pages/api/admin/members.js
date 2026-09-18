@@ -211,7 +211,14 @@ async function handler(req, res) {
       return res.status(400).json({ success: false, message: '未知的操作类型' })
     } catch (error) {
       console.error('[AdminMembersAPI] 操作失败:', error)
-      return res.status(500).json({ success: false, message: error.message })
+      const isNotionAuth = error.message?.includes('unauthorized') || 
+                           error.message?.includes('API token is invalid') || 
+                           error.message?.includes('Could not find') || 
+                           error.message?.includes('object_not_found')
+      const message = isNotionAuth
+        ? `操作失败：未连接到 Notion 或权限不足。请检查：1. 是否已在 Notion 博客页面右上角通过「··· ➔ Connect to」授权您的集成；2. 环境变量 NOTION_ACCESS_TOKEN 是否正确。(${error.message})`
+        : (error.message || '操作失败')
+      return res.status(400).json({ success: false, needSetup: true, message })
     }
   }
 
