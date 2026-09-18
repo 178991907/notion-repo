@@ -79,6 +79,27 @@ describe('Notion 配置中心自动探测机制 (Auto-Discovery)', () => {
     const id = await resolveConfigDatabaseId(mockClient)
     expect(id).toBe('')
   })
+
+  it('6. 自动建库自愈：未搜索到现成配置库且具备建库接口时，自动在根页面下创建配置中心数据库并返回新 ID', async () => {
+    process.env.NOTION_PAGE_ID = 'test-page-id-123456'
+    const mockClient = {
+      search: jest.fn().mockResolvedValue({ results: [] }),
+      pages: {
+        retrieve: jest.fn().mockResolvedValue({ id: 'test-page-id-123456' })
+      },
+      databases: {
+        create: jest.fn().mockResolvedValue({
+          id: 'auto-created-config-db-999',
+          title: [{ plain_text: '⚙️ 网站全局配置中心 (CONFIG-TABLE)' }]
+        })
+      }
+    }
+    const id = await resolveConfigDatabaseId(mockClient)
+    expect(id).toBe('auto-created-config-db-999')
+    expect(mockClient.databases.create).toHaveBeenCalledTimes(1)
+    expect(global.__notionConfigDatabaseId).toBe('auto-created-config-db-999')
+    delete process.env.NOTION_PAGE_ID
+  })
 })
 
 import { resolvePostDatabaseId } from '@/lib/db/notion/postDatabaseResolver'

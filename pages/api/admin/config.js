@@ -1,5 +1,19 @@
 import BLOG from '@/blog.config'
 import { verifyRequestToken } from '@/lib/admin/auth'
+import { resolveMountPageId } from '@/lib/plugins/notionCommentsResolver'
+
+/**
+ * 动态安全获取 Notion 官方 API Token
+ * @returns {string}
+ */
+export function getNotionToken() {
+  return (
+    process.env.NOTION_API_TOKEN ||
+    process.env.NOTION_ACCESS_TOKEN ||
+    process.env.NOTION_TOKEN ||
+    ''
+  ).trim()
+}
 
 /**
  * 管理后台配置读写 API
@@ -211,14 +225,15 @@ async function handlePost(req, res) {
   }
 
   let persistedToNotion = false
+  const token = getNotionToken()
   // 云端持久化：并发快速将配置同步写入 Notion 数据库（限制最大执行时间防超时）
   try {
-    if (NOTION_TOKEN) {
-      const syncPromise = syncConfigsToNotion(configs)
-      // 设置 8 秒超时保护，防止 Serverless 触发 10 秒硬限制
+    if (token) {
+      const syncPromise = syncConfigsToNotion(configs, token)
+      // 设置 9 秒超时保护，防止 Serverless 触发 10 秒硬限制
       const syncResult = await Promise.race([
         syncPromise,
-        new Promise(resolve => setTimeout(() => resolve(false), 8000))
+        new Promise(resolve => setTimeout(() => resolve(false), 9000))
       ])
       if (syncResult === true) {
         persistedToNotion = true
@@ -255,11 +270,11 @@ async function handlePost(req, res) {
   const isVercel = Boolean(process.env.VERCEL)
   let saveMsg = '配置已在当前实例实时生效！'
   if (persistedToNotion) {
-    saveMsg = '配置已成功保存并同步至您的 Notion 数据库（云端持久化已接通），永久生效！'
+    saveMsg = '🎉 配置已成功保存并同步至您的 Notion 数据库（云端持久化已接通），永久生效！'
   } else if (persistedLocally && !isVercel) {
     saveMsg = '配置已成功保存至本地文件，实时生效！'
   } else if (isVercel) {
-    saveMsg = '配置已在当前实例生效！提示：当前在 Vercel 生产环境且未检测到 Notion 配置中心，建议确保 Notion 授权并包含 CONFIG-TABLE。'
+    saveMsg = '配置已在当前实例生效！提示：当前在 Vercel 生产环境，未检测到 Notion 配置中心或 Token 未配置，建议检查 Notion 授权。'
   }
 
   return res.status(200).json({
@@ -268,18 +283,60 @@ async function handlePost(req, res) {
     applied,
     persistedLocally,
     persistedToNotion,
-    notionSyncEnabled: Boolean(NOTION_TOKEN),
+    notionSyncEnabled: Boolean(token),
     configsForNotion
   })
 }
 
-const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ''
+export const NOTION_TOKEN = getNotionToken()
+
+/**
+ * 全自动在挂载页面下创建标准结构的配置中心数据库 (CONFIG-TABLE)
+ * @param {object} client Notion SDK 客户端
+ * @param {string} rootPageId 根页面 ID
+ * @returns {Promise<string|null>}
+ */
+export async function autoCreateConfigDatabase(client, rootPageId) {
+  const cleanRootPageId = (rootPageId || process.env.NOTION_PAGE_ID || '').replace(/-/g, '').trim()
+  if (!cleanRootPageId || !client?.databases?.create) {
+    return null
+  }
+  try {
+    const targetParentId = (await resolveMountPageId(client, cleanRootPageId)) || cleanRootPageId
+    console.log(`[ConfigNotion] 🚀 正在挂载页面 ${targetParentId} 下全自动创建网站配置中心数据库...`)
+    const newDb = await client.databases.create({
+      parent: { page_id: targetParentId },
+      title: [{ type: 'text', text: { content: '⚙️ 网站全局配置中心 (CONFIG-TABLE)' } }],
+      properties: {
+        '配置名': { title: {} },
+        '配置值': { rich_text: {} },
+        '启用': { checkbox: {} },
+        '说明': { rich_text: {} }
+      }
+    })
+
+    if (newDb && newDb.id) {
+      console.log(`[ConfigNotion] 🎉 成功全自动创建 Notion 网站全局配置中心数据库: ${newDb.id}`)
+      global.__notionConfigDatabaseId = newDb.id
+      global.__notionConfigDatabaseMeta = {
+        id: newDb.id,
+        titleProp: '配置名'
+      }
+      return newDb.id
+    }
+  } catch (err) {
+    console.warn('[ConfigNotion] 自动创建配置中心数据库异常:', err.message || err)
+  }
+  return null
+}
 
 /**
  * 智能自动解析并获取配置中心数据库 ID (Auto-Discovery)
  * 1. 优先读取环境变量 NOTION_CONFIG_DB_ID
  * 2. 其次读取进程内全局缓存 global.__notionConfigDatabaseId
- * 3. 智能探测：调用 Notion 官方检索接口，自动匹配 CONFIG-TABLE 或包含「配置」的数据库
+ * 3. 挂载页面毫秒级穿透探测
+ * 4. 全局探测：调用 Notion 官方检索接口，自动匹配 CONFIG-TABLE 或包含「配置」的数据库
+ * 5. 自愈机制：若均未找到，全自动在合法挂载页面下创建标准配置中心数据库
  */
 export async function resolveConfigDatabaseId(notionClient) {
   // 1. 环境变量优先
@@ -297,41 +354,74 @@ export async function resolveConfigDatabaseId(notionClient) {
     return ''
   }
 
-  try {
-    // 3. 智能自动探测
-    const searchRes = await notionClient.search({
-      filter: { value: 'database', property: 'object' },
-      page_size: 100
-    })
+  const cleanRootPageId = (process.env.NOTION_PAGE_ID || '').replace(/-/g, '').trim()
 
-    const databases = searchRes.results || []
-
-    // 规则 A：精准匹配标题为 CONFIG-TABLE / Config-Table 的数据库
-    let target = databases.find(db => {
-      const title = db.title?.[0]?.plain_text || ''
-      return /^(CONFIG-TABLE|Config-Table)$/i.test(title.trim())
-    })
-
-    // 规则 B：模糊匹配标题包含「CONFIG」或「配置」且具备配置字段的数据库
-    if (!target) {
-      target = databases.find(db => {
-        const title = db.title?.[0]?.plain_text || ''
-        const hasKey = db.properties && (db.properties['配置名'] || db.properties['Name'])
-        return /(CONFIG|配置)/i.test(title.trim()) && hasKey
-      })
-    }
-
-    if (target && target.id) {
-      console.log(`[Auto-Discovery] ✅ 成功自动探测并关联 Notion 配置中心: ${target.id} (${target.title?.[0]?.plain_text || ''})`)
-      global.__notionConfigDatabaseId = target.id
-      global.__notionConfigDatabaseMeta = {
-        id: target.id,
-        titleProp: (target.properties && target.properties['配置名']) ? '配置名' : 'Name'
+  // 3. 挂载页面毫秒级穿透检索探测
+  if (cleanRootPageId && notionClient.blocks?.children?.list) {
+    try {
+      const mountPageId = await resolveMountPageId(notionClient, cleanRootPageId)
+      if (mountPageId) {
+        const blocksRes = await notionClient.blocks.children.list({ block_id: mountPageId })
+        const childDbs = (blocksRes.results || []).filter(b => b.type === 'child_database')
+        const matched = childDbs.find(b => /(CONFIG-TABLE|Config-Table|配置)/i.test(b.child_database?.title || ''))
+        if (matched && matched.id) {
+          console.log(`[ConfigNotion] ✅ 挂载页面穿透定位到配置中心数据库: ${matched.id}`)
+          global.__notionConfigDatabaseId = matched.id
+          global.__notionConfigDatabaseMeta = {
+            id: matched.id,
+            titleProp: '配置名'
+          }
+          return matched.id
+        }
       }
-      return target.id
+    } catch (e) {
+      console.warn('[ConfigNotion] 挂载页面穿透探测配置中心异常:', e.message)
     }
-  } catch (err) {
-    console.warn('[Auto-Discovery] 自动探测 Notion 配置数据库异常:', err.message)
+  }
+
+  // 4. 全局检索探测
+  if (notionClient.search) {
+    try {
+      const searchRes = await notionClient.search({
+        filter: { value: 'database', property: 'object' },
+        page_size: 100
+      })
+
+      const databases = searchRes.results || []
+
+      // 规则 A：精准匹配标题为 CONFIG-TABLE / Config-Table 的数据库
+      let target = databases.find(db => {
+        const title = db.title?.[0]?.plain_text || ''
+        return /^(CONFIG-TABLE|Config-Table)$/i.test(title.trim())
+      })
+
+      // 规则 B：模糊匹配标题包含「CONFIG」或「配置」且具备配置字段的数据库
+      if (!target) {
+        target = databases.find(db => {
+          const title = db.title?.[0]?.plain_text || ''
+          const hasKey = db.properties && (db.properties['配置名'] || db.properties['Name'])
+          return /(CONFIG|配置)/i.test(title.trim()) && hasKey
+        })
+      }
+
+      if (target && target.id) {
+        console.log(`[Auto-Discovery] ✅ 成功自动探测并关联 Notion 配置中心: ${target.id} (${target.title?.[0]?.plain_text || ''})`)
+        global.__notionConfigDatabaseId = target.id
+        global.__notionConfigDatabaseMeta = {
+          id: target.id,
+          titleProp: (target.properties && target.properties['配置名']) ? '配置名' : 'Name'
+        }
+        return target.id
+      }
+    } catch (err) {
+      console.warn('[Auto-Discovery] 自动探测 Notion 配置数据库异常:', err.message)
+    }
+  }
+
+  // 5. 全自动建库自愈机制
+  if (cleanRootPageId && notionClient?.databases?.create) {
+    const createdId = await autoCreateConfigDatabase(notionClient, cleanRootPageId)
+    if (createdId) return createdId
   }
 
   return ''
@@ -340,12 +430,13 @@ export async function resolveConfigDatabaseId(notionClient) {
 /**
  * 高并发将配置更新写入 Notion 数据库的 CONFIG-TABLE
  */
-async function syncConfigsToNotion(configs) {
-  if (!NOTION_TOKEN || !Array.isArray(configs) || configs.length === 0) {
+async function syncConfigsToNotion(configs, token) {
+  const authToken = token || getNotionToken()
+  if (!authToken || !Array.isArray(configs) || configs.length === 0) {
     return false
   }
   const { Client } = require('@notionhq/client')
-  const notion = new Client({ auth: NOTION_TOKEN })
+  const notion = new Client({ auth: authToken })
 
   const configDbId = await resolveConfigDatabaseId(notion)
   if (!configDbId) {
