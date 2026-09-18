@@ -28,32 +28,48 @@ yarn build
 创建 `.env.local` 文件并配置必要的环境变量：
 
 ```bash
-# 必需配置
+# 核心必需配置
 NOTION_PAGE_ID=your-notion-page-id
+ADMIN_PASSWORD=your-secure-admin-password
 
-# 推荐配置
+# 企业级安全密钥配置 (推荐)
+ADMIN_SECRET=your-random-admin-jwt-secret-key        # 后台 JWT 签名私钥
+MEMBER_AUTH_SECRET=your-random-member-jwt-secret     # 会员系统 JWT 签名私钥
+CRON_SECRET=your-random-cron-secret                  # Vercel Cron 定时任务鉴权私钥
+FANS_CODE_SECRET=your-random-fans-code-secret        # 粉丝暗号 HMAC 签名私钥
+
+# 推荐外观与元数据配置
+NEXT_PUBLIC_THEME=heo
 NEXT_PUBLIC_TITLE=你的博客标题
 NEXT_PUBLIC_DESCRIPTION=你的博客描述
 NEXT_PUBLIC_AUTHOR=作者名称
 NEXT_PUBLIC_LINK=https://yourdomain.com
 
-# 可选配置
+# 评论与第三方后端代理配置 (服务端私密使用，杜绝前端泄露)
+COMMENT_GITALK_CLIENT_SECRET=ghs_your_github_app_secret
+NOTION_API_TOKEN=ntn_your_official_integration_token
+
+# 可选缓存与分析配置
 REDIS_URL=redis://localhost:6379
 NEXT_PUBLIC_ANALYTICS_GOOGLE_ID=G-XXXXXXXXXX
 ```
 
-### 2. 构建测试
+### 2. 构建与安全测试验证
 
-在部署前确保项目能够正常构建：
+在部署前确保项目能够正常构建并通过安全回归测试：
 
 ```bash
+# 1. 运行企业级自动化安全回归测试套件 (20 项全用例保障)
+npm test __tests__/security/
+
+# 2. 生产环境构建与启动验证
 yarn build
 yarn start
 ```
 
 ### 3. 质量检查
 
-运行完整的质量检查：
+运行完整的代码质量检查：
 
 ```bash
 yarn quality
@@ -70,9 +86,13 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
    - 使用 GitHub 账号登录
    - 导入你的 Notion Repo 仓库
 
-2. **配置环境变量**
-   - 在 Vercel 项目设置中添加环境变量
-   - 至少需要配置 `NOTION_PAGE_ID`
+2. **配置核心环境变量（四大建站基石）**
+   - 在 Vercel 项目设置（Environment Variables）中添加 4 个核心关键变量（缺一不可，否则涉及 Notion 回写与同步会报错）：
+     - `NOTION_PAGE_ID`: 你的 32 位 Notion 根页面 ID（数据源）
+     - `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码
+     - `NOTION_ACCESS_TOKEN`: 官方 Integration Token（驱动暗号自动回写、VIP 联动与会员数据持久化）
+     - `NOTION_SYNC_SECRET`: 生产环境安全密钥（保护 Webhook 与 Cron 定时巡检，防 403 阻断）
+   - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`)*
 
 3. **部署**
    - Vercel 会自动检测 Next.js 项目
@@ -329,11 +349,17 @@ volumes:
 docker build -t notionnext .
 
 # 运行容器
-docker run -p 3000:3000 -e NOTION_PAGE_ID=your-id notionnext
+docker run -p 3000:3000 -e NOTION_PAGE_ID=your-id -e ADMIN_PASSWORD=your-pass notionnext
 
 # 使用 Docker Compose
 docker-compose up -d
 ```
+
+### 容器安全基线保障 (v4.21.0 Enterprise Baseline)
+- **非特权用户运行**：Dockerfile 生产阶段默认创建并切换为 `nextjs:nodejs`（UID/GID 1001）普通账号，避免容器逃逸与 root 权限滥用。
+- **构建上下文脱敏**：项目根目录 `.dockerignore` 预设了严密过滤规则，彻底排除 `.env*` 真实密钥、`.git` 版本历史、测试脚本及私钥证书打包进镜像。
+- **自动健康探针**：容器内置 `HEALTHCHECK`（每 30 秒轮询），智能检测 Node.js 实例活性。
+- **遥测数据禁用**：默认内置 `ENV NEXT_TELEMETRY_DISABLED 1`，保护内网部署隐私。
 
 ## 静态导出部署
 

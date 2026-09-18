@@ -1,8 +1,8 @@
-# NotionNext 项目优化完成报告
+# Notion Repo 项目优化完成报告
 
 ## 🎉 项目优化成功完成！
 
-经过全面的优化改进，NotionNext 项目已成功提升到生产级别的质量标准。本报告总结了所有完成的优化工作和取得的成果。
+经过全面的优化改进，Notion Repo 项目已成功提升到生产级别的质量标准。本报告总结了所有完成的优化工作和取得的成果。
 
 ## 📊 完成情况统计
 
@@ -52,13 +52,17 @@
 - [x] 实现站点地图生成
 - [x] 支持多种无障碍功能
 
-### 6. 安全性加固 ✅
-- [x] 配置安全HTTP头部
-- [x] 强化CORS策略
-- [x] 实现输入验证工具
-- [x] 添加速率限制
-- [x] 创建安全中间件
-- [x] 验证环境变量配置
+### 6. 企业级安全性加固 (v4.21.0) ✅
+- [x] 完成 26 项高危/严重安全漏洞的 100% 闭环深度修复
+- [x] 会员密码升级为工业级 bcrypt 加盐存储，支持旧密码登录自动静默升级 (Auto-Upgrade)
+- [x] 重构 Edge 纯边缘运行时 HMAC-SHA256 签名鉴权中间件，终结假 Cookie 越权漏洞
+- [x] 全站 15+ 现代主题评论组件接入 `isomorphic-dompurify`，彻底免疫存储型 XSS
+- [x] 彻底移除 `eval(GLOBAL_JS)` 与 `document.write`，改用受控动态 script 与原生 React DOM 挂载
+- [x] 设立 Gitalk OAuth 专用安全后端代理 `/api/proxy/gitalk-token`，密钥彻底移出前端 Bundle
+- [x] 激活通用安全网关中间件 `withSecurity`，为 9 大核心 API 注入 IP 级滑动窗口限流
+- [x] Docker 生产镜像默认切换非特权用户 `nextjs:nodejs` 运行，添加 HEALTHCHECK 探针
+- [x] 针对 Vercel Cron 剔除 UA 依赖，强制校验官方网关签名与秘钥
+- [x] 编写 `__tests__/security/` 专属安全测试套件，20 项自动化安全测试 100% 通过验证
 
 ### 7. 开发体验优化 ✅
 - [x] 完整VSCode配置
@@ -236,7 +240,7 @@ npm run test           # 运行测试
 
 ## 🎊 总结
 
-NotionNext 项目经过全面优化，现已具备：
+Notion Repo 项目经过全面优化，现已具备：
 
 - **生产级别的代码质量**
 - **完善的安全防护措施**

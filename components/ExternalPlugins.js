@@ -227,12 +227,14 @@ const ExternalPlugin = props => {
     if (!isBrowser || !GLOBAL_JS || GLOBAL_JS.trim() === '') {
       return
     }
-
-    try {
-      // eslint-disable-next-line no-eval
-      eval(GLOBAL_JS)
-    } catch (error) {
-      console.error('Failed to execute GLOBAL_JS:', error)
+    // 安全替代 eval：通过动态 script 标签注入，便于 CSP 策略控制
+    const script = document.createElement('script')
+    script.id = 'global-custom-js'
+    script.textContent = GLOBAL_JS
+    document.body.appendChild(script)
+    return () => {
+      const el = document.getElementById('global-custom-js')
+      if (el) el.remove()
     }
   }, [GLOBAL_JS])
 
@@ -454,14 +456,16 @@ const ExternalPlugin = props => {
 
       {/* 站长统计 */}
       {ANALYTICS_CNZZ_ID && (
-        <script
-          async
-          dangerouslySetInnerHTML={{
-            __html: `
-          document.write(unescape("%3Cspan style='display:none' id='cnzz_stat_icon_${ANALYTICS_CNZZ_ID}'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D${ANALYTICS_CNZZ_ID}' type='text/javascript'%3E%3C/script%3E"));
-          `
-          }}
-        />
+        <>
+          <span
+            style={{ display: 'none' }}
+            id={`cnzz_stat_icon_${ANALYTICS_CNZZ_ID}`}
+          />
+          <script
+            src={`https://s9.cnzz.com/z_stat.php?id=${ANALYTICS_CNZZ_ID}`}
+            type='text/javascript'
+          />
+        </>
       )}
 
       {/* UMAMI 统计 */}

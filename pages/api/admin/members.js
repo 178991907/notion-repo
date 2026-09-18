@@ -29,7 +29,9 @@ function generateRandomCode(prefix = 'VIP') {
   return prefix ? `${prefix}-${res}` : res
 }
 
-export default async function handler(req, res) {
+import { withSecurity } from '@/lib/middleware/withSecurity'
+
+async function handler(req, res) {
   // 校验管理员权限
   if (!checkAdminAuth(req)) {
     return res.status(401).json({ success: false, message: '未授权：请先登录管理员后台' })
@@ -61,6 +63,12 @@ export default async function handler(req, res) {
 
   // POST: 增删改操作
   if (req.method === 'POST') {
+    const csrfToken = req.headers['x-admin-csrf']
+    const cookieToken = req.cookies?.admin_token
+    if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+      return res.status(403).json({ success: false, message: '缺少 CSRF 验证头或校验失败' })
+    }
+
     const { action } = req.body
 
     try {
@@ -186,3 +194,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ success: false, message: 'Method Not Allowed' })
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 10, windowMs: 60000 } })

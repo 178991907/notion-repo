@@ -72,3 +72,7 @@ webpack-internal:/
 # Local Cloudflare Worker route configuration
 /cloudflare/notion-image-proxy/wrangler.toml
 .env*
+
+# 备份目录（防止 update.sh 泄露 .env.local）
+backup/
+

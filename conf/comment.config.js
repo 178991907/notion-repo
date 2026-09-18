@@ -66,7 +66,7 @@ module.exports = {
   COMMENT_GITALK_CLIENT_ID:
     process.env.NEXT_PUBLIC_COMMENT_GITALK_CLIENT_ID || '', // e.g 20位ID ， 在gitalk后台获取
   COMMENT_GITALK_CLIENT_SECRET:
-    process.env.NEXT_PUBLIC_COMMENT_GITALK_CLIENT_SECRET || '', // 注意：NEXT_PUBLIC_ 前缀会被打包到客户端代码中。如需高安全性建议使用免密钥暴露的 Notion 原生评论或 Giscus
+    process.env.COMMENT_GITALK_CLIENT_SECRET || '', // 注意：NEXT_PUBLIC_ 前缀会被打包到客户端代码中。如需高安全性建议使用免密钥暴露的 Notion 原生评论或 Giscus
   COMMENT_GITALK_DISTRACTION_FREE_MODE: false, // 类似facebook的无干扰模式
   COMMENT_GITALK_JS_CDN_URL:
     process.env.NEXT_PUBLIC_COMMENT_GITALK_JS_CDN_URL ||
@@ -104,5 +104,8 @@ module.exports = {
     process.env.NEXT_PUBLIC_WEBMENTION_HOSTNAME || '',
   COMMENT_WEBMENTION_TWITTER_USERNAME:
     process.env.NEXT_PUBLIC_TWITTER_USERNAME || '',
-  COMMENT_WEBMENTION_TOKEN: process.env.NEXT_PUBLIC_WEBMENTION_TOKEN || ''
+  COMMENT_WEBMENTION_TOKEN:
+    process.env.NEXT_PUBLIC_WEBMENTION_TOKEN ||
+    process.env.WEBMENTION_TOKEN ||
+    ''
 }

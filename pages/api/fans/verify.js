@@ -1,11 +1,12 @@
 import { verifyFansPasscode } from '@/lib/fans/auth'
 import { getFansConfigFromNotion } from '@/lib/member/notion'
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
 /**
  * 粉丝专区验证码 / 通用暗号在线校验接口
  * 保证即使静态页面构建缓存未更新，用户在后台修改暗号后也能实时放行验证
  */
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: '仅支持 POST 请求' })
   }
@@ -23,10 +24,10 @@ export default async function handler(req, res) {
       candidateCodes.push(fansCode)
     }
     if (postId && typeof postId === 'string') {
-      const cleanId = postId.replace(/-/g, '').toLowerCase()
-      if (cleanId.length >= 32) {
-        candidateCodes.push(cleanId.substring(26, 32).toUpperCase())
-      }
+      const crypto = require('crypto')
+      const secret = process.env.FANS_CODE_SECRET || process.env.NOTION_PAGE_ID || 'default_fans_secret'
+      const hmac = crypto.createHmac('sha256', secret).update(postId).digest('hex')
+      candidateCodes.push(hmac.substring(0, 6).toUpperCase())
     }
     const combinedFansCode = candidateCodes.join(',')
 
@@ -65,3 +66,5 @@ export default async function handler(req, res) {
     })
   }
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 20, windowMs: 60000 } })

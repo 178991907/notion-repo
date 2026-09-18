@@ -244,7 +244,7 @@ const SEO = props => {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             generateStructuredData(meta, siteInfo, url, image, AUTHOR, LINK)
-          )
+          ).replace(/</g, '\\u003c')
         }}
       />
 

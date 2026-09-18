@@ -1,6 +1,7 @@
 import BLOG from "@/blog.config"
 import { verifyRequestToken } from "@/lib/admin/auth"
 import { resolvePostDatabaseId } from "@/lib/db/notion/postDatabaseResolver"
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
 const NOTION_TOKEN = process.env.NOTION_API_TOKEN || process.env.NOTION_ACCESS_TOKEN || process.env.NOTION_TOKEN || ""
 const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || ""
@@ -10,7 +11,7 @@ const NOTION_DATABASE_ID = process.env.NOTION_PAGE_ID || BLOG.NOTION_PAGE_ID || 
  * GET: 获取所有分类与文章统计
  * POST: 重命名、合并、删除、新建分类、清理空分类、修改文章分类
  */
-export default async function handler(req, res) {
+async function handler(req, res) {
   const auth = verifyRequestToken(req)
   if (!auth) {
     return res.status(401).json({ error: "未登录或登录已过期" })
@@ -123,8 +124,10 @@ async function handleGet(req, res) {
  * 处理分类操作 (rename, merge, delete, create, cleanup_empty, update_post_category)
  */
 async function handlePost(req, res) {
-  if (!req.headers["x-admin-csrf"]) {
-    return res.status(403).json({ error: "缺少 CSRF 验证头" })
+  const csrfToken = req.headers["x-admin-csrf"]
+  const cookieToken = req.cookies?.admin_token
+  if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+    return res.status(403).json({ error: "缺少 CSRF 验证头或校验失败" })
   }
 
   const { action, oldName, newName, sourceName, targetName, name, color, pageId, category, targetCategory } = req.body || {}
@@ -345,3 +348,5 @@ async function clearSiteCache(res) {
     console.warn("revalidate 提示:", err.message)
   }
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 20, windowMs: 60000 } })

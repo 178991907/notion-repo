@@ -58,8 +58,20 @@ export default async function handler(
 
     if (params?.status === 200) {
       const redirectQuery = {
-        msg: '成功了' + JSON.stringify(params.data)
+        msg: 'success'
       }
+
+      // 将 Token 存储到 HttpOnly Cookie 中（使用 memberAuth 模块的 signMemberToken 或加密）
+      const crypto = require('crypto')
+      const algorithm = 'aes-256-cbc'
+      const secretKey = crypto.createHash('sha256').update(String(process.env.NOTION_PAGE_ID || 'notion_next')).digest('base64').substring(0, 32)
+      const iv = crypto.randomBytes(16)
+      const cipher = crypto.createCipheriv(algorithm, secretKey, iv)
+      let encrypted = cipher.update(JSON.stringify(params.data), 'utf-8', 'hex')
+      encrypted += cipher.final('hex')
+      const encryptedToken = `${iv.toString('hex')}:${encrypted}`
+
+      res.setHeader('Set-Cookie', `notion_oauth_token=${encryptedToken}; Path=/; HttpOnly; SameSite=Lax`)
 
       // 这里将用户数据写入到Notion数据库
       res.redirect(
@@ -67,7 +79,7 @@ export default async function handler(
         `/auth/result?${new URLSearchParams(redirectQuery).toString()}`
       )
     } else {
-      const redirectQuery = { msg: params?.statusText || '请求异常' }
+      const redirectQuery = { msg: 'fail' }
       res.redirect(
         302,
         `/auth/result?${new URLSearchParams(redirectQuery).toString()}`
@@ -105,7 +117,7 @@ const fetchToken = async (code: string): Promise<NotionTokenResponse> => {
         }
       }
     )
-    console.log('OAuth身份信息', response.data)
+    console.log('OAuth身份信息获取成功，已隐藏详细Token内容')
     return {
       status: response.status,
       statusText: response.statusText,

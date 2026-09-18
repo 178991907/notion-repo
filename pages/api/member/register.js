@@ -12,8 +12,9 @@ import {
   createMember,
   verifyAndConsumeInviteCode
 } from '@/lib/member/notion'
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: '仅支持 POST 请求' })
   }
@@ -102,3 +103,5 @@ export default async function handler(req, res) {
     })
   }
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 5, windowMs: 300000 } })

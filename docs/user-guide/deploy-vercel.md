@@ -93,19 +93,36 @@ graph LR
 - **Root Directory**：保持默认 `./`；
 - **Node.js Version**：若当前界面支持选择，请选择 **`24.x`**（如未出现，可部署后进入 Project -> Settings -> General 确认选择 24.x）。
 
-### 4. 配置环境变量 (Environment Variables)
-在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下核心变量：
+### 4. 配置环境变量 (Environment Variables) —— 🌟 新手建站四大核心必配基石
+
+在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下 4 个核心变量：
+
+| 环境变量名称 (Key) | 推荐填写值 (Value) | 是否必填 | 功能与重要说明 |
+| :--- | :--- | :---: | :--- |
+| **`NOTION_PAGE_ID`** | 您在第一步获取的 32 位 ID | **必填** | **数据源**：站点文章与核心数据库来源的根页面 ID |
+| **`ADMIN_PASSWORD`** | 您的自定义后台密码（如 `admin888`） | **必填** | **管理权限**：用于登录可视化后台 `/admin` 的超级管理密码 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | 您的 Notion Integration Token（以 `ntn_` 或 `secret_` 开头） | **核心必填** | **双向通信引擎**：用于驱动专属粉丝码生成、VIP 属性自动打标、会员注册与激活码核销、后台设置直接写回 Notion。**若不配置，涉及数据写回与会员功能将直接报错失败！** |
+| **`NOTION_SYNC_SECRET`** | 您的自定义安全私钥（如 `sec_sync_888`） | **核心必填** | **云端安全防护**：用于保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境若未配置此项，调用接口将直接被系统安全拦截并报错 `403 Forbidden`！** |
+
+> [!CAUTION]
+> ### 🚨 为什么新手建站务必完整配置这 4 个环境变量？（避坑重点）
+> 很多新手部署时误以为只配前 2 个就能用，结果后续使用中频繁遇到功能报错：
+> 1. **缺少 `NOTION_ACCESS_TOKEN`**：会导致【会员注册】、【邀请码核销】、【Notion 粉丝码与 VIP 属性自动打标回写】、【后台管理修改分类/标签/配置保存】无法连接 Notion 官方接口，直接报错崩溃；
+> 2. **缺少 `NOTION_SYNC_SECRET`**：项目内置了工业级生产安全防御，当 Notion 自动化 Webhook 触发或 Vercel Cron 定时巡检时，若检测到未设防刷密钥，API 路由会直接返回 **`403 Forbidden: 生产环境必须配置 NOTION_SYNC_SECRET 以保护 Webhook 安全`** 导致同步失败！
+> 
+> **请务必在创建项目时，一次性把这 4 个核心变量全部添加进 Vercel 中！**
+
+---
+
+### 可选进阶安全变量 (按需配置)
 
 | 环境变量名称 (Key) | 推荐填写值 (Value) | 是否必填 | 功能与说明 |
 | :--- | :--- | :---: | :--- |
-| **`NOTION_PAGE_ID`** | 您在第一步获取的 32 位 ID | **必填** | 站点文章与数据来源的根页面 ID |
-| **`ADMIN_PASSWORD`** | 您的自定义后台密码（如 `admin888`） | **必填** | 用于登录可视化后台 `/admin` 的超级管理密码 |
-| **`NEXT_PUBLIC_THEME`** | `heo` | **强烈推荐** | 博客默认主题，推荐旗舰级现代科技主题 `heo` |
-| **`NOTION_ACCESS_TOKEN`** | 您的 Notion Integration Token | 选填 | 官方 API Token（或 `NOTION_API_TOKEN`），用于粉丝码生成与 VIP 属性全自动写回 Notion |
-| **`NOTION_SYNC_SECRET`** | 您的自定义安全密钥（如 `sec_888`） | 选填 | 专属安全防护密钥，防范公网未授权恶意请求，保护云端自动同步与 Webhook 路由 |
-
-> [!NOTE]
-> 每填写完一行 Key 和 Value 后，请务必点击右侧的 **Add** 按钮将其添加到列表中！
+| **`ADMIN_SECRET`** | 随机长字符串（如 `sec_adm_999`） | 选填（推荐） | 后台 Edge JWT 独立签名私钥，未配置时系统将自动安全派生 |
+| **`MEMBER_AUTH_SECRET`** | 随机长字符串（如 `sec_mem_888`） | 选填（推荐） | 会员系统 JWT 独立签名私钥，未配置时自动安全派生 |
+| **`FANS_CODE_SECRET`** | 随机长字符串（如 `fans_sec_666`） | 选填（推荐） | 粉丝暗号 HMAC 签名私钥，彻底阻断专属码被逆推预测 |
+| **`COMMENT_GITALK_CLIENT_SECRET`** | 您的 GitHub OAuth Client Secret | 选填 | 仅在使用 Gitalk 评论时配置，供后端安全代理调用（前端零泄露） |
+| **`NEXT_PUBLIC_THEME`** | 默认留空无需填写 | 选填 | **无需配置**！代码底层默认已锁定为您专属定制的 `heo` 旗舰主题。仅当您想切换体验原作者其他传统主题（如 simple, hexo, gitbook）时才需填入 |
 
 ### 5. 点击一键部署
 确认环境变量添加完毕后，点击醒目的 **Deploy** 按钮！  

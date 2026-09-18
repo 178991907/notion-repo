@@ -1,5 +1,6 @@
 import BLOG from '@/blog.config'
 import { cleanCache } from '@/lib/cache/local_file_cache'
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
 /**
  * On-Demand Revalidation API
@@ -16,7 +17,7 @@ import { cleanCache } from '@/lib/cache/local_file_cache'
  * 环境变量：
  *   REVALIDATION_TOKEN — API 鉴权 Token（必须设置）
  */
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({
       ok: false,
@@ -103,3 +104,5 @@ function normalizePath(p) {
   }
   return normalized
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 10, windowMs: 60000 } })

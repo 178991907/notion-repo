@@ -232,14 +232,13 @@ const nextConfig = {
     // NotionNext 站长图源不可控（任意外链），这里放开 http/https 远程图片来源
     // 说明：这会显著降低“域名白名单漏配导致图片不显示”的概率
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**'
-      },
-      {
-        protocol: 'http',
-        hostname: '**'
-      }
+      { protocol: 'https', hostname: '**.notion.so' },
+      { protocol: 'https', hostname: '**.notion-static.com' },
+      { protocol: 'https', hostname: '**.amazonaws.com' },
+      { protocol: 'https', hostname: '**.unsplash.com' },
+      { protocol: 'https', hostname: '**.gravatar.com' },
+      { protocol: 'https', hostname: '**.wp.com' },
+      { protocol: 'https', hostname: '**.githubusercontent.com' },
     ],
     // 图片加载器优化
     loader: 'default',
@@ -339,27 +338,26 @@ const nextConfig = {
           source: '/:path*{/}?',
           headers: [
             // 为了博客兼容性，不做过多安全限制
-            { key: 'Access-Control-Allow-Credentials', value: 'true' },
             { key: 'Access-Control-Allow-Origin', value: '*' },
             {
               key: 'Access-Control-Allow-Methods',
-              value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT'
+              value: 'GET, POST, OPTIONS'
             },
             {
               key: 'Access-Control-Allow-Headers',
               value:
                 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-            }
+            },
             // 安全头部 相关配置，谨慎开启
-            //   { key: 'X-Frame-Options', value: 'DENY' },
-            //   { key: 'X-Content-Type-Options', value: 'nosniff' },
-            //   { key: 'X-XSS-Protection', value: '1; mode=block' },
-            //   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-            //   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-            //   {
-            //     key: 'Strict-Transport-Security',
-            //     value: 'max-age=31536000; includeSubDomains; preload'
-            //   },
+            { key: 'X-Frame-Options', value: 'DENY' },
+            { key: 'X-Content-Type-Options', value: 'nosniff' },
+            { key: 'X-XSS-Protection', value: '1; mode=block' },
+            { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+            { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+            {
+              key: 'Strict-Transport-Security',
+              value: 'max-age=31536000; includeSubDomains; preload'
+            }
             //   {
             //     key: 'Content-Security-Policy',
             //     value: [
@@ -387,19 +385,19 @@ const nextConfig = {
             //   { key: 'Access-Control-Max-Age', value: '86400' }
           ]
         },
-        //   {
-        //     source: '/api/:path*',
-        //     headers: [
-        //       // API 特定的安全头部
-        //       { key: 'X-Frame-Options', value: 'DENY' },
-        //       { key: 'X-Content-Type-Options', value: 'nosniff' },
-        //       { key: 'Cache-Control', value: 'no-store, max-age=0' },
-        //       {
-        //         key: 'Access-Control-Allow-Methods',
-        //         value: 'GET,POST,PUT,DELETE,OPTIONS'
-        //       }
-        //     ]
-        //   }
+        {
+          source: '/api/:path*',
+          headers: [
+            // API 特定的安全头部
+            // { key: 'X-Frame-Options', value: 'DENY' },
+            // { key: 'X-Content-Type-Options', value: 'nosniff' },
+            { key: 'Cache-Control', value: 'no-store, max-age=0' }
+            // {
+            //   key: 'Access-Control-Allow-Methods',
+            //   value: 'GET,POST,PUT,DELETE,OPTIONS'
+            // }
+          ]
+        }
       ]
     },
   webpack: (config, { dev, isServer }) => {

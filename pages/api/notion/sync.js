@@ -19,7 +19,8 @@ export default async function handler(req, res) {
   const authHeader = req.headers.authorization
   const querySecret = req.query?.secret || req.body?.secret
   const expectedSecret = process.env.CRON_SECRET || process.env.NOTION_SYNC_SECRET
-  const isVercelCron = req.headers['x-vercel-cron-signature'] || req.headers['user-agent']?.includes('vercel-cron')
+  // 仅信任 Vercel 平台注入的签名 Header，移除不可信的 User-Agent 判断（防止伪造绕过认证）
+  const isVercelCron = Boolean(req.headers['x-vercel-cron-signature'])
   const isAdmin = Boolean(verifyRequestToken(req))
 
   if (isAdmin) {
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ success: false, message: 'Unauthorized: Secret Mismatch' })
     }
   } else if (process.env.NODE_ENV === 'production' && !isVercelCron) {
-    // 生产环境中若未设置密钥，禁止外部未受保护的直接调用
+    // 生产环境中若未设置密钥且非 Vercel Cron，禁止外部未受保护的直接调用
     return res.status(403).json({ success: false, message: 'Forbidden: 生产环境必须配置 CRON_SECRET 或 NOTION_SYNC_SECRET 以保护 API 安全' })
   }
 

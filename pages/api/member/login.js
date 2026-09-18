@@ -9,7 +9,7 @@ import {
   signMemberToken,
   buildMemberCookieHeader
 } from '@/lib/member/auth'
-import { findMemberByUsername } from '@/lib/member/notion'
+import { findMemberByUsername, updateMemberPassword } from '@/lib/member/notion'
 
 // 简单的 IP 频率限制器（内存存储）
 // 5 分钟内最多允许尝试失败 10 次
@@ -82,10 +82,23 @@ export default async function handler(req, res) {
     }
 
     // 验证密码
-    const isPasswordValid = verifyPassword(password, member.password)
-    if (!isPasswordValid) {
+    const passwordResult = verifyPassword(password, member.password)
+    if (!passwordResult) {
       recordFailedLogin(ip)
       return res.status(401).json({ success: false, error: '账号不存在或密码错误' })
+    }
+
+    // 密码格式自动升级：将旧格式（明文/SHA-256）自动升级为 bcrypt
+    if (passwordResult.needsUpgrade && member.id) {
+      try {
+        const bcrypt = require('bcryptjs')
+        const hashedPassword = bcrypt.hashSync(password, 10)
+        await updateMemberPassword(member.id, hashedPassword)
+        console.log(`[密码升级] 会员 ${member.username} 密码已自动升级为 bcrypt 格式`)
+      } catch (upgradeErr) {
+        // 升级失败不影响登录流程
+        console.warn('[密码升级] 升级失败，下次登录时将重试:', upgradeErr.message)
+      }
     }
 
     // 签发会员 Token 并设置 Cookie

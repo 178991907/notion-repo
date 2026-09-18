@@ -1,3 +1,4 @@
+import DOMPurify from 'isomorphic-dompurify'
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -147,11 +148,12 @@ const isReadmeLikePage = page => {
 
 const sanitizeReadmeHtml = html => {
   if (!html || typeof html !== 'string') return ''
-  return html
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
-    .replace(/<iframe[\s\S]*?>[\s\S]*?<\/iframe>/gi, '')
-    .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, '')
-    .replace(/\shref\s*=\s*(['"])\s*javascript:[\s\S]*?\1/gi, ' href="#"')
+  return DOMPurify.sanitize(html, {
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'src', 'style'],
+    FORBID_TAGS: ['script'],
+    FORBID_ATTR: ['onerror', 'onclick', 'onload', 'onmouseover']
+  })
 }
 
 export default function ProfileHome(props) {

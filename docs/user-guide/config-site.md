@@ -79,7 +79,7 @@ NEXT_PUBLIC_WIDGET_PET_SWITCH_THEME=false
 各类配置的参考路径： [https://github.com/notionnext-org/Notion Repo/tree/main/conf](https://github.com/notionnext-org/Notion Repo/tree/main/conf)
 主题支持的配置内容参考路径： [https://github.com/notionnext-org/Notion Repo/blob/main/themes/example/config.js](https://github.com/notionnext-org/Notion Repo/blob/main/themes/example/config.js)
 
-1. `NOTION_PAGE_ID` 必须在你的环境变量或代码中配置，不支持Notion_Config文档配置
+1. **四大核心系统环境变量**（`NOTION_PAGE_ID`、`ADMIN_PASSWORD`、`NOTION_ACCESS_TOKEN`、`NOTION_SYNC_SECRET`）属于系统底层数据源连接与生产安全鉴权，必须在部署平台环境变量（如 Vercel）或本地 `.env.local` 中配置，不支持在 Notion Config 数据库中配置。缺少后两者将导致会员注册、数据回写和 Webhook 报错。
 
 1. 配置中心的表格中我预置了几个常用配置，您可以按照自己的需求手动添加更多配置
 点击右上角的`new`或者左侧加号`+`都可以新增一行配置，然后填入对应的“配置名”和“配置值”
@@ -275,11 +275,13 @@ CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '123456@qq.com'  // 填�
 
 若您不是用vercel托管，而是在自己的服务器上部署，则可以直接在项目根目录的 .env.local 文件中添加环境变量即可：
 
-```JavaScript
-# 环境变量 @see https://www.nextjs.cn/docs/basic-features/environment-variables
+```bash
+# 四大核心必配环境变量
 NOTION_PAGE_ID=xxxxxxxx
-NEXT_PUBLIC_THEME=simple
-NEXT_PUBLIC_LINK=http://xxx.com
+ADMIN_PASSWORD=your-password
+NOTION_ACCESS_TOKEN=ntn_xxxx
+NOTION_SYNC_SECRET=your-secret
+NEXT_PUBLIC_LINK=https://yourdomain.com
 ```
 
 

@@ -15,9 +15,12 @@ yarn
 cp .env.example .env.local
 ```
 
-At minimum, set this in `.env.local`:
+Set the 4 core environment variables in `.env.local`:
 
-- `NOTION_PAGE_ID`
+- `NOTION_PAGE_ID`: 32-character Notion database ID
+- `ADMIN_PASSWORD`: Admin dashboard password
+- `NOTION_ACCESS_TOKEN`: Notion official Integration Token (for data writeback & membership)
+- `NOTION_SYNC_SECRET`: Secret key for secure Webhook & Cron sync (prevents 403 Forbidden in production)
 
 Then start dev server:
 

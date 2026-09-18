@@ -1,1 +1,41 @@
+# 构建产物
 .next*
+node_modules
+
+# 敏感环境文件
+.env*
+!.env.example
+!.env.docs.example
+
+# 版本控制
+.git
+.gitignore
+
+# 文档与测试
+__tests__
+test-results
+docs
+*.md
+!README.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING*
+GOVERNANCE*
+MAINTAINERS*
+SECURITY.md
+SUPPORT.md
+LICENSE
+
+# IDE与工具
+.vscode
+.idea
+.DS_Store
+*.pem
+
+# 其他
+scripts
+_project-ai
+.vitepress
+.github
+.vercel
+.swc
+cloudflare

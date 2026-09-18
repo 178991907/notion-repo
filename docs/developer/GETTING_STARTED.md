@@ -15,9 +15,12 @@ yarn
 cp .env.example .env.local
 ```
 
-在 `.env.local` 至少配置：
+在 `.env.local` 中配置四大核心环境变量：
 
-- `NOTION_PAGE_ID`
+- `NOTION_PAGE_ID`：32 位 Notion 数据源 ID
+- `ADMIN_PASSWORD`：可视化管理后台登录密码
+- `NOTION_ACCESS_TOKEN`：Notion 官方 Integration Token（驱动数据双向回写、暗号生成与会员系统）
+- `NOTION_SYNC_SECRET`：云端安全防刷密钥（保护 Webhook 与定时同步，生产环境防 403 阻断）
 
 然后启动：
 

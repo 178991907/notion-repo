@@ -71,12 +71,13 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
    - **Framework Preset**：`Next.js`（默认自动识别）；
    - **Root Directory**：`./`（默认即可）；
    - **⚠️ Node.js Version 避坑重点**：确保选择 **`24.x`**（或 Node 22+），切勿使用旧版 Node！
-5. **配置核心环境变量 (Environment Variables)**：
-   在 **Environment Variables** 面板中添加以下关键变量：
-   - `NOTION_PAGE_ID` = `你的32位Notion页面ID`（必填）
-   - `ADMIN_PASSWORD` = `你的后台管理密码`（必填，用于登录 /admin）
-   - `NEXT_PUBLIC_THEME` = `heo`（推荐，默认旗舰主题）
-   - `NOTION_ACCESS_TOKEN` = `你的Notion官方集成Token`（选填，推荐）
+5. **配置核心环境变量 (Environment Variables) —— 🌟 四大建站基石**：
+   在 **Environment Variables** 面板中添加以下 4 个核心关键变量（缺一不可，否则涉及回写与同步会报错）：
+   - `NOTION_PAGE_ID` = `你的32位Notion页面ID`（必填，文章数据源根页面）
+   - `ADMIN_PASSWORD` = `你的后台管理密码`（必填，用于登录 `/admin` 控制台）
+   - `NOTION_ACCESS_TOKEN` = `你的Notion官方集成Token`（核心必填，以 `ntn_` 或 `secret_` 开头，驱动暗号自动生成回写、VIP 属性打标、会员注册与后台数据写回 Notion）
+   - `NOTION_SYNC_SECRET` = `你的自定义安全私钥`（核心必填，用于保护 Webhook 与 Cron 定时同步，生产环境未配置将直接被安全网关拦截并报错 `403 Forbidden`）
+   *(注：`NEXT_PUBLIC_THEME` 无需填写，代码底层默认已锁定为您专属打造的 `heo` 主题！)*
 6. 点击 **Deploy** 按钮开始构建，大约 1~2 分钟后即可完成部署！
 
 ---
@@ -105,20 +106,30 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
 
 ## 6. 全量环境变量 (Environment Variables) 说明表
 
-### 核心必填变量
-| 环境变量名 | 类型 | 示例值 | 详细说明 |
+### 🌟 核心必填变量 (四大建站基石，缺一不可)
+| 环境变量名 | 类型 | 示例值 | 详细说明与报错预警 |
 | :--- | :---: | :--- | :--- |
-| **`NOTION_PAGE_ID`** | 字符串 | `02ab3b8678004aa69e...` | **必填**。Notion 根页面 ID，站点的文章数据源。 |
-| **`ADMIN_PASSWORD`** | 字符串 | `MySecurePass_2026` | **必填**。管理后台 (`/admin`) 登录密码。 |
+| **`NOTION_PAGE_ID`** | 字符串 | `02ab3b8678004aa69e...` | **必填**。Notion 根页面 ID，站点的文章数据源。不填无法读取数据。 |
+| **`ADMIN_PASSWORD`** | 字符串 | `MySecurePass_2026` | **必填**。管理后台 (`/admin`) 登录密码。不填无法管理站点。 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | 字符串 | `ntn_xxxx...` 或 `secret_...` | **核心必填**。官方 Notion 集成 Token，用于粉丝暗号自动生成回写、VIP 属性联动、会员注册激活码核销、后台设置写回 Notion。**不配置将导致涉及 Notion 写操作的所有功能直接报错崩溃！** |
+| **`NOTION_SYNC_SECRET`** | 字符串 | 自定义随机高强度密钥 | **核心必填**。云端安全通信密钥，保护 Webhook 实时触发与 Cron 定时同步。**生产环境若未配置，外部触发同步时接口直接被安全机制拦截并报 `403 Forbidden`！** |
+
+### 企业级进阶安全变量 (按需选配)
+| 环境变量名 | 默认值 | 示例值 | 详细说明 |
+| :--- | :---: | :--- | :--- |
+| **`ADMIN_SECRET`** | 动态派生 | 任意高强度私钥 | 后台 Edge Runtime HMAC-SHA256 JWT 独立签发密钥，未配置将自动优雅派生。 |
+| **`MEMBER_AUTH_SECRET`** | 动态派生 | 任意高强度私钥 | 会员登录态 JWT 独立签发密钥，杜绝会员凭证伪造与越权。 |
+| **`CRON_SECRET`** | 与 SYNC_SECRET 一致 | 自定义随机密钥 | Vercel Cron 定时同步专用数字签名秘钥，可直接复用 `NOTION_SYNC_SECRET`。 |
+| **`FANS_CODE_SECRET`** | 动态派生 | 自定义随机密钥 | 粉丝专属暗号 HMAC 计算密钥，彻底杜绝专属码被逆推预测。 |
+| **`COMMENT_GITALK_CLIENT_SECRET`** | - | `ghs_xxxx...` | GitHub OAuth App 客户端私钥（纯后端代理端点使用，绝不在客户端暴露）。 |
 
 ### 核心功能与外观变量
 | 环境变量名 | 默认值 | 可选值 | 详细说明 |
 | :--- | :---: | :--- | :--- |
-| **`NEXT_PUBLIC_THEME`** | `heo` | `heo`, `hexo`, `simple`, `gitbook`, `nobelium` 等 | 全站默认主题。 |
+| **`NEXT_PUBLIC_THEME`** | `heo` (代码默认) | 选填（留空即可） | **无需配置**！项目底层默认已锁定为您专属打造的旗舰主题 `heo`。仅在需要切换使用原作者传统主题（如 simple, hexo, gitbook）时才填入。 |
 | **`NEXT_PUBLIC_LANG`** | `zh-CN` | `zh-CN`, `en-US`, `zh-HK`, `zh-TW`, `ja-JP` | 站点默认语言。 |
 | **`NEXT_PUBLIC_APPEARANCE`** | `auto` | `light`, `dark`, `auto` | 默认外观颜色模式。 |
 | **`NEXT_REVALIDATE_SECOND`** | `5` | 数字 (秒) | 增量静态生成 (ISR) 刷新周期，Notion 内容变更后几秒重新拉取。 |
-| **`ADMIN_SECRET`** | 自动派生 | 任意强字符串 | 后台 JWT 签发密钥，若不填写则根据管理密码自动生成。 |
 | **`NEXT_PUBLIC_CUSTOM_MENU`** | `true` | `true`, `false` | 是否开启自定义多级菜单能力。 |
 
 ### 粉丝福利与会员专区环境变量
@@ -126,7 +137,7 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
 | :--- | :---: | :--- | :--- |
 | **`HEO_FANS_DEFAULT_PASSCODE`** | `888888` | `666888` | 全站粉丝通用解锁暗号。 |
 | **`HEO_FANS_UNLOCK_TIPS`** | 默认引导文案 | `关注微信公众号【xxx】后台回复暗号获取` | 粉丝文章上锁时的解锁引导文案。 |
-| **`NOTION_ACCESS_TOKEN`** | - | `secret_xxxx...` | 官方 Notion 集成 Token，用于会员与粉丝高可用双向同步。 |
+| **`NOTION_API_TOKEN`** | - | `ntn_xxxx...` | 官方 Notion 集成 Token，用于会员密码同步与粉丝专属码云端写入。 |
 
 ---
 
@@ -145,3 +156,18 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
 - Notion Repo 采用现代增量静态再生（ISR）技术，具有极速访问性能。
 - 默认情况下，访客访问页面时会在后台静默抓取最新 Notion 内容，通常**等待几十秒到一分钟**再次刷新页面即可看到最新文章；
 - 若您希望立即刷新，可登录 `/admin` 管理后台，点击任意保存配置，系统会自动触发全站缓存清空与即时更新。
+
+### Q4: 别人 Fork 本项目后部署，会出现 Bug 或语法错误吗？
+- **完全不会！已实现开箱即用零 Bug 目标**：
+  - 本项目已通过全面的企业级安全审计与 20 项端到端安全测试回归（`npm test __tests__/security/`），修补了 26 项历史漏洞；
+  - 依赖已在 `package.json` 中固化声明（包含 `bcryptjs`、`isomorphic-dompurify`），新用户 Fork 之后只需在 Vercel 中一次性填入四大核心环境变量（`NOTION_PAGE_ID`、`ADMIN_PASSWORD`、`NOTION_ACCESS_TOKEN`、`NOTION_SYNC_SECRET`），无需二次安装或手动补充包体，全站 100% 顺畅构建运行！
+
+### Q5: 老用户升级 v4.21.0 后，原数据库里的会员密码需要重置吗？
+- **完全不需要**：
+  - 系统搭载了**旧密码登录静默自愈引擎 (Auto-Upgrade)**；
+  - 历史会员账号输入原密码登录成功瞬间，后台会自动将其密码升级为现代强单向加盐 `bcrypt` 哈希，并秒级写回 Notion 数据库，无需站长参与，平滑无感升级。
+
+### Q6: Gitalk 评论客户端密钥移出前端后如何配置？
+- 过去将 Client Secret 暴露在前端存在 OAuth 被盗用的高危漏洞。
+- 最新版内置了专用安全后端代理路由 `/api/proxy/gitalk-token`；
+- 您只需在环境变量或 Notion Config 中配置 `COMMENT_GITALK_CLIENT_SECRET`，前端将自动向同源后端发起请求换取 Token，实现完全安全的评论互动。

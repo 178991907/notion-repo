@@ -6,7 +6,7 @@ import time
 import requests
 import argparse
 
-ssl._create_default_https_context = ssl._create_unverified_context
+# ssl._create_default_https_context = ssl._create_unverified_context
 
 
 # 每日推送限额，可根据实际情况修改
@@ -47,7 +47,7 @@ def push_to_bing(site, urls, api_key):
 
 
 def push_to_baidu(site, urls, token):
-    api_url = f"http://data.zz.baidu.com/urls?site={site}&token={token}"
+    api_url = f"https://data.zz.baidu.com/urls?site={site}&token={token}"
 
     payload = "\n".join(urls)
     headers = {"Content-Type": "text/plain"}

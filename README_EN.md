@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://github.com/user-attachments/assets/c111204d-2016-4343-92e4-83357cac4b19" width="96" height="96" alt="NotionNext Logo" />
+<img src="public/favicon.png" width="96" height="96" alt="Notion Repo Logo" style="border-radius: 50%;" />
 
-# NotionNext
+# Notion Repo
 
 Build an independent website from Notion.
 
@@ -43,9 +43,9 @@ Keep writing in Notion, and publish your content as a blog, portfolio, knowledge
 
 ---
 
-## What Is NotionNext?
+## What Is Notion Repo?
 
-NotionNext is an open-source website system built with **Next.js + Notion API**. You keep managing posts, categories, tags, menus, and pages in Notion. NotionNext turns that content into an independent website that can be visited, searched, customized, and operated over the long term.
+Notion Repo is an open-source website system built with **Next.js + Notion API**. You keep managing posts, categories, tags, menus, and pages in Notion. Notion Repo turns that content into an independent website that can be visited, searched, customized, and operated over the long term.
 
 It is useful for creators, indie hackers, designers, photographers, course authors, open-source maintainers, and small teams that want a fast website for content, docs, portfolios, or product pages.
 
@@ -59,7 +59,7 @@ It is useful for creators, indie hackers, designers, photographers, course autho
 | Knowledge base or docs site | [GitBook / Claude](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) | Open-source projects, course authors, teams |
 | Directory or resource hub | [Nav theme](https://notionnext.tangly1024.com/user-guide/themes/nav) | Curators and community operators |
 
-## Why NotionNext?
+## Why Notion Repo?
 
 - **Keep using Notion**: posts, categories, tags, covers, menus, and pages stay in Notion.
 - **Short path to launch**: duplicate the Notion template, fork the repository, connect Vercel, and deploy.
@@ -71,10 +71,10 @@ It is useful for creators, indie hackers, designers, photographers, course autho
 ## 20-Minute Deployment Path
 
 1. Open the [theme preview site](https://preview.tangly1024.com/) and choose the site style you want.
-2. Duplicate the official NotionNext Notion template.
+2. Duplicate the official Notion Repo Notion template.
 3. Fork this repository to your GitHub account.
 4. Deploy with [Vercel](https://notionnext.tangly1024.com/user-guide/deploy-vercel).
-5. Set `NOTION_PAGE_ID` and other required environment variables.
+5. Set the 4 core environment variables: `NOTION_PAGE_ID`, `ADMIN_PASSWORD`, `NOTION_ACCESS_TOKEN`, and `NOTION_SYNC_SECRET` (default theme is already locked to `heo`, no theme variable required).
 6. After launch, configure your theme, domain, comments, analytics, and search as needed.
 
 New users should start with the [Get Started guide](https://notionnext.tangly1024.com/user-guide/start-here).
@@ -148,13 +148,21 @@ git remote set-url origin https://github.com/notionnext-org/NotionNext.git
 git remote -v
 ```
 
-## Tech Stack
+## Tech Stack & Security
 
-- **Framework**: [Next.js](https://nextjs.org)
+- **Framework**: [Next.js](https://nextjs.org) (v15+)
+- **Security**: Enterprise Hardening (v4.21.0)
+  - `bcryptjs` password hashing with silent auto-upgrade
+  - Edge Runtime HMAC-SHA256 authentication middleware
+  - DOMPurify XSS sanitization across 15+ modern themes
+  - Dedicated `/api/proxy/gitalk-token` OAuth backend proxy
+  - Global IP-based rate limiting via `withSecurity` gateway
+  - Container baseline: non-root `nextjs:nodejs` user & HEALTHCHECK
+  - 20/20 automated security test suite passed (`npm test __tests__/security/`)
 - **Styles**: [Tailwind CSS](https://tailwindcss.com/)
 - **Rendering**: [react-notion-x](https://github.com/NotionX/react-notion-x)
-- **Comments**: Twikoo, Giscus, Gitalk, Cusdis, Utterances
-- **Deployment**: [Vercel](https://vercel.com)
+- **Comments**: Twikoo, Giscus, Gitalk (via backend proxy), Cusdis, Utterances
+- **Deployment**: [Vercel](https://vercel.com), Docker, Node.js
 
 ## Acknowledgements
 

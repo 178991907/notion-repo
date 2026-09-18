@@ -32,7 +32,7 @@
 
 - **Node.js 22**（见 `.nvmrc` / `.node-version`）。Node 20 已无法安装当前依赖，Cloudflare、Netlify、VPS、Docker 等构建环境都应同步使用 Node 22。
 - **Yarn**：`yarn` → `yarn build` / `yarn export`
-- 必配：`NOTION_PAGE_ID`
+- **四大核心必配**：`NOTION_PAGE_ID`（数据源）、`ADMIN_PASSWORD`（管理权限）、`NOTION_ACCESS_TOKEN`（云端自动化回写与会员）、`NOTION_SYNC_SECRET`（云端防刷安全私钥，生产环境防 403 阻断）
 
 ## Docker 镜像发布说明
 

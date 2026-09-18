@@ -33,7 +33,9 @@ if (!global.__adminConfigOverrides) {
   global.__adminConfigOverrides = loadInitialOverrides()
 }
 
-export default async function handler(req, res) {
+import { withSecurity } from '@/lib/middleware/withSecurity'
+
+async function handler(req, res) {
   if (req.method === 'GET') {
     return handleGet(req, res)
   }
@@ -106,12 +108,24 @@ async function handleGet(req, res) {
   }
 
   // 返回全量配置：BLOG 对象本身就承载了所有的配置常量，我们合并用户的 override
-  const fullConfig = {
+  const rawFullConfig = {
     ...BLOG,
     ...global.__adminConfigOverrides,
     _version: '4.10.10',
     _overrideCount: Object.keys(global.__adminConfigOverrides).length
   }
+
+  // 在返回对象前过滤敏感字段
+  const SENSITIVE_KEYS = [
+    'REDIS_URL', 'MONGODB_URI', 'ADMIN_PASSWORD', 'ADMIN_SECRET',
+    'NOTION_API_TOKEN', 'OAUTH_CLIENT_SECRET', 'MEMBER_AUTH_SECRET',
+    'CRON_SECRET', 'NOTION_SYNC_SECRET', 'REVALIDATION_TOKEN'
+  ]
+  const fullConfig = Object.fromEntries(
+    Object.entries(rawFullConfig).filter(([key]) => 
+      !SENSITIVE_KEYS.some(sk => key.toUpperCase().includes(sk))
+    )
+  )
 
   const configsList = Object.entries(fullConfig).map(([key, value]) => ({ key, value }))
 
@@ -133,9 +147,11 @@ async function handlePost(req, res) {
     return res.status(401).json({ error: '未登录或登录已过期' })
   }
 
-  // CSRF 防护：要求自定义 header
-  if (!req.headers['x-admin-csrf']) {
-    return res.status(403).json({ error: '缺少 CSRF 验证头' })
+  // CSRF 防护：校验自定义 header 和 Cookie 是否匹配 (Double Submit Cookie)
+  const csrfToken = req.headers['x-admin-csrf']
+  const cookieToken = req.cookies?.admin_token
+  if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+    return res.status(403).json({ error: '缺少 CSRF 验证头或校验失败' })
   }
 
   const { configs } = req.body || {}
@@ -461,3 +477,5 @@ async function syncConfigsToNotion(configs) {
   console.log(`[syncConfigsToNotion] ✅ 并发写入完成！`)
   return true
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 20, windowMs: 60000 } })

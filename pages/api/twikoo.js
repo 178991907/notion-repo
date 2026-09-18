@@ -4,10 +4,10 @@
  * 请求处理逻辑由 twikoo-vercel 库原生接管
  */
 const twikoo = require('twikoo-vercel')
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   // CORS 支持配置 (解决前端跨域请求后端)
-  res.setHeader('Access-Control-Allow-Credentials', true)
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
   res.setHeader(
@@ -31,3 +31,5 @@ export default async function handler(req, res) {
   // 交由 Twikoo 引擎处理核心逻辑
   return twikoo(req, res)
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 30, windowMs: 60000 } })

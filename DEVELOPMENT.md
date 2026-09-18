@@ -84,6 +84,7 @@ yarn
 - `yarn test:watch`：监听模式运行 Jest。
 - `yarn test:coverage`：运行测试并生成覆盖率。
 - `yarn test:ci`：CI 模式运行测试（覆盖率+无 watch）。
+- `yarn test __tests__/security/`：运行企业级专属安全回归测试套件（20/20 全部通过）。
 
 - `yarn health-check`：执行项目健康检查脚本。
 - `yarn validate`：执行验证入口（当前映射到 health-check）。
@@ -95,7 +96,7 @@ yarn
 - `yarn perf:audit:themes`：全主题性能审计（输出到 `docs/performance`）。
 - `yarn perf:compress-theme-previews`：批量生成主题预览 WebP 资源。
 
-### 代码质量工具
+### 代码质量与安全工具
 
 ```bash
 # 代码格式化
@@ -107,12 +108,40 @@ yarn lint
 # 类型检查
 yarn type-check
 
+# 企业级安全自动化回归测试 (20 项安全专项测试)
+npm test __tests__/security/
+
 # 完整质量检查
 yarn quality
 
 # 预提交检查
 yarn pre-commit
 ```
+
+## 安全开发规范 (v4.21.0 企业级标准)
+
+为了确保代码库的绝对安全，所有贡献者与开发者须严格遵守以下安全准则：
+
+### 1. 凭据与环境变量隔离
+- **严禁前端泄露私钥**：切勿给后端私密 Token（如 OAuth Client Secret、数据库连接串、同步私钥）添加 `NEXT_PUBLIC_` 前缀；涉及第三方私密接口交互，必须在 `pages/api/proxy/` 建立后端代理路由。
+- **允许的前端 Token**：仅有公开的访客端嵌入式 Widget 凭据（如 `NEXT_PUBLIC_DIFY_CHATBOT_TOKEN`、`NEXT_PUBLIC_TIANLI_GPT_KEY`、`NEXT_PUBLIC_COMMENT_WEBMENTION_TOKEN`）允许带此前缀。
+
+### 2. API 路由必须接入 `withSecurity` 中间件
+- 所有位于 `pages/api/` 下的写操作或敏感读操作，必须引入 `import { withSecurity } from '@/lib/middleware/withSecurity'` 进行包装。
+- 为接口显式配置合理的 IP 级滑动窗口限流阈值（如登录 5 次/5分钟，管理配置 20 次/分钟），防范暴力破解与 DoS 拒绝服务。
+
+### 3. XSS 防护与动态执行红线
+- **绝对禁止 `eval()` 与 `document.write`**：严禁在任何组件中调用 `eval()` 或 `document.write(unescape(...))`，必须使用受控的动态 `<script>` 注入或 React 原生 DOM 挂载。
+- **富文本净化**：任何通过 `dangerouslySetInnerHTML` 渲染的用户或第三方输入（评论、文章 HTML、简介），必须先调用 `DOMPurify.sanitize()` 进行安全净化。
+- **结构化数据**：JSON-LD 等嵌入式脚本必须对 `<` 进行转义（`.replace(/</g, '\\u003c')`），杜绝 `</script>` 标签逃逸注入。
+
+### 4. 密码与认证安全
+- **密码存储**：一律使用 `bcryptjs` 进行单向加盐哈希（`bcrypt.hashSync(password, 10)`），严禁存储或比对明文密码。
+- **平滑自愈机制**：对于历史旧密码，在 `verifyPassword` 中必须保留 `needsUpgrade` 返回标记，并在登录成功后异步触发自动升级写回。
+- **Token 签名与常数时间比较**：Token 签名比对与密码比对必须使用 `crypto.timingSafeEqual`，阻断时序侧信道推断。
+
+### 5. 日志脱敏规范
+- 严禁在控制台日志中打印包含用户密码、验证码、私钥或完整 OAuth Token 的数据对象。API 错误日志仅允许记录请求体字段名（`Object.keys(req.body)`）。
 
 ### 开发辅助工具
 
@@ -312,16 +341,20 @@ yarn perf:audit:themes
 
 ## 环境变量
 
-### 必需的环境变量
+### 核心必需的环境变量 (四大建站基石，缺一不可)
 
-- `NOTION_PAGE_ID`: Notion页面ID
+- `NOTION_PAGE_ID`: 核心 Notion 根页面 ID（数据源）
+- `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码
+- `NOTION_ACCESS_TOKEN`: Notion 官方 Integration Token（驱动暗号自动生成回写、VIP 属性打标、会员注册与后台数据写回 Notion，缺少会导致写操作直接报错）
+- `NOTION_SYNC_SECRET`: 云端安全通信私钥（用于 Webhook 与 Cron 同步鉴权，生产环境未配置接口直接报 403 阻断）
 
 ### 可选的环境变量
 
-- `NEXT_PUBLIC_TITLE`: 网站标题
-- `NEXT_PUBLIC_DESCRIPTION`: 网站描述
-- `NEXT_PUBLIC_AUTHOR`: 作者名称
-- `NEXT_PUBLIC_LINK`: 网站链接
+- `ADMIN_SECRET`: 后台 Edge JWT 独立防篡改签名私钥（选填，未配置自动派生）
+- `MEMBER_AUTH_SECRET`: 会员系统 JWT 独立签名私钥（选填）
+- `FANS_CODE_SECRET`: 粉丝暗号 HMAC 签名私钥（选填）
+- `COMMENT_GITALK_CLIENT_SECRET`: GitHub OAuth 客户端密钥（用于 Gitalk 评论后端代理）
+- `NEXT_PUBLIC_THEME`: 切换主题（**无需配置**，代码默认已绑定为您专属深度打造的 `heo` 旗舰主题）
 
 ### 环境变量验证
 

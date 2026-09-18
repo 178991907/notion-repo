@@ -1,11 +1,12 @@
 import subscribeToMailchimpApi from '@/lib/plugins/mailchimp'
+import { withSecurity } from '@/lib/middleware/withSecurity'
 
 /**
  * 接受邮件订阅
  * @param {*} req
  * @param {*} res
  */
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method === 'POST') {
     const { email, firstName, lastName } = req.body
     try {
@@ -20,3 +21,5 @@ export default async function handler(req, res) {
     res.status(405).json({ status: 'error', message: 'Method not allowed' })
   }
 }
+
+export default withSecurity(handler, { rateLimit: { limit: 5, windowMs: 60000 } })

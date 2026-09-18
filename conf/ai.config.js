@@ -16,7 +16,8 @@ module.exports = {
   TianliGPT_JS:
     process.env.NEXT_PUBLIC_TIANLI_GPT_JS ||
     'https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.15.2/tianli_gpt.js',
-  TianliGPT_KEY: process.env.NEXT_PUBLIC_TIANLI_GPT_KEY || '',
+  // TianliGPT_KEY 是前端 widget key，安全暴露到前端
+  TianliGPT_KEY: process.env.NEXT_PUBLIC_TIANLI_GPT_KEY || process.env.TIANLI_GPT_KEY || '',
 
   // Coze AI 机器人 @see https://www.coze.cn/
   COZE_BOT_ID: process.env.NEXT_PUBLIC_COZE_BOT_ID || '',
@@ -45,7 +46,8 @@ module.exports = {
   // Dify 聊天机器人 @see https://dify.ai/
   DIFY_CHATBOT_ENABLED: process.env.NEXT_PUBLIC_DIFY_CHATBOT_ENABLED || false,
   DIFY_CHATBOT_BASE_URL: process.env.NEXT_PUBLIC_DIFY_CHATBOT_BASE_URL || '',
-  DIFY_CHATBOT_TOKEN: process.env.NEXT_PUBLIC_DIFY_CHATBOT_TOKEN || '',
+  // DIFY_CHATBOT_TOKEN 是公开的嵌入式 widget ID，非后端密钥，安全暴露到前端
+  DIFY_CHATBOT_TOKEN: process.env.NEXT_PUBLIC_DIFY_CHATBOT_TOKEN || process.env.DIFY_CHATBOT_TOKEN || '',
 
   // Webwhiz AI 机器人 @see https://github.com/webwhiz-ai/webwhiz
   WEB_WHIZ_ENABLED: process.env.NEXT_PUBLIC_WEB_WHIZ_ENABLED || false,
