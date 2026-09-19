@@ -532,6 +532,11 @@ graph LR
 - 📑 [**《Notion Repo 生产级环境高级部署手册 (进阶与全变量配置)》**](./docs/DEPLOYMENT_GUIDE.md)  
   *(GitHub 在线直达：[DEPLOYMENT_GUIDE.md](https://github.com/178991907/notion-repo/blob/main/docs/DEPLOYMENT_GUIDE.md))*
 
+> 🚨 **Vercel 部署三大新手避坑核心提醒**：
+> 1. **🔥 Environments 务必全选**：添加四大核心环境变量时，`Environments` 选项务必将 `Production`、`Preview`、`Development` 全部打勾（All Environments），防止访问 `.vercel.app` 预览域名时读取不到变量导致 Token 失效；
+> 2. **🔒 Secret 类型脱敏说明**：选择 `Secret` 后不显示明文（仅显示锁图标）是 Vercel 的单向安全加密特性，绝非保存失败或值为空；
+> 3. **⚡ 修改变量必须 Redeploy**：修改或添加环境变量后，必须前往 **Deployments** 列表对最新记录点击 **`···` ➔ Redeploy** 重新部署才能真正注入容器！
+
 ---
 
 ## 🛠️ 核心目录结构

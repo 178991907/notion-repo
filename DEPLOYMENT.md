@@ -94,6 +94,11 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
      - `NOTION_SYNC_SECRET`: 生产环境安全私钥（自行设定，保护 Webhook 与 Cron 定时巡检，防 403 阻断）
    - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`)*
 
+   > 🚨 **Vercel 部署核心避坑提醒**：
+   > 1. **环境范围 Environments 必须全部勾选**：添加/编辑变量时，请展开 Environments 确保勾选 **`Production`**、**`Preview`**、**`Development`** 全部三项。若漏选 Preview，访问默认提供的 `.vercel.app` 域名或分支时变量会为 `undefined` 导致 Token 提示失效！
+   > 2. **Secret 类型不显示 Value 是正常特性**：选择 `Secret` 后系统实行单向加密脱敏（提示 *You can't reveal this value after saving*），右侧仅显示小锁图标。这绝对不是未保存成功或值是空的，切勿反复删除！
+   > 3. **变量修改后必须 Redeploy**：修改环境变量后在线容器**不会自动热生效**，必须在 **Deployments** 列表对最新记录点击 **`···` ➔ Redeploy** 重新构建才能注入生效。
+
 3. **在 Notion 博客主页面授权（必做关键步骤）**
    > ⚠️ **新手必看**：这是 Notion 官方平台的底层隐私安全机制（如同给博客发放进出房间的门禁卡），如果不授权，系统将无法读取和写入评论与会员数据。
 

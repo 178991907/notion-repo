@@ -245,7 +245,9 @@ LINK: process.env.NEXT_PUBLIC_LINK || '/user-guide/intro', // 站点域名
 ![Untitled](/legacy/85bd32320336be3a.png)
   1. 在Key中填写配置名称，Value中填写配置的值，如下图:
 ![4DA432EF-AC19-46EA-AF59-DD0BC45C6483.jpeg](/legacy/604775d846955850.jpg)
-  1. 环境变量修改后，点击顶部`Deployments`标签，将列表中最上面的一条部署记录`Redeploy`即可（如下图）
+  1. **🔥 关键避坑：勾选【All Environments】**：展开 Environments 选项，务必将 **Production**、**Preview**、**Development** 全部勾选！若只勾选 Production，通过默认 `.vercel.app` 预览域名访问时将读取不到变量！
+  1. **🔒 关于 Secret 类型**：Token 与密码保存后不显示明文（仅显示锁图标）是 Vercel 的单向安全加密特性，绝非保存失败或值为空。
+  1. **⚡ 关键生效步骤**：环境变量添加或修改后，**在线容器不会自动重载**！必须点击顶部`Deployments`标签，将列表中最上面的一条部署记录右侧`···` ➔ `Redeploy`即可（如下图）
 ![Untitled](/legacy/964e0c08eaa8c73f.png)
 
 #### 修改示例

@@ -95,14 +95,27 @@ graph LR
 
 ### 4. 配置环境变量 (Environment Variables) —— 🌟 新手建站四大核心必配基石
 
-在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下 4 个核心变量：
+> [!CAUTION]
+> ### 🚨 【新手必看·最高优先级避坑指南】三大部署核心铁律
+> 1. **🔥 生效环境 (Environments) 必须全部勾选【All Environments】**：
+>    - 在添加或编辑任何环境变量时，底部的 **`Environments`** 展开选项中，务必将 **`Production`**、**`Preview`**、**`Development`** 三个复选框**全部打勾**！
+>    - **为什么必须全选？**：Vercel 默认会将带有特定前缀或测试域名的访问划分为 `Preview` 环境。如果您只勾选了 `Production`，当通过默认提供的 `.vercel.app` 域名或预览链接访问时，Node.js 运行时将**完全读不到这些变量**（直接返回 `undefined`），导致系统提示“未检测到 Token”或后台管理员密码失效！
+> 2. **🔒 类型选择「Secret」后不显示 Value 是官方安全机制，绝非值是空的！**：
+>    - Vercel 对敏感 Token 和密码推荐使用 `Secret` 类型。系统提示：*“You can't reveal this value after saving”*（保存后无法再次查看明文）；
+>    - 保存后列表右侧会隐藏具体内容，仅展示一把小锁图标。**这绝对不代表保存失败，也不代表值是空的**！只要您在输入框填入过并点击了 Save，数据就已经安全加密写入云端，切勿误以为没存进去而反复删除折腾！
+> 3. **⚡ 修改或新增环境变量后，必须手动前往【Deployments】执行【Redeploy】！**：
+>    - 在 Vercel 的 Serverless 架构中，环境变量是在**代码构建打包（Build Time）**时注入到运行容器中的；
+>    - **在后台修改或新增环境变量，在线运行中的网站绝对不会自动热生效！**
+>    - 必须前往项目顶部的 **`Deployments`**（部署记录）页面，在最新的一条记录右侧点击 **`···` ➔ 选择 `Redeploy`**，新变量才会被真正载入生效！
 
-| 环境变量名称 (Key) | 申请/获取入口 | 填写值 (Value) 格式 | 是否必填 | 功能与重要说明 |
-| :--- | :--- | :--- | :---: | :--- |
-| **`NOTION_PAGE_ID`** | [您的 Notion 页面](#1-notion_page_id-获取方法) | 32 位纯字符串（无横杠与参数） | **必填** | **数据源**：站点文章与核心数据库来源的根页面 ID |
-| **`ADMIN_PASSWORD`** | [自行设定](#2-admin_password-设定方法) | 任意高强度自定义密码（如 `admin888`） | **必填** | **管理权限**：用于登录可视化后台 `/admin` 的超级管理密码 |
-| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](#3-notion_access_token-申请与获取方法重点永久有效) | `ntn_...` 或 `secret_...` | **核心必填** | **双向通信引擎**：用于驱动专属粉丝码生成、VIP 属性打标、会员注册与激活码核销、后台设置直接写回 Notion。**若不配置，涉及数据写回与会员功能将直接报错失败！** |
-| **`NOTION_SYNC_SECRET`** | [自行设定](#4-notion_sync_secret-设定方法) | 任意自定义随机密钥（如 `sec_sync_888`） | **核心必填** | **云端安全防护**：用于保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境若未配置此项，调用接口将直接被系统安全拦截并报错 `403 Forbidden`！** |
+在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下 4 个核心变量（**请务必确保每个变量的 Environments 都全选了 Production、Preview、Development**）：
+
+| 环境变量名称 (Key) | 申请/获取入口 | 填写值 (Value) 格式 | 生效环境 (Environments) | 是否必填 | 功能与重要说明 |
+| :--- | :--- | :--- | :---: | :---: | :--- |
+| **`NOTION_PAGE_ID`** | [您的 Notion 页面](#1-notion_page_id-获取方法) | 32 位纯字符串（无横杠与参数） | **全选 (All)** | **必填** | **数据源**：站点文章与核心数据库来源的根页面 ID |
+| **`ADMIN_PASSWORD`** | [自行设定](#2-admin_password-设定方法) | 任意高强度自定义密码（如 `admin888`） | **全选 (All)** | **必填** | **管理权限**：用于登录可视化后台 `/admin` 的超级管理密码 |
+| **`NOTION_ACCESS_TOKEN`**<br>*(或 `NOTION_API_TOKEN`)* | [Notion 官方集成中心](#3-notion_access_token-申请与获取方法重点永久有效) | `ntn_...` 或 `secret_...` | **全选 (All)** | **核心必填** | **双向通信引擎**：用于驱动专属粉丝码生成、VIP 属性打标、会员注册与激活码核销、后台设置直接写回 Notion。**若不配置，涉及数据写回与会员功能将直接报错失败！** |
+| **`NOTION_SYNC_SECRET`** | [自行设定](#4-notion_sync_secret-设定方法) | 任意自定义随机密钥（如 `sec_sync_888`） | **全选 (All)** | **核心必填** | **云端安全防护**：用于保护 Webhook 实时触发与 Cron 定时同步接口。**生产环境若未配置此项，调用接口将直接被系统安全拦截并报错 `403 Forbidden`！** |
 
 ---
 
@@ -262,6 +275,12 @@ Vercel 默认提供的 `*.vercel.app` 域名在部分国内网络环境下可能
   若先点击了 Deploy，您可以随时进入 Vercel 项目的 **Settings -> Environment Variables** 补充添加变量。**但请务必注意**：添加变量后必须前往 **Deployments** 列表，在最新一条记录右侧点击 **`...` -> Redeploy** 重新触发一次构建打包，新环境变量才会正式生效！
 - **真正导致部署报错的元凶**：
   只有 **Node.js 运行版本不匹配**！请务必在项目设置中确认选择 **`24.x`**（Next.js 15+ 强制要求 Node 22+）。
+
+### Q6: 为什么明明在 Vercel 配置了环境变量，后台仍提示未配置或保存无法同步？
+如果您在后台保存配置时收到类似“未检测到 Notion 配置中心或 Token 未配置”的提示，请按以下三步极速自查：
+1. **排查环境范围（最常见元凶）**：进入 Vercel 项目 **Settings ➔ Environment Variables**，点击每个变量的 `···` ➔ **Edit**，检查 **Environments** 是否勾选了 **All Environments**（即 `Production`、`Preview`、`Development` 全部勾选）。很多时候访问的 `.vercel.app` 默认域名被划分为 Preview，若只勾选 Production，运行时变量直接为 `undefined`！
+2. **排查是否重新部署（Redeploy）**：Vercel 修改环境变量**绝不会自动热重载**正在运行的在线容器！添加或修改后，必须前往 **Deployments** 列表，在最顶部的最新部署记录右侧点击 **`···` ➔ Redeploy**，新变量才会被正式注入；
+3. **消除 Secret 疑虑**：Vercel 显示锁图标且不显示明文（提示 *You can't reveal this value after saving*）是**正常的单向安全加密**，绝不代表没有存进去，无需反复删除。
 
 ---
 

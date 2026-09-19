@@ -275,7 +275,7 @@ async function handlePost(req, res) {
   } else if (persistedLocally && !isVercel) {
     saveMsg = '配置已成功保存至本地文件，实时生效！'
   } else if (isVercel) {
-    saveMsg = '配置已在当前实例生效！提示：当前在 Vercel 生产环境，未检测到 Notion 配置中心或 Token 未配置，建议检查 Notion 授权。'
+    saveMsg = '配置已在当前实例生效！提示：未检测到有效 Notion Token。若已在 Vercel 配置，请务必检查环境变量是否勾选了「All Environments（含 Preview）」并在 Deployments 中点击了「Redeploy」。'
   }
 
   return res.status(200).json({
