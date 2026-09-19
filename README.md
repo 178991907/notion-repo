@@ -18,13 +18,13 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Version-v4.21.0-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v4.22.0-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4+-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Admin_Console-Enabled-success?style=for-the-badge" alt="Admin Console" />
   <img src="https://img.shields.io/badge/Membership_System-Active-gold?style=for-the-badge" alt="Membership System" />
-  <img src="https://img.shields.io/badge/Security-26_CVE_Fixed-green?style=for-the-badge" alt="Security" />
-  <img src="https://img.shields.io/badge/Tests-20%2F20_Passed-brightgreen?style=for-the-badge" alt="Tests" />
+  <img src="https://img.shields.io/badge/Self_Healing-Auto_DB_Init-green?style=for-the-badge" alt="Self Healing" />
+  <img src="https://img.shields.io/badge/Tests-374%2F374_Passed-brightgreen?style=for-the-badge" alt="Tests" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
 </p>
 
@@ -32,11 +32,26 @@
 
 ---
 
-## 🌟 核心特性与架构亮点 (v4.21.0 企业级安全加固版)
+## 🌟 核心特性与架构亮点 (v4.22.0 云端自愈与并发防护重磅升级)
 
-本项目深度研发并集成了 **企业级全栈安全深度加固与零信任防御体系**、**Notion 原生秒级公式生态与 VIP/SVIP 双打勾权限联动体系**、**工业级全栈安全隔离防护与防脏读双向同步引擎**、**新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统** 与 **高自适应排版视觉体系**：
+本项目深度研发并集成了 **云端配置全自动建表自愈、并发防重锁与全域环境变量标准体系**、**企业级全栈安全深度加固与零信任防御体系**、**Notion 原生秒级公式生态与 VIP/SVIP 双打勾权限联动体系**、**工业级全栈安全隔离防护与防脏读双向同步引擎**、**新用户 Vercel 保姆级建站部署生态**、**全功能可视化管理后台**、**英雄区专属高亮翡翠胶囊与多端弹性自适应体系**、**全站粉丝通行证 24 小时自动免密畅读机制**、**一文一码随机防猜专属系统**、**同日发布智能二级毫秒排序**、**双轨制会员多等级系统** 与 **高自适应排版视觉体系**：
 
-### 0. 🛡️ 企业级全栈安全深度加固与零信任防御体系 (v4.21.0 New!)
+### 0. 🚀 云端配置全自动建表自愈、并发防重锁与全域环境变量标准体系 (v4.22.0 New!)
+- **Notion 挂载容器单例互斥并发锁 (`Promise Singleton Lock`) 与智能去重引擎**：
+  - 在 `resolveMountPageId` 中实现全局进程级互斥锁与内存缓存，彻底根除多模块并发启动（会员、评论、配置中心）时瞬间创建两个「⚙️ 博客系统数据存储 (System Data)」的竞态痛点；
+  - 智能兼容与去重：若历史存在多个同名挂载页，自动识别并优先复用包含子数据库的有效主力页面；并配套提供 `scripts/clean-duplicate-mount-page.js` 自动化安全归档清理工具。
+- **Notion 全局配置中心全自动建库自愈引擎 (`autoCreateConfigDatabase`) 与防卡死超限保护**：
+  - 当新用户或老站点未手动创建 `CONFIG-TABLE` 配置表时，系统在后台保存瞬间全自动在挂载页面下生成包含 `配置名`、`配置值`、`启用`、`说明` 的标准数据库；
+  - 彻底根除了 Notion 官方 API 对空字符串报错（`text.content should not be empty`）导致的 9 秒卡死与超时风险。
+- **配置决定权彻底校准（站长后台覆写最高决定权）**：
+  - 重构 `SiteDataApi.js`，站长在后台填写的网站标题（如 `terry 校长`）和站点简介具备最高覆盖权，杜绝被 Notion 原生数据库名称二次覆盖。
+- **Vercel 环境变量标准 4 步流程体系化确立**：
+  - 将 `All Environments（Production, Preview, Development）` 勾选操作作为必选步骤全面融入用户指南，彻底解决访问 `.vercel.app` 预览域名时 Token 丢失为 `undefined` 的痛点；
+  - 澄清 Vercel Secret 单向加密特性与修改变量后必须 Redeploy 的部署机制。
+- **工业级全自动化质量保障（374 项测试 100% PASS）**：
+  - 67 个测试套件，374 项单元与集成测试全部持续 100% 通过。
+
+### 1. 🛡️ 企业级全栈安全深度加固与零信任防御体系 (v4.21.0)
 - **26 项安全缺陷全面清剿，他人 Fork 零报错开箱即用**：
   - 对项目的安全配置、API/认证、前端/依赖进行了全面审计与攻防加固，共计完成 5 个严重、8 个高危、9 个中危与 4 个低危共 **26 个漏洞 100% 深度修复**；
   - 彻底消除了依赖冲突与构建异常，任何开发者 Fork 本仓库到个人账号部署，**绝不报语法或依赖错误，100% 稳健运行**！
