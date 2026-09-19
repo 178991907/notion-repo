@@ -95,20 +95,25 @@ graph LR
 
 ### 4. 配置环境变量 (Environment Variables) —— 🌟 新手建站四大核心必配基石
 
-> [!CAUTION]
-> ### 🚨 【新手必看·最高优先级避坑指南】三大部署核心铁律
-> 1. **🔥 生效环境 (Environments) 必须全部勾选【All Environments】**：
->    - 在添加或编辑任何环境变量时，底部的 **`Environments`** 展开选项中，务必将 **`Production`**、**`Preview`**、**`Development`** 三个复选框**全部打勾**！
->    - **为什么必须全选？**：Vercel 默认会将带有特定前缀或测试域名的访问划分为 `Preview` 环境。如果您只勾选了 `Production`，当通过默认提供的 `.vercel.app` 域名或预览链接访问时，Node.js 运行时将**完全读不到这些变量**（直接返回 `undefined`），导致系统提示“未检测到 Token”或后台管理员密码失效！
-> 2. **🔒 类型选择「Secret」后不显示 Value 是官方安全机制，绝非值是空的！**：
->    - Vercel 对敏感 Token 和密码推荐使用 `Secret` 类型。系统提示：*“You can't reveal this value after saving”*（保存后无法再次查看明文）；
->    - 保存后列表右侧会隐藏具体内容，仅展示一把小锁图标。**这绝对不代表保存失败，也不代表值是空的**！只要您在输入框填入过并点击了 Save，数据就已经安全加密写入云端，切勿误以为没存进去而反复删除折腾！
-> 3. **⚡ 修改或新增环境变量后，必须手动前往【Deployments】执行【Redeploy】！**：
->    - 在 Vercel 的 Serverless 架构中，环境变量是在**代码构建打包（Build Time）**时注入到运行容器中的；
->    - **在后台修改或新增环境变量，在线运行中的网站绝对不会自动热生效！**
->    - 必须前往项目顶部的 **`Deployments`**（部署记录）页面，在最新的一条记录右侧点击 **`···` ➔ 选择 `Redeploy`**，新变量才会被真正载入生效！
+在 Vercel 导入页面（或项目设置 Settings ➔ Environment Variables）中，展开 **Environment Variables** 面板。
 
-在导入页面的 **Environment Variables (环境变量)** 折叠面板中，逐一添加以下 4 个核心变量（**请务必确保每个变量的 Environments 都全选了 Production、Preview、Development**）：
+#### 📝 【每项环境变量添加的 4 步标准化操作流程】（请按顺序执行）：
+为确保无论通过主域名、默认域名还是预览链接访问都能稳定读取变量，**添加或编辑每一个环境变量时，务必严格按照以下 4 步操作**：
+
+1. **第一步：输入 Key** ➔ 填写环境变量名称（例如 `NOTION_PAGE_ID`）；
+2. **第二步：输入 Value** ➔ 填写对应的 32 位 ID、密码或 Token；
+3. **第三步【🔥 必须操作步骤】：展开 Environments 并全部打勾**：
+   - 点击输入框下方的 **`Environments`** 展开菜单；
+   - **必须勾选全部 3 个环境：`Production`、`Preview`、`Development`（即显示为 All Environments 全部打勾）**！
+   - ⚠️ **为什么这是必须要选择的步骤？**：若未全选而仅勾选 Production，当您通过 Vercel 默认分配的 `xxx.vercel.app` 预览域名或测试分支访问时，Node.js 运行时将**完全读不到这些变量**（直接返回 `undefined`），导致系统提示“未检测到 Token”或管理员密码失效！
+4. **第四步：选择 Type 类型并点击 Add 保存**：
+   - 敏感 Token 与密码推荐选择 **`Secret`**；
+   - 🔒 **关于 Secret 类型的说明**：保存后列表右侧会隐藏具体内容，仅展示一把小锁图标（提示 *You can't reveal this value after saving*）。**这是 Vercel 官方的单向安全加密特性，绝不代表保存失败，也不代表值是空的**！只要您填写过并点击了 Save，数据已加密保存在云端；
+   - 点击 **Add** 按钮将变量保存到列表中。
+
+> ⚡ **关于修改变量后生效的规则**：在 Vercel 的 Serverless 架构中，环境变量是在构建打包（Build Time）时注入容器的。**修改或新增变量后，必须前往项目顶部的 `Deployments` 页面，在最新一条记录右侧点击 `···` ➔ 选择 `Redeploy` 重新部署才能正式注入生效！**
+
+请按上述 4 步流程，依次添加以下 4 个核心变量：
 
 | 环境变量名称 (Key) | 申请/获取入口 | 填写值 (Value) 格式 | 生效环境 (Environments) | 是否必填 | 功能与重要说明 |
 | :--- | :--- | :--- | :---: | :---: | :--- |
@@ -281,6 +286,14 @@ Vercel 默认提供的 `*.vercel.app` 域名在部分国内网络环境下可能
 1. **排查环境范围（最常见元凶）**：进入 Vercel 项目 **Settings ➔ Environment Variables**，点击每个变量的 `···` ➔ **Edit**，检查 **Environments** 是否勾选了 **All Environments**（即 `Production`、`Preview`、`Development` 全部勾选）。很多时候访问的 `.vercel.app` 默认域名被划分为 Preview，若只勾选 Production，运行时变量直接为 `undefined`！
 2. **排查是否重新部署（Redeploy）**：Vercel 修改环境变量**绝不会自动热重载**正在运行的在线容器！添加或修改后，必须前往 **Deployments** 列表，在最顶部的最新部署记录右侧点击 **`···` ➔ Redeploy**，新变量才会被正式注入；
 3. **消除 Secret 疑虑**：Vercel 显示锁图标且不显示明文（提示 *You can't reveal this value after saving*）是**正常的单向安全加密**，绝不代表没有存进去，无需反复删除。
+
+### Q7: 为什么我的 Notion 数据库中出现了两个「⚙️ 博客系统数据存储 (System Data)」？如何安全移除多余的一个？
+- **产生原因**：当首次启动或多个接口（会员系统、评论系统、配置中心）几乎在同一瞬间并发初始化时，由于 Notion API 网络微小延迟，系统并发自愈创建了两个挂载页面副本。
+- **安全移除步骤（仅需 10 秒）**：
+  1. 分别点击这两行进入页面正文查看：其中一个页面内嵌套包含着 `👑 网站会员数据中心`、`🎟️ 邀请码数据中心` 等子表格，这个是**正在使用的系统数据存储页，务必保留**；
+  2. 另一个页面正文是**完全空白的（Empty page）**，这就是多余的副本；
+  3. 直接在空白页面右上角点击 **`···` ➔ Delete（移至废纸篓）**，或者在数据库表格中选中该行直接右键 Delete 即可安全删除；
+  4. 系统已内置单例互斥锁与去重缓存，后续绝不会再次重复创建。
 
 ---
 

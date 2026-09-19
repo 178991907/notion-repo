@@ -87,17 +87,18 @@ Vercel 是 Next.js 的官方部署平台，提供最佳的性能和开发体验�
    - 导入你的 Notion Repo 仓库
 
 2. **配置核心环境变量（四大建站基石）**
-   - 在 Vercel 项目设置（Environment Variables）中添加 4 个核心关键变量（缺一不可，否则涉及 Notion 回写与同步会报错）：
+   - 在 Vercel 项目设置（Environment Variables）中添加 4 个核心关键变量。**每添加一个变量时，请严格按以下 4 步流程操作**：
+     - **步骤 1**：输入 Key 名称；
+     - **步骤 2**：输入对应 Value；
+     - **步骤 3【🔥 核心必做】**：展开下方的 **`Environments`** 选项，**必须将 `Production`、`Preview`、`Development` 全部勾选（All Environments）**！避免通过默认 `.vercel.app` 预览域名访问时变量为 `undefined` 导致 Token 提示失效；
+     - **步骤 4**：选择类型为 **`Secret`**（单向加密不显示明文是正常安全机制，绝非值是空的），点击 **Add** 保存。
+
+   - **四大核心变量清单（均需全选 All Environments）**：
      - `NOTION_PAGE_ID`: 你的 32 位 Notion 根页面 ID（复制自 Notion 页面分享链接，提取纯 32 位字符串）
      - `ADMIN_PASSWORD`: 管理后台 `/admin` 登录密码（自行设定高强度密码）
      - `NOTION_ACCESS_TOKEN`: [Notion 官方集成中心](https://www.notion.so/profile/integrations) 创建的内部连接密钥（以 `secret_` 或 `ntn_` 开头，**永久有效**，用于安全读写评论与会员数据。**创建后必须在 Notion 页面点击右上角「···」->「品 集成」完成授权！**）
      - `NOTION_SYNC_SECRET`: 生产环境安全私钥（自行设定，保护 Webhook 与 Cron 定时巡检，防 403 阻断）
-   - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`)*
-
-   > 🚨 **Vercel 部署核心避坑提醒**：
-   > 1. **环境范围 Environments 必须全部勾选**：添加/编辑变量时，请展开 Environments 确保勾选 **`Production`**、**`Preview`**、**`Development`** 全部三项。若漏选 Preview，访问默认提供的 `.vercel.app` 域名或分支时变量会为 `undefined` 导致 Token 提示失效！
-   > 2. **Secret 类型不显示 Value 是正常特性**：选择 `Secret` 后系统实行单向加密脱敏（提示 *You can't reveal this value after saving*），右侧仅显示小锁图标。这绝对不是未保存成功或值是空的，切勿反复删除！
-   > 3. **变量修改后必须 Redeploy**：修改环境变量后在线容器**不会自动热生效**，必须在 **Deployments** 列表对最新记录点击 **`···` ➔ Redeploy** 重新构建才能注入生效。
+   - *(注：项目默认已锁定 `heo` 旗舰主题，无需配置 `NEXT_PUBLIC_THEME`。变量修改后必须在 Deployments 页面点击 `···` ➔ `Redeploy` 重新部署生效)*
 
 3. **在 Notion 博客主页面授权（必做关键步骤）**
    > ⚠️ **新手必看**：这是 Notion 官方平台的底层隐私安全机制（如同给博客发放进出房间的门禁卡），如果不授权，系统将无法读取和写入评论与会员数据。

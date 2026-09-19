@@ -72,18 +72,20 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
    - **Root Directory**：`./`（默认即可）；
    - **⚠️ Node.js Version 避坑重点**：确保选择 **`24.x`**（或 Node 22+），切勿使用旧版 Node！
 5. **配置核心环境变量 (Environment Variables) —— 🌟 四大建站基石**：
-   在 **Environment Variables** 面板中添加以下 4 个核心关键变量（缺一不可，否则涉及回写与同步会报错）：
-   > ⚠️ **核心避坑要点**：
-   > - **🔥 生效环境 (Environments) 务必全选**：添加变量时，Environments 展开项中的 **`Production`**、**`Preview`**、**`Development`** 必须全部勾选（All Environments），防止访问 `.vercel.app` 预览域名或分支环境时变量失效；
-   > - **🔒 Secret 类型说明**：选择 `Secret` 后系统单向加密不显示 Value 明文（仅显示锁图标），这是正常安全特性，值已存入，切勿误判；
-   > - **⚡ 生效必须 Redeploy**：修改或添加变量后，必须前往 **Deployments** 列表对最新记录点击 **`···` ➔ Redeploy** 重新部署才能注入生效！
+   在 **Environment Variables** 面板中，依次添加四大核心变量。**添加每一个变量时，请严格按以下 4 步执行**：
+   - **① 填写 Key**（如 `NOTION_PAGE_ID`）；
+   - **② 填写 Value**（如 32 位 ID、密码或 Token）；
+   - **③ 🔥【核心必须步骤】展开 Environments 勾选 All Environments**：展开下方 Environments 菜单，**必须将 `Production`、`Preview`、`Development` 全部勾选**！否则通过默认 `.vercel.app` 域名访问时变量将返回 `undefined` 导致 Token 失效；
+   - **④ 选择 Type 为 Secret 并点击 Add 保存**：选择 Secret 类型（单向加密不显示明文是正常特性），点击 **Add** 保存。
 
+   四大核心变量清单（均需全选 All Environments）：
    - `NOTION_PAGE_ID` = `你的32位Notion页面ID`（必填，文章数据源根页面，生效环境选 All）
    - `ADMIN_PASSWORD` = `你的后台管理密码`（必填，用于登录 `/admin` 控制台，生效环境选 All）
    - `NOTION_ACCESS_TOKEN` = `你的Notion官方集成Token`（核心必填，以 `ntn_` 或 `secret_` 开头，驱动暗号自动生成回写、VIP 属性打标、会员注册与后台数据写回 Notion，生效环境选 All）
    - `NOTION_SYNC_SECRET` = `你的自定义安全私钥`（核心必填，用于保护 Webhook 与 Cron 定时同步，生产环境未配置将直接被安全网关拦截并报错 `403 Forbidden`，生效环境选 All）
    *(注：`NEXT_PUBLIC_THEME` 无需填写，代码底层默认已锁定为您专属打造的 `heo` 主题！)*
 6. 点击 **Deploy** 按钮开始构建，大约 1~2 分钟后即可完成部署！
+   *(若后续在设置中修改了变量，必须在 Deployments 页面对最新构建点击 `···` ➔ `Redeploy` 重新部署方可生效)*
 
 ---
 
@@ -209,3 +211,10 @@ Vercel 是官方推荐的 Serverless 部署平台，支持全球 CDN 加速与�
 - **排查环境生效范围**：进入 Vercel 项目 **Settings ➔ Environment Variables**，点击每个变量的 `···` ➔ **Edit**，确保 **Environments** 勾选了 **All Environments**（即 `Production`、`Preview`、`Development` 全部勾选）。很多时候访问默认的 `.vercel.app` 域名被划分为 Preview，若只勾选 Production，运行时变量直接为 `undefined`！
 - **排查是否重新部署（Redeploy）**：Vercel 添加或修改环境变量后**绝不会自动热生效**！必须前往 **Deployments** 列表，在最新部署记录右侧点击 **`···` ➔ Redeploy**，新变量才会被注入容器。
 - **关于 Secret 锁图标**：Vercel 显示锁图标且不显示明文是单向加密安全机制（提示 *You can't reveal this value after saving*），绝不代表值是空的，不要删除重复填写。
+
+### Q8: Notion 数据库中为什么会有两个「⚙️ 博客系统数据存储 (System Data)」？如何移除多余的一个？
+- **原因**：当首次启动或多个系统接口几乎同一瞬间并发请求时，由网络并发自愈创建了两个挂载页面副本。
+- **快速移除（10 秒）**：
+  1. 点开这两个页面进入正文：其中一个里面包含着 `👑 网站会员数据中心` 等子表格，这个是**正在使用的系统数据页，保留它**；
+  2. 另一个里面是**空白无内容（Empty）**的，直接在该空白页面右上角点击 **`···` ➔ Delete（移至废纸篓）** 即可安全删除；
+  3. 系统已上线单例并发锁与全局缓存，后续不会再次重复创建。
