@@ -1,0 +1,25 @@
+name: OPC Notion Cloud Sync Engine
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run OPC Cloud Sync
+        env:
+          OPC_TOKEN: ${{ secrets.OPC_TOKEN }}
+          BLOG_TOKEN: ${{ secrets.BLOG_TOKEN }}
+        run: |
+          python scripts/opc_cloud_sync.py
